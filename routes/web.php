@@ -13,11 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-<<<<<<< HEAD
-Route::get('/', function () {
-    return view('contact');
-});
-=======
 //frontend routes
 Route::group([
     'namespace' => 'Frontend',
@@ -26,4 +21,3 @@ Route::group([
         require base_path('routes/frontend/frontend.php');
     });
 
->>>>>>> 8e0e995d97c2071fcbc12d965452a9750bd4c973
