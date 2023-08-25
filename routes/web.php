@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,3 +22,16 @@ Route::group([
         require base_path('routes/frontend/frontend.php');
     });
 
+// Admin Dashborad
+Route::group([
+    'namespace' => 'Backend\Admin',
+    'prefix' => 'admin',
+    'as' => 'admin.'],
+    function () {
+        require base_path('routes/backend/admin.php');
+    });
+
+// Admin Auth
+Route::prefix('admin_login')->group(function () {
+    Route::get('login', [LoginController::class,'index'])->name('admin.auth.login');
+});
