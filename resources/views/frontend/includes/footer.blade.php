@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 
+=======
+<footer class="footer">
+>>>>>>> 8e0e995d97c2071fcbc12d965452a9750bd4c973
     <div class="footer_above">
         <div class="container">
             <div class="row">
@@ -9,10 +13,17 @@
                         </h4>
                         <p>Who are looking for Extraordinary projects need vision & precision to be exceptional. They need Builderrine Construction Services.</p>
                         <div class="subscribe">
+<<<<<<< HEAD
                             <form class="form-inline">				
                             <div class="input-group mb-2 mr-sm-2">
                               <input type="email" class="form-control" placeholder="Email Address">
                             </div>									  
+=======
+                            <form class="form-inline">
+                            <div class="input-group mb-2 mr-sm-2">
+                              <input type="email" class="form-control" placeholder="Email Address">
+                            </div>
+>>>>>>> 8e0e995d97c2071fcbc12d965452a9750bd4c973
                             <button type="submit" class="btn">Subscribe</button>
                           </form>
                         </div>
@@ -78,7 +89,11 @@
         <div class="container">
             <div class="footer_bottom_inner">
                 <div class="logo">
+<<<<<<< HEAD
                     <a href="index.html"><img src="images/logo_foot.svg" alt="Logo"></a>
+=======
+                    <a href="index.html"><img src="{{ asset('frontend') }}/images/logo_foot.svg" alt="Logo"></a>
+>>>>>>> 8e0e995d97c2071fcbc12d965452a9750bd4c973
                 </div>
                 <div class="copyright">
                     <p>&copy;2023 <a href="https://themeforest.net/user/wpthemebooster">WPThemeBooster.</a> All rights reserved.</p>
@@ -95,4 +110,20 @@
             </div>
         </div>
     </div>
+<<<<<<< HEAD
 
+=======
+</footer>
+
+<div class="slide_navi">
+    <div class="side_footer_social">
+        <ul class="bottom_social">
+            <li class="facebook"><a href="#"><i class="ion-social-facebook"></i></a></li>
+            <li class="twitter"><a href="#"><i class="ion-social-twitter"></i></a></li>
+            <li class="dribbble"><a href="#"><i class="ion-social-dribbble-outline"></i></a></li>
+            <li class="instagram"><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
+            <li class="linkedin"><a href="#"><i class="ion-social-linkedin-outline"></i></a></li>
+        </ul>
+    </div>
+</div>
+>>>>>>> 8e0e995d97c2071fcbc12d965452a9750bd4c973
