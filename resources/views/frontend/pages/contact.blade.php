@@ -55,7 +55,7 @@ Contact
                         </div>
                         <div class="info_body">
                             <h5>Office Address</h5>
-                            <h6>Gr. Benjamin Street 609<br/> Florida, USA</h6>
+                            <h6>Gr. Benjamin Street 609<br /> Florida, USA</h6>
                         </div>
                     </div>
                 </div>
@@ -64,7 +64,7 @@ Contact
                 <div class="contact_us_1">
                     <div class="section_header" data-aos="fade-left" data-aos-duration="700">
                         <h6 class="section_sub_title">Contact Us</h6>
-                        <h1 class="section_title">Want to Ask anything?<br/>
+                        <h1 class="section_title">Want to Ask anything?<br />
                             Send Us a Mail Anytime</h1>
                     </div>
                     <form class="contact_form" action="https://wpthemebooster.com/demo/themeforest/html/builderrin/dark/contact.php" method="post" data-aos="fade-left" data-aos-duration="1000">
