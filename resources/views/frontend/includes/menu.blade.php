@@ -7,7 +7,7 @@
             </div>
 
             <div class="header_right_part">
-                <div class="mainnav">
+                <div  class="mainnav">
                     <ul class="main_menu" style="padding-right: 0px;">
                         <li class="menu-item active"><a style="  padding: 25px 5px 25px 0px;" href="{{ url('/') }}">Home</a>
                             <!-- {{-- <ul class="sub-menu">
@@ -32,6 +32,7 @@
                                 <li class="menu-item"><a style="  padding: 25px 5px 25px 0px;" href="{{ route('frontend.team') }}">Team</a></li>
                         <li class="menu-item"><a style="  padding: 25px 5px 25px 0px;" href="{{ route('frontend.contact') }}">Contact</a></li>
                                 <li class="menu-item"><a style="  padding: 25px 5px 25px 0px;" href="{{ route('frontend.about') }}">About</a></li>
+                                <li class="menu-item"><a style="  padding: 25px 5px 25px 0px;" href="{{ route('frontend.about') }}">Career</a></li>
 
                         <!-- <li class="menu-item menu-item-has-children"><a href="#">Pages</a>
                             <ul class="sub-menu">
