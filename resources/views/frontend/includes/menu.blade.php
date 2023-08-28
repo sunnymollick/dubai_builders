@@ -25,7 +25,7 @@
                         <li class="menu-item menu-item-has-children"><a href="#">Projects</a>
                             <ul class="sub-menu">
                                 <li class="menu-item"><a href="{{ route('frontend.completed.projects') }}">Completed Projects</a></li>
-                                <li class="menu-item"><a href="{{ route('frontend.running.projects') }}">Running Peojects</a></li>
+                                <li class="menu-item"><a href="{{ route('frontend.running.projects') }}">Ongoing Projects</a></li>
                                 <!-- <li class="menu-item"><a href="{{ route('frontend.projects.details') }}">Peojects Details</a></li> -->
                             </ul>
                         </li>
