@@ -23,7 +23,7 @@ Project Details
                         <div class="col-lg-8 col-md-12">
                             <div class="project_details_inner">
                                 <div class="post_img">
-                                    <img src="images/p_details.png" alt="blog">
+                                    <img src="{{asset('frontend/')}}/images/p_details.png" alt="blog">
                                 </div>
                                 <div class="post_content">
                                     <div class="post_header">
@@ -78,11 +78,11 @@ Project Details
                                         <div class="post_gallery">
                                             <div class="row">
                                                 <div class="col-lg-6 col-sm-6">
-                                                    <img src="images/p1.png"
+                                                    <img src="{{asset('frontend/')}}/images/p1.png"
                                                         alt="img">
                                                 </div>
                                                 <div class="col-lg-6 col-sm-6">
-                                                    <img src="images/p2.png"
+                                                    <img src="{{asset('frontend/')}}/images/p2.png"
                                                         alt="img">
                                                 </div>
                                             </div>
@@ -286,7 +286,7 @@ Project Details
                                                 <div class="testi-top">
                                                     <div class="testi-img">
                                                         <img
-                                                            src="images/reviewer1.png"
+                                                            src="{{asset('frontend/')}}/images/reviewer1.png"
                                                             alt>
                                                     </div>
                                                     <div class="testi-info">
@@ -335,7 +335,7 @@ Project Details
                                         </div>
                                         <div class="inner_posts">
                                             <div class="inner-post prev_post">
-                                                <img src="images/blog/p1.png"
+                                                <img src="{{asset('frontend/')}}/images/blog/p1.png"
                                                     alt="img">
                                                 <div class="post_block">
                                                     <a class="link_to"
@@ -346,7 +346,7 @@ Project Details
                                                 </div>
                                             </div>
                                             <div class="inner-post prev_post">
-                                                <img src="images/blog/p2.png"
+                                                <img src="{{asset('frontend/')}}/images/blog/p2.png"
                                                     alt="img">
                                                 <div class="post_block">
                                                     <a class="link_to"
