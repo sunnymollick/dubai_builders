@@ -15,23 +15,31 @@ use Illuminate\Support\Facades\Route;
 */
 
 //frontend routes
-Route::group([
-    'namespace' => 'Frontend',
-    'as' => 'frontend.'],
+Route::group(
+    [
+        'namespace' => 'Frontend',
+        'as' => 'frontend.'
+    ],
     function () {
         require base_path('routes/frontend/frontend.php');
-    });
+    }
+);
 
 // Admin Dashborad
-Route::group([
-    'namespace' => 'Backend\Admin',
-    'prefix' => 'admin',
-    'as' => 'admin.'],
+Route::group(
+    [
+        'middleware' => 'checkloggedin',
+        'namespace' => 'Backend\Admin',
+        'prefix' => 'admin',
+        'as' => 'admin.'
+    ],
     function () {
         require base_path('routes/backend/admin.php');
-    });
+    }
+);
 
-// Admin Auth
-Route::prefix('admin_login')->group(function () {
-    Route::get('login', [LoginController::class,'index'])->name('admin.auth.login');
+Route::group(['prefix' => 'admin_login'], function () {
+    // auth login
+    Route::get('login', [LoginController::class, 'index'])->name('admin.auth.login');
+    Route::post('login', [LoginController::class, 'loginStore'])->name('admin.auth.login_store');
 });
