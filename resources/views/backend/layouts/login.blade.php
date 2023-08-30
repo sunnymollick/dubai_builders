@@ -47,7 +47,7 @@
                                             <div class="col-12">
                                                 <label for="inputEmailAddress" class="form-label">Email Address <span
                                                         class="text-danger">*</span></label>
-                                                <input type="email" value="{{ old('email') }}" required
+                                                <input type="email" value="{{ old('email') }}" autofocus required
                                                     class="form-control" name="email" id="inputEmailAddress"
                                                     placeholder="Email Address">
                                                 @error('email')

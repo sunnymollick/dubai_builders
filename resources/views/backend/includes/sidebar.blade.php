@@ -36,9 +36,9 @@
             <div class="menu-title">Projects</div>
         </a>
         <ul>
-            <li> <a href="{{ route('add.project') }}"><i class="bx bx-right-arrow-alt"></i>Add Project</a>
+            <li> <a href="{{ url('admin/projects') }}"><i class="bx bx-right-arrow-alt"></i>Add Project</a>
             </li>
-            <li> <a href="{{ route('list.project') }}"><i class="bx bx-right-arrow-alt"></i>Projects List</a>
+            <li> <a href=""><i class="bx bx-right-arrow-alt"></i>Projects List</a>
             </li>
         </ul>
     </li>
