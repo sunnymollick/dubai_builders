@@ -36,9 +36,9 @@
             <div class="menu-title">Projects</div>
         </a>
         <ul>
-            <li> <a href="{{ url('admin/projects') }}"><i class="bx bx-right-arrow-alt"></i>Add Project</a>
+            <li> <a href="{{ route('admin.clients.index') }}"><i class="bx bx-right-arrow-alt"></i>All Customer</a>
             </li>
-            <li> <a href=""><i class="bx bx-right-arrow-alt"></i>Projects List</a>
+            <li> <a href="{{ route('admin.projects.index') }}"><i class="bx bx-right-arrow-alt"></i>Projects List</a>
             </li>
         </ul>
     </li>

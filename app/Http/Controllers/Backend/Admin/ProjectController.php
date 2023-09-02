@@ -12,7 +12,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        dd('hi');
+        return view('backend.pages.projects.index');
     }
 
     /**

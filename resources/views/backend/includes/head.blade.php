@@ -21,3 +21,7 @@
     <link rel="stylesheet" href="{{asset('backend')}}/css/semi-dark.css" />
     <link rel="stylesheet" href="{{asset('backend')}}/css/header-colors.css" />
     <title> @yield('title') | Dubai Builders</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script>
+        var CSRF_TOKEN = "{{ csrf_token() }}";
+    </script>
