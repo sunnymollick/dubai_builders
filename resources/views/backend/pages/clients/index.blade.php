@@ -7,7 +7,7 @@ Projects
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <h6><i class="lni lni-construction" aria-hidden="true"></i> &nbsp; All Client
+                <h6><i class="lni lni-user" aria-hidden="true"></i> &nbsp; All Client
                     <span style="float: right;">
                         <button class="btn btn-primary btn-sm" onclick="create()"><i
                         class="fadeIn animated bx bx-user-plus"></i>
