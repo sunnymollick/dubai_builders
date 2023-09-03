@@ -11,6 +11,7 @@ Route::get('/profile', [DashboardController::class, 'profile'])->name('profile')
 
 //Project Routes
 Route::resource('projects', ProjectController::class);
+Route::get('allProjects',[ProjectController::class, 'getAllProjects']);
 
 Route::resource('clients', ClientController::class);
 Route::get('allClients',[ClientController::class,'getAllClients']);

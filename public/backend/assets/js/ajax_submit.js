@@ -101,7 +101,6 @@ function ajax_submit_store(route) {
             });
         }
     });
-
 }
 
 /*

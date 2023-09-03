@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('image_1')->nullable();
             $table->string('image_2')->nullable();
             $table->tinyInteger('is_active')->default(0);
+            $table->tinyInteger('is_popular')->default(0);
             $table->foreign('client_id')
                 ->references('id')->on('clients')
                 ->onDelete('cascade');
