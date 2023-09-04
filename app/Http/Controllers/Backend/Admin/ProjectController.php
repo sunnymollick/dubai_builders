@@ -43,6 +43,9 @@ class ProjectController extends Controller
                     $html .= '</div>';
                     return $html;
                 })
+                ->addColumn('client_name', function ($project) {
+                    return $project->client->name;
+                })
                 ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);

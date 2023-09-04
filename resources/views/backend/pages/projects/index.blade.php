@@ -59,8 +59,8 @@ Projects
                     name: 'project_title'
                 },
                 {
-                    data: 'client_id',
-                    name: 'client_id'
+                    data: 'client_name',
+                    name: 'client_name'
                 },
                 {
                     data: 'project_type',
