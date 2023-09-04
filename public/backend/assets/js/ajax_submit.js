@@ -73,7 +73,7 @@ function ajax_submit_store(route) {
                 confirmButtonClass: "btn-danger",
                 confirmButtonText: "Yes, Submit!"
             }, function () {
-                console.log('hi');
+                // console.log('hi');
                 $.ajax({
                     url: route,
                     type: 'POST',

@@ -43,7 +43,7 @@ class ProjectController extends Controller
                     $html .= '</div>';
                     return $html;
                 })
-                ->rawColumns(['action'])
+                 ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);
         } else {
@@ -118,8 +118,12 @@ class ProjectController extends Controller
                     $project->thumbnail_image = $thumbnail_img;
                     $project->image_1 = $img_1;
                     $project->image_2 = $img_2;
-                    $project->is_active = $request->input('is_active');
-                    $project->is_popular = $request->input('is_popular');
+                    if ($request->input('is_active') != null) {
+                        $project->is_active = $request->input('is_active');
+                    }
+                    if ($request->input('is_popular') != null) {
+                        $project->is_popular = $request->input('is_popular');
+                    }
                     $project->save(); //
                     DB::commit();
                     return response()->json(['type' => 'success', 'message' => "Successfully Inserted"]);
@@ -235,6 +239,8 @@ class ProjectController extends Controller
                     } else {
                         $img_2 = $project->image_2;
                     }
+
+
                     $project->project_title = $request->input('project_title');
                     $project->client_id = $request->input('client_id');
                     $project->project_description = $request->input('project_description');
@@ -244,8 +250,12 @@ class ProjectController extends Controller
                     $project->handover_time = $request->input('handover_time');
                     $project->project_type = $request->input('project_type');
                     $project->project_status = $request->input('project_status');
-                    $project->project_type = $request->input('is_active');
-                    $project->project_status = $request->input('is_popular');
+                    if ($request->input('is_active') != null) {
+                        $project->is_active = $request->input('is_active');
+                    }
+                    if ($request->input('is_popular') != null) {
+                        $project->is_popular = $request->input('is_popular');
+                    }
                     $project->hero_image = $hero_img;
                     $project->thumbnail_image = $thumbnail_img;
                     $project->image_1 = $img_1;
