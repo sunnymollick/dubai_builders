@@ -11,12 +11,12 @@
 <!--navigation-->
 <ul class="metismenu" id="menu">
     <li>
-        <a href="javascript:;" class="has-arrow">
+        <a href="{{route('admin.index')}}">
             <div class="parent-icon"><i class='bx bx-home'></i>
             </div>
             <div class="menu-title">Dashboard</div>
         </a>
-        <ul>
+        <!-- <ul>
             <li> <a href="index.html"><i class="bx bx-right-arrow-alt"></i>Analytics</a>
             </li>
             <li> <a href="index2.html"><i class="bx bx-right-arrow-alt"></i>Sales</a>
@@ -27,7 +27,7 @@
             </li>
             <li> <a href="index5.html"><i class="bx bx-right-arrow-alt"></i>Hospitality</a>
             </li>
-        </ul>
+        </ul> -->
     </li>
     <li>
         <a href="javascript:;" class="has-arrow">
@@ -36,9 +36,9 @@
             <div class="menu-title">Projects</div>
         </a>
         <ul>
-            <li> <a href="{{ url('admin/projects') }}"><i class="bx bx-right-arrow-alt"></i>Add Project</a>
+            <li> <a href="{{ route('admin.clients.index') }}"><i class="bx bx-right-arrow-alt"></i>All Customer</a>
             </li>
-            <li> <a href=""><i class="bx bx-right-arrow-alt"></i>Projects List</a>
+            <li> <a href="{{ route('admin.projects.index') }}"><i class="bx bx-right-arrow-alt"></i>Projects List</a>
             </li>
         </ul>
     </li>

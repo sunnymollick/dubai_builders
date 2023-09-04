@@ -2674,6 +2674,9 @@ blockquote:before {
 
 .video_post {
   display: inline-block;
+  /* custom */
+  text-align: center; 
+  /* custom */
   width: 100%;
   margin-bottom: 30px;
 }

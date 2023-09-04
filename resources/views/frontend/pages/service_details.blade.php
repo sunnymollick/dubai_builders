@@ -20,7 +20,7 @@ Service Details
 <div class="container">
     <div class="project_details section">
         <div class="row">
-            <div class="col-lg-8 col-md-12">
+            <div class="col-lg-12 col-md-12">
                 <div class="project_details_inner">
                     <div class="post_img">
                         <img src="{{asset('frontend/')}}/images/services/details.png" alt="blog">
@@ -143,7 +143,7 @@ Service Details
 
             </div>
 
-            <div class="col-lg-4 col-md-12">
+            {{-- <div class="col-lg-4 col-md-12">
                 <div class="sidebar">
                     <div id="widgetnav" class="widget widget_menu">
                         <div class="sidenav">
@@ -217,7 +217,7 @@ Service Details
                     </div>
 
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 </div>

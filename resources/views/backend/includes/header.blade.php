@@ -360,13 +360,16 @@
                 </li>
             </ul>
         </div>
+        @php
+            $auth = DB::table('users')->where('id',Session::get("adminId"))->first();
+        @endphp
         <div class="user-box dropdown">
             <a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#"
                 role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="{{asset('backend')}}/images/avatars/avatar-2.png" class="user-img" alt="user avatar">
                 <div class="user-info ps-3">
-                    <p class="user-name mb-0">{{$admin_info->name}}</p>
-                    <p class="designattion mb-0">{{$admin_info->email}}</p>
+                    <p class="user-name mb-0">{{ $auth->name ?? 'Admin Name' }}</p>
+                    <p class="designattion mb-0">{{ $auth->email ?? 'Admin Email' }}</p>
                 </div>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">

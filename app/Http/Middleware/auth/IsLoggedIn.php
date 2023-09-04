@@ -17,8 +17,8 @@ class IsLoggedIn
     public function handle(Request $request, Closure $next): Response
     {
         if (!Session::has('adminId')) {
-            
-            return redirect()->to('admin_login/login');
+
+            return redirect()->to('/admin_login/login');
 
         }
         return $next($request);

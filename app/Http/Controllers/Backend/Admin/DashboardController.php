@@ -12,9 +12,10 @@ class DashboardController extends Controller
     public function index()
     {
         $admin_id = Session::get("adminId");
-        $admin_info = User::where('id', $admin_id)->first();
-        return view('backend.pages.index', compact('admin_info'));
+        // $admin_info = User::where('id', $admin_id)->first();
+        return view('backend.pages.index');
     }
+
     public function profile()
     {
         $admin_id = Session::get("adminId");
