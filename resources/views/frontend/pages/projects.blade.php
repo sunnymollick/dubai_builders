@@ -30,9 +30,10 @@ Completed Projects
                 </div>
 
                 <div class="grid grid-5">
+                    @foreach($projects as $project)
                     <div class="element-item highrise">
                         <div class="teambox">
-                            <img src="{{asset('frontend/images/team/Project_2_Images/1.png')}}" alt>
+                            <img src="{{asset($project->thumbnail_image)}}" alt>
                             <div class="teambox_inner">
                                 <div class="team_social">
                                     <div class="share"><i class="ion-android-share-alt"></i></div>
@@ -45,221 +46,14 @@ Completed Projects
                                 </div>
                                 <div class="teambox_intro">
                                     <div class="team_flex">
-                                        <h6>NEW YORK</h6>
-                                        <h5><a href="{{ route('frontend.projects.details') }}">Large
-                                                City Tower</a></h5>
+                                        <h6>{{$project->project_location}}</h6>
+                                        <h5><a href="{{ route('frontend.projects.details', $project->id) }}">{{$project->project_title}}</a></h5>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="element-item commercial">
-                        <div class="teambox">
-                            <img src="{{asset('frontend/images/team/Project_2_Images/2.png')}}" alt>
-                            <div class="teambox_inner">
-                                <div class="team_social">
-                                    <div class="share"><i class="ion-android-share-alt"></i></div>
-                                    <ul>
-                                        <li class="facebook"><a href="#"><i class="ion-social-facebook"></i></a></li>
-                                        <li class="twitter"><a href="#"><i class="ion-social-twitter"></i></a></li>
-                                        <li class="instagram"><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
-                                        <li class="linkedin"><a href="#"><i class="ion-social-linkedin-outline"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="teambox_intro">
-                                    <div class="team_flex">
-                                        <h6>NEW YORK</h6>
-                                        <h5><a href="{{ route('frontend.projects.details') }}">Curve
-                                                Sky Tower</a></h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="element-item business commercial">
-                        <div class="teambox">
-                            <img src="{{asset('frontend/images/team/Project_2_Images/3.png')}}" alt>
-                            <div class="teambox_inner">
-                                <div class="team_social">
-                                    <div class="share"><i class="ion-android-share-alt"></i></div>
-                                    <ul>
-                                        <li class="facebook"><a href="#"><i class="ion-social-facebook"></i></a></li>
-                                        <li class="twitter"><a href="#"><i class="ion-social-twitter"></i></a></li>
-                                        <li class="instagram"><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
-                                        <li class="linkedin"><a href="#"><i class="ion-social-linkedin-outline"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="teambox_intro">
-                                    <div class="team_flex">
-                                        <h6>NEW YORK</h6>
-                                        <h5><a href="{{ route('frontend.projects.details') }}">Multistored
-                                                Building</a></h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="element-item highrise business">
-                        <div class="teambox">
-                            <img src="{{asset('frontend/images/team/Project_2_Images/4.png')}}" alt>
-                            <div class="teambox_inner">
-                                <div class="team_social">
-                                    <div class="share"><i class="ion-android-share-alt"></i></div>
-                                    <ul>
-                                        <li class="facebook"><a href="#"><i class="ion-social-facebook"></i></a></li>
-                                        <li class="twitter"><a href="#"><i class="ion-social-twitter"></i></a></li>
-                                        <li class="instagram"><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
-                                        <li class="linkedin"><a href="#"><i class="ion-social-linkedin-outline"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="teambox_intro">
-                                    <div class="team_flex">
-                                        <h6>NEW YORK</h6>
-                                        <h5><a href="{{ route('frontend.projects.details') }}">Highrise
-                                                Architecture</a></h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="element-item business">
-                        <div class="teambox">
-                            <img src="{{asset('frontend/images/team/Project_2_Images/5.png')}}" alt>
-                            <div class="teambox_inner">
-                                <div class="team_social">
-                                    <div class="share"><i class="ion-android-share-alt"></i></div>
-                                    <ul>
-                                        <li class="facebook"><a href="#"><i class="ion-social-facebook"></i></a></li>
-                                        <li class="twitter"><a href="#"><i class="ion-social-twitter"></i></a></li>
-                                        <li class="instagram"><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
-                                        <li class="linkedin"><a href="#"><i class="ion-social-linkedin-outline"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="teambox_intro">
-                                    <div class="team_flex">
-                                        <h6>NEW YORK</h6>
-                                        <h5><a href="{{ route('frontend.projects.details') }}">Large
-                                                Swiming Pool</a></h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="element-item business">
-                        <div class="teambox">
-                            <img src="{{asset('frontend/images/team/1.png')}}" alt>
-                            <div class="teambox_inner">
-                                <div class="team_social">
-                                    <div class="share"><i class="ion-android-share-alt"></i></div>
-                                    <ul>
-                                        <li class="facebook"><a href="#"><i class="ion-social-facebook"></i></a></li>
-                                        <li class="twitter"><a href="#"><i class="ion-social-twitter"></i></a></li>
-                                        <li class="instagram"><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
-                                        <li class="linkedin"><a href="#"><i class="ion-social-linkedin-outline"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="teambox_intro">
-                                    <div class="team_flex">
-                                        <h6>NEW YORK</h6>
-                                        <h5><a href="{{ route('frontend.projects.details') }}">Large
-                                                Garden Lodge</a></h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="element-item business">
-                        <div class="teambox">
-                            <img src="{{asset('frontend/images/team/2.png')}}" alt>
-                            <div class="teambox_inner">
-                                <div class="team_social">
-                                    <div class="share"><i class="ion-android-share-alt"></i></div>
-                                    <ul>
-                                        <li class="facebook"><a href="#"><i class="ion-social-facebook"></i></a></li>
-                                        <li class="twitter"><a href="#"><i class="ion-social-twitter"></i></a></li>
-                                        <li class="instagram"><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
-                                        <li class="linkedin"><a href="#"><i class="ion-social-linkedin-outline"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="teambox_intro">
-                                    <div class="team_flex">
-                                        <h6>NEW YORK</h6>
-                                        <h5><a href="{{ route('frontend.projects.details') }}">Highrise
-                                                Building</a></h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="element-item residential">
-                        <div class="teambox">
-                            <img src="{{asset('frontend/images/team/3.png')}}" alt>
-                            <div class="teambox_inner">
-                                <div class="team_social">
-                                    <div class="share"><i class="ion-android-share-alt"></i></div>
-                                    <ul>
-                                        <li class="facebook"><a href="#"><i class="ion-social-facebook"></i></a></li>
-                                        <li class="twitter"><a href="#"><i class="ion-social-twitter"></i></a></li>
-                                        <li class="instagram"><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
-                                        <li class="linkedin"><a href="#"><i class="ion-social-linkedin-outline"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="teambox_intro">
-                                    <div class="team_flex">
-                                        <h6>NEW YORK</h6>
-                                        <h5><a href="{{ route('frontend.projects.details') }}">Modern
-                                                Pent House</a></h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="element-item residential">
-                        <div class="teambox">
-                            <img src="{{asset('frontend/images/team/1.png')}}" alt>
-                            <div class="teambox_inner">
-                                <div class="team_social">
-                                    <div class="share"><i class="ion-android-share-alt"></i></div>
-                                    <ul>
-                                        <li class="facebook"><a href="#"><i class="ion-social-facebook"></i></a></li>
-                                        <li class="twitter"><a href="#"><i class="ion-social-twitter"></i></a></li>
-                                        <li class="instagram"><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
-                                        <li class="linkedin"><a href="#"><i class="ion-social-linkedin-outline"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="teambox_intro">
-                                    <div class="team_flex">
-                                        <h6>NEW YORK</h6>
-                                        <h5><a href="{{ route('frontend.projects.details') }}">Large
-                                                Garden Lodge</a></h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="element-item residential highrise">
-                        <div class="teambox">
-                            <img src="{{asset('frontend/images/team/5.png')}}" alt>
-                            <div class="teambox_inner">
-                                <div class="team_social">
-                                    <div class="share"><i class="ion-android-share-alt"></i></div>
-                                    <ul>
-                                        <li class="facebook"><a href="#"><i class="ion-social-facebook"></i></a></li>
-                                        <li class="twitter"><a href="#"><i class="ion-social-twitter"></i></a></li>
-                                        <li class="instagram"><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
-                                        <li class="linkedin"><a href="#"><i class="ion-social-linkedin-outline"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="teambox_intro">
-                                    <div class="team_flex">
-                                        <h6>NEW YORK</h6>
-                                        <h5><a href="{{ route('frontend.projects.details') }}">City
-                                                Swiming Pool</a></h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
 
             </div>

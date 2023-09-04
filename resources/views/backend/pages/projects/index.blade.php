@@ -63,16 +63,16 @@ Projects
                     name: 'client_id'
                 },
                 {
-                    data: 'project_status',
-                    name: 'project_status'
+                    data: 'project_type',
+                    name: 'project_type'
                 },
                 {
                     data: 'project_location',
                     name: 'project_location'
                 },
                 {
-                    data: 'project_type',
-                    name: 'project_type'
+                    data: 'project_status',
+                    name: 'project_status'
                 },
                 {
                     data: 'action',
@@ -100,20 +100,20 @@ Projects
         // View Form
         $("#manage_all").on("click", ".view", function() {
             var id = $(this).attr('id');
-            ajax_submit_view('clients', id)
+            ajax_submit_view('projects', id)
         });
 
         // Edit Form
         $("#manage_all").on("click", ".edit", function() {
             var id = $(this).attr('id');
-            ajax_submit_edit('clients', id)
+            ajax_submit_edit('projects', id)
         });
 
 
         // Delete
         $("#manage_all").on("click", ".delete", function() {
             var id = $(this).attr('id');
-            ajax_submit_delete('clients', id)
+            ajax_submit_delete('projects', id)
         });
 
     });

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Backend\Project;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -18,16 +19,19 @@ class HomeController extends Controller
     }
     public function projects()
     {
-        return view('frontend.pages.projects');
+        $projects = Project::all();
+        return view('frontend.pages.projects', compact('projects'));
     }
     public function runningProjects()
     {
-        return view('frontend.pages.running_projects');
+        $projects = Project::all();
+        return view('frontend.pages.running_projects', compact('projects'));
     }
 
-    public function detailsProjects()
+    public function detailsProjects($id)
     {
-        return view('frontend.pages.details_projects');
+$details = Project::find($id);
+        return view('frontend.pages.details_projects',compact('details'));
     }
     public function about()
     {
