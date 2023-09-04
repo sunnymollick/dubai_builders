@@ -23,66 +23,30 @@ Project Details
                         <div class="col-lg-8 col-md-12">
                             <div class="project_details_inner">
                                 <div class="post_img">
-                                    <img src="{{asset('frontend/')}}/images/p_details.png" alt="blog">
+                                    <img src="{{asset($details->hero_image)}}" alt="blog">
                                 </div>
                                 <div class="post_content">
                                     <div class="post_header">
-                                        <h3 class="post_title">Modern Pent House</h3>
+                                        <h3 class="post_title">{{$details->project_title}}</h3>
                                     </div>
                                     <div class="fulltext">
-                                        <p>The company has established a 2030
-                                            vision to reflect the diverse
-                                            communities in which we build, and
-                                            to achieve equal representation at
-                                            all levels of the company. Reaching
-                                            the 2030 vision starts with how the
-                                            company recruits and grows a talent
-                                            pipeline. Efforts are focused on
-                                            creatin</p>
-
-                                        <p>
-                                            As the world continues to fight
-                                            COVID-19 some property owners are
-                                            searching for way they can
-                                            improve the security of their
-                                            buildings whilst decreasing the
-                                            spread of germs and bacteria. The
-                                            following 3 hygienic security
-                                            solutions are suitable for use
-                                            within high traffic areas across
-                                            both
-                                            residential and commercial
-                                            buildings.
+                                        <p>{{$details->project_description}}
                                         </p>
 
                                         <h4 class="widget_title">
                                             Project Features
                                             <span class="title_line"></span>
                                         </h4>
-                                        <p class="margin_o_para">The following
-                                            problems may arise withe house key
-                                            duplication -</p>
-                                        <ul class="point_order">
-                                            <li>As the world continues to fight
-                                                COVID-19 some property owners</li>
-                                            <li>improve the security of their
-                                                buildings whilst decreasing the
-                                                spread</li>
-                                            <li>following 3 hygienic security
-                                                solutions are suitable for use
-                                                within</li>
-                                            <li>esidential and commercial
-                                                buildings improve the security</li>
-                                        </ul>
+                                        <p class="margin_o_para">{{$details->project_features}}</p>
 
                                         <div class="post_gallery">
                                             <div class="row">
                                                 <div class="col-lg-6 col-sm-6">
-                                                    <img src="{{asset('frontend/')}}/images/p1.png"
+                                                    <img src="{{asset($details->image_1)}}"
                                                         alt="img">
                                                 </div>
                                                 <div class="col-lg-6 col-sm-6">
-                                                    <img src="{{asset('frontend/')}}/images/p2.png"
+                                                    <img src="{{asset($details->image_2)}}"
                                                         alt="img">
                                                 </div>
                                             </div>
@@ -373,19 +337,19 @@ Project Details
                                         <div class="project_info_details_bg">
                                             <div class="project_info_details">
                                                 <h5>Client Name</h5>
-                                                <p>John Joe Doe</p>
+                                                <p>{{$details->client->name}}</p>
                                             </div>
                                             <div class="project_info_details">
                                                 <h5>Location</h5>
-                                                <p>Utah Valley Housing</p>
+                                                <p>{{$details->project_location}}</p>
                                             </div>
                                             <div class="project_info_details">
                                                 <h5>Problem</h5>
-                                                <p>Sink Installation</p>
+                                                <p>{{$details->project_problem}}</p>
                                             </div>
                                             <div class="project_info_details">
                                                 <h5>Solving Time</h5>
-                                                <p>Two Hours</p>
+                                                <p>{{$details->handover_time}}</p>
                                             </div>
                                             <div class="project_info_details">
                                                 <h5>Client Rating</h5>

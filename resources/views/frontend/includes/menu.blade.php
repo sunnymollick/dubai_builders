@@ -26,7 +26,6 @@
                             <ul class="sub-menu">
                                 <li class="menu-item"><a href="{{ route('frontend.completed.projects') }}">Completed Projects</a></li>
                                 <li class="menu-item"><a href="{{ route('frontend.running.projects') }}">Ongoing Projects</a></li>
-                                <!-- <li class="menu-item"><a href="{{ route('frontend.projects.details') }}">Peojects Details</a></li> -->
                             </ul>
                         </li>
                                 <li class="menu-item"><a style="  padding: 25px 5px 25px 0px;" href="{{ route('frontend.team') }}">Team</a></li>

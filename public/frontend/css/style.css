@@ -4987,6 +4987,7 @@ video {
 }
 
 .grid-5 .element-item {
+padding: 10px;
   width: 20%;
 }
 
@@ -9965,6 +9966,7 @@ video {
 
 .banner .banner_content {
   background: var(--second-color);
+margin-top: 50px;
   padding: 60px 0px;
 }
 
@@ -10759,6 +10761,7 @@ video {
     width: 30%;
   }
   .project_iso .grid.grid-5 .element-item {
+padding: 10px;
     width: 33.33%;
   }
   .funfacts2_bg, .funfacts3_bg {
