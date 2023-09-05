@@ -62,6 +62,8 @@
                 <option value="">Select Type</option>
                 <option value="0">Residential</option>
                 <option value="1">Commercial</option>
+                <option value="2">Highrise</option>
+                <option value="3">Business</option>
             </select>
             <span id="error_title" class="has-error"></span>
         </div>
