@@ -43,14 +43,10 @@ class ProjectController extends Controller
                     $html .= '</div>';
                     return $html;
                 })
-<<<<<<< HEAD
-                 ->rawColumns(['action'])
-=======
                 ->addColumn('client_name', function ($project) {
                     return $project->client->name;
                 })
                 ->rawColumns(['action'])
->>>>>>> a1affad8fd4c33fe0046fe91f24bcfb726dafb2c
                 ->addIndexColumn()
                 ->make(true);
         } else {
