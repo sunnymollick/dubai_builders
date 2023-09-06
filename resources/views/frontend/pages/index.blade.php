@@ -224,7 +224,7 @@ Home
                     <button class="button" data-filter=".business">Business</button>
                   </div>
 
-                  <div class="grid grid-5">
+                <div class="grid grid-5">
                     <div class="element-item highrise">
                         <div class="teambox">
                             <img src="{{ asset('frontend') }}/images/team/Project_2_Images/3.png" alt="">
@@ -335,7 +335,7 @@ Home
                             </div>
                         </div>
                     </div>
-                  </div>
+                </div>
 
             </div>
         </div>
@@ -350,13 +350,13 @@ Home
                 <div class="col-lg-8">
                     <div class="banner_text">
                         <img src="{{ asset('frontend') }}/images/phone3.png" alt="">
-                        <h1>Builderrine is proud to serve you 24/7. Just Call Us when you need</h1>
+                        <h1>{{ $app_settings->app_name }} is proud to serve you 24/7. Just Call Us when you need</h1>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="banner_phone">
                         <h4>Call Us Anytime</h4>
-                        <span>+99 (1234) 56 789</span>
+                        <span>{{ $app_settings->phone_1 }}</span>
                     </div>
                 </div>
             </div>
