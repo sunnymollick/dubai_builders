@@ -42,6 +42,17 @@
             </li>
         </ul>
     </li>
+    <li>
+        <a href="javascript:;" class="has-arrow">
+            <div class="parent-icon"><i class='bx bx-spa'></i>
+            </div>
+            <div class="menu-title">Services</div>
+        </a>
+        <ul>
+            <li> <a href="{{ route('admin.services.index') }}"><i class="bx bx-right-arrow-alt"></i>All Services</a>
+            </li>
+        </ul>
+    </li>
     <li class="menu-label">UI Elements</li>
     <li>
         <a href="widgets.html">
