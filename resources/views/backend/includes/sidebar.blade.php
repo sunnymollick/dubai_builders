@@ -3,7 +3,7 @@
         <img src="{{asset('backend')}}/images/logo-icon.png" class="logo-icon" alt="logo icon">
     </div>
     <div>
-        <h4 class="logo-text">Synadmin</h4>
+        <h4 class="logo-text">DubaiBuilders</h4>
     </div>
     <div class="toggle-icon ms-auto"><i class='bx bx-first-page'></i>
     </div>
@@ -44,10 +44,10 @@
     </li>
     <li class="menu-label">UI Elements</li>
     <li>
-        <a href="widgets.html">
-            <div class="parent-icon"><i class='bx bx-briefcase-alt-2'></i>
+        <a href="{{ route('admin.settings.index') }}">
+            <div class="parent-icon"><i class="lni lni-cogs"></i>
             </div>
-            <div class="menu-title">Widgets</div>
+            <div class="menu-title">Settings</div>
         </a>
     </li>
     <li>

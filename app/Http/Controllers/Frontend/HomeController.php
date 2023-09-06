@@ -4,13 +4,15 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Backend\Project;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        return view('frontend.pages.index');
+        $app_settings = Setting::findOrFail(1);
+        return view('frontend.pages.index',compact('app_settings'));
     }
 
     public function contact()

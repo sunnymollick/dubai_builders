@@ -5,6 +5,9 @@
                 <a href="index.html" class="light_mode_logo"><img src="{{ asset('frontend') }}/images/logo.svg" alt="logo"></a>
                 <a href="index.html" class="dark_mode_logo"><img src="{{ asset('frontend') }}/images/logo_foot.svg" alt="logo"></a>
             </div>
+            @php
+                $app_settings = DB::table('settings')->where('id',1)->first();
+            @endphp
 
             <div class="header_right_part">
                 <div  class="mainnav">
@@ -69,7 +72,8 @@
                 </div>
                 <div class="phone">
                     <i class="fa fa-phone" aria-hidden="true"></i>
-                    <div><span>Call Us Anytime</span><br><span class="phn_number">(+123)987.654.32</span></div>
+                    <div><span>Call Us Anytime</span><br><span class="phn_number">
+                        {{ $app_settings->phone_1 }}</span></div>
                 </div>
                 <div class="header_search">
                     <button type="submit" class="form-control-submit"><i class="ion-ios-search"></i></button>
