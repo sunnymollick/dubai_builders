@@ -68,10 +68,10 @@
             <label for="">Project Type <span style="color: red;">*</span></label>
             <select class="form-control" name="project_type" id="project_type">
                 <option value="">Select Type</option>
-                <option value="0" {{ $project->project_type == '0' ? 'selected' : '' }}>
-                    Residential</option>
-                <option value="1" {{ $project->project_type == '1' ? 'selected' : '' }}>
-                    Commercial</option>
+                <option value="0" {{ $project->project_type == '0' ? 'selected' : '' }}>Residential</option>
+                <option value="1" {{ $project->project_type == '1' ? 'selected' : '' }}>Commercial</option>
+                <option value="2" {{ $project->project_type == '2' ? 'selected' : '' }}>Highrise</option>
+                <option value="3" {{ $project->project_type == '3' ? 'selected' : '' }}>Business</option>
             </select>
             <span id="error_title" class="has-error"></span>
         </div>
@@ -81,12 +81,9 @@
             <label for="">Project Status <span style="color: red;">*</span></label>
             <select class="form-control" name="project_status" id="project_status">
                 <option value="">Select Status</option>
-                <option value="0"
-                    {{ $project->project_status == '0' ? 'selected' : '' }}>Running</option>
-                <option value="1"
-                    {{ $project->project_status == '1' ? 'selected' : '' }}>Upcoming</option>
-                <option value="2"
-                    {{ $project->project_status == '2' ? 'selected' : '' }}>Completed</option>
+                <option value="0" {{ $project->project_status == '0' ? 'selected' : '' }}>Running</option>
+                <option value="1" {{ $project->project_status == '1' ? 'selected' : '' }}>Upcoming</option>
+                <option value="2" {{ $project->project_status == '2' ? 'selected' : '' }}>Completed</option>
             </select>
             <span id="error_title" class="has-error"></span>
         </div>
@@ -163,5 +160,5 @@
 
 <script src="https://cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
 <script type="text/javascript">
-    $('.ckeditor').ckeditor();
+    $('#project_features').ckeditor();
 </script>
