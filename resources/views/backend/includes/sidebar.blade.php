@@ -42,14 +42,37 @@
             </li>
         </ul>
     </li>
-    <li class="menu-label">UI Elements</li>
+    <!-- <li>
+        <a class="has-arrow" href="javascript:;">
+            <div class="parent-icon"><i class='bx bx-command'></i>
+            </div>
+            <div class="menu-title">Content</div>
+        </a>
+        <ul>
+            <li> <a href="content-grid-system.html"><i class="bx bx-right-arrow-alt"></i>Grid System</a>
+            </li>
+            <li> <a href="content-typography.html"><i class="bx bx-right-arrow-alt"></i>Typography</a>
+            </li>
+            <li> <a href="content-text-utilities.html"><i class="bx bx-right-arrow-alt"></i>Text
+                    Utilities</a>
+            </li>
+        </ul>
+    </li> -->
     <li>
+        <a href="{{ route('admin.team.index') }}">
+            <div class="parent-icon"> <i class='bx bx-atom'></i>
+            </div>
+            <div class="menu-title">Icons</div>
+        </a>
+    </li>
+    <!-- <li class="menu-label">UI Elements</li> -->
+    <!-- <li>
         <a href="widgets.html">
             <div class="parent-icon"><i class='bx bx-briefcase-alt-2'></i>
             </div>
             <div class="menu-title">Widgets</div>
         </a>
-    </li>
+    </li> -->
     <li>
         <a href="javascript:;" class="has-arrow">
             <div class="parent-icon"><i class='bx bx-cart-alt'></i>
@@ -108,8 +131,7 @@
             </li>
             <li> <a href="component-spinners.html"><i class="bx bx-right-arrow-alt"></i>Spinners</a>
             </li>
-            <li> <a href="component-notifications.html"><i
-                        class="bx bx-right-arrow-alt"></i>Notifications</a>
+            <li> <a href="component-notifications.html"><i class="bx bx-right-arrow-alt"></i>Notifications</a>
             </li>
             <li> <a href="component-avtars-chips.html"><i class="bx bx-right-arrow-alt"></i>Avatrs &
                     Chips</a>
@@ -197,26 +219,19 @@
             <div class="menu-title">Authentication</div>
         </a>
         <ul>
-            <li> <a href="authentication-signin.html" target="_blank"><i
-                        class="bx bx-right-arrow-alt"></i>Sign In</a>
+            <li> <a href="authentication-signin.html" target="_blank"><i class="bx bx-right-arrow-alt"></i>Sign In</a>
             </li>
-            <li> <a href="authentication-signup.html" target="_blank"><i
-                        class="bx bx-right-arrow-alt"></i>Sign Up</a>
+            <li> <a href="authentication-signup.html" target="_blank"><i class="bx bx-right-arrow-alt"></i>Sign Up</a>
             </li>
-            <li> <a href="authentication-signin-with-header-footer.html" target="_blank"><i
-                        class="bx bx-right-arrow-alt"></i>Sign In with Header & Footer</a>
+            <li> <a href="authentication-signin-with-header-footer.html" target="_blank"><i class="bx bx-right-arrow-alt"></i>Sign In with Header & Footer</a>
             </li>
-            <li> <a href="authentication-signup-with-header-footer.html" target="_blank"><i
-                        class="bx bx-right-arrow-alt"></i>Sign Up with Header & Footer</a>
+            <li> <a href="authentication-signup-with-header-footer.html" target="_blank"><i class="bx bx-right-arrow-alt"></i>Sign Up with Header & Footer</a>
             </li>
-            <li> <a href="authentication-forgot-password.html" target="_blank"><i
-                        class="bx bx-right-arrow-alt"></i>Forgot Password</a>
+            <li> <a href="authentication-forgot-password.html" target="_blank"><i class="bx bx-right-arrow-alt"></i>Forgot Password</a>
             </li>
-            <li> <a href="authentication-reset-password.html" target="_blank"><i
-                        class="bx bx-right-arrow-alt"></i>Reset Password</a>
+            <li> <a href="authentication-reset-password.html" target="_blank"><i class="bx bx-right-arrow-alt"></i>Reset Password</a>
             </li>
-            <li> <a href="authentication-lock-screen.html" target="_blank"><i
-                        class="bx bx-right-arrow-alt"></i>Lock Screen</a>
+            <li> <a href="authentication-lock-screen.html" target="_blank"><i class="bx bx-right-arrow-alt"></i>Lock Screen</a>
             </li>
         </ul>
     </li>
@@ -247,11 +262,9 @@
             <li> <a href="errors-500-error.html" target="_blank"><i class="bx bx-right-arrow-alt"></i>500
                     Error</a>
             </li>
-            <li> <a href="errors-coming-soon.html" target="_blank"><i
-                        class="bx bx-right-arrow-alt"></i>Coming Soon</a>
+            <li> <a href="errors-coming-soon.html" target="_blank"><i class="bx bx-right-arrow-alt"></i>Coming Soon</a>
             </li>
-            <li> <a href="error-blank-page.html" target="_blank"><i
-                        class="bx bx-right-arrow-alt"></i>Blank Page</a>
+            <li> <a href="error-blank-page.html" target="_blank"><i class="bx bx-right-arrow-alt"></i>Blank Page</a>
             </li>
         </ul>
     </li>
@@ -309,8 +322,7 @@
             <li> <a class="has-arrow" href="javascript:;"><i class="bx bx-right-arrow-alt"></i>Level
                     One</a>
                 <ul>
-                    <li> <a class="has-arrow" href="javascript:;"><i
-                                class="bx bx-right-arrow-alt"></i>Level Two</a>
+                    <li> <a class="has-arrow" href="javascript:;"><i class="bx bx-right-arrow-alt"></i>Level Two</a>
                         <ul>
                             <li> <a href="javascript:;"><i class="bx bx-right-arrow-alt"></i>Level
                                     Three</a>

@@ -77,6 +77,7 @@ class ProjectController extends Controller
                 'project_title' => 'required',
                 'client_id' => 'required',
             ];
+            $path = "projects";
             if ($request->hasFile('hero_image')) {
                 $hero_image = $request->file('hero_image');
                 $image_rename = hexdec(uniqid('', false)) . '.' . $hero_image->getClientOriginalExtension();
@@ -86,15 +87,15 @@ class ProjectController extends Controller
             }
             if ($request->hasFile('hero_image')) {
                 $hero_image = $request->file('hero_image');
-                $hero_img = Helper::saveImage($hero_image, 772, 978);
+                $hero_img = Helper::saveImage($hero_image, 772, 978, $path);
             }
             if ($request->hasFile('image_1')) {
                 $image_1 = $request->file('image_1');
-                $img_1 = Helper::saveImage($image_1, 370, 260);
+                $img_1 = Helper::saveImage($image_1, 370, 260, $path);
             }
             if ($request->hasFile('image_2')) {
                 $image_2 = $request->file('image_2');
-                $img_2 = Helper::saveImage($image_2, 370, 260);
+                $img_2 = Helper::saveImage($image_2, 370, 260, $path);
             }
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
@@ -103,7 +104,6 @@ class ProjectController extends Controller
                     'errors' => $validator->getMessageBag()->toArray()
                 ]);
             } else {
-
                 DB::beginTransaction();
                 try {
                     // $client_name = Client::where('id', $request->client_id)->first();
@@ -281,9 +281,9 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project, Request $request)
     {
-                if ($request->ajax()) {
-                $project->delete();
-                return response()->json(['type' => 'success', 'message' => 'Successfully Deleted']);
+        if ($request->ajax()) {
+            $project->delete();
+            return response()->json(['type' => 'success', 'message' => 'Successfully Deleted']);
         } else {
             return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
         }
