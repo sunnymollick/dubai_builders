@@ -9,7 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Yajra\DataTables\DataTables;
-use Image;
+use Intervention\Image\Facades\Image as Image;
+use Illuminate\Support\Str;
 
 class SettingController extends Controller
 {
@@ -35,6 +36,10 @@ class SettingController extends Controller
                     $html .= '<a data-toggle="tooltip"  id="' . $settings->id . '" class="btn btn-info mr-1 edit" title="Edit"><i class="lni lni-pencil-alt"></i> </a>';
                     $html .= '</div>';
                     return $html;
+                })
+
+                ->addColumn('address', function ($settings) {
+                    return Str::of($settings->address)->limit(20);;
                 })
                 ->rawColumns(['action'])
                 ->addIndexColumn()
