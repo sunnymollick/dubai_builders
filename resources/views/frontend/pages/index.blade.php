@@ -9,7 +9,7 @@ Home
             <div class="row">
                 <div class="col-lg-6">
                     <div class="slide_content">
-                        <h5 class="sub_heading"  data-aos="fade-up" data-aos-duration="1000">CALL US ANYTIME<span> +99 (1234) 56 789</span></h5>
+                        <h5 class="sub_heading" data-aos="fade-up" data-aos-duration="1000">CALL US ANYTIME<span> +99 (1234) 56 789</span></h5>
                         <h2 class="heading" data-aos="fade-up" data-aos-duration="1500">Where You Find Best Builders</h2>
                         <p class="desc" data-aos="fade-up" data-aos-duration="2000">Safe, Reliable and Cost Effective Construction company. We offer best construction Services.</p>
                         <div class="slider_button" data-aos="fade-right" data-aos-duration="2500">
@@ -222,12 +222,13 @@ Home
                     <button class="button" data-filter=".highrise">Highrise</button>
                     <button class="button" data-filter=".residential">Residential</button>
                     <button class="button" data-filter=".business">Business</button>
-                  </div>
+                </div>
 
                 <div class="grid grid-5">
-                    <div class="element-item highrise">
+                    <!-- @foreach($all as $a)
+                    <div class="element-item all" id="tab-content-1">
                         <div class="teambox">
-                            <img src="{{ asset('frontend') }}/images/team/Project_2_Images/3.png" alt="">
+                            <img src="{{ asset($a->thumbnail_image) }}" alt="">
                             <div class="teambox_inner">
                                 <div class="team_social">
                                     <div class="share"><i class="ion-android-share-alt"></i></div>
@@ -240,16 +241,18 @@ Home
                                 </div>
                                 <div class="teambox_intro">
                                     <div class="team_flex">
-                                        <h6>NEW YORK</h6>
-                                        <h5><a href="project-details.html">Multistored Building</a></h5>
+                                        <h6>{{$a->project_location}}</h6>
+                                        <h5><a href="project-details.html">{{$a->project_title}}</a></h5>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="element-item highrise business">
+                    @endforeach -->
+                    @foreach($highrise as $hg)
+                    <div class="element-item highrise" id="tab-content-2">
                         <div class="teambox">
-                            <img src="{{ asset('frontend') }}/images/team/Project_2_Images/4.png" alt="">
+                            <img src="{{ asset($hg->thumbnail_image) }}" alt="">
                             <div class="teambox_inner">
                                 <div class="team_social">
                                     <div class="share"><i class="ion-android-share-alt"></i></div>
@@ -262,16 +265,19 @@ Home
                                 </div>
                                 <div class="teambox_intro">
                                     <div class="team_flex">
-                                        <h6>NEW YORK</h6>
-                                        <h5><a href="project-details.html">Highrise Architecture</a></h5>
+                                        <h6>{{$hg->project_location}}</h6>
+                                        <h5><a href="project-details.html">{{$hg->project_title}}</a></h5>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="element-item residential ">
+                    @endforeach
+
+                    @foreach($business as $bs)
+                    <div class="element-item business" id="tab-content-3">
                         <div class="teambox">
-                            <img src="{{ asset('frontend') }}/images/team/Project_2_Images/5.png" alt="">
+                            <img src="{{ asset($bs->thumbnail_image)}}" alt="">
                             <div class="teambox_inner">
                                 <div class="team_social">
                                     <div class="share"><i class="ion-android-share-alt"></i></div>
@@ -284,16 +290,19 @@ Home
                                 </div>
                                 <div class="teambox_intro">
                                     <div class="team_flex">
-                                        <h6>NEW YORK</h6>
-                                        <h5><a href="project-details.html">Large Swiming Pool</a></h5>
+                                        <h6>{{$bs->project_location}}</h6>
+                                        <h5><a href="project-details.html">{{$bs->project_title}}</a></h5>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="element-item commercial">
+                    @endforeach
+
+                    @foreach($residential as $rs)
+                    <div class="element-item residential" id="tab-content-4">
                         <div class="teambox">
-                            <img src="{{ asset('frontend') }}/images/team/Project_2_Images/1.png" alt="">
+                            <img src="{{ asset($rs->thumbnail_image)}}" alt="">
                             <div class="teambox_inner">
                                 <div class="team_social">
                                     <div class="share"><i class="ion-android-share-alt"></i></div>
@@ -306,16 +315,20 @@ Home
                                 </div>
                                 <div class="teambox_intro">
                                     <div class="team_flex">
-                                        <h6>NEW YORK</h6>
-                                        <h5><a href="project-details.html">Large City Tower</a></h5>
+                                        <h6>{{$rs->project_location}}</h6>
+                                        <h5><a href="project-details.html">{{$rs->project_title}}</a></h5>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="element-item residential">
+
+                    @endforeach
+
+                    @foreach($commercial as $cm)
+                    <div class="element-item commercial" id="tab-content-5">
                         <div class="teambox">
-                            <img src="{{ asset('frontend') }}/images/team/Project_2_Images/2.png" alt="">
+                            <img src="{{ asset($cm->thumbnail_image)}}" alt="">
                             <div class="teambox_inner">
                                 <div class="team_social">
                                     <div class="share"><i class="ion-android-share-alt"></i></div>
@@ -328,13 +341,14 @@ Home
                                 </div>
                                 <div class="teambox_intro">
                                     <div class="team_flex">
-                                        <h6>NEW YORK</h6>
-                                        <h5><a href="project-details.html">Curve Sky Tower</a></h5>
+                                        <h6>{{$cm->project_location}}</h6>
+                                        <h5><a href="project-details.html">{{$cm->project_title}}</a></h5>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    @endforeach
                 </div>
 
             </div>
@@ -603,4 +617,20 @@ Home
 @endsection
 @section('scripts')
 <script src="{{ asset('frontend/') }}/js/funfacts.js"></script>
+<!-- <script>
+    const buttons = document.querySelectorAll('.button');
+    const contentElements = document.querySelectorAll('.element-item');
+
+    buttons.forEach((button, index) => {
+        button.addEventListener('click', () => {
+            // Hide all content elements
+            contentElements.forEach((element) => {
+                element.style.display = 'none';
+            });
+
+            // Show the clicked tab's content
+            contentElements[index].style.display = 'block';
+        });
+    });
+</script> -->
 @endsection

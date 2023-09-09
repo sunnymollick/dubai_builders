@@ -22,7 +22,7 @@ Running Projects
         <div class="row g-0">
             <div class="col">
                 <div class="button-group filters-button-group">
-                    <button class="button is-checked" data-filter="*">All</button>
+                    <button class="button is-checked" data-filter=".all">All</button>
                     <button class="button" data-filter=".commercial">Commercial</button>
                     <button class="button" data-filter=".highrise">Highrise</button>
                     <button class="button" data-filter=".residential">Residential</button>
@@ -30,10 +30,10 @@ Running Projects
                 </div>
 
                 <div class="grid grid-5">
-                    @foreach($projects as $project)
-                    <div class="element-item highrise">
+                    @foreach($all as $a)
+                    <div class="element-item all" id="tab-content-1">
                         <div class="teambox">
-                            <img src="{{asset($project->thumbnail_image)}}" alt>
+                            <img src="{{ asset($a->thumbnail_image) }}" alt="">
                             <div class="teambox_inner">
                                 <div class="team_social">
                                     <div class="share"><i class="ion-android-share-alt"></i></div>
@@ -46,9 +46,108 @@ Running Projects
                                 </div>
                                 <div class="teambox_intro">
                                     <div class="team_flex">
-                                        <h6>{{$project->project_location}}</h6>
-                                        <h5><a href="{{ route('frontend.projects.details', $project->id) }}">Large
-                                                City Tower</a></h5>
+                                        <h6>{{$a->project_location}}</h6>
+                                        <h5><a href="project-details.html">{{$a->project_title}}</a></h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                    @foreach($highrise as $hg)
+                    <div class="element-item highrise" id="tab-content-2">
+                        <div class="teambox">
+                            <img src="{{ asset($hg->thumbnail_image) }}" alt="">
+                            <div class="teambox_inner">
+                                <div class="team_social">
+                                    <div class="share"><i class="ion-android-share-alt"></i></div>
+                                    <ul>
+                                        <li class="facebook"><a href="#"><i class="ion-social-facebook"></i></a></li>
+                                        <li class="twitter"><a href="#"><i class="ion-social-twitter"></i></a></li>
+                                        <li class="instagram"><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
+                                        <li class="linkedin"><a href="#"><i class="ion-social-linkedin-outline"></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="teambox_intro">
+                                    <div class="team_flex">
+                                        <h6>{{$hg->project_location}}</h6>
+                                        <h5><a href="project-details.html">{{$hg->project_title}}</a></h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+
+                    @foreach($business as $bs)
+                    <div class="element-item business" id="tab-content-3">
+                        <div class="teambox">
+                            <img src="{{ asset($bs->thumbnail_image)}}" alt="">
+                            <div class="teambox_inner">
+                                <div class="team_social">
+                                    <div class="share"><i class="ion-android-share-alt"></i></div>
+                                    <ul>
+                                        <li class="facebook"><a href="#"><i class="ion-social-facebook"></i></a></li>
+                                        <li class="twitter"><a href="#"><i class="ion-social-twitter"></i></a></li>
+                                        <li class="instagram"><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
+                                        <li class="linkedin"><a href="#"><i class="ion-social-linkedin-outline"></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="teambox_intro">
+                                    <div class="team_flex">
+                                        <h6>{{$bs->project_location}}</h6>
+                                        <h5><a href="project-details.html">{{$bs->project_title}}</a></h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+
+                    @foreach($residential as $rs)
+                    <div class="element-item residential" id="tab-content-4">
+                        <div class="teambox">
+                            <img src="{{ asset($rs->thumbnail_image)}}" alt="">
+                            <div class="teambox_inner">
+                                <div class="team_social">
+                                    <div class="share"><i class="ion-android-share-alt"></i></div>
+                                    <ul>
+                                        <li class="facebook"><a href="#"><i class="ion-social-facebook"></i></a></li>
+                                        <li class="twitter"><a href="#"><i class="ion-social-twitter"></i></a></li>
+                                        <li class="instagram"><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
+                                        <li class="linkedin"><a href="#"><i class="ion-social-linkedin-outline"></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="teambox_intro">
+                                    <div class="team_flex">
+                                        <h6>{{$rs->project_location}}</h6>
+                                        <h5><a href="project-details.html">{{$rs->project_title}}</a></h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @endforeach
+
+                    @foreach($commercial as $cm)
+                    <div class="element-item commercial" id="tab-content-5">
+                        <div class="teambox">
+                            <img src="{{ asset($cm->thumbnail_image)}}" alt="">
+                            <div class="teambox_inner">
+                                <div class="team_social">
+                                    <div class="share"><i class="ion-android-share-alt"></i></div>
+                                    <ul>
+                                        <li class="facebook"><a href="#"><i class="ion-social-facebook"></i></a></li>
+                                        <li class="twitter"><a href="#"><i class="ion-social-twitter"></i></a></li>
+                                        <li class="instagram"><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
+                                        <li class="linkedin"><a href="#"><i class="ion-social-linkedin-outline"></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="teambox_intro">
+                                    <div class="team_flex">
+                                        <h6>{{$cm->project_location}}</h6>
+                                        <h5><a href="project-details.html">{{$cm->project_title}}</a></h5>
                                     </div>
                                 </div>
                             </div>

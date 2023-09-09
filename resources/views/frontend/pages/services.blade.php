@@ -20,7 +20,7 @@ Services
             <div class="section service services_inner_page">
                 <div class="container">
                     <div class="row">
-                        <div class="col-lg-4 col-md-6 col-sm-12">
+                        {{-- <div class="col-lg-4 col-md-6 col-sm-12">
                             <div class="service_inner_block">
                                 <img
                                     src="{{ asset('frontend/') }}/images/services/Service_Hover_images/1.jpg"
@@ -181,7 +181,27 @@ Services
                                             aria-hidden="true"></i></a>
                                 </div>
                             </div>
+                        </div> --}}
+                        @foreach ($all as $a)
+                            
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <div class="service_inner_block">
+                                <img
+                                    src="{{$a->thumbnail_image}}"
+                                    alt>
+                                <div class="icon_img">
+                                    <img src="{{$a->logo}}" alt>
+                                </div>
+                                <div class="service_content">
+                                    <h4>{{$a->service_title}}</h4>
+                                    <p>{{$a->slogan}}</p>
+                                    <a href="{{ route('frontend.services.details') }}">READ MORE <i
+                                            class="fa fa-long-arrow-right"
+                                            aria-hidden="true"></i></a>
+                                </div>
+                            </div>
                         </div>
+                        @endforeach
 
                         <div class="pagination-div">
                             <ul class="pagination">

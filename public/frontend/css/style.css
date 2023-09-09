@@ -4987,9 +4987,13 @@ video {
 }
 
 .grid-5 .element-item {
+/* display: none; */
 padding: 10px;
   width: 20%;
 }
+/* #tab-content-1{
+    display: block;
+} */
 
 .gutter-0 {
   margin: 0px 0px;
