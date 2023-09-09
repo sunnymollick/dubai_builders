@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Backend\Admin;
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Backend\Project;
-use App\Models\Client;
+use App\Models\Backend\Client;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

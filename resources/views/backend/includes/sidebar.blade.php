@@ -42,12 +42,18 @@
             </li>
         </ul>
     </li>
-    <li class="menu-label">UI Elements</li>
     <li>
         <a href="{{ route('admin.settings.index') }}">
             <div class="parent-icon"><i class="lni lni-cogs"></i>
             </div>
             <div class="menu-title">Settings</div>
+        </a>
+    </li>
+    <li>
+        <a href="{{ route('admin.abouts.index') }}">
+            <div class="parent-icon"><i class="lni lni-atlassian"></i>
+            </div>
+            <div class="menu-title">About</div>
         </a>
     </li>
     <li>

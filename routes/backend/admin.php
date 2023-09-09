@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\Admin\AboutController;
 use App\Http\Controllers\Backend\Admin\DashboardController;
 use App\Http\Controllers\Backend\Admin\ProjectController;
 use App\Http\Controllers\Backend\Auth\LoginController;
@@ -22,6 +23,10 @@ Route::get('allClients',[ClientController::class,'getAllClients']);
 //Settings Route
 Route::resource('settings', SettingController::class);
 Route::get('getSettings', [SettingController::class, 'getSettings']);
+
+//About Us Routes
+Route::resource('abouts', AboutController::class);
+Route::get('getAboutInfo', [AboutController::class, 'getAboutInfo']);
 
 //Auth Route
 Route::get('/logout',[LoginController::class,'logout']);

@@ -47,6 +47,7 @@ class ClientController extends Controller
      */
     public function create(Request $request)
     {
+        dd('create_project');
         if ($request->ajax()) {
             $view = View::make('backend.pages.clients.create')->render();
             return response()->json(['html' => $view]);
