@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Backend\Project;
+use App\Models\Backend\Service;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 
@@ -11,12 +12,14 @@ class HomeController extends Controller
 {
     public function index()
     {
+        $app_settings = Setting::findOrFail(1);
+
         $all = Project::where('is_popular', '1')->orderby('created_at', 'desc')->limit(5)->get();
         $residential = Project::where('is_popular', '1')->where('project_type', '0')->orderby('created_at', 'desc')->limit(5)->get();
         $commercial = Project::where('is_popular', '1')->where('project_type', '1')->orderby('created_at', 'desc')->limit(5)->get();
         $highrise = Project::where('is_popular', '1')->where('project_type', '2')->orderby('created_at', 'desc')->limit(5)->get();
         $business = Project::where('is_popular', '1')->where('project_type', '3')->orderby('created_at', 'desc')->limit(5)->get();
-        return view('frontend.pages.index', compact('residential', 'commercial', 'highrise', 'business', 'all'));
+        return view('frontend.pages.index', compact('residential', 'commercial', 'highrise', 'business', 'all','app_settings'));
     }
 
     public function contact()
@@ -53,7 +56,8 @@ class HomeController extends Controller
     }
     public function services()
     {
-        return view('frontend.pages.services');
+        $all = Service::orderby('service_title', 'asc')->limit(5)->get();
+        return view('frontend.pages.services', compact('all'));
     }
     public function team()
     {
