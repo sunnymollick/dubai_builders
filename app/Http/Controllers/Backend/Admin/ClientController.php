@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Backend\Admin;
 use App\Http\Controllers\Controller;
-use App\Models\Client;
+use App\Models\Backend\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -47,6 +47,7 @@ class ClientController extends Controller
      */
     public function create(Request $request)
     {
+        dd('create_project');
         if ($request->ajax()) {
             $view = View::make('backend.pages.clients.create')->render();
             return response()->json(['html' => $view]);

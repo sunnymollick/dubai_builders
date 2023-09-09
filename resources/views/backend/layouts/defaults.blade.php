@@ -39,9 +39,8 @@
     <!--start switcher-->
     @include('backend.includes.theme_customizer')
     <!--end switcher-->
-    @include('backend.includes.scripts')
     @include('backend.includes.modal')
-    @include('backend.includes.modal_sm')
+    @include('backend.includes.scripts')
     @include('backend.includes.datatable')
     @yield('scripts')
 </body>
