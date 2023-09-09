@@ -191,6 +191,7 @@ class ProjectController extends Controller
                 DB::beginTransaction();
                 try {
                     $project = Project::findOrFail($project->id);
+                    $path = "projects";
                     if ($request->hasFile('hero_image')) {
                         if (!empty($request->file('hero_image'))) {
                             if ($project->thumbnail_image) {
@@ -213,7 +214,7 @@ class ProjectController extends Controller
                                 unlink($file_old);
                             }
                             $hero_image = $request->file('hero_image');
-                            $hero_img = Helper::saveImage($hero_image, 772, 978);
+                            $hero_img = Helper::saveImage($hero_image, 772, 978, $path);
                         }
                     } else {
                         $hero_img = $project->hero_image;
@@ -225,7 +226,7 @@ class ProjectController extends Controller
                                 unlink($file_old);
                             }
                             $image_1 = $request->file('image_1');
-                            $img_1 = Helper::saveImage($image_1, 370, 260);
+                            $img_1 = Helper::saveImage($image_1, 370, 260, $path);
                         }
                     } else {
                         $img_1 = $project->image_1;
@@ -237,7 +238,7 @@ class ProjectController extends Controller
                                 unlink($file_old);
                             }
                             $image_2 = $request->file('image_2');
-                            $img_2 = Helper::saveImage($image_2, 370, 260);
+                            $img_2 = Helper::saveImage($image_2, 370, 260, $path);
                         }
                     } else {
                         $img_2 = $project->image_2;
