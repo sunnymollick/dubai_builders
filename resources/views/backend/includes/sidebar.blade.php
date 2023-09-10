@@ -62,14 +62,9 @@
         <a href="{{ route('admin.team.index') }}">
             <div class="parent-icon"> <i class='bx bx-atom'></i>
             </div>
-            <div class="menu-title">Icons</div>
+            <div class="menu-title">Team</div>
         </a>
     </li>
-    <!-- <li class="menu-label">UI Elements</li> -->
-    <li>
-        <a href="widgets.html">
-            <div class="parent-icon"><i class='bx bx-briefcase-alt-2'></i>
-    <li>
         <a href="{{ route('admin.settings.index') }}">
             <div class="parent-icon"><i class="lni lni-cogs"></i>
             </div>
