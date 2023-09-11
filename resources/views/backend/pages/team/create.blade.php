@@ -68,7 +68,8 @@
 
         <div class="form-group col-md-12 col-sm-12">
             <label for="">Photo <span style="color: red;">*</span></label>
-            <input type="file" class="form-control" id="image" name="image" required width="772" height="978">
+            <input type="file" class="form-control" id="image" name="image" required    >
+            <p style="color: red; font-size: 12px">Photo must be 370 X 440 pixel (width X height)</p>
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
@@ -94,6 +95,6 @@
 <script src="https://cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
-       $('.ckeditor').ckeditor();
+        $('.ckeditor').ckeditor();
     });
 </script>

@@ -16,9 +16,9 @@ return new class extends Migration
             $table->unsignedBigInteger('client_id')->index();
             $table->string('project_title')->nullable();
             $table->text('project_description')->nullable();
-            $table->text('project_features')->nullable();
+            $table->string('project_code')->nullable();
+            $table->string('project_permit')->nullable();
             $table->string('project_location')->nullable();
-            $table->string('project_problem')->nullable();
             $table->string('handover_time')->nullable();
             $table->string('client_rating')->nullable();
             $table->string('client_testimonial')->nullable();

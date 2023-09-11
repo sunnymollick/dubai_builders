@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Backend\Project;
+use App\Models\Backend\Team;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 
@@ -57,7 +58,8 @@ class HomeController extends Controller
     }
     public function team()
     {
-        return view('frontend.pages.team');
+$team = Team::orderby('order', 'desc')->get();
+        return view('frontend.pages.team', compact('team'));
     }
     public function faq()
     {

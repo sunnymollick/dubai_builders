@@ -70,7 +70,7 @@
         <div class="form-group col-md-12 col-sm-12">
             <label for="">Photo <span style="color: red;">*</span></label>
 
-            <input type="file" class="form-control" id="image" name="image" width="772" height="978"><br>
+            <input type="file" class="form-control" id="image" name="image"><p style="color: red; font-size: 12px">Photo must be 370 X 440 pixel (width X height)</p><br>
             <img src="{{asset($team->image)}}" height="100px" width="100px" alt="">
             <span id="error_title" class="has-error"></span>
         </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend\Admin;
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Backend\Team;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -52,6 +53,7 @@ class TeamController extends Controller
      */
     public function create(Request $request)
     {
+
         if ($request->ajax()) {
             $view = View::make('backend.pages.team.create')->render();
             return response()->json(['html' => $view]);
@@ -71,12 +73,13 @@ class TeamController extends Controller
                 'name' => 'required',
                 'designation' => 'required',
                 'email' => 'required',
-                'order' => 'required'
+                'order' => 'required',
+                'image' => 'required|image|mimes:jpg,png,jpeg',
             ];
             $path = "team";
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
-                $img = Helper::saveImage($image, 772, 978, $path);
+                $img = Helper::saveImage($image, 370, 440, $path);
             }
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
@@ -144,9 +147,17 @@ class TeamController extends Controller
      */
     public function update(Team $team, Request $request)
     {
-        if ($request->ajax()) {
 
-            $validator = Validator::make($request->all());
+        if ($request->ajax()) {
+            $rules = [
+                'name' => 'required',
+                'designation' => 'required',
+                'email' => 'required',
+                'order' => 'required',
+                'image' => 'required|image|mimes:jpg,png,jpeg',
+
+            ];
+            $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
                 return response()->json([
                     'type' => 'error',
@@ -164,7 +175,7 @@ class TeamController extends Controller
                                 unlink($file_old);
                             }
                             $image = $request->file('image');
-                            $img = Helper::saveImage($image, 772, 978, $path);
+                            $img = Helper::saveImage($image, 370, 440, $path);
                         }
                     } else {
                         $img = $team->image;
