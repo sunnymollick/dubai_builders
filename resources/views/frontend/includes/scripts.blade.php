@@ -16,3 +16,8 @@
 <script src="{{ asset('frontend/') }}/plugins/aos/aos.js"></script>
 
 <script src="{{ asset('frontend/') }}/js/custom.js"></script>
+
+    <script src="{{asset('frontend/modal')}}/js/jquery.min.js"></script>
+    <script src="{{asset('frontend/modal')}}/js/popper.js"></script>
+    <script src="{{asset('frontend/modal')}}/js/bootstrap.min.js"></script>
+    <script src="{{asset('frontend/modal')}}/js/main.js"></script>

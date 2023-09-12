@@ -11,6 +11,7 @@ Route::get('/projects/running', [HomeController::class, 'runningProjects'])->nam
 Route::get('/projects/details/{id}', [HomeController::class, 'detailsProjects'])->name('projects.details');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/team', [HomeController::class, 'team'])->name('team');
+Route::get('team/{id}', [HomeController::class, 'teamShow'])->name('team.show');
 Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
 Route::get('/services', [HomeController::class, 'services'])->name('services');
 Route::get('/services/details', [HomeController::class, 'servicesDetails'])->name('services.details');

@@ -58,8 +58,13 @@ class HomeController extends Controller
     }
     public function team()
     {
-$team = Team::orderby('order', 'desc')->get();
-        return view('frontend.pages.team', compact('team'));
+        $teams = Team::orderby('order', 'asc')->get();
+        return view('frontend.pages.team', compact('teams'));
+    }
+    public function teamShow($id)
+    {
+        $team_details = Team::find($id);
+        return response()->json($team_details);
     }
     public function faq()
     {

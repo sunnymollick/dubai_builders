@@ -17,3 +17,9 @@
 
 <!-- Lead Style -->
 <link href="{{ asset('frontend/') }}/css/style.css" rel="stylesheet" type="text/css">
+
+<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+
+<link rel="stylesheet" href="{{asset('frontend/modal')}}/css/ionicons.min.css">
+<link rel="stylesheet" href="{{asset('frontend/modal')}}/css/flaticon.css">
+<link rel="stylesheet" href="{{asset('frontend/modal')}}/css/style.css">
