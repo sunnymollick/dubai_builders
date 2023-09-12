@@ -18,7 +18,8 @@ class HomeController extends Controller
         $highrise = Project::where('is_popular', '1')->where('project_type', '2')->orderby('id', 'desc')->limit(5)->get();
         $business = Project::where('is_popular', '1')->where('project_type', '3')->orderby('id', 'desc')->limit(5)->get();
         $app_settings = Setting::findOrFail(1);
-        return view('frontend.pages.index', compact('residential', 'commercial', 'highrise', 'business', 'all', 'app_settings'));
+        $services = Service::get();
+        return view('frontend.pages.index', compact('residential', 'commercial', 'highrise', 'business', 'all', 'app_settings', 'services'));
     }
     public function contact()
     {
@@ -57,6 +58,11 @@ class HomeController extends Controller
         $all = Service::orderby('service_title', 'asc')->limit(5)->get();
         return view('frontend.pages.services', compact('all'));
     }
+    public function servicesDetails($id)
+    {
+        $details = Service::find($id);
+        return view('frontend.pages.service_details', compact('details'));
+    }
     public function team()
     {
         return view('frontend.pages.team');
@@ -64,9 +70,5 @@ class HomeController extends Controller
     public function faq()
     {
         return view('frontend.pages.faq');
-    }
-    public function servicesDetails()
-    {
-        return view('frontend.pages.service_details');
     }
 }

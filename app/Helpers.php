@@ -15,12 +15,4 @@ class Helper
         $img = $image_url;
         return $img;
     }
-    public static function saveServiceImage($image, $width, $height)
-    {
-        $image_rename = hexdec(uniqid('', false)) . '.' . $image->getClientOriginalExtension();
-        Image::make($image)->resize($width, $height)->save('backend/uploads/images/services/' . $image_rename);
-        $image_url = 'backend/uploads/images/services/' . $image_rename;
-        $img = $image_url;
-        return $img;
-    }
 }

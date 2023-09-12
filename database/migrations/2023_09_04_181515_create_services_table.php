@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('image_1')->nullable();
             $table->string('image_2')->nullable();
             $table->string('logo')->nullable();
+            $table->string('home_image')->nullable();
             $table->string('video_link')->nullable();
             $table->timestamps();
         });
