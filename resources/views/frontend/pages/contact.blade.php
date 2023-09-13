@@ -19,9 +19,11 @@ Contact
 @section('content')
 <div class="section">
     <div class="container">
-        <div class="gmapbox" data-aos="zoom-in">
+        {{-- <div class="gmapbox" data-aos="zoom-in">
             <div id="googleMap" class="map"></div>
-        </div>
+        </div> --}}
+
+        {!! $app_settings->maps !!}
     </div>
 </div>
 <div class="contact_inner">

@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="{{asset('backend')}}/css/dark-theme.css" />
     <link rel="stylesheet" href="{{asset('backend')}}/css/semi-dark.css" />
     <link rel="stylesheet" href="{{asset('backend')}}/css/header-colors.css" />
+    <link rel="stylesheet" href="{{asset('backend/assets/css/custom_style.css')}}">
     <title> @yield('title') | Dubai Builders</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <script>

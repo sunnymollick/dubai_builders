@@ -74,7 +74,7 @@ class ServiceController extends Controller
                 'service_title' => 'required',
             ];
             if ($request->hasFile('logo')) {
-                $thumb_path = $path . "/thumbnail/";
+                $thumb_path = $path . "/thumbnail";
                 $thumb_image = $request->file('thumb_image');
                 $thumb_img = Helper::saveImage($thumb_image, 370, 340, $thumb_path);
             }
@@ -96,7 +96,7 @@ class ServiceController extends Controller
             }
             if ($request->hasFile('home_image')) {
                 $home_image = $request->file('home_image');
-                $home_img = Helper::saveImage($home_image, 123, 133, $path);
+                $home_img = Helper::saveImage($home_image, 215, 220, $path);
             }
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
@@ -138,9 +138,14 @@ class ServiceController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Service $service, Request $request)
     {
-        //
+        if ($request->ajax()) {
+            $view = View::make('backend.pages.services.show', compact('service'))->render();
+            return response()->json(['html' => $view]);
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
     }
 
     /**
@@ -161,6 +166,7 @@ class ServiceController extends Controller
      */
     public function update(Request $request, Service $service)
     {
+        // dd('hi');
         if ($request->ajax()) {
             $rules = [
                 'service_title' => 'required',
@@ -179,7 +185,7 @@ class ServiceController extends Controller
                     $service = Service::findOrFail($service->id);
                     $path = "services";
                     if ($request->hasFile('thumb_image')) {
-                        $thumb_path = $path . "/thumbnail/";
+                        $thumb_path = $path . "/thumbnail";
                         if (!empty($request->file('thumb_image'))) {
                             if ($service->thumbnail_image) {
                                 $file_old = $service->thumbnail_image;
@@ -246,14 +252,13 @@ class ServiceController extends Controller
                                 unlink($file_old);
                             }
                             $home_image = $request->file('home_image');
-                            $home_image = Helper::saveImage($home_image, 123, 133, $path);
+                            $home_image = Helper::saveImage($home_image, 215, 220, $path);
                         }
                     } else {
                         $home_image = $service->home_image;
                     }
 
 
-                    $service = new Service();
                     $service->service_title = $request->input('service_title');
                     $service->service_details = $request->input('service_details');
                     $service->slogan = $request->input('slogan');
@@ -280,8 +285,13 @@ class ServiceController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Service $service, Request $request)
     {
-        //
+        if ($request->ajax()) {
+            $service->delete();
+            return response()->json(['type' => 'success', 'message' => 'Successfully Deleted']);
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
     }
 }

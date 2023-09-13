@@ -30,60 +30,9 @@
     </div>
 @endsection
 @section('content')
-    <div class="service">
+    {{-- <div class="service">
         <div class="container-fluid g-0">
             <div class="row g-0">
-                {{-- <div class="col-lg-4 col-md-4">
-                <div class="service_inner service_inner2 bg_1">
-                    <div class="service_content d-flex align-self-center">
-                        <div class="icon_img">
-                            <img src="{{ asset('frontend') }}/images/services/s1.png" alt="">
-                        </div>
-                        <div class="services_content_flex_cenrer">
-                            <h6>SERVICE ONE</h6>
-                            <h4><a href="services.html">Industrial & Highrise Construction</a></h4>
-                            <a href="service-details.html">Get Service <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
-                        </div>
-                    </div>
-                    <div class="main_img" data-aos="fade-up" data-aos-duration="1000">
-                        <img src="{{ asset('frontend') }}/images/services/ss1.png" alt="">
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-4">
-                <div class="service_inner service_inner2 bg_2">
-                    <div class="service_content d-flex align-self-center">
-                        <div class="icon_img">
-                            <img src="{{ asset('frontend') }}/images/services/s2.png" alt="">
-                        </div>
-                        <div class="services_content_flex_cenrer">
-                            <h6>SERVICE Two</h6>
-                            <h4><a href="services-2.html">Real Estate & Housing Construction</a></h4>
-                            <a href="service-details.html">Get Service <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
-                        </div>
-                    </div>
-                    <div class="main_img" data-aos="fade-up" data-aos-duration="2000">
-                        <img src="{{ asset('frontend') }}/images/services/ss2.png" alt="">
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-4">
-                <div class="service_inner service_inner2 bg_3">
-                    <div class="service_content d-flex align-self-center">
-                        <div class="icon_img">
-                            <img src="{{ asset('frontend') }}/images/services/s3.png" alt="">
-                        </div>
-                        <div class="services_content_flex_cenrer">
-                            <h6>SERVICE Three</h6>
-                            <h4><a href="services.html">Commertial Design & Building Construction</a></h4>
-                            <a href="service-details.html">Get Service <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
-                        </div>
-                    </div>
-                    <div class="main_img" data-aos="fade-up" data-aos-duration="3000">
-                        <img src="{{ asset('frontend') }}/images/services/sbg3.png" alt="">
-                    </div>
-                </div>
-            </div> --}}
                 @foreach ($services as $s)
                     <div class="col-lg-4 col-md-4">
                         <div class="service_inner service_inner2 bg_3">
@@ -92,7 +41,6 @@
                                     <img src="{{ asset($s->logo) }}" alt="">
                                 </div>
                                 <div class="services_content_flex_cenrer">
-                                    {{-- <h6>SERVICE Three</h6>  --}}
                                     <h4><a href="services.html">{{ $s->service_title }}</a></h4>
                                     <a href="service-details.html">Get Service <i class="fa fa-long-arrow-right"
                                             aria-hidden="true"></i></a>
@@ -104,6 +52,38 @@
                         </div>
                     </div>
                 @endforeach
+            </div>
+        </div>
+    </div> --}}
+
+    <div class="team service">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="owl_team owl-carousel owl-theme">
+                        
+                @foreach ($services as $s)
+                        <div class="item">
+                            <div class="team_construction">
+                                    <div class="service_inner service_inner2 bg_3">
+                                        <div class="service_content d-flex align-self-center">
+                                            <div class="icon_img">
+                                                <img src="{{ asset($s->logo) }}" alt="">
+                                            </div>
+                                            <div class="services_content_flex_cenrer">
+                                                <h4><a href="services.html">{{ $s->service_title }}</a></h4>
+                                                <a href="service-details.html">Get Service </a>
+                                            </div>
+                                        </div>
+                                        <div class="main_img" data-aos="fade-up" data-aos-duration="3000">
+                                            <img src="{{ asset($s->home_image) }}" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -674,6 +654,7 @@
             <img src="{{ asset('frontend') }}/images/patner/new_patner/6.png" alt="">
         </div>
     </div>
+    <link rel="stylesheet" href="{{asset('frontend/css/custom.css')}}">
 @endsection
 @section('scripts')
     <script src="{{ asset('frontend/') }}/js/funfacts.js"></script>

@@ -18,12 +18,14 @@ class HomeController extends Controller
         $highrise = Project::where('is_popular', '1')->where('project_type', '2')->orderby('id', 'desc')->limit(5)->get();
         $business = Project::where('is_popular', '1')->where('project_type', '3')->orderby('id', 'desc')->limit(5)->get();
         $app_settings = Setting::findOrFail(1);
-        $services = Service::get();
+        $services = Service::orderby('service_title', 'desc')->get();
         return view('frontend.pages.index', compact('residential', 'commercial', 'highrise', 'business', 'all', 'app_settings', 'services'));
     }
     public function contact()
     {
-        return view('frontend.pages.contact');
+
+        $app_settings = Setting::findOrFail(1);
+        return view('frontend.pages.contact', compact('app_settings'));
     }
     public function projects()
     {

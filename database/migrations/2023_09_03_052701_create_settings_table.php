@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('instragram_link')->nullable();
             $table->string('linkedin_link')->nullable();
             $table->string('footer_text')->nullable();
-            $table->string('maps')->nullable();
+            $table->text('maps')->nullable();
             $table->timestamps();
         });
     }
