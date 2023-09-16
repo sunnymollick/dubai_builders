@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend\Admin;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use Carbon\Carbon;
@@ -115,12 +116,19 @@ class SettingController extends Controller
                 return response()->json(['type' => 'error', 'errors' => $validator->getMessageBag()->toArray()]);
             } else {
 
-                $file_path = $this->handleImageUpload($request, $settings);
-
+                if ($request->hasFile('app_logo')) {
+                    $app_logo = $request->file('app_logo');
+                    $settings->app_logo =  Helper::saveImage($app_logo, 147, 48, 'logo');
+                    if (!empty($setting->app_logo)) {
+                        unlink($setting->app_logo);
+                    }
+                }
 
                 $settings->app_name = $request->input('app_name');
                 $settings->email = $request->input('email');
+                $settings->email_secondary = $request->input('email_secondary');
                 $settings->address = $request->input('address');
+                $settings->address_secondary = $request->input('address_secondary');
                 $settings->phone_1 = $request->input('phone_1');
                 $settings->phone_2 = $request->input('phone_2');
                 $settings->opening_time = $request->input('opening_time');
@@ -140,32 +148,6 @@ class SettingController extends Controller
         } else {
             return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
         }
-    }
-
-    // Private function to handle image upload
-    private function handleImageUpload(Request $request, $settings)
-    {
-        if ($request->hasFile('app_logo')) {
-            $extensionLogo = strtolower($request->file('app_logo')->getClientOriginalExtension());
-
-            if ($extensionLogo == 'jpg' || $extensionLogo == 'jpeg' || $extensionLogo == 'png') {
-                if ($request->file('app_logo')->isValid()) {
-                    $image = Image::make($request->file('app_logo'));
-                    $imageName = time() . '-' . $request->file('app_logo')->getClientOriginalName();
-                    $destinationPath = 'backend/assets/images/logo/';
-                    $image->save($destinationPath . $imageName);
-                    $file_path = $destinationPath . $imageName;
-                    unlink($settings->app_logo); // Delete old logo
-                    $settings->app_logo = $file_path;
-                } else {
-                    return response()->json(['type' => 'error', 'message' => "<div class='alert alert-warning'>File is not valid</div>"]);
-                }
-            } else {
-                return response()->json(['type' => 'error', 'message' => "<div class='alert alert-warning'>Error! File type is not valid</div>"]);
-            }
-        }
-
-        return isset($file_path) ? $file_path : $settings->app_logo;
     }
 
     /**

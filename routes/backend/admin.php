@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\Admin\AboutController;
+use App\Http\Controllers\Backend\Admin\BlogController;
 use App\Http\Controllers\Backend\Admin\DashboardController;
 use App\Http\Controllers\Backend\Admin\ProjectController;
 use App\Http\Controllers\Backend\Auth\LoginController;
@@ -24,11 +25,18 @@ Route::resource('clients', ClientController::class);
 Route::get('allClients', [ClientController::class, 'getAllClients']);
 
 
+//Blog Routes
+Route::resource('blogs', BlogController::class);
+Route::get('getAllBlogs', [BlogController::class, 'getAllBlogs']);
+
+//Service Routes
 Route::resource('services', ServiceController::class);
 Route::get('allServices', [ServiceController::class, 'getAllServices']);
 
+//Team Routes
 Route::resource('team', TeamController::class);
 Route::get('wholeTeam',[TeamController::class,'getWholeTeam']);
+
 //Settings Route
 Route::resource('settings', SettingController::class);
 Route::get('getSettings', [SettingController::class, 'getSettings']);

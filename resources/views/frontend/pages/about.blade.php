@@ -20,7 +20,7 @@ About
 <div class="top_feature">
     <div class="container">
         <div class="full_image_holder" data-aos="overlay-right">
-            <img src="{{asset("frontend")}}/images/about/about_img.png" alt>
+            <img src="{{ asset($about->hero_image) ?? '' }}" alt>
         </div>
         <div class="logo_image_holder">
             <img src="{{asset("frontend")}}/images/about/badge1.png" alt>
@@ -28,8 +28,7 @@ About
             <img src="{{asset("frontend")}}/images/about/badge3.png" alt>
         </div>
         <div class="content_inner">
-            <h1>We Receives Industry Recognition for Project
-                Excellence, Safety, and Diversity</h1>
+            <h1>{{ $about->slug ?? ''}}</h1>
         </div>
     </div>
 </div>
@@ -41,11 +40,11 @@ About
                 <div class="group_image_holder type_1">
                     <div class="expe_box">
                         <div class="expe_box_inner">
-                            <h1>35</h1>
+                            <h1>{{ $about->experience_year ?? '' }}</h1>
                             Years of Experience
                         </div>
                     </div>
-                    <img src="{{asset("frontend")}}/images/about/1.png" alt>
+                    <img src="{{ asset($about->about_image) ?? '' }}" alt>
                     <div class="object">
                         <img src="{{asset("frontend")}}/images/about/3.png" alt="About">
                         <img src="{{asset("frontend")}}/images/about/3.png" alt="About">
@@ -58,39 +57,27 @@ About
                 <div class="experience_content about">
                     <div class="section_header">
                         <h6 class="section_sub_title">ABOUT
-                            BUILDERRINE CONSTRUCTION</h6>
-                        <h1 class="section_title">Building Dream
-                            into Reality</h1>
-                        <p class="section_desc">Builderrine is the
-                            safe, reliable and cost effective
-                            construction company. We offer best
-                            construction Services. We have more than
-                            35 years of experience in the field of
-                            building & construction. If yo</p>
+                            {{ $app_settings->app_name ?? '' }} CONSTRUCTION</h6>
+                        <h1 class="section_title">{{ $about->title ?? '' }}</h1>
+                        <p class="section_desc">{{ $about->description ?? '' }}</p>
                         <div class="about_below">
                             <div class="about_below_content">
                                 <img src="{{asset("frontend")}}/images/about/t1.png" alt>
                                 <div class="about_below_content_text">
                                     <h5>Our Mission</h5>
-                                    <p>Builderrine is the safe,
-                                        reliable and cost effective
-                                        builder company. We offer
-                                        best construction Services.</p>
+                                    <p>{{ $about->our_mission ?? '' }}</p>
                                 </div>
                             </div>
                             <div class="about_below_content">
                                 <img src="{{asset("frontend")}}/images/about/t2.png" alt>
                                 <div class="about_below_content_text">
                                     <h5>Our Vision</h5>
-                                    <p>Builderrine is the safe,
-                                        reliable and cost effective
-                                        builder company. We offer
-                                        best construction Services.</p>
+                                    <p>{{ $about->our_vision ?? '' }}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <a class="button" href="about.html">Learn More</a>
+                    {{-- <a class="button" href="{{ route('frontend.about') }}">Learn More</a> --}}
                 </div>
             </div>
         </div>
@@ -118,7 +105,7 @@ About
                                 <img src="{{asset("frontend")}}/images/funfact/p6.png" alt="icon">
                             </div>
                             <div class="fun_content">
-                                <h1><span class="fun-number">100</span><span class="fun-suffix">+</span></h1>
+                                <h1><span class="fun-number">{{ $about->our_builders ?? '' }}</span><span class="fun-suffix">+</span></h1>
                                 <p>Expert Builders</p>
                             </div>
                         </div>
@@ -316,14 +303,13 @@ About
                 <div class="col-lg-8">
                     <div class="banner_text">
                         <img src="{{asset("frontend")}}/images/phone3.png" alt>
-                        <h1>Is Your House Secured Enough? Call Us to
-                            install Security Devices</h1>
+                        <h1>{{ $app_settings->app_name ?? '' }} is proud to serve you 24/7. Just Call Us when you need</h1>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="banner_phone">
                         <h4>Call Us Anytime</h4>
-                        <span>(+123)987.654.32</span>
+                        <span>{{ $app_settings->phone_1 ?? '' }}</span>
                     </div>
                 </div>
             </div>

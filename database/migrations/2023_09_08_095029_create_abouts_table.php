@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('our_mission')->nullable();
             $table->text('our_vision')->nullable();
             $table->string('our_builders')->nullable();
+            $table->string('experience_year')->nullable();
             $table->text('hero_image')->nullable();
             $table->text('about_image')->nullable();
             $table->timestamps();

@@ -1,14 +1,18 @@
 @extends('backend.layouts.defaults')
 @section('title')
-About Us
+Blogs
 @endsection
 @section('content')
 <div class="row">
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <h6><i class="lni lni-apartment" aria-hidden="true"></i> &nbsp; About US
+                <h6><i class="lni lni-bootstrap" aria-hidden="true"></i> &nbsp; All Blogs
                     <span style="float: right;">
+                        <button class="btn btn-primary btn-sm" onclick="create()"><i
+                        class="fadeIn animated bx bx-user-plus"></i>
+                        Add
+                        </button>
                     </span>
                 </h6>
             </div>
@@ -25,8 +29,9 @@ About Us
                         <tr>
                             <th>#</th>
                             <th>Title</th>
-                            <th>Slug</th>
-                            <th>Image</th>
+                            <th>Description</th>
+                            <th>Author</th>
+                            <th>Author Image</th>
                             <th>Action </th>
                         </tr>
                         </thead>
@@ -44,12 +49,13 @@ About Us
         table = $('#manage_all').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '/admin/getAboutInfo',
+            ajax: '/admin/getAllBlogs',
             columns: [
                 {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-                {data: 'title', name: 'title'},
-                {data: 'slug', name: 'slug'},
-                {data: 'hero_image', name: 'hero_image'},
+                {data: 'blog_title', name: 'blog_title'},
+                {data: 'blog_description', name: 'blog_description'},
+                {data: 'author', name: 'author'},
+                {data: 'author_image', name: 'author_image'},
                 {data: 'action', name: 'action'},
             ],
             "columnDefs": [
@@ -65,19 +71,29 @@ About Us
 </script>
 <script type="text/javascript">
 
+    function create() {
+        ajax_submit_create('blogs');
+    }
+
     $(document).ready(function () {
         // View Form
         $("#manage_all").on("click", ".view", function () {
             var id = $(this).attr('id');
-            ajax_submit_view('abouts', id)
+            ajax_submit_view('clients', id)
         });
 
         // Edit Form
         $("#manage_all").on("click", ".edit", function () {
             var id = $(this).attr('id');
-            ajax_submit_edit('abouts', id)
+            ajax_submit_edit('clients', id)
         });
 
+
+        // Delete
+        $("#manage_all").on("click", ".delete", function () {
+            var id = $(this).attr('id');
+            ajax_submit_delete('clients', id)
+        });
 
     });
 

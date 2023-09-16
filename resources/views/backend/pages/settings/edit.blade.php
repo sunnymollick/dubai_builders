@@ -5,21 +5,34 @@
         <div class="form-group col-md-12">
             <strong>Name</strong>
             <input type="text" class="form-control" id="app_name" name="app_name" value="{{ $setting->app_name }}"
-                   placeholder="" required>
+                placeholder="" required>
             <span id="error_app_name" class="text-danger"></span>
         </div>
-        <div class="form-group col-xs-12 col-sm-12 col-md-12">
-            <strong>Email</strong>
-            <input type="text" class="form-control" id="email" name="email" value="{{ $setting->email }}"
-                   placeholder="">
-            <span id="error_email" class="text-danger"></span>
+        <div class="form-group row col-xs-12 col-sm-12 col-md-12">
+            <div class="col-md-6">
+                <strong>Primary Email</strong>
+                <input type="text" class="form-control" id="email" name="email" value="{{ $setting->email }}"
+                    placeholder="">
+                <span id="error_email" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <strong>Secondary Email</strong>
+                <input type="text" class="form-control" id="email_secondary" name="email_secondary" value="{{ $setting->email_secondary }}"
+                    placeholder="">
+                <span id="error_email_secondary" class="text-danger"></span>
+            </div>
         </div>
         <div class="clearfix"></div>
         <div class="form-group col-xs-12 col-sm-12 col-md-12">
-            <strong>Address:</strong>
-            <input type="text" class="form-control" id="address" name="address" value="{{ $setting->address }}"
-                   placeholder="">
+            <strong>Address :</strong>
+            <textarea id="address" name="address" class="form-control" placeholder="Enter Primary Address" >{!! $setting->address !!}</textarea>
             <span id="error_address" class="text-danger"></span>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group col-xs-12 col-sm-12 col-md-12">
+            <strong>Secondary Address :</strong>
+            <textarea id="address_secondary" name="address_secondary" class="form-control" placeholder="Enter Secondary Address" >{!! $setting->address_secondary !!}</textarea>
+            <span id="error_address_secondary" class="text-danger"></span>
         </div>
         <div class="clearfix"></div>
         <div class="form-group row">
@@ -108,7 +121,7 @@
         <div class="form-group col-xs-12 col-sm-12 col-md-12">
             <strong>Google Maps</strong>
             <textarea type="text" class="form-control" id="maps" name="maps"
-                      placeholder="">{{ $setting->maps }}</textarea>
+                    placeholder="">{{ $setting->maps }}</textarea>
             <span id="error_maps" class="text-danger"></span>
             <p class="help-block">Google maps Iframe code here</p>
         </div>

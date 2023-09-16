@@ -15,6 +15,7 @@ class Helper
         $img = $image_url;
         return $img;
     }
+    
     public static function saveServiceImage($image, $width, $height)
     {
         $image_rename = hexdec(uniqid('', false)) . '.' . $image->getClientOriginalExtension();

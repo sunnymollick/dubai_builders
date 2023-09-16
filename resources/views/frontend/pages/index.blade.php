@@ -93,12 +93,12 @@ Home
                 <div class="group_image_holder type_1">
                     <div class="expe_box">
                         <div class="expe_box_inner">
-                            <h1>35</h1>
+                            <h1>{{ $about->experience_year ?? '' }}</h1>
                             Years of Experience
                         </div>
                     </div>
                     <div class="image_object">
-                        <img src="{{ asset('frontend') }}/images/about/1.png" alt="">
+                        <img src="{{ asset($about->about_image) ?? '' }}" alt="">
                         <div class="object">
                             <img src="{{ asset('frontend') }}/images/about/3.png" alt="About">
                             <img src="{{ asset('frontend') }}/images/about/3.png" alt="About">
@@ -112,15 +112,15 @@ Home
                 <div class="experience_content">
                     <div class="section_header">
                         <div class="shadow_icon"><img src="{{ asset('frontend') }}/images/about/shadow_icon1.png" alt=""></div>
-                        <h6 class="section_sub_title">ABOUT BUILDERRINE CONSTRUCTION</h6>
+                        <h6 class="section_sub_title">ABOUT {{ $app_settings->app_name ?? '' }} CONSTRUCTION</h6>
                         <h1 class="section_title">Building A New Era in world of Construction</h1>
-                        <p class="section_desc">Builderrine is the safe, reliable and cost effective construction company. We offer best construction Services. We have more than 35 years of experience in the field of building & construction. If you want to build any highrise or housing projects, you are in the best palce right now</p>
+                        <p class="section_desc">{{ $about->short_description ?? '' }}</p>
                         <div class="about_below">
                             <div class="about_below_content">
                                 <i class="ion ion-ios-checkmark-outline" aria-hidden="true"></i>
                                 <div class="about_below_content_text">
                                     <h5>Most Reliable</h5>
-                                    <p>More than 200 Company trusted us</p>
+                                    <p>Many Company all over the world trusted us</p>
                                 </div>
                             </div>
                             <div class="about_below_content">
@@ -132,7 +132,7 @@ Home
                             </div>
                         </div>
                     </div>
-                    <a class="button" href="about.html">Learn More</a>
+                    <a class="button" href="{{ route('frontend.about') }}">Learn More</a>
                 </div>
             </div>
         </div>
@@ -144,7 +144,7 @@ Home
         <div class="row">
             <div class="col-lg-8">
                 <div class="section_header">
-                    <h6 class="section_sub_title">FUNFACTS OF BUILDERRINE CONSTRUCTION</h6>
+                    <h6 class="section_sub_title">FUNFACTS OF {{ $app_settings->app_name ?? '' }} CONSTRUCTION</h6>
                     <h1 class="section_title">Our Fact Speaks about the result of our Effort</h1>
                 </div>
                 <div class="fun_bottom">
@@ -155,7 +155,7 @@ Home
                                     <img src="{{ asset('frontend') }}/images/funfact/p1.png" alt="icon">
                                 </div>
                                 <div class="fun_content">
-                                    <h1><span class="fun-number">33</span></h1>
+                                    <h1><span class="fun-number">{{ $about->experience_year ?? '' }}</span></h1>
                                     <p>Years of Experience</p>
                                 </div>
                             </div>
@@ -166,7 +166,7 @@ Home
                                     <img src="{{ asset('frontend') }}/images/funfact/p2.png" alt="icon">
                                 </div>
                                 <div class="fun_content">
-                                    <h1><span class="fun-number">100</span><span class="fun-suffix">+</span></h1>
+                                    <h1><span class="fun-number">{{ $completed_project ?? '' }}</span><span class="fun-suffix">+</span></h1>
                                     <p>Projects Completed</p>
                                 </div>
                             </div>
@@ -178,7 +178,7 @@ Home
                                     <img src="{{ asset('frontend') }}/images/funfact/p3.png" alt="icon">
                                 </div>
                                 <div class="fun_content">
-                                    <h1><span class="fun-number">300</span><span class="fun-suffix">+</span></h1>
+                                    <h1><span class="fun-number">{{ $about->our_builders ?? '' }}</span><span class="fun-suffix">+</span></h1>
                                     <p>Expert Builders</p>
                                 </div>
                             </div>
@@ -190,7 +190,7 @@ Home
                                     <img src="{{ asset('frontend') }}/images/funfact/p4.png" alt="icon">
                                 </div>
                                 <div class="fun_content">
-                                    <h1><span class="fun-number">36</span></h1>
+                                    <h1><span class="fun-number">{{ $ongoing_project ?? '' }}</span></h1>
                                     <p>Ongoing Project</p>
                                 </div>
                             </div>
@@ -211,7 +211,7 @@ Home
     <div class="container-fluid g-0">
         <div class="section_header text-center">
             <div class="shadow_icon"><img src="{{ asset('frontend') }}/images/about/shadow_icon1.png" alt=""></div>
-            <h6 class="section_sub_title">ABOUT BUILDERRINE CONSTRUCTION</h6>
+            <h6 class="section_sub_title">ABOUT {{ $app_settings->app_name ?? '' }} CONSTRUCTION</h6>
             <h1 class="section_title">Our Most Popular Projects</h1>
         </div>
         <div class="row g-0">
@@ -364,13 +364,13 @@ Home
                 <div class="col-lg-8">
                     <div class="banner_text">
                         <img src="{{ asset('frontend') }}/images/phone3.png" alt="">
-                        <h1>{{ $app_settings->app_name }} is proud to serve you 24/7. Just Call Us when you need</h1>
+                        <h1>{{ $app_settings->app_name ?? '' }} is proud to serve you 24/7. Just Call Us when you need</h1>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="banner_phone">
                         <h4>Call Us Anytime</h4>
-                        <span>{{ $app_settings->phone_1 }}</span>
+                        <span>{{ $app_settings->phone_1 ?? '' }}</span>
                     </div>
                 </div>
             </div>

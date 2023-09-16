@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\About;
 use App\Models\Backend\Project;
 use App\Models\Backend\Service;
 use App\Models\Setting;
@@ -18,11 +19,15 @@ class HomeController extends Controller
         $highrise = Project::where('is_popular', '1')->where('project_type', '2')->orderby('id', 'desc')->limit(5)->get();
         $business = Project::where('is_popular', '1')->where('project_type', '3')->orderby('id', 'desc')->limit(5)->get();
         $app_settings = Setting::findOrFail(1);
-        return view('frontend.pages.index', compact('residential', 'commercial', 'highrise', 'business', 'all', 'app_settings'));
+        $about = About::findOrFail(1);
+        $completed_project = Project::where('project_status','=','2')->count();
+        $ongoing_project = Project::where('project_status','=','0')->count();
+        return view('frontend.pages.index', compact('residential', 'commercial', 'highrise', 'business', 'all', 'app_settings','about','completed_project','ongoing_project'));
     }
     public function contact()
     {
-        return view('frontend.pages.contact');
+        $app_settings = Setting::findOrFail(1);
+        return view('frontend.pages.contact',compact('app_settings'));
     }
     public function projects()
     {
@@ -50,7 +55,9 @@ class HomeController extends Controller
     }
     public function about()
     {
-        return view('frontend.pages.about');
+        $about = About::findOrFail(1);
+        $app_settings = Setting::findOrFail(1);
+        return view('frontend.pages.about',compact('about','app_settings'));
     }
     public function services()
     {
@@ -68,5 +75,13 @@ class HomeController extends Controller
     public function servicesDetails()
     {
         return view('frontend.pages.service_details');
+    }
+
+    public function blogs(){
+        return view('frontend.pages.blogs');
+    }
+
+    public function blogDetails(Request $request,$id){
+        return view('frontend.pages.blog_details');
     }
 }

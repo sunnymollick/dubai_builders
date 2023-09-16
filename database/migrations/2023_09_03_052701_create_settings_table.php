@@ -16,7 +16,9 @@ return new class extends Migration
             $table->string('app_name')->nullable();
             $table->string('app_logo')->nullable();
             $table->string('address')->nullable();
+            $table->string('address_secondary')->nullable();
             $table->string('email')->nullable();
+            $table->string('email_secondary')->nullable();
             $table->string('phone_1')->nullable();
             $table->string('phone_2')->nullable();
             $table->string('opening_time')->nullable();
@@ -26,7 +28,7 @@ return new class extends Migration
             $table->string('instragram_link')->nullable();
             $table->string('linkedin_link')->nullable();
             $table->string('footer_text')->nullable();
-            $table->string('maps')->nullable();
+            $table->text('maps')->nullable();
             $table->timestamps();
         });
     }

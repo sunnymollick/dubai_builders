@@ -1,5 +1,6 @@
 @php
     $app_settings = DB::table('settings')->where('id',1)->first();
+    $about = DB::table('abouts')->where('id',1)->first();
 @endphp
 <footer class="footer">
     <div class="footer_above">
@@ -8,17 +9,17 @@
                 <div class="col-lg-4 col-md-6 col-sm-12">
                     <div class="footer_widget footer_widget_padding">
                         <h4 class="widget_title">
-                            About {{ $app_settings->app_name }}
+                            About {{ $app_settings->app_name ?? '' }}
                         </h4>
-                        <p>Who are looking for Extraordinary projects need vision & precision to be exceptional. They need Builderrine Construction Services.</p>
-                        <div class="subscribe">
+                        <p>{{ $about->short_description ?? '' }}</p>
+                        {{-- <div class="subscribe">
                             <form class="form-inline">
                                 <div class="input-group mb-2 mr-sm-2">
                                     <input type="email" class="form-control" placeholder="Email Address">
                                 </div>
                                 <button type="submit" class="btn">Subscribe</button>
                             </form>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-6 col-sm-12">
@@ -59,17 +60,18 @@
                             Address
                         </h4>
                         <ul>
-                            <li><i class="fa fa-map-marker" aria-hidden="true"></i><span>{{ $app_settings->address }}</span></li>
-                            <li><i class="fa fa-envelope" aria-hidden="true"></i><span>{{ $app_settings->email }}</span></li>
-                            <li><i class="fa fa-clock-o" aria-hidden="true"></i><span>{{ $app_settings->opening_time }}</span></li>
+                            <li><i class="fa fa-map-marker" aria-hidden="true"></i><span>{{ $app_settings->address ?? '' }}</span></li>
+                            <li><i class="fa fa-map-marker" aria-hidden="true"></i><span>{{ $app_settings->address_secondary ?? '' }}</span></li>
+                            <li><i class="fa fa-envelope" aria-hidden="true"></i><span>{{ $app_settings->email ?? '' }}</span></li>
+                            <li><i class="fa fa-clock-o" aria-hidden="true"></i><span>{{ $app_settings->opening_time ?? '' }}</span></li>
                         </ul>
                         <div class="side_footer_social">
                             <ul class="bottom_social">
-                                <li class="facebook"><a href="{{ $app_settings->fb_link }}"><i class="ion-social-facebook"></i></a></li>
-                                <li class="twitter"><a href="{{ $app_settings->twitter_link }}"><i class="ion-social-twitter"></i></a></li>
-                                <li class="dribbble"><a href="{{ $app_settings->dribble_link }}"><i class="ion-social-dribbble-outline"></i></a></li>
-                                <li class="instagram"><a href="{{ $app_settings->instragram_link }}"><i class="ion-social-instagram-outline"></i></a></li>
-                                <li class="linkedin"><a href="{{ $app_settings->linkedin_link }}"><i class="ion-social-linkedin-outline"></i></a></li>
+                                <li class="facebook"><a href="{{ $app_settings->fb_link ?? '' }}"><i class="ion-social-facebook"></i></a></li>
+                                <li class="twitter"><a href="{{ $app_settings->twitter_link ?? '' }}"><i class="ion-social-twitter"></i></a></li>
+                                <li class="dribbble"><a href="{{ $app_settings->dribble_link ?? '' }}"><i class="ion-social-dribbble-outline"></i></a></li>
+                                <li class="instagram"><a href="{{ $app_settings->instragram_link ?? '' }}"><i class="ion-social-instagram-outline"></i></a></li>
+                                <li class="linkedin"><a href="{{ $app_settings->linkedin_link ?? '' }}"><i class="ion-social-linkedin-outline"></i></a></li>
                             </ul>
                         </div>
                     </div>
@@ -81,10 +83,10 @@
         <div class="container">
             <div class="footer_bottom_inner">
                 <div class="logo">
-                    <a href="index.html"><img src="{{ asset('frontend') }}/images/logo_foot.svg" alt="Logo"></a>
+                    <a href="index.html"><img src="{{ asset($app_settings->app_logo) }}" alt="Logo"></a>
                 </div>
                 <div class="copyright">
-                    <p>{{ $app_settings->footer_text }}</p>
+                    <p>{{ $app_settings->footer_text ?? '' }}</p>
                 </div>
                 <div class="footer_nav_bottom">
                     <ul>
@@ -103,11 +105,11 @@
 <div class="slide_navi">
     <div class="side_footer_social">
         <ul class="bottom_social">
-            <li class="facebook"><a href="{{ $app_settings->fb_link }}"><i class="ion-social-facebook"></i></a></li>
-            <li class="twitter"><a href="{{ $app_settings->twitter_link }}"><i class="ion-social-twitter"></i></a></li>
-            <li class="dribbble"><a href="{{ $app_settings->dribble_link }}"><i class="ion-social-dribbble-outline"></i></a></li>
-            <li class="instagram"><a href="{{ $app_settings->instragram_link }}"><i class="ion-social-instagram-outline"></i></a></li>
-            <li class="linkedin"><a href="{{ $app_settings->linkedin_link }}"><i class="ion-social-linkedin-outline"></i></a></li>
+            <li class="facebook"><a href="{{ $app_settings->fb_link ?? '' }}"><i class="ion-social-facebook"></i></a></li>
+            <li class="twitter"><a href="{{ $app_settings->twitter_link ?? '' }}"><i class="ion-social-twitter"></i></a></li>
+            <li class="dribbble"><a href="{{ $app_settings->dribble_link ?? '' }}"><i class="ion-social-dribbble-outline"></i></a></li>
+            <li class="instagram"><a href="{{ $app_settings->instragram_link ?? '' }}"><i class="ion-social-instagram-outline"></i></a></li>
+            <li class="linkedin"><a href="{{ $app_settings->linkedin_link ?? '' }}"><i class="ion-social-linkedin-outline"></i></a></li>
         </ul>
     </div>
 </div>

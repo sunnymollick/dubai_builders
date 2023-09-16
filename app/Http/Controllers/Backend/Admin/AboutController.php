@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Backend\Admin;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\About;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
@@ -39,8 +41,11 @@ class AboutController extends Controller
                 ->addColumn('title', function ($about) {
                     return Str::of($about->title)->limit(50);;
                 })
+                ->addColumn('slug', function ($about) {
+                    return Str::of($about->slug)->limit(50);;
+                })
                 ->addColumn('hero_image', function ($about) {
-                    return "<img src='" . asset($about->hero_image) . "' class='img-thumbnail' width='50px'>";
+                    return "<img src='" . asset($about->hero_image) . "' class='img-thumbnail' width='100px'>";
                 })
                 ->rawColumns(['action','hero_image'])
                 ->addIndexColumn()
@@ -69,9 +74,14 @@ class AboutController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(About $about,Request $request)
     {
-        //
+        if ($request->ajax()) {
+            $view = View::make('backend.pages.about.show', compact('about'))->render();
+            return response()->json(['html' => $view]);
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
     }
 
     /**
@@ -92,7 +102,57 @@ class AboutController extends Controller
      */
     public function update(Request $request, About $about)
     {
-        
+        if ($request->ajax()) {
+
+            $about = About::findOrFail($about->id);
+            $hero_image = $about->hero_image;
+            $about_image = $about->about_image;
+
+            $rules = [
+                'title' => 'required',
+                'description' => 'required',
+                'hero_image' => 'image|mimes:jpeg,png,jpg',
+                'about_image' => 'image|mimes:jpeg,png,jpg',
+            ];
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) {
+                return response()->json(['type' => 'error', 'errors' => $validator->getMessageBag()->toArray()]);
+            } else {
+
+                if ($request->hasFile('hero_image')) {
+                    $hero_image = $request->file('hero_image');
+                    $about->hero_image =  Helper::saveImage($hero_image, 1170 , 663, 'about');
+                    if (!empty($about->hero_image)) {
+                        unlink($about->hero_image);
+                    }
+                }
+
+                if ($request->hasFile('about_image')) {
+                    $about_image = $request->file('about_image');
+                    $about->about_image =  Helper::saveImage($about_image, 512  , 652 , 'about');
+                    if (!empty($about->about_image)) {
+                        unlink($about->about_image);
+                    }
+                }
+
+                $about->title = $request->input('title');
+                $about->slug = $request->input('slug');
+                $about->description = $request->input('description');
+                $about->short_description = $request->input('short_description');
+                $about->our_mission = $request->input('our_mission');
+                $about->our_vision = $request->input('our_vision');
+                $about->our_builders = $request->input('our_builders');
+                $about->experience_year = $request->input('experience_year');
+                $about->created_at = Carbon::now();
+                $about->updated_at = Carbon::now();
+                $about->save();
+
+                return response()->json(['type' => 'success', 'message' => "Successfully Updated"]);
+            }
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
     }
 
     /**

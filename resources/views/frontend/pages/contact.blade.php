@@ -8,7 +8,7 @@ Contact
     <div class="page_header_content">
         <div class="container">
             <ul class="breadcrumb">
-                <li><a href="index.html">Home</a></li>
+                <li><a href="{{ url('/') }}">Home</a></li>
                 <li class="active">Contact Us</li>
             </ul>
             <h2 class="heading">Contact Us</h2>
@@ -35,8 +35,8 @@ Contact
                         </div>
                         <div class="info_body">
                             <h5>Phone No</h5>
-                            <h6>+33 987 654 321</h6>
-                            <h6>+33 123 456 789</h6>
+                            <h6>{{ $app_settings->phone_1 ?? ''}}</h6>
+                            <h6>{{ $app_settings->phone_2 ?? ''}}</h6>
                         </div>
                     </div>
                     <div class="communication" data-aos="fade-up" data-aos-duration="1000">
@@ -45,8 +45,8 @@ Contact
                         </div>
                         <div class="info_body">
                             <h5>Email Address</h5>
-                            <h6>builderrine@gmail.com</h6>
-                            <h6>care@builderrine.com</h6>
+                            <h6>{{ $app_settings->email ?? ''}}</h6>
+                            <h6>{{ $app_settings->email_secondary ?? '' }}</h6>
                         </div>
                     </div>
                     <div class="communication" data-aos="fade-up" data-aos-duration="1300">
@@ -55,7 +55,8 @@ Contact
                         </div>
                         <div class="info_body">
                             <h5>Office Address</h5>
-                            <h6>Gr. Benjamin Street 609<br /> Florida, USA</h6>
+                            {{-- <h6>Gr. Benjamin Street 609<br /> Florida, USA</h6> --}}
+                            <h6>{{ $app_settings->address ?? '' }}</h6>
                         </div>
                     </div>
                 </div>
@@ -121,7 +122,7 @@ Contact
                 <div class="col-lg-4">
                     <div class="banner_phone">
                         <h4>Call Us Anytime</h4>
-                        <span>(+123)987.654.32</span>
+                        <span>{{ $app_settings->phone_1 ?? '' }}</span>
                     </div>
                 </div>
             </div>
