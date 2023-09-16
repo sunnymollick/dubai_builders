@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Backend\Contact;
 use App\Models\Backend\Project;
 use App\Models\Backend\Team;
 use App\Models\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
 {
@@ -23,6 +27,42 @@ class HomeController extends Controller
     public function contact()
     {
         return view('frontend.pages.contact');
+    }
+    public function storeContact(Request $request)
+    {
+
+            $rules = [
+                'name' => 'required',
+                'subject' => 'required',
+                'email' => 'required',
+                'message' => 'required',
+                'phone' => 'required',
+            ];
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json([
+                    'type' => 'error',
+                    'errors' => $validator->getMessageBag()->toArray()
+                ]);
+            } else {
+                DB::beginTransaction();
+                try {
+                    // $client_name = Client::where('id', $request->client_id)->first();
+                    $contact = new Contact();
+                    $contact->name = $request->input('name');
+                    $contact->subject = $request->input('subject');
+                    $contact->email = $request->input('email');
+                    $contact->phone = $request->input('phone');
+                    $contact->message = $request->input('message');
+                    $contact->save(); //
+                    DB::commit();
+                    return Redirect::back()->with('msg', 'Message sent successfully');
+                } catch (\Exception $e) {
+                    DB::rollback();
+                    dd($e->getMessage());
+                    return response()->json(['type' => 'error', 'message' => "Please Fill With Correct data"]);
+                }
+            }
     }
     public function projects()
     {

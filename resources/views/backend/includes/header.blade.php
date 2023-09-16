@@ -20,8 +20,7 @@
         </div>
         <div class="search-bar flex-grow-1">
             <div class="position-relative search-bar-box">
-                <input type="text" class="form-control search-control" placeholder="Type to search..."> <span
-                    class="position-absolute top-50 search-show translate-middle-y"><i class='bx bx-search'></i></span>
+                <input type="text" class="form-control search-control" placeholder="Type to search..."> <span class="position-absolute top-50 search-show translate-middle-y"><i class='bx bx-search'></i></span>
                 <span class="position-absolute top-50 search-close translate-middle-y"><i class='bx bx-x'></i></span>
             </div>
         </div>
@@ -32,8 +31,7 @@
                     </a>
                 </li>
                 <li class="nav-item dropdown dropdown-large">
-                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false"> <i class='bx bx-category'></i>
+                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> <i class='bx bx-category'></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end">
                         <div class="row row-cols-3 g-3 p-3">
@@ -53,8 +51,7 @@
                                 <div class="app-title">Tasks</div>
                             </div>
                             <div class="col text-center">
-                                <div class="app-box mx-auto bg-gradient-kyoto text-dark"><i
-                                        class='bx bx-notification'></i>
+                                <div class="app-box mx-auto bg-gradient-kyoto text-dark"><i class='bx bx-notification'></i>
                                 </div>
                                 <div class="app-title">Feeds</div>
                             </div>
@@ -64,8 +61,7 @@
                                 <div class="app-title">Files</div>
                             </div>
                             <div class="col text-center">
-                                <div class="app-box mx-auto bg-gradient-moonlit text-white"><i
-                                        class='bx bx-filter-alt'></i>
+                                <div class="app-box mx-auto bg-gradient-moonlit text-white"><i class='bx bx-filter-alt'></i>
                                 </div>
                                 <div class="app-title">Alerts</div>
                             </div>
@@ -73,8 +69,7 @@
                     </div>
                 </li>
                 <li class="nav-item dropdown dropdown-large">
-                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="#"
-                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <span class="alert-count">7</span>
                         <i class='bx bx-bell'></i>
                     </a>
@@ -144,8 +139,7 @@
                             </a>
                             <a class="dropdown-item" href="javascript:;">
                                 <div class="d-flex align-items-center">
-                                    <div class="notify bg-light-danger text-danger"><i
-                                            class="bx bx-message-detail"></i>
+                                    <div class="notify bg-light-danger text-danger"><i class="bx bx-message-detail"></i>
                                     </div>
                                     <div class="flex-grow-1">
                                         <h6 class="msg-name">New Comments <span class="msg-time float-end">4 hrs
@@ -156,8 +150,7 @@
                             </a>
                             <a class="dropdown-item" href="javascript:;">
                                 <div class="d-flex align-items-center">
-                                    <div class="notify bg-light-success text-success"><i
-                                            class='bx bx-check-square'></i>
+                                    <div class="notify bg-light-success text-success"><i class='bx bx-check-square'></i>
                                     </div>
                                     <div class="flex-grow-1">
                                         <h6 class="msg-name">Your item is shipped <span class="msg-time float-end">5
@@ -196,8 +189,7 @@
                     </div>
                 </li>
                 <li class="nav-item dropdown dropdown-large">
-                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="#"
-                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" id="message-list" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <span class="alert-count">8</span>
                         <i class='bx bx-comment'></i>
                     </a>
@@ -208,152 +200,10 @@
                                 <p class="msg-header-clear ms-auto">Marks all as read</p>
                             </div>
                         </a>
-                        <div class="header-message-list">
-                            <a class="dropdown-item" href="javascript:;">
-                                <div class="d-flex align-items-center">
-                                    <div class="user-online">
-                                        <img src="{{asset('backend')}}/images/avatars/avatar-1.png" class="msg-avatar"
-                                            alt="user avatar">
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h6 class="msg-name">Daisy Anderson <span class="msg-time float-end">5 sec
-                                                ago</span></h6>
-                                        <p class="msg-info">The standard chunk of lorem</p>
-                                    </div>
-                                </div>
-                            </a>
-                            <a class="dropdown-item" href="javascript:;">
-                                <div class="d-flex align-items-center">
-                                    <div class="user-online">
-                                        <img src="{{asset('backend')}}/images/avatars/avatar-2.png" class="msg-avatar"
-                                            alt="user avatar">
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h6 class="msg-name">Althea Cabardo <span class="msg-time float-end">14
-                                                sec ago</span></h6>
-                                        <p class="msg-info">Many desktop publishing packages</p>
-                                    </div>
-                                </div>
-                            </a>
-                            <a class="dropdown-item" href="javascript:;">
-                                <div class="d-flex align-items-center">
-                                    <div class="user-online">
-                                        <img src="{{asset('backend')}}/images/avatars/avatar-3.png" class="msg-avatar"
-                                            alt="user avatar">
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h6 class="msg-name">Oscar Garner <span class="msg-time float-end">8 min
-                                                ago</span></h6>
-                                        <p class="msg-info">Various versions have evolved over</p>
-                                    </div>
-                                </div>
-                            </a>
-                            <a class="dropdown-item" href="javascript:;">
-                                <div class="d-flex align-items-center">
-                                    <div class="user-online">
-                                        <img src="{{asset('backend')}}/images/avatars/avatar-4.png" class="msg-avatar"
-                                            alt="user avatar">
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h6 class="msg-name">Katherine Pechon <span class="msg-time float-end">15
-                                                min ago</span></h6>
-                                        <p class="msg-info">Making this the first true generator</p>
-                                    </div>
-                                </div>
-                            </a>
-                            <a class="dropdown-item" href="javascript:;">
-                                <div class="d-flex align-items-center">
-                                    <div class="user-online">
-                                        <img src="{{asset('backend')}}/images/avatars/avatar-5.png" class="msg-avatar"
-                                            alt="user avatar">
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h6 class="msg-name">Amelia Doe <span class="msg-time float-end">22 min
-                                                ago</span></h6>
-                                        <p class="msg-info">Duis aute irure dolor in reprehenderit</p>
-                                    </div>
-                                </div>
-                            </a>
-                            <a class="dropdown-item" href="javascript:;">
-                                <div class="d-flex align-items-center">
-                                    <div class="user-online">
-                                        <img src="{{asset('backend')}}/images/avatars/avatar-6.png" class="msg-avatar"
-                                            alt="user avatar">
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h6 class="msg-name">Cristina Jhons <span class="msg-time float-end">2 hrs
-                                                ago</span></h6>
-                                        <p class="msg-info">The passage is attributed to an unknown</p>
-                                    </div>
-                                </div>
-                            </a>
-                            <a class="dropdown-item" href="javascript:;">
-                                <div class="d-flex align-items-center">
-                                    <div class="user-online">
-                                        <img src="{{asset('backend')}}/images/avatars/avatar-7.png" class="msg-avatar"
-                                            alt="user avatar">
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h6 class="msg-name">James Caviness <span class="msg-time float-end">4 hrs
-                                                ago</span></h6>
-                                        <p class="msg-info">The point of using Lorem</p>
-                                    </div>
-                                </div>
-                            </a>
-                            <a class="dropdown-item" href="javascript:;">
-                                <div class="d-flex align-items-center">
-                                    <div class="user-online">
-                                        <img src="{{asset('backend')}}/images/avatars/avatar-8.png" class="msg-avatar"
-                                            alt="user avatar">
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h6 class="msg-name">Peter Costanzo <span class="msg-time float-end">6 hrs
-                                                ago</span></h6>
-                                        <p class="msg-info">It was popularised in the 1960s</p>
-                                    </div>
-                                </div>
-                            </a>
-                            <a class="dropdown-item" href="javascript:;">
-                                <div class="d-flex align-items-center">
-                                    <div class="user-online">
-                                        <img src="{{asset('backend')}}/images/avatars/avatar-9.png" class="msg-avatar"
-                                            alt="user avatar">
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h6 class="msg-name">David Buckley <span class="msg-time float-end">2 hrs
-                                                ago</span></h6>
-                                        <p class="msg-info">Various versions have evolved over</p>
-                                    </div>
-                                </div>
-                            </a>
-                            <a class="dropdown-item" href="javascript:;">
-                                <div class="d-flex align-items-center">
-                                    <div class="user-online">
-                                        <img src="{{asset('backend')}}/images/avatars/avatar-10.png" class="msg-avatar"
-                                            alt="user avatar">
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h6 class="msg-name">Thomas Wheeler <span class="msg-time float-end">2 days
-                                                ago</span></h6>
-                                        <p class="msg-info">If you are going to use a passage</p>
-                                    </div>
-                                </div>
-                            </a>
-                            <a class="dropdown-item" href="javascript:;">
-                                <div class="d-flex align-items-center">
-                                    <div class="user-online">
-                                        <img src="{{asset('backend')}}/images/avatars/avatar-11.png" class="msg-avatar"
-                                            alt="user avatar">
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h6 class="msg-name">Johnny Seitz <span class="msg-time float-end">5 days
-                                                ago</span></h6>
-                                        <p class="msg-info">All the Lorem Ipsum generators</p>
-                                    </div>
-                                </div>
-                            </a>
+                        <div class="header-message-list" id="messages">
+
                         </div>
-                        <a href="javascript:;">
+                        <a href="{{route('admin.messages.index')}}">
                             <div class="text-center msg-footer">View All Messages</div>
                         </a>
                     </div>
@@ -361,11 +211,10 @@
             </ul>
         </div>
         @php
-            $auth = DB::table('users')->where('id',Session::get("adminId"))->first();
+        $auth = DB::table('users')->where('id',Session::get("adminId"))->first();
         @endphp
         <div class="user-box dropdown">
-            <a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#"
-                role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="{{asset('backend')}}/images/avatars/avatar-2.png" class="user-img" alt="user avatar">
                 <div class="user-info ps-3">
                     <p class="user-name mb-0">{{ $auth->name ?? 'Admin Name' }}</p>
@@ -377,22 +226,63 @@
                 </li>
                 <li><a class="dropdown-item" href="javascript:;"><i class="bx bx-cog"></i><span>Settings</span></a>
                 </li>
-                <li><a class="dropdown-item" href="javascript:;"><i
-                            class='bx bx-home-circle'></i><span>Dashboard</span></a>
+                <li><a class="dropdown-item" href="javascript:;"><i class='bx bx-home-circle'></i><span>Dashboard</span></a>
                 </li>
-                <li><a class="dropdown-item" href="javascript:;"><i
-                            class='bx bx-dollar-circle'></i><span>Earnings</span></a>
+                <li><a class="dropdown-item" href="javascript:;"><i class='bx bx-dollar-circle'></i><span>Earnings</span></a>
                 </li>
-                <li><a class="dropdown-item" href="javascript:;"><i
-                            class='bx bx-download'></i><span>Downloads</span></a>
+                <li><a class="dropdown-item" href="javascript:;"><i class='bx bx-download'></i><span>Downloads</span></a>
                 </li>
                 <li>
                     <div class="dropdown-divider mb-0"></div>
                 </li>
-                <li><a class="dropdown-item" href="javascript:;"><i
-                            class='bx bx-log-out-circle'></i><span>Logout</span></a>
+                <li><a class="dropdown-item" href="javascript:;"><i class='bx bx-log-out-circle'></i><span>Logout</span></a>
                 </li>
             </ul>
         </div>
     </nav>
 </div>
+
+<!-- Include jQuery if not already included -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+<!-- JavaScript to fetch messages -->
+<!-- Include Moment.js from a CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#message-list').on('click', function(e) {
+            e.preventDefault();
+            $('#messages').html("");
+            // Make an AJAX GET request to fetch messages
+            $.ajax({
+                url: "{{ route('admin.fetch.messages') }}",
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    // Handle the retrieved messages data here
+                    console.log(data);
+                    $.each(data, function(index, message) {
+
+                        // slice the message
+                        var slicedMessage = message.message.length > 20 ? message.message.slice(0, 20) + '...' : message.message;
+
+                        // Calculate the time difference
+                        var createdAt = moment(message.created_at);
+                        var now = moment();
+                        var timeAgo = createdAt.from(now);
+                        $('#messages').append('<a class="dropdown-item" href="javascript:;"><div class="d-flex align-items-center"><div class="user-online"><img src="{{asset("backend")}}/images/avatars/avatar-1.png" class="msg-avatar" alt="user avatar"></div><div class="flex-grow-1"><h6 class="msg-name">' + message.name + '<span class="msg-time float-end">' + timeAgo + '</span></h6><p class="msg-info">' + slicedMessage + '</p></div></div></a>')
+
+                    });
+
+                    // You can update the UI to display the messages as needed
+                    // For example, you can open a modal or show a dropdown with the messages.
+                },
+                error: function(error) {
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>

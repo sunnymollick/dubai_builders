@@ -46,7 +46,9 @@ Our Team
                             <li>
                         </ul>
                         <h2 class="speaker-title-simple">
-                            <a class="show_team_details" style="color: var(--second-color);" data-toggle="modal" data-bs-toggle="modal" data-bs-target="#UserDetailsModal" data-name="{{ $team->first_name }}" data-designation="{{ $team->designation }}" data-email="{{ $team->email }}" data-phone="{{ $team->phone }}" data-image="{{ $team->image }}" data-fb_link="{{ $team->fb_link }}" data-x_link="{{ $team->x_link }}" data-linkedin_link="{{ $team->linkedin_link }}" data-description="{{ $team->description }}">{{$team->name}}</a>
+                            <button type="button" value="{{$team->id}}" class="btn btn-primary py-3 px-4" id="modalView" data-toggle="modal" data-target="#exampleModalCenter">
+                                {{$team->name}}
+                            </button>
                         </h2>
                         <p>{{$team->designation}}</p>
                     </div>
@@ -66,55 +68,44 @@ Our Team
     </div>
 </div>
 
-<div class="modal fade" id="UserDetailsModal" tabindex="-1" aria-labelledby="UserDetailsModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="UserDetailsModalLabel">User Details</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p style="color: red;"><strong>Name: </strong><span class="name"></span></p>
-                <p><strong>Designation: </strong><span class="designation"></span></p>
-                <p><strong>Phone: </strong><span class="phone"></span></p>
-                <p><strong>Email: </strong><span class="email"></span></p>
-                <!-- <p><strong>Country: </strong><span class="country"></span></p>
-                                    <p><strong>State: </strong><span class="state"></span></p>
-                                    <p><strong>City: </strong><span class="city"></span></p> -->
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 @endsection
 
 
 @section('scripts')
-<script type="text/javascript">
-    $(document).on('click', '.show_team_details', function(e) {
-        let name = $(this).data('name');
-        let designation = $(this).data('designation');
-        let phone = $(this).data('phone');
-        let email = $(this).data('email');
-        let image = $(this).data('image');
-        let fb_link = $(this).data('fb_link');
-        let description = $(this).data('description');
-        let x_link = $(this).data('x_link');
-        let linkedin_link = $(this).data('linkedin_link');
+<script>
+    $(document).ready(function() {
 
-        console.log(designation);
-        $('.name').text(name);
-        $('.designation').text(designation);
-        $('.phone').text(phone);
-        $('.email').text(email);
-        $('.image').text(country);
-        $('.x_link').text(x_link);
-        $('.linkedin_link').text(linkedin_link);
-        $('.fb_link').text(fb_link);
-        $('.description').text(description);
+        $('#modalView').click(function(e) {
+            e.preventDefault();
+            var idType = $('#modalView').val();
+            // $.ajax({
+            //     url: "{{url('frontend/team/fetch-team-details')}}",
+            //     type: "POST",
+            //     data: {
+            //         type_id: idType,
+            //         _token: '{{csrf_token()}}'
+            //     },
+            //     dataType: 'json',
+            //     success: function(result) {
+            //         $('#designation-id').html('<option disabled selected>Select Designation</option>');
+            //         $.each(result.designations, function(key, value) {
+            //             $("#designation-id").append('<option value="' + value
+            //                 .id + '">' + value.title + '</option>');
+            //         });
+
+            //         // console.log(result.designations)
+            //     }
+            // });
+            alert($(this).attr("value"));
+        });
+
+        /*------------------------------------------
+        --------------------------------------------
+        State Dropdown Change Event
+        --------------------------------------------
+        --------------------------------------------*/
+
     });
 </script>
 

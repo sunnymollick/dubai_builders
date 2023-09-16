@@ -17,7 +17,8 @@
 
 <script src="{{ asset('frontend/') }}/js/custom.js"></script>
 
-    <script src="{{asset('frontend/modal')}}/js/jquery.min.js"></script>
-    <script src="{{asset('frontend/modal')}}/js/popper.js"></script>
-    <script src="{{asset('frontend/modal')}}/js/bootstrap.min.js"></script>
-    <script src="{{asset('frontend/modal')}}/js/main.js"></script>
+<script src="{{asset('frontend/modal')}}/js/jquery.min.js"></script>
+<script src="{{asset('frontend/modal')}}/js/popper.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="{{asset('frontend/modal')}}/js/bootstrap.min.js"></script>
+<script src="{{asset('frontend/modal')}}/js/main.js"></script>

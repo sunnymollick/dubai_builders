@@ -15,3 +15,5 @@ Route::get('team/{id}', [HomeController::class, 'teamShow'])->name('team.show');
 Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
 Route::get('/services', [HomeController::class, 'services'])->name('services');
 Route::get('/services/details', [HomeController::class, 'servicesDetails'])->name('services.details');
+// Contact Routes
+Route::post('/contact/store', [HomeController::class, 'storeContact'])->name('contact.store');
