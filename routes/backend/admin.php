@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\Admin\AboutController;
+use App\Http\Controllers\Backend\Admin\CareerController;
 use App\Http\Controllers\Backend\Admin\DashboardController;
 use App\Http\Controllers\Backend\Admin\ProjectController;
 use App\Http\Controllers\Backend\Auth\LoginController;
@@ -39,3 +40,7 @@ Route::get('getAboutInfo', [AboutController::class, 'getAboutInfo']);
 
 //Auth Route
 Route::get('/logout', [LoginController::class, 'logout']);
+
+// Carrer route
+Route::resource('careers', CareerController::class);
+Route::get('allCareers', [CareerController::class, 'getAllCareers']);

@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Backend\Project;
 use App\Models\Backend\Client;
+use Exception;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -130,7 +131,7 @@ class ProjectController extends Controller
                     $project->save(); //
                     DB::commit();
                     return response()->json(['type' => 'success', 'message' => "Successfully Inserted"]);
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     DB::rollback();
                     dd($e->getMessage());
                     return response()->json(['type' => 'error', 'message' => "Please Fill With Correct data"]);

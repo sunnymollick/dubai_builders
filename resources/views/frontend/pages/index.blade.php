@@ -61,10 +61,10 @@
             <div class="row">
                 <div class="col">
                     <div class="owl_team owl-carousel owl-theme">
-                        
-                @foreach ($services as $s)
-                        <div class="item">
-                            <div class="team_construction">
+
+                        @foreach ($services as $s)
+                            <div class="item">
+                                <div class="team_construction">
                                     <div class="service_inner service_inner2 bg_3">
                                         <div class="service_content d-flex align-self-center">
                                             <div class="icon_img">
@@ -80,7 +80,7 @@
                                         </div>
                                     </div>
                                 </div>
-                        </div>
+                            </div>
                         @endforeach
                     </div>
                 </div>
@@ -235,27 +235,27 @@
                     <div class="grid grid-5">
                         <!-- @foreach ($all as $a)
     <div class="element-item all" id="tab-content-1">
-                                <div class="teambox">
-                                    <img src="{{ asset($a->thumbnail_image) }}" alt="">
-                                    <div class="teambox_inner">
-                                        <div class="team_social">
-                                            <div class="share"><i class="ion-android-share-alt"></i></div>
-                                            <ul>
-                                                <li class="facebook"><a href="#"><i class="ion-social-facebook"></i></a></li>
-                                                <li class="twitter"><a href="#"><i class="ion-social-twitter"></i></a></li>
-                                                <li class="instagram"><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
-                                                <li class="linkedin"><a href="#"><i class="ion-social-linkedin-outline"></i></a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="teambox_intro">
-                                            <div class="team_flex">
-                                                <h6>{{ $a->project_location }}</h6>
-                                                <h5><a href="project-details.html">{{ $a->project_title }}</a></h5>
+                                    <div class="teambox">
+                                        <img src="{{ asset($a->thumbnail_image) }}" alt="">
+                                        <div class="teambox_inner">
+                                            <div class="team_social">
+                                                <div class="share"><i class="ion-android-share-alt"></i></div>
+                                                <ul>
+                                                    <li class="facebook"><a href="#"><i class="ion-social-facebook"></i></a></li>
+                                                    <li class="twitter"><a href="#"><i class="ion-social-twitter"></i></a></li>
+                                                    <li class="instagram"><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
+                                                    <li class="linkedin"><a href="#"><i class="ion-social-linkedin-outline"></i></a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="teambox_intro">
+                                                <div class="team_flex">
+                                                    <h6>{{ $a->project_location }}</h6>
+                                                    <h5><a href="project-details.html">{{ $a->project_title }}</a></h5>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
     @endforeach -->
                         @foreach ($highrise as $hg)
                             <div class="element-item highrise" id="tab-content-2">
@@ -654,7 +654,7 @@
             <img src="{{ asset('frontend') }}/images/patner/new_patner/6.png" alt="">
         </div>
     </div>
-    <link rel="stylesheet" href="{{asset('frontend/css/custom.css')}}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/custom.css') }}">
 @endsection
 @section('scripts')
     <script src="{{ asset('frontend/') }}/js/funfacts.js"></script>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend\Admin;
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Backend\Service;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -123,7 +124,7 @@ class ServiceController extends Controller
                     $service->save(); //
                     DB::commit();
                     return response()->json(['type' => 'success', 'message' => "Successfully Inserted"]);
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     DB::rollback();
                     dd($e->getMessage());
                     return response()->json(['type' => 'error', 'message' => "Please Fill With Correct data"]);
@@ -166,7 +167,6 @@ class ServiceController extends Controller
      */
     public function update(Request $request, Service $service)
     {
-        // dd('hi');
         if ($request->ajax()) {
             $rules = [
                 'service_title' => 'required',
@@ -272,7 +272,7 @@ class ServiceController extends Controller
                     $service->save();
                     DB::commit();
                     return response()->json(['type' => 'success', 'message' => "Successfully Updated"]);
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     DB::rollback();
                     return response()->json(['type' => 'error', 'message' => "Please Fill With Correct data"]);
                 }

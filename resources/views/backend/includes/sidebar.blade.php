@@ -44,12 +44,25 @@
     </li>
     <li>
         <a href="javascript:;" class="has-arrow">
-            <div class="parent-icon"><i class='bx bx-spa'></i>
+            <div class="parent-icon"><i class='lni lni-construction-hammer'></i>
             </div>
             <div class="menu-title">Services</div>
         </a>
         <ul>
             <li> <a href="{{ route('admin.services.index') }}"><i class="bx bx-right-arrow-alt"></i>All Services</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="javascript:;" class="has-arrow">
+            <div class="parent-icon"><i class='lni lni-briefcase'></i>
+            </div>
+            <div class="menu-title">Career</div>
+        </a>
+        <ul>
+            <li> <a href="{{ route('admin.careers.index') }}"><i class="bx bx-right-arrow-alt"></i>Job Circular</a>
+            </li>
+            <li> <a href="{{ route('admin.careers.index') }}"><i class="bx bx-right-arrow-alt"></i>Job Circular</a>
             </li>
         </ul>
     </li>
