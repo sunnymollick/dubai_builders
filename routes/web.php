@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\Auth\LoginController;
+use App\Http\Controllers\Backend\MailController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,3 +44,4 @@ Route::group(['prefix' => 'admin_login'], function () {
     Route::get('login', [LoginController::class, 'index'])->name('admin.auth.login');
     Route::post('login', [LoginController::class, 'loginStore'])->name('admin.auth.login_store');
 });
+

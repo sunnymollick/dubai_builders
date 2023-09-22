@@ -70,7 +70,7 @@
                 </li>
                 <li class="nav-item dropdown dropdown-large">
                     <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <span class="alert-count">7</span>
+                        <!-- <span class="alert-count"></span> -->
                         <i class='bx bx-bell'></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end">
@@ -189,24 +189,10 @@
                     </div>
                 </li>
                 <li class="nav-item dropdown dropdown-large">
-                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" id="message-list" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <span class="alert-count">8</span>
+
+                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="{{route('admin.messages.index')}}">
                         <i class='bx bx-comment'></i>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-end">
-                        <a href="javascript:;">
-                            <div class="msg-header">
-                                <p class="msg-header-title">Messages</p>
-                                <p class="msg-header-clear ms-auto">Marks all as read</p>
-                            </div>
-                        </a>
-                        <div class="header-message-list" id="messages">
-
-                        </div>
-                        <a href="{{route('admin.messages.index')}}">
-                            <div class="text-center msg-footer">View All Messages</div>
-                        </a>
-                    </div>
                 </li>
             </ul>
         </div>
@@ -249,40 +235,3 @@
 <!-- JavaScript to fetch messages -->
 <!-- Include Moment.js from a CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-
-<script>
-    $(document).ready(function() {
-        $('#message-list').on('click', function(e) {
-            e.preventDefault();
-            $('#messages').html("");
-            // Make an AJAX GET request to fetch messages
-            $.ajax({
-                url: "{{ route('admin.fetch.messages') }}",
-                type: 'GET',
-                dataType: 'json',
-                success: function(data) {
-                    // Handle the retrieved messages data here
-                    console.log(data);
-                    $.each(data, function(index, message) {
-
-                        // slice the message
-                        var slicedMessage = message.message.length > 20 ? message.message.slice(0, 20) + '...' : message.message;
-
-                        // Calculate the time difference
-                        var createdAt = moment(message.created_at);
-                        var now = moment();
-                        var timeAgo = createdAt.from(now);
-                        $('#messages').append('<a class="dropdown-item" href="javascript:;"><div class="d-flex align-items-center"><div class="user-online"><img src="{{asset("backend")}}/images/avatars/avatar-1.png" class="msg-avatar" alt="user avatar"></div><div class="flex-grow-1"><h6 class="msg-name">' + message.name + '<span class="msg-time float-end">' + timeAgo + '</span></h6><p class="msg-info">' + slicedMessage + '</p></div></div></a>')
-
-                    });
-
-                    // You can update the UI to display the messages as needed
-                    // For example, you can open a modal or show a dropdown with the messages.
-                },
-                error: function(error) {
-                    console.error(error);
-                }
-            });
-        });
-    });
-</script>
