@@ -20,241 +20,70 @@ Blogs
     <div class="container">
         <div class="blog_grid">
             <div class="row">
+                @foreach ($blogs as $blog)
+                <?php
+                // Convert the timestamp string to a DateTime object
+                $timestamp_obj = new DateTime($blog->created_at);
+                // Extract the month and day
+                $month = $timestamp_obj->format("F");  // Full month name
+                $day = $timestamp_obj->format("j");
+                ?>
                 <div class="col-lg-4 col-md-6">
                     <article class="blog_post">
                         <div class="post_img">
-                            <a href="blog-1.html"><img src="{{ asset('frontend') }}/images/blog/b6.png" alt="img"></a>
+                            <a href="{{ url('blog-details/'.$blog->id) }}"><img src="{{ asset($blog->thumbnail_image) }}" alt="img"></a>
                             <div class="calendar">
-                                <a href="#"><span class="date">30</span><br>May</a>
+                                <a href="{{ url('blog-details/'.$blog->id) }}"><span class="date">{{ $day }}</span><br>{{ $month }}</a>
                             </div>
                         </div>
                         <div class="post_content">
                             <div class="post_header">
                                 <h3 class="post_title">
-                                    <a href="blog-details.html">Diversity in Building Celebrated by Builderrine</a>
+                                    <a href="blog-details.html">{{ $blog->title }}</a>
                                 </h3>
                             </div>
                             <div class="post_intro">
-                                <p>Builderrine will connect with 10000 people from 90 companies who work on its’ projects each day..</p>
+                                <p>{{ Str::limit($blog->blog_description, 100) }}</p>
                             </div>
                             <div class="post_footer">
                                 <div class="read_more">
-                                    <a href="blog-details.html"><span>Read Article</span></a>
+                                    <a href="{{ url('blog-details/'.$blog->id) }}"><span>Read Article</span></a>
                                 </div>
                             </div>
                         </div>
                     </article>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                    <article class="blog_post">
-                        <div class="post_img">
-                            <a href="blog-1.html"><img src="{{ asset('frontend') }}/images/blog/b7.png" alt="img"></a>
-                            <div class="calendar">
-                                <a href="#"><span class="date">30</span><br>May</a>
-                            </div>
-                        </div>
-                        <div class="post_content">
-                            <div class="post_header">
-                                <h3 class="post_title">
-                                    <a href="blog-details.html">Company Receives Recognition for Excellence</a>
-                                </h3>
-                            </div>
-                            <div class="post_intro">
-                                <p>The construction industry has the capacity to absorb more people into the workforce...</p>
-                            </div>
-                            <div class="post_footer">
-                                <div class="read_more">
-                                    <a href="blog-details.html"><span>Read Article</span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <article class="blog_post">
-                        <div class="post_img">
-                            <a href="blog-1.html"><img src="{{ asset('frontend') }}/images/blog/b8.png" alt="img"></a>
-                            <div class="calendar">
-                                <a href="#"><span class="date">30</span><br>May</a>
-                            </div>
-                        </div>
-                        <div class="post_content">
-                            <div class="post_header">
-                                <h3 class="post_title">
-                                    <a href="blog-details.html">Our firm is built to tackle projects like these</a>
-                                </h3>
-                            </div>
-                            <div class="post_intro">
-                                <p>We offer construction service to industrial, commercial, reside ntial & automotive...</p>
-                            </div>
-                            <div class="post_footer">
-                                <div class="read_more">
-                                    <a href="blog-details.html"><span>Read Article</span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <article class="blog_post">
-                        <div class="post_img">
-                            <a href="blog-1.html"><img src="{{ asset('frontend') }}/images/blog/bg-4.png" alt="img"></a>
-                            <div class="calendar">
-                                <a href="#"><span class="date">30</span><br>May</a>
-                            </div>
-                        </div>
-                        <div class="post_content">
-                            <div class="post_header">
-                                <h3 class="post_title">
-                                    <a href="blog-details.html">Completes Work on Two Projects in Georgia</a>
-                                </h3>
-                            </div>
-                            <div class="post_intro">
-                                <p>The construction industry has the capacity to absorb more people into the workforce...</p>
-                            </div>
-                            <div class="post_footer">
-                                <div class="read_more">
-                                    <a href="blog-details.html"><span>Read Article</span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <article class="blog_post">
-                        <div class="post_img">
-                            <a href="blog-1.html"><img src="{{ asset('frontend') }}/images/blog/bg-3.png" alt="img"></a>
-                            <div class="calendar">
-                                <a href="#"><span class="date">30</span><br>May</a>
-                            </div>
-                        </div>
-                        <div class="post_content">
-                            <div class="post_header">
-                                <h3 class="post_title">
-                                    <a href="blog-details.html">Action to maintain a safe work environment
-                                    </a>
-                                </h3>
-                            </div>
-                            <div class="post_intro">
-                                <p>The construction industry has the capacity to absorb more people into the workforce...</p>
-                            </div>
-                            <div class="post_footer">
-                                <div class="read_more">
-                                    <a href="blog-details.html"><span>Read Article</span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <article class="blog_post">
-                        <div class="post_img">
-                            <a href="blog-1.html"><img src="{{ asset('frontend') }}/images/blog/bg-5.png" alt="img"></a>
-                            <div class="calendar">
-                                <a href="#"><span class="date">30</span><br>May</a>
-                            </div>
-                        </div>
-                        <div class="post_content">
-                            <div class="post_header">
-                                <h3 class="post_title">
-                                    <a href="blog-details.html">History Creating Highrise Designs Ever</a>
-                                </h3>
-                            </div>
-                            <div class="post_intro">
-                                <p>The construction industry has the capacity to absorb more people into the workforce...</p>
-                            </div>
-                            <div class="post_footer">
-                                <div class="read_more">
-                                    <a href="blog-details.html"><span>Read Article</span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <article class="blog_post">
-                        <div class="post_img">
-                            <a href="blog-1.html"><img src="{{ asset('frontend') }}/images/blog/bg-7.png" alt="img"></a>
-                            <div class="calendar">
-                                <a href="#"><span class="date">30</span><br>May</a>
-                            </div>
-                        </div>
-                        <div class="post_content">
-                            <div class="post_header">
-                                <h3 class="post_title">
-                                    <a href="blog-details.html">Contribution of Men as workers</a>
-                                </h3>
-                            </div>
-                            <div class="post_intro">
-                                <p>The construction industry has the capacity to absorb more people into the workforce...</p>
-                            </div>
-                            <div class="post_footer">
-                                <div class="read_more">
-                                    <a href="blog-details.html"><span>Read Article</span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <article class="blog_post">
-                        <div class="post_img">
-                            <a href="blog-1.html"><img src="{{ asset('frontend') }}/images/blog/bg-6.png" alt="img"></a>
-                            <div class="calendar">
-                                <a href="#"><span class="date">30</span><br>May</a>
-                            </div>
-                        </div>
-                        <div class="post_content">
-                            <div class="post_header">
-                                <h3 class="post_title">
-                                    <a href="blog-details.html">Use of modern Technology in Road construction</a>
-                                </h3>
-                            </div>
-                            <div class="post_intro">
-                                <p>The construction industry has the capacity to absorb more people into the workforce...</p>
-                            </div>
-                            <div class="post_footer">
-                                <div class="read_more">
-                                    <a href="blog-details.html"><span>Read Article</span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <article class="blog_post">
-                        <div class="post_img">
-                            <a href="blog-1.html"><img src="{{ asset('frontend') }}/images/blog/bg-8.png" alt="img"></a>
-                            <div class="calendar">
-                                <a href="#"><span class="date">30</span><br>May</a>
-                            </div>
-                        </div>
-                        <div class="post_content">
-                            <div class="post_header">
-                                <h3 class="post_title">
-                                    <a href="blog-details.html">Contribution of women as Builders</a>
-                                </h3>
-                            </div>
-                            <div class="post_intro">
-                                <p>The construction industry has the capacity to absorb more people into the workforce...</p>
-                            </div>
-                            <div class="post_footer">
-                                <div class="read_more">
-                                    <a href="blog-details.html"><span>Read Article</span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-                </div>
+                @endforeach
+
                 <div class="pagination-div">
                     <ul class="pagination">
-                        <li><a href="#"><i class="ion-chevron-left"></i></a></li>
-                        <li><a class="page-number current" href="#">1</a></li>
-                        <li><a class="page-number" href="#">2</a></li>
-                        <li><a class="page-number" href="#">3</a></li>
-                        <li><a href="#"><i class="ion-chevron-right"></i></a></li>
+
+                        @if ($blogs->onFirstPage())
+                            <li class="disabled"><span>&laquo;</span></li>
+                        @else
+                            <li><a href="{{ $blogs->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+                        @endif
+
+                        @for ($i = 1; $i <= $blogs->lastPage(); $i++)
+                            @if ($i == $blogs->currentPage())
+                                <li><span class="page-number current">{{ $i }}</span></li>
+                            @else
+                                <li><a href="{{ $blogs->url($i) }}" class="page-number">{{ $i }}</a></li>
+                            @endif
+                        @endfor
+
+                        @if ($blogs->hasMorePages())
+                            <li><a href="{{ $blogs->nextPageUrl() }}" rel="next">&raquo;</a></li>
+                        @else
+                            <li class="disabled"><span>&raquo;</span></li>
+                        @endif
+
                     </ul>
                 </div>
+
+
+
+
             </div>
         </div>
     </div>

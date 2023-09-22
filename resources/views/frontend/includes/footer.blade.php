@@ -83,7 +83,7 @@
         <div class="container">
             <div class="footer_bottom_inner">
                 <div class="logo">
-                    <a href="index.html"><img src="{{ asset($app_settings->app_logo) }}" alt="Logo"></a>
+                    <a href="{{ url('/') }}"><img src="{{ asset($app_settings->app_logo) }}" alt="Logo"></a>
                 </div>
                 <div class="copyright">
                     <p>{{ $app_settings->footer_text ?? '' }}</p>

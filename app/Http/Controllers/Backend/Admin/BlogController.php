@@ -163,32 +163,131 @@ class BlogController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request,Blog $blog)
     {
-        //
+        if ($request->ajax()) {
+            $view = View::make('backend.pages.blog.show', compact('blog'))->render();
+            return response()->json(['html' => $view]);
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request,Blog $blog)
     {
-        //
+        if ($request->ajax()) {
+            $view = View::make('backend.pages.blog.edit', compact('blog'))->render();
+            return response()->json(['html' => $view]);
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Blog $blog)
     {
-        //
+        if ($request->ajax()) {
+
+            $rules = [
+                'blog_title' => 'required',
+                'blog_description' => 'required',
+                'author' => 'required',
+                'author_description' => 'required',
+            ];
+
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json([
+                    'type' => 'error',
+                    'errors' => $validator->getMessageBag()->toArray()
+                ]);
+            } else {
+
+                DB::beginTransaction();
+                try {
+                    $hero_image = $blog->hero_image;
+                    $thumbnail_image = $blog->thumbnail_image;
+                    $author_image = $blog->author_image;
+                    $image_1 = $blog->image_1;
+                    $image_2 = $blog->image_2;
+
+                    if ($request->hasFile('hero_image')) {
+                        $hero_image = $request->file('hero_image');
+                        $blog->hero_image =  Helper::saveImage($hero_image, 1170, 617, 'blogs');
+                        if (!empty($hero_image)) {
+                            unlink($hero_image);
+                        }
+                    }
+                    if ($request->hasFile('thumbnail_image')) {
+                        $thumbnail_image = $request->file('thumbnail_image');
+                        $blog->thumbnail_image =  Helper::saveImage($thumbnail_image, 370, 270, 'blogs');
+                        if (!empty($thumbnail_image)) {
+                            unlink($thumbnail_image);
+                        }
+                    }
+                    if ($request->hasFile('author_image')) {
+                        $author_image = $request->file('author_image');
+                        $blog->author_image =  Helper::saveImage($author_image, 370, 257, 'blogs');
+                        if (!empty($author_image)) {
+                            unlink($author_image);
+                        }
+                    }
+                    if ($request->hasFile('image_1')) {
+                        $image_1 = $request->file('image_1');
+                        $blog->image_1 =  Helper::saveImage($image_1, 370, 260, 'blogs');
+                        if (!empty($image_1)) {
+                            unlink($image_1);
+                        }
+                    }
+                    if ($request->hasFile('image_2')) {
+                        $image_2 = $request->file('image_2');
+                        $blog->image_2 =  Helper::saveImage($image_2, 370, 260, 'blogs');
+                        if (!empty($image_2)) {
+                            unlink($image_2);
+                        }
+                    }
+
+                    $blog->blog_title = $request->input('blog_title');
+                    $blog->blog_description = $request->input('blog_description');
+                    $blog->youtube_video_link = $request->input('youtube_video_link');
+                    $blog->author = $request->input('author');
+                    $blog->author_slug = $request->input('author_slug');
+                    $blog->author_description = $request->input('author_description');
+                    $blog->author_fb = $request->input('author_fb');
+                    $blog->author_twitter = $request->input('author_twitter');
+                    $blog->author_instagram = $request->input('author_instagram');
+                    $blog->author_pinterest = $request->input('author_pinterest');
+                    $blog->author_linkedin = $request->input('author_linkedin');
+                    $blog->is_publish = $request->input('is_publish');
+                    $blog->save(); //
+                    DB::commit();
+                    return response()->json(['type' => 'success', 'message' => "Successfully Updated"]);
+                } catch (\Exception $e) {
+                    DB::rollback();
+                    return response()->json(['type' => 'error', 'message' => "Please Fill With Correct data"]);
+                }
+                // }
+            }
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request,Blog $blog)
     {
-        //
+        if ($request->ajax()) {
+            $blog->delete();
+            return response()->json(['type' => 'success', 'message' => 'Successfully Deleted']);
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
     }
 }

@@ -12,7 +12,7 @@ Blog Details
                 <li><a href="{{ route('frontend.blogs') }}">Blog</a></li>
                 <li class="active">Blog Details</li>
             </ul>
-            <h2 class="heading">Use of modern Technology in Road constructio</h2>
+            <h2 class="heading">{{ $blog->blog_title }}</h2>
         </div>
     </div>
 </div>
@@ -20,10 +20,17 @@ Blog Details
 @section('content')
 <div class="container">
     <div class="blog_details">
+        <?php
+            // Convert the timestamp string to a DateTime object
+            $timestamp_obj = new DateTime($blog->created_at);
+            // Extract the month and day
+            $month = $timestamp_obj->format("F");  // Full month name
+            $day = $timestamp_obj->format("j");
+        ?>
         <div class="post_img">
-            <img src="{{ asset('frontend') }}/images/blog/3.png" alt="blog">
+            <img src="{{ asset($blog->hero_image) }}" alt="blog">
             <div class="calendar">
-                <a href="#"><span class="date">30</span><br>May</a>
+                <a href="#"><span class="date">{{ $day }}</span><br> {{ $month }}</a>
             </div>
         </div>
         <div class="row">
@@ -32,94 +39,49 @@ Blog Details
                     <div class="post_content">
                         <div class="post_header">
                             <div class="categ"><a href="about.html">CONSTRUCTION</a></div>
-                            <h3 class="post_title">Use of modern Technology in Road construction</h3>
+                            <h3 class="post_title">{{ $blog->blog_title }}</h3>
                         </div>
                         <div class="fulltext">
-                            <p>
-                                construction site means an area upon which one or more land disturbing construction activities occur, including areas that are part of a larger common plan of development or sale where multiple separate and distinct land disturbing construction activities may be taking place at different times on
-                            </p>
-
-                            <p class="highlight">Over the last 35 Years we made an impact that is strong and we have long
-                                way to go. Excepteur sint occaecat.</p>
-                            <p>
-
-                            <p>
-                                As the world continues to fight COVID-19 some property owners are searching for way they can
-                                improve the security of their buildings whilst decreasing the spread of germs and bacteria. The
-                                following 3 hygienic security solutions are suitable for use within high traffic areas across both
-                                residential and commercial buildings.
-                            </p>
-
-                            <h4 class="widget_title">
-                                Technological Advantage
-                                <span class="title_line"></span>
-                            </h4>
-                            <p>The following problems may arise withe house key duplication -</p>
-                            <ul class="point_order">
-                                <li>As the world continues to fight COVID-19 some property owners</li>
-                                <li>improve the security of their buildings whilst decreasing the spread</li>
-                                <li>following 3 hygienic security solutions are suitable for use within</li>
-                            </ul>
 
                             <div class="post_gallery">
                                 <div class="row">
                                     <div class="col-lg-6 col-sm-6">
                                         <div class="anim_box" data-aos="overlay-right">
-                                            <img src="{{ asset('frontend') }}/images/blog/g1.png" alt="img">
+                                            <img src="{{ asset($blog->image_1) }}" alt="img">
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-sm-6">
                                         <div class="anim_box" data-aos="overlay-right">
-                                            <img class="sm-margin-bottom" src="{{ asset('frontend') }}/images/blog/g2.png" alt="img">
+                                            <img class="sm-margin-bottom" src="{{ asset($blog->image_2) }}" alt="img">
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <p>
-                                Burglars prefer to work in the cover of dark. By setting up lighting around your garage can aid in
-                                keeping burglars at bay. Install a sensor light to turn on as you enter the driveway and approach
-                                the garage. Not only will it prove a burglar deterrent it will also assist you with seeing better to
-                                come home late.
-                            </p>
-                            <p>
-                                As the world continues to fight COVID-19 some property owners are searching for way they can
-                                improve the security of their buildings whilst decreasing the spread of germs and bacteria. The
-                                following 3 hygienic security solutions are suitable for use within high traffic areas across both
-                                residential and commercial buildings.
+                                {{ $blog->blog_description }}
                             </p>
 
                             <div class="video_post">
                                 <div class="ytube_video">
-                                    <iframe id="ytvideo" src="https://www.youtube.com/embed/fEErySYqItI" allow="autoplay;" allowfullscreen></iframe>
+                                    <iframe id="ytvideo" src="{{ asset($blog->youtube_video_link) }}" allow="autoplay;" allowfullscreen></iframe>
                                     <div class="post_content">
                                         <div class="ytplay_btn"><i class="ion-ios-play"></i></div>
                                         <img src="{{ asset('frontend') }}/images/blog/video_bg.png" alt="blog">
                                     </div>
                                 </div>
                             </div>
-
-                            <p>
-                                By automating your doors this removes the need for people touching handles or surfaces. Both of
-                                the above options can also be used in conjunction with controlling the access of your automatic
-                                doors. For example, a touch-less sensor can be installed to control the opening of the door.
-                            </p>
-
-                            <p>
-                                Automatic doors can be programmed to be activate during certain times and remain locked at a
-                                others. Door openers/closer can also be automated for use in some high traffic areas.
-                            </p>
                         </div>
 
                         <div class="post_footer">
                             <div class="post_share">
                                 <ul class="share_list">
                                     <li>Share:</li>
-                                    <li class="facebook"><a href="#">Facebook</a></li>
-                                    <li class="twitter"><a href="#">Twitter</a></li>
-                                    <li class="pinterest"><a href="#">Pinterest</a></li>
-                                    <li class="instagram"><a href="#">Instagram</a></li>
-                                    <li class="linkedin"><a href="#">Linkedin</a></li>
+                                    <li class="facebook"><a href="{{ asset($blog->author_fb) }}">Facebook</a></li>
+                                    <li class="twitter"><a href="{{ asset($blog->author_twitter) }}">Twitter</a></li>
+                                    <li class="pinterest"><a href="{{ asset($blog->author_pinterest) }}">Pinterest</a></li>
+                                    <li class="instagram"><a href="{{ asset($blog->author_instagram) }}">Instagram</a></li>
+                                    <li class="linkedin"><a href="{{ asset($blog->author_linkedin) }}">Linkedin</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -129,17 +91,16 @@ Blog Details
 
                     <div class="author_div">
                         <div class="author">
-                            <img alt="img" src="{{ asset('frontend') }}/images/blog/author_sm.png" class="avatar">
+                            <img alt="img" src="{{ asset($blog->author_image) }}" class="avatar">
                         </div>
                         <div class="author-block">
-                            <h5 class="author_name">Jonathon Hall</h5>
-                            <p class="author_intro">Install a sensor light to turn on as you enter the driveway and approach the garage. Not only will it prove a burglar deterrent it will also assist.</p>
+                            <h5 class="author_name">{{ $blog->author }}</h5>
+                            <p class="author_intro">{{ $blog->author_slug }}</p>
                             <div class="social_media">
                                 <ul class="social_list">
-                                    <li><a href="#"><i class="ion-social-facebook"></i></a></li>
-                                    <li><a href="#"><i class="ion-social-twitter"></i></a></li>
-                                    <li><a href="#"><i class="ion-social-dribbble-outline"></i></a></li>
-                                    <li><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
+                                    <li><a href="{{ asset($blog->author_fb) }}"><i class="ion-social-facebook"></i></a></li>
+                                    <li><a href="{{ asset($blog->author_twitter) }}"><i class="ion-social-twitter"></i></a></li>
+                                    <li><a href="{{ asset($blog->author_instagram) }}"><i class="ion-social-instagram-outline"></i></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -239,14 +200,14 @@ Blog Details
 
             <div class="col-lg-4 col-md-12">
                 <div class="sidebar">
-                    <div id="search" class="widget widget_search">
+                    {{-- <div id="search" class="widget widget_search">
                         <div class="sidebar_search">
                             <form class="search_form" action="https://wpthemebooster.com/demo/themeforest/html/builderrin/dark/search.php">
                                 <input type="text" name="search" class="keyword form-control" placeholder="Search Products...">
                                 <button type="submit" class="form-control-submit"><i class="ion-ios-search"></i></button>
                             </form>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div id="custom_1" class="widget widget_custom">
                         <h4 class="widget_title">
@@ -254,19 +215,22 @@ Blog Details
                             <span class="title_line"></span>
                         </h4>
                         <div class="sidebar_author">
-                            <img src="{{ asset('frontend') }}/images/blog/author.png" alt="img">
+                            <img src="{{ asset($blog->author_image) }}" alt="img">
                             <p class="intro">Sed ut perspiciatis unde omnis iste natus err or sit voluptatem accusantium dolore mque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt</p>
                             <div class="author_social">
                                 <ul>
-                                    <li><a href="#"><i class="ion-social-facebook"></i></a></li>
-                                    <li><a href="#"><i class="ion-social-twitter"></i></a></li>
-                                    <li><a href="#"><i class="ion-social-pinterest-outline"></i></a></li>
-                                    <li><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
-                                    <li><a href="#"><i class="ion-social-linkedin"></i></a></li>
+                                    <li><a href="{{ asset($blog->author_fb) }}"><i class="ion-social-facebook"></i></a></li>
+                                    <li><a href="{{ asset($blog->author_twitter) }}"><i class="ion-social-twitter"></i></a></li>
+                                    <li><a href="{{ asset($blog->author_pinterest) }}"><i class="ion-social-pinterest-outline"></i></a></li>
+                                    <li><a href="{{ asset($blog->author_instagram) }}"><i class="ion-social-instagram-outline"></i></a></li>
+                                    <li><a href="{{ asset($blog->author_linkedin) }}"><i class="ion-social-linkedin"></i></a></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
+                    <?php
+                        $blogs = DB::table('blogs')->where('is_publish',1)->orderby('id','desc')->limit(3)->get();
+                    ?>
 
                     <div id="recent-posts-1" class="widget widget_recent_posts">
                         <h4 class="widget_title">
@@ -275,33 +239,26 @@ Blog Details
                         </h4>
                         <div class="sidebar_recent_posts">
                             <ul class="recent_post_list">
+                                @foreach ($blogs as $blog)
+                                <?php
+                                    // Convert the timestamp string to a DateTime object
+                                    $timestamp_obj = new DateTime($blog->created_at);
+                                    // Extract the month and day
+                                    $year = $timestamp_obj->format("Y");
+                                    $month = $timestamp_obj->format("F");  // Full month name
+                                    $day = $timestamp_obj->format("j");
+                                    $result = "$day $month $year";
+                                ?>
                                 <li class="recent_post_item">
                                     <div class="recent_post_image">
-                                        <img class="primary_img" src="{{ asset('frontend') }}/images/blog/thumbnail1.png" alt="">
+                                        <img class="primary_img" src="{{ asset($blog->thumbnail_image) }}" alt="">
                                     </div>
                                     <div class="recent_post_content">
-                                        <h5><a href="blog-1.html">History Creating Highrise Designs Ever</a></h5>
-                                        <h6>09 April 2020</h6>
+                                        <h5><a href="{{ url('blog-details/'.$blog->id) }}">{{ $blog->blog_title }}</a></h5>
+                                        <h6>{{ $result }}</h6>
                                     </div>
                                 </li>
-                                <li class="recent_post_item">
-                                    <div class="recent_post_image">
-                                        <img class="primary_img" src="{{ asset('frontend') }}/images/blog/thumbnail2.png" alt="">
-                                    </div>
-                                    <div class="recent_post_content">
-                                        <h5><a href="blog-2.html">Do's & Don'ts in Lock opening</a></h5>
-                                        <h6>06 April 2020</h6>
-                                    </div>
-                                </li>
-                                <li class="recent_post_item">
-                                    <div class="recent_post_image">
-                                        <img class="primary_img" src="{{ asset('frontend') }}/images/blog/thumbnail3.png" alt="">
-                                    </div>
-                                    <div class="recent_post_content">
-                                        <h5><a href="blog-1.html">Locksmith cost Estimation</a></h5>
-                                        <h6>02 April 2020</h6>
-                                    </div>
-                                </li>
+                                @endforeach
                             </ul>
                         </div>
                     </div>

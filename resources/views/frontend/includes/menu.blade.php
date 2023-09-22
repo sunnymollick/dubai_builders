@@ -6,7 +6,7 @@
         <div class="middle_bar_inner">
             <div class="logo">
                 <a href="index.html" class="light_mode_logo"><img src="{{ asset('frontend') }}/images/logo.svg" alt="logo"></a>
-                <a href="index.html" class="dark_mode_logo"><img src="{{ asset($app_settings->app_logo) ?? '' }}" alt="logo"></a>
+                <a href="{{ url('/') }}" class="dark_mode_logo"><img src="{{ asset($app_settings->app_logo) ?? '' }}" alt="logo"></a>
             </div>
 
             <div class="header_right_part">

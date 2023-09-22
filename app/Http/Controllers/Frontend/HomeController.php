@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\About;
+use App\Models\Backend\Blog;
 use App\Models\Backend\Project;
 use App\Models\Backend\Service;
 use App\Models\Setting;
@@ -22,7 +23,8 @@ class HomeController extends Controller
         $about = About::findOrFail(1);
         $completed_project = Project::where('project_status','=','2')->count();
         $ongoing_project = Project::where('project_status','=','0')->count();
-        return view('frontend.pages.index', compact('residential', 'commercial', 'highrise', 'business', 'all', 'app_settings','about','completed_project','ongoing_project'));
+        $blogs = Blog::orderby('id','desc')->limit(2)->get();
+        return view('frontend.pages.index', compact('residential', 'commercial', 'highrise', 'business', 'all', 'app_settings','about','completed_project','ongoing_project','blogs'));
     }
     public function contact()
     {
@@ -78,10 +80,12 @@ class HomeController extends Controller
     }
 
     public function blogs(){
-        return view('frontend.pages.blogs');
+        $blogs = Blog::where('is_publish',1)->orderby('id','desc')->paginate(9);
+        return view('frontend.pages.blogs',compact('blogs'));
     }
 
     public function blogDetails(Request $request,$id){
-        return view('frontend.pages.blog_details');
+        $blog = Blog::findOrFail($id);
+        return view('frontend.pages.blog_details',compact('blog'));
     }
 }

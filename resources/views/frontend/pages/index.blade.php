@@ -378,147 +378,91 @@ Home
     </div>
 </div>
 
-<div class="testimonial pd_btom_80">
+<div class="testimonial pd_btom_80" id="quotation">
     <div class="container">
         <div class="section_header text-center">
             <div class="shadow_icon"><img src="{{ asset('frontend') }}/images/shadow_icon3.png" alt=""></div>
-            <h6 class="section_sub_title">Clients testimonial</h6>
-            <h1 class="section_title">What our clients say about us</h1>
-            <p class="section_desc">Builderrine is the best construction company. It has best team who are provideing best service possible.</p>
+            <h6 class="section_sub_title">Clients Requirement</h6>
+            <h1 class="section_title">Request For Quotation</h1>
         </div>
         <div class="row">
             <div class="col-12">
-                <div class="owl_testimonial1 owl-carousel owl-theme">
-                    <div class="item">
-                        <div class="testibox1">
-                            <div class="testibox_inner">
-                                <div class="testi-content">
-                                    <ul>
-                                        <li class="text">Rating:</li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star-o"></i></li>
-                                    </ul>
-                                    <p>“Builderrine Construction provides us amazing serives. The have designed and build our Miami grand Hotel project. They have exceeded our expectation and did such an amazing job. We are very happy with their work”</p>
-                                </div>
-                                <div class="testi-top">
-                                    <div class="testi-img">
-                                        <img src="{{ asset('frontend') }}/images/reviewer1.png" alt="">
+                <div class="container card-0 justify-content-center ">
+                    <div class="card-body px-sm-4 px-0">
+                        <div class="row justify-content-center mb-5">
+                            <div class="col-md-10 col">
+                                <h3 class="font-weight-bold ml-md-0 mx-auto text-center text-sm-left"> Request a Quote </h3>
+                                <p class="mt-md-4 ml-md-0 ml-2 text-center text-sm-left"> {{ $app_settings->app_name ?? '' }} is the best construction company. It has best team who are provideing best service possible.</p>
+                            </div>
+                        </div>
+                    <div class="row justify-content-center round">
+                        <div class="col-lg-10 col-md-12 ">
+                            <div class="card shadow-lg card-1">
+                                <div class="card-body inner-card">
+                                    <div class="row justify-content-center">
+                                        <div class="col-lg-5 col-md-6 col-sm-12">
+                                            <div class="form-group">
+                                                <label for="first-name">Name</label>
+                                                <input type="text" class="form-control" id="first-name" placeholder="Type your Name">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="Mobile-Number">Mobile Number</label>
+                                                <input type="text" class="form-control" id="Mobile-Number" placeholder="">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputEmail4">Project Type</label>
+                                                <select class="form-control">
+                                                    <option>Web Design</option>
+                                                    <option>Blockchain</option>
+                                                    <option>ML</option> </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="time">Maximum time for the project</label>
+                                                <input type="text" class="form-control" id="time" placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-5 col-md-6 col-sm-12">
+                                            <div class="form-group">
+                                                <label for="phone">Email</label>
+                                                <input type="email" class="form-control" id="email" placeholder="">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="last-name">Location</label>
+                                                <input type="text" class="form-control" id="last-name" placeholder="">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="Evaluate Budget">Evaluate Budget</label>
+                                                <input type="text" class="form-control" id="Evaluate Budget" placeholder="">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="Company-Name">Company Name</label>
+                                                <input type="text" class="form-control" id="Company-Name" placeholder="">
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="testi-info">
-                                        <h4>Johnathon Doe</h4>
-                                        <h6>MIAMI</h6>
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-12 col-lg-10 col-12">
+                                            <div class="form-group files">
+                                                <label class="my-auto">Upload Your File </label>
+                                                <input id="file" type="file" class="form-control" /></div>
+                                            </div> </div> <div class="row justify-content-center">
+                                                <div class="col-md-12 col-lg-10 col-12">
+                                                    <div class="form-group">
+                                                        <label for="exampleFormControlTextarea2">Message</label>
+                                                        <textarea class="form-control rounded-0" id="exampleFormControlTextarea2" rows="5"></textarea>
+                                                    </div>
+                                                    <div class="mb-2 mt-4">
+                                                        <div class="text-right">
+                                                            <button type="submit" class="button"><small class="font-weight-bold">Request a Quote</small></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="item">
-                        <div class="testibox1">
-                            <div class="testibox_inner">
-                                <div class="testi-content">
-                                    <ul>
-                                        <li class="text">Rating:</li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star-o"></i></li>
-                                    </ul>
-                                    <p>“Builderrine Construction provides us nice serives. The have designed and build our NY Pent House project. They have exceeded our expectation and did such an amazing job. We are very happy with their work”</p>
-                                </div>
-                                <div class="testi-top">
-                                    <div class="testi-img">
-                                        <img src="{{ asset('frontend') }}/images/reviewer4.png" alt="">
-                                    </div>
-                                    <div class="testi-info">
-                                        <h4>Marina Samuel</h4>
-                                        <h6>New York</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="testibox1">
-                            <div class="testibox_inner">
-                                <div class="testi-content">
-                                    <ul>
-                                        <li class="text">Rating:</li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star-o"></i></li>
-                                    </ul>
-                                    <p>“Builderrine Construction provides us nice serives. The have designed and build our Utah Shopping Mall project. They have exceeded our expectation and did such an amazing job. We are very happy with their work”</p>
-                                </div>
-                                <div class="testi-top">
-                                    <div class="testi-img">
-                                        <img src="{{ asset('frontend') }}/images/reviewer3.png" alt="">
-                                    </div>
-                                    <div class="testi-info">
-                                        <h4>Oakland Gardner</h4>
-                                        <h6>UTAH</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="testibox1">
-                            <div class="testibox_inner">
-                                <div class="testi-content">
-                                    <ul>
-                                        <li class="text">Rating:</li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star-o"></i></li>
-                                    </ul>
-                                    <p>Builderrine Construction provides us nice serives. The have designed and build our NY Pent House project. They have exceeded our expectation and did such an amazing job. We are very happy with their work”</p>
-                                </div>
-                                <div class="testi-top">
-                                    <div class="testi-img">
-                                        <img src="{{ asset('frontend') }}/images/reviewer1.png" alt="">
-                                    </div>
-                                    <div class="testi-info">
-                                        <h4>Johnathon Doe</h4>
-                                        <h6>New York</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="testibox1">
-                            <div class="testibox_inner">
-                                <div class="testi-content">
-                                    <ul>
-                                        <li class="text">Rating:</li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star-o"></i></li>
-                                    </ul>
-                                    <p>Builderrine Construction provides us nice serives. The have designed and build our NY Pent House project. They have exceeded our expectation and did such an amazing job. We are very happy with their work”</p>
-                                </div>
-                                <div class="testi-top">
-                                    <div class="testi-img">
-                                        <img src="{{ asset('frontend') }}/images/reviewer1.png" alt="">
-                                    </div>
-                                    <div class="testi-info">
-                                        <h4>Johnathon Doe</h4>
-                                        <h6>New York</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -533,62 +477,46 @@ Home
                     <div class="section_header text-left">
                         <h6 class="section_sub_title">Latest News</h6>
                         <h1 class="section_title">Our Latest News</h1>
-                        <p class="section_desc">Builderrine is the best construction company. It has best team who are provideing best service possible.</p>
+                        <p class="section_desc">{{ $app_settings->app_name }} is the best construction company. It has best team who are provideing best service possible.</p>
                     </div>
                     <div class="read_more read_all">
-                        <a class="button" href="blog-1.html">Learn More</a>
+                        <a class="button" href="{{ url('blogs') }}">Learn More</a>
                     </div>
                 </div>
+                @foreach ($blogs as $blog)
                 <div class="col-lg-4 col-md-6">
                     <article class="blog_post">
                         <div class="post_img">
-                            <a href="blog-1.html"><img src="{{ asset('frontend') }}/images/blog/b6.png" alt="img"></a>
+                            <a href="{{ url('blog-details/'.$blog->id) }}"><img src="{{ asset($blog->thumbnail_image) }}" alt="img"></a>
                             <div class="calendar">
-                                <a href="#"><span class="date">30</span><br>May</a>
+                                <?php
+                                // Convert the timestamp string to a DateTime object
+                                $timestamp_obj = new DateTime($blog->created_at);
+                                // Extract the month and day
+                                $month = $timestamp_obj->format("F");  // Full month name
+                                $day = $timestamp_obj->format("j");
+                                ?>
+                                <a href="#"><span class="date">{{ $day }}</span><br>{{ $month }}</a>
                             </div>
                         </div>
                         <div class="post_content">
                             <div class="post_header">
                                 <h3 class="post_title">
-                                    <a href="blog-2.html">Diversity in Building Celebrated by Builderrine</a>
+                                    <a href="{{ url('blog-details/'.$blog->id) }}">{{ $blog->blog_title }}</a>
                                 </h3>
                             </div>
                             <div class="post_intro">
-                                <p>Builderrine will connect with 10000 people from 90 companies who work on its’ projects each day...</p>
+                                <p>{{ Str::limit($blog->blog_description, 100) }}</p>
                             </div>
                             <div class="post_footer">
                                 <div class="read_more">
-                                    <a href="blog-details.html"><span>Read Article</span></a>
+                                    <a href="{{ url('blog-details/'.$blog->id) }}"><span>Read Article</span></a>
                                 </div>
                             </div>
                         </div>
                     </article>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                    <article class="blog_post">
-                        <div class="post_img">
-                            <a href="blog-1.html"><img src="{{ asset('frontend') }}/images/blog/b7.png" alt="img"></a>
-                            <div class="calendar">
-                                <a href="#"><span class="date">30</span><br>May</a>
-                            </div>
-                        </div>
-                        <div class="post_content">
-                            <div class="post_header">
-                                <h3 class="post_title">
-                                    <a href="blog-1.html">Company Receives Recognition for Excellence</a>
-                                </h3>
-                            </div>
-                            <div class="post_intro">
-                                <p>The construction industry has the capacity to absorb more people into the workforce...</p>
-                            </div>
-                            <div class="post_footer">
-                                <div class="read_more">
-                                    <a href="blog-details.html"><span>Read Article</span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>
@@ -633,4 +561,31 @@ Home
         });
     });
 </script> -->
+<style>
+    body{background-color:#eee}
+    .card-0{min-height: 110vh;background: linear-gradient(-20deg, rgb(255, 255, 255) 50%, #00326F 50%);color: white;border: 0px}
+    p{font-size: 15px;line-height: 25px !important;font-weight: 500}
+    .container{;border-radius: 20px}
+    .btn{letter-spacing: 1px}
+    select:active{box-shadow: none !important;outline-width: 0 !important}
+    select:after{box-shadow: none !important;outline-width: 0 !important}
+    input, textarea{padding: 10px 12px 10px 12px;
+        border: 1px solid lightgrey;border-radius: 0px !important;
+        margin-bottom: 5px;margin-top: 2px;width: 100%;
+        box-sizing: border-box;color: #2C3E50;font-size: 14px;
+        letter-spacing: 1px;resize: none
+    }
+    select:focus, input:focus{box-shadow: none !important;border: 1px solid #00326F !important;outline-width: 0 !important;font-weight: 400}
+    label{margin-bottom: 2px;font-weight: bolder;font-size: 14px}
+    input:focus, textarea:focus{-moz-box-shadow: none !important;-webkit-box-shadow: none !important;box-shadow: none !important;border: 1px solid #00326F;outline-width: 0}
+    button:focus{-moz-box-shadow: none !important;-webkit-box-shadow: none !important;box-shadow: none !important;outline-width: 0}
+    .form-control{height: calc(2em + .75rem + 3px)}
+    .inner-card{margin: 79px 0px 70px 0px}
+    .card-1{border-radius: 17px;color: black;box-shadow: 2px 4px 15px 0px rgb(0, 0, 0, 0.5) !important}
+    #file{border: 2px dashed #92b0b3 !important}
+    .color input{background-color: #f1f1f1}
+    .files:before{position: absolute;bottom: 60px;left: 0;width: 100%;content: attr(data-before);color: #000;font-size: 12px;font-weight: 600;text-align: center}
+    #file{display: inline-block;width: 100%;padding: 95px 0 0 100%;
+    background: url('frontend/images/upload_logo.png') top center no-repeat #fff;background-size: 55px 55px}
+</style>
 @endsection

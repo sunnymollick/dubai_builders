@@ -123,16 +123,16 @@ class AboutController extends Controller
                 if ($request->hasFile('hero_image')) {
                     $hero_image = $request->file('hero_image');
                     $about->hero_image =  Helper::saveImage($hero_image, 1170 , 663, 'about');
-                    if (!empty($about->hero_image)) {
-                        unlink($about->hero_image);
+                    if (!empty($hero_image)) {
+                        unlink($hero_image);
                     }
                 }
 
                 if ($request->hasFile('about_image')) {
                     $about_image = $request->file('about_image');
                     $about->about_image =  Helper::saveImage($about_image, 512  , 652 , 'about');
-                    if (!empty($about->about_image)) {
-                        unlink($about->about_image);
+                    if (!empty($about_image)) {
+                        unlink($about_image);
                     }
                 }
 

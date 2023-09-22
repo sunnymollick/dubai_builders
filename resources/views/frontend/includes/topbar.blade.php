@@ -30,7 +30,7 @@
                         {{ $app_settings->email ?? '' }}</div>
                 </div>
                 <div class="free_contact">
-                    <a href="contact.html" class="btn">Request Free Quote</a>
+                    <a href="#quotation" class="btn">Request Free Quote</a>
                 </div>
             </div>
         </div>
