@@ -78,7 +78,6 @@ class HomeController extends Controller
     public function careers()
     {
         $careers = Career::where('is_active', 'active')->get();
-        // dd($careers);
         return view('frontend.pages.careers', compact('careers'));
     }
 }

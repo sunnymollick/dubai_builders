@@ -1,6 +1,6 @@
 @extends('frontend.layouts.defaults')
 @section('title')
-    About
+    Career
 @endsection
 @section('page_header')
     <!-- Page Header -->
