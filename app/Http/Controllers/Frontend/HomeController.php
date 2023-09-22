@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\backend\Career;
 use App\Models\Backend\Project;
 use App\Models\Backend\Service;
 use App\Models\Setting;
@@ -72,5 +73,12 @@ class HomeController extends Controller
     public function faq()
     {
         return view('frontend.pages.faq');
+    }
+
+    public function careers()
+    {
+        $careers = Career::where('is_active', 'active')->get();
+        // dd($careers);
+        return view('frontend.pages.careers', compact('careers'));
     }
 }

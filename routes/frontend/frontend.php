@@ -16,3 +16,5 @@ Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
 
 Route::get('/services', [HomeController::class, 'services'])->name('services');
 Route::get('/services/details/{id}', [HomeController::class, 'servicesDetails'])->name('services.details');
+
+Route::get('/careers', [HomeController::class, 'careers'])->name('careers');
