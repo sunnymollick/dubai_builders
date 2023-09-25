@@ -8,7 +8,7 @@
                     <a class="nav-link" href="app-emailbox.html"><i class='bx bx-envelope'></i></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="app-chat-box.html"><i class='bx bx-message'></i></a>
+                    <a class="nav-link" href="{{route('admin.messages.index')}}"><i class='bx bx-message'></i></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="app-fullcalender.html"><i class='bx bx-calendar'></i></a>
@@ -194,13 +194,7 @@
                         <i class='bx bx-comment'></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end">
-                        <a href="javascript:;">
-                            <div class="msg-header">
-                                <p class="msg-header-title">Messages</p>
-                                <p class="msg-header-clear ms-auto">Marks all as read</p>
-                            </div>
-                        </a>
-                        <div class="header-message-list" id="messages">
+                        <div class="header-message-list">
 
                         </div>
                         <a href="{{route('admin.messages.index')}}">

@@ -47,6 +47,26 @@ class ProjectController extends Controller
                 ->addColumn('client_name', function ($project) {
                     return $project->client->name;
                 })
+                ->addColumn('project_type', function ($project) {
+                    if ($project->project_type == 0) {
+                        return 'Residential';
+                    } elseif ($project->project_type == 1) {
+                        return 'Commercial';
+                    } elseif ($project->project_type == 2) {
+                        return 'Highrise';
+                    } else {
+                        return 'Business';
+                    }
+                })
+                ->addColumn('project_status', function ($project) {
+                    if ($project->project_status == 0) {
+                        return 'Running';
+                    } elseif ($project->project_status == 1) {
+                        return 'Upcoming';
+                    } else {
+                        return 'Completed';
+                    }
+                })
                 ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);
