@@ -110,7 +110,7 @@
         </div>
         <div class="clearfix"></div>
         <br>
-        
+
         <div class="form-group col-md-12">
             <label for="">Job Type <span style="color: red;">*</span></label>
             <select class="form-control" name="job_type" id="job_type" required>
@@ -125,7 +125,7 @@
 
         <div class="form-group col-md-12 col-sm-12">
             <label for="">Compasations & Other Benifits <span style="color: red;">*</span></label>
-            <textarea type="text" class="form-control" id="copansations" name="copansations" value="" placeholder=""
+            <textarea type="text" class="form-control" id="compensations" name="compensations" value="" placeholder=""
                 required></textarea>
             <span id="error_title" class="has-error"></span>
         </div>
@@ -143,7 +143,8 @@
         <br>
 
         <div class="d-grid gap-2">
-            <button class="btn btn-primary button-submit" value="ignore" formnovalidate type="submit" data-loading-text="Loading...">
+            <button class="btn btn-primary button-submit" value="ignore" formnovalidate type="submit"
+                data-loading-text="Loading...">
                 <i class="fadeIn animated bx bx-save"></i>Save</button>
         </div>
 
@@ -154,5 +155,64 @@
     $('.button-submit').click(function() {
         // route name
         ajax_submit_store('careers')
+    });
+</script>
+
+
+
+
+
+
+<script src="{{ asset('backend/ckeditor/ckeditor.js') }}"></script>
+<script>
+    CKEDITOR.replace('description', {
+        filebrowserBrowseUrl: '{{ asset('backend') }}/ckeditor/filemanager/browser/default/browser.html?Connector={{ asset('backend') }}/ckeditor/filemanager/connectors/php/connector.php',
+        filebrowserImageBrowseUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/browser/default/browser.html?Type=Image&Connector=' +
+            '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/connector.php',
+        filebrowserFlashBrowseUrl: '/ext/ckeditor/filemanager/browser/default/browser.html?Type=Flash&Connector=' +
+            '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/connector.php',
+        filebrowserUploadUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=File',
+        filebrowserImageUploadUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Image',
+        filebrowserFlashUploadUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Flash'
+    });
+    CKEDITOR.replace('ed_requirement', {
+        filebrowserBrowseUrl: '{{ asset('backend') }}/ckeditor/filemanager/browser/default/browser.html?Connector={{ asset('backend') }}/ckeditor/filemanager/connectors/php/connector.php',
+        filebrowserImageBrowseUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/browser/default/browser.html?Type=Image&Connector=' +
+            '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/connector.php',
+        filebrowserFlashBrowseUrl: '/ext/ckeditor/filemanager/browser/default/browser.html?Type=Flash&Connector=' +
+            '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/connector.php',
+        filebrowserUploadUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=File',
+        filebrowserImageUploadUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Image',
+        filebrowserFlashUploadUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Flash'
+    });
+    CKEDITOR.replace('ex_requirement', {
+        filebrowserBrowseUrl: '{{ asset('backend') }}/ckeditor/filemanager/browser/default/browser.html?Connector={{ asset('backend') }}/ckeditor/filemanager/connectors/php/connector.php',
+        filebrowserImageBrowseUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/browser/default/browser.html?Type=Image&Connector=' +
+            '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/connector.php',
+        filebrowserFlashBrowseUrl: '/ext/ckeditor/filemanager/browser/default/browser.html?Type=Flash&Connector=' +
+            '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/connector.php',
+        filebrowserUploadUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=File',
+        filebrowserImageUploadUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Image',
+        filebrowserFlashUploadUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Flash'
+    });
+    CKEDITOR.replace('ad_requirement', {
+        filebrowserBrowseUrl: '{{ asset('backend') }}/ckeditor/filemanager/browser/default/browser.html?Connector={{ asset('backend') }}/ckeditor/filemanager/connectors/php/connector.php',
+        filebrowserImageBrowseUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/browser/default/browser.html?Type=Image&Connector=' +
+            '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/connector.php',
+        filebrowserFlashBrowseUrl: '/ext/ckeditor/filemanager/browser/default/browser.html?Type=Flash&Connector=' +
+            '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/connector.php',
+        filebrowserUploadUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=File',
+        filebrowserImageUploadUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Image',
+        filebrowserFlashUploadUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Flash'
+    });
+    CKEDITOR.replace('compensations', {
+        filebrowserBrowseUrl: '{{ asset('backend') }}/ckeditor/filemanager/browser/default/browser.html?Connector={{ asset('backend') }}/ckeditor/filemanager/connectors/php/connector.php',
+        filebrowserImageBrowseUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/browser/default/browser.html?Type=Image&Connector=' +
+            '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/connector.php',
+        filebrowserFlashBrowseUrl: '/ext/ckeditor/filemanager/browser/default/browser.html?Type=Flash&Connector=' +
+            '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/connector.php',
+        filebrowserUploadUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=File',
+        filebrowserImageUploadUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Image',
+        filebrowserFlashUploadUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Flash'
     });
 </script>

@@ -101,7 +101,7 @@ class CareerController extends Controller
                     $career->experience = $request->input('experience');
                     $career->deadline = $request->input('deadline');
                     $career->job_type = $request->input('job_type');
-                    $career->compensations = $request->input('copansations');
+                    $career->compensations = $request->input('compensations');
                     $career->is_active = $request->input('is_active');
                     $career->poster = $poster_img;
                     $career->save(); //
@@ -191,7 +191,7 @@ class CareerController extends Controller
                     $career->experience = $request->input('experience');
                     $career->deadline = $request->input('deadline');
                     $career->job_type = $request->input('job_type');
-                    $career->compensations = $request->input('copansations');
+                    $career->compensations = $request->input('compensations');
                     $career->is_active = $request->input('is_active');
                     $career->poster = $poster_img;
                     $career->save(); //

@@ -101,3 +101,4 @@
         ajax_submit_store('services')
     });
 </script>
+

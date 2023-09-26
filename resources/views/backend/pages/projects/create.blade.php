@@ -1,10 +1,12 @@
-<form id='create' action="" enctype="multipart/form-data" method="post" accept-charset="utf-8" class="needs-validation" novalidate>
+<form id='create' action="" enctype="multipart/form-data" method="post" accept-charset="utf-8"
+    class="needs-validation" novalidate>
     <div id="status"></div>
     <div class="form-row">
 
         <div class="form-group col-md-12">
             <label for="">Project Name <span style="color: red;">*</span></label>
-            <input type="text" class="form-control" id="project_title" name="project_title" value="" placeholder="" required>
+            <input type="text" class="form-control" id="project_title" name="project_title" value=""
+                placeholder="" required>
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
@@ -13,8 +15,8 @@
             <label for="">Client Name <span style="color: red;">*</span></label>
             <select class="form-control" name="client_id" id="client_id" required>
                 <option value="">Select Client</option>
-                @foreach($clients as $client)
-                <option value="{{$client->id}}">{{$client->name}}</option>
+                @foreach ($clients as $client)
+                    <option value="{{ $client->id }}">{{ $client->name }}</option>
                 @endforeach
             </select>
             <span id="error_title" class="has-error"></span>
@@ -23,35 +25,40 @@
 
         <div class="form-group col-md-12 col-sm-12">
             <label for="">Project Description <span style="color: red;">*</span></label>
-            <textarea class="form-control" id="project_description" name="project_description" value="" cols="50" rows="4" required></textarea>
+            <textarea class="form-control" id="project_description" name="project_description" value="" cols="50"
+                rows="4" required></textarea>
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
 
         <div class="form-group col-md-12 col-sm-12">
             <label for="">Project Features <span style="color: red;">*</span></label>
-            <textarea class="form-control ckeditor" id="project_features" name="project_features" value="" cols="50" rows="4" required></textarea>
+            <textarea class="form-control ckeditor" id="project_features" name="project_features" value="" cols="50"
+                rows="4" required></textarea>
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
 
         <div class="form-group col-md-12 col-sm-12">
             <label for="">Project Location <span style="color: red;">*</span></label>
-            <input type="text" class="form-control" id="project_location" name="project_location" value="" placeholder="" required>
+            <input type="text" class="form-control" id="project_location" name="project_location" value=""
+                placeholder="" required>
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
 
         <div class="form-group col-md-12 col-sm-12">
             <label for="">Project Problem <span style="color: red;">*</span></label>
-            <input type="text" class="form-control" id="project_problem" name="project_problem" value="" placeholder="" required>
+            <input type="text" class="form-control" id="project_problem" name="project_problem" value=""
+                placeholder="" required>
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
 
         <div class="form-group col-md-12 col-sm-12">
             <label for="">Handover_time <span style="color: red;">*</span></label>
-            <input type="text" class="form-control" id="handover_time" name="handover_time" value="" placeholder="" required>
+            <input type="text" class="form-control" id="handover_time" name="handover_time" value=""
+                placeholder="" required>
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
@@ -90,27 +97,30 @@
 
         <div class="form-group col-md-12 col-sm-12">
             <label for="">Hero Image <span style="color: red;">*</span></label>
-            <input type="file" class="form-control" id="hero_image" name="hero_image" required width="772" height="978">
+            <input type="file" class="form-control" id="hero_image" name="hero_image" required width="772"
+                height="978">
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
 
         <div class="form-group col-md-12 col-sm-12">
             <label for="">First Image <span style="color: red;">*</span></label>
-            <input type="file" class="form-control" id="image_1" name="image_1" required width="370" height="260">
+            <input type="file" class="form-control" id="image_1" name="image_1" required width="370"
+                height="260">
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
 
         <div class="form-group col-md-12 col-sm-12">
             <label for="">Second Image <span style="color: red;">*</span></label>
-            <input type="file" class="form-control" id="image_2" name="image_2" required width="370" height="260">
+            <input type="file" class="form-control" id="image_2" name="image_2" required width="370"
+                height="260">
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
 
-        <div class="form-check" >
- 
+        <div class="form-check">
+
             <input type="checkbox" class="form-check-input" id="is_active" name="is_active" value="1">
             <label class="form-check-label" for="">Is Active <span style="color: red;">*</span></label>
             <span id="error_title" class="has-error"></span>
@@ -141,9 +151,7 @@
     });
 </script>
 
-<script src="https://cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
-<script type="text/javascript">
-    $(document).ready(function() {
-       $('.ckeditor').ckeditor();
-    });
+<script src="{{asset('backend/ckeditor/ckeditor.js')}}"></script>
+<script>
+    CKEDITOR.replace('project_features');
 </script>
