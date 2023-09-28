@@ -31,7 +31,6 @@ Team
                                 <th>Designation</th>
                                 <th>Phone</th>
                                 <th>Email</th>
-                                <th>Status</th>
                                 <th>Action </th>
                             </tr>
                         </thead>
@@ -69,10 +68,6 @@ Team
                 {
                     data: 'email',
                     name: 'email'
-                },
-                {
-                    data: 'status',
-                    name: 'status'
                 },
                 {
                     data: 'action',

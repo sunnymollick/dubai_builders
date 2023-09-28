@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Backend\Project;
 use App\Models\Backend\Client;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
@@ -47,6 +48,26 @@ class ProjectController extends Controller
                 ->addColumn('client_name', function ($project) {
                     return $project->client->name;
                 })
+                ->addColumn('project_type', function ($project) {
+                    if ($project->project_type == 0) {
+                        return 'Residential';
+                    } elseif ($project->project_type == 1) {
+                        return 'Commercial';
+                    } elseif ($project->project_type == 2) {
+                        return 'Highrise';
+                    } else {
+                        return 'Business';
+                    }
+                })
+                ->addColumn('project_status', function ($project) {
+                    if ($project->project_status == 0) {
+                        return 'Running';
+                    } elseif ($project->project_status == 1) {
+                        return 'Upcoming';
+                    } else {
+                        return 'Completed';
+                    }
+                })
                 ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);
@@ -77,6 +98,9 @@ class ProjectController extends Controller
             $rules = [
                 'project_title' => 'required',
                 'client_id' => 'required',
+                'hero_image' => 'required|image|mimes:jpg,png,jpeg',
+                'image_1' => 'required|image|mimes:jpg,png,jpeg',
+                'image_2' => 'required|image|mimes:jpg,png,jpeg',
             ];
             $path = "projects";
             if ($request->hasFile('hero_image')) {
@@ -109,13 +133,22 @@ class ProjectController extends Controller
                 try {
                     // $client_name = Client::where('id', $request->client_id)->first();
                     $project = new Project();
+                    $created_time = Carbon::now();
+                    $last_project = Project::first();
+                    if (is_null($last_project)) {
+                        $latest_id = 0;
+                        $project_code = Helper::uniqueNumberConvertor("DB-", $created_time->year, $latest_id);
+                    } else {
+                        $latest_id = Project::orderBy('id', 'desc')->first()->id;
+                        $project_code = Helper::uniqueNumberConvertor("DB-", $created_time->year, $latest_id);
+                    }
                     $project->project_title = $request->input('project_title');
                     $project->client_id = $request->input('client_id');
+                    $project->project_code = $project_code;
                     $project->project_description = $request->input('project_description');
-                    $project->project_features = $request->input('project_features');
                     $project->project_location = $request->input('project_location');
-                    $project->project_problem = $request->input('project_problem');
                     $project->handover_time = $request->input('handover_time');
+                    $project->project_permit = $request->input('project_permit');
                     $project->project_type = $request->input('project_type');
                     $project->project_status = $request->input('project_status');
                     $project->hero_image = $hero_img;
@@ -179,6 +212,9 @@ class ProjectController extends Controller
             $rules = [
                 'project_title' => 'required',
                 'client_id' => 'required',
+                'hero_image' => 'required|image|mimes:jpg,png,jpeg',
+                'image_1' => 'required|image|mimes:jpg,png,jpeg',
+                'image_2' => 'required|image|mimes:jpg,png,jpeg',
             ];
 
             $validator = Validator::make($request->all(), $rules);
@@ -249,9 +285,7 @@ class ProjectController extends Controller
                     $project->project_title = $request->input('project_title');
                     $project->client_id = $request->input('client_id');
                     $project->project_description = $request->input('project_description');
-                    $project->project_features = $request->input('project_features');
                     $project->project_location = $request->input('project_location');
-                    $project->project_problem = $request->input('project_problem');
                     $project->handover_time = $request->input('handover_time');
                     $project->project_type = $request->input('project_type');
                     $project->project_status = $request->input('project_status');

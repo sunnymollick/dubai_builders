@@ -97,11 +97,6 @@
         <div class="clearfix"></div> -->
         <br>
 
-        <div class="d-grid gap-2">
-            <button class="btn btn-primary button-submit" type="submit" data-loading-text="Loading...">
-                <i class="fadeIn animated bx bx-save"></i>Update</button>
-        </div>
-
     </div>
 </form>
 

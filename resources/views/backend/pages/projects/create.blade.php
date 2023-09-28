@@ -12,6 +12,20 @@
         <div class="clearfix"></div>
 
         <div class="form-group col-md-12">
+            <label for="">Project Permit <span style="color: red;">*</span></label>
+            <input type="text" class="form-control" id="project_permit" name="project_permit" value="" placeholder="" required>
+            <span id="error_title" class="has-error"></span>
+        </div>
+        <div class="clearfix"></div>
+
+        <div class="form-group col-md-12">
+            <label for="">Project Permit <span style="color: red;">*</span></label>
+            <input type="text" class="form-control" id="project_permit" name="project_permit" value="" placeholder="" required>
+            <span id="error_title" class="has-error"></span>
+        </div>
+        <div class="clearfix"></div>
+
+        <div class="form-group col-md-12">
             <label for="">Client Name <span style="color: red;">*</span></label>
             <select class="form-control" name="client_id" id="client_id" required>
                 <option value="">Select Client</option>
@@ -32,24 +46,8 @@
         <div class="clearfix"></div>
 
         <div class="form-group col-md-12 col-sm-12">
-            <label for="">Project Features <span style="color: red;">*</span></label>
-            <textarea class="form-control ckeditor" id="project_features" name="project_features" value="" cols="50"
-                rows="4" required></textarea>
-            <span id="error_title" class="has-error"></span>
-        </div>
-        <div class="clearfix"></div>
-
-        <div class="form-group col-md-12 col-sm-12">
             <label for="">Project Location <span style="color: red;">*</span></label>
             <input type="text" class="form-control" id="project_location" name="project_location" value=""
-                placeholder="" required>
-            <span id="error_title" class="has-error"></span>
-        </div>
-        <div class="clearfix"></div>
-
-        <div class="form-group col-md-12 col-sm-12">
-            <label for="">Project Problem <span style="color: red;">*</span></label>
-            <input type="text" class="form-control" id="project_problem" name="project_problem" value=""
                 placeholder="" required>
             <span id="error_title" class="has-error"></span>
         </div>
@@ -97,24 +95,21 @@
 
         <div class="form-group col-md-12 col-sm-12">
             <label for="">Hero Image <span style="color: red;">*</span></label>
-            <input type="file" class="form-control" id="hero_image" name="hero_image" required width="772"
-                height="978">
+            <input type="file" class="form-control" id="hero_image" name="hero_image" required><p style="color: red; font-size: 12px">Photo must be 770 X 980 pixel (width X height)</p>
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
 
         <div class="form-group col-md-12 col-sm-12">
             <label for="">First Image <span style="color: red;">*</span></label>
-            <input type="file" class="form-control" id="image_1" name="image_1" required width="370"
-                height="260">
+            <input type="file" class="form-control" id="image_1" name="image_1" required width="370" height="260"><p style="color: red; font-size: 12px">Photo must be 370 X 260 pixel (width X height)</p>
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
 
         <div class="form-group col-md-12 col-sm-12">
             <label for="">Second Image <span style="color: red;">*</span></label>
-            <input type="file" class="form-control" id="image_2" name="image_2" required width="370"
-                height="260">
+            <input type="file" class="form-control" id="image_2" name="image_2" required width="370" height="260"><p style="color: red; font-size: 12px">Photo must be 370 X 260 pixel (width X height)</p>
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
@@ -151,7 +146,9 @@
     });
 </script>
 
-<script src="{{asset('backend/ckeditor/ckeditor.js')}}"></script>
-<script>
-    CKEDITOR.replace('project_features');
+<script src="https://cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.ckeditor').ckeditor();
+    });
 </script>

@@ -47,7 +47,7 @@ Completed Projects
                                 <div class="teambox_intro">
                                     <div class="team_flex">
                                         <h6>{{$hg->project_location}}</h6>
-                                        <h5><a href="project-details.html">{{$hg->project_title}}</a></h5>
+                                        <h5><a href="{{route('frontend.projects.details', $hg->id)}}">{{$hg->project_title}}</a></h5>
                                     </div>
                                 </div>
                             </div>
@@ -72,7 +72,7 @@ Completed Projects
                                 <div class="teambox_intro">
                                     <div class="team_flex">
                                         <h6>{{$bs->project_location}}</h6>
-                                        <h5><a href="project-details.html">{{$bs->project_title}}</a></h5>
+                                        <h5><a href="{{route('frontend.projects.details', $bs->id)}}">{{$bs->project_title}}</a></h5>
                                     </div>
                                 </div>
                             </div>
@@ -97,7 +97,7 @@ Completed Projects
                                 <div class="teambox_intro">
                                     <div class="team_flex">
                                         <h6>{{$rs->project_location}}</h6>
-                                        <h5><a href="project-details.html">{{$rs->project_title}}</a></h5>
+                                        <h5><a href="{{route('frontend.projects.details', $rs->id)}}">{{$rs->project_title}}</a></h5>
                                     </div>
                                 </div>
                             </div>
@@ -123,7 +123,7 @@ Completed Projects
                                 <div class="teambox_intro">
                                     <div class="team_flex">
                                         <h6>{{$cm->project_location}}</h6>
-                                        <h5><a href="project-details.html">{{$cm->project_title}}</a></h5>
+                                        <h5><a href="{{route('frontend.projects.details', $cm->id)}}">{{$cm->project_title}}</a></h5>
                                     </div>
                                 </div>
                             </div>

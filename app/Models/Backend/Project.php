@@ -2,6 +2,7 @@
 
 namespace App\Models\Backend;
 
+use App\Models\Backend\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
