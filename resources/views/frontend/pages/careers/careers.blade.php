@@ -76,48 +76,36 @@
             width: 100%;
             text-align: center;
         }
+
+        .job-title {
+            color: white;
+        }
+
+        .job-header span {
+            color: white;
+        }
     </style>
     <div class="container">
 
         <div class="all-job">
-            <div class="job">
-                <div class="job-detail">
-                    <h1 class="job-title">
-                        Site Engineer
-                    </h1>
-                    <div class="job-header">
-                        <ul>
-                            <li><span>Vacancy: </span>10</li>
-                            <li><span>Salary: </span>Tk. 25000 - 50000 (Monthly)</li>
-                            <li><span>Job Location: </span>Chattogram, Dhaka (Uttara, Dhanmondi 27)</li>
-                            <li><span>Deadline: </span>October 31, 2023</li>
-                            <li><span>Experience: </span>At least 1 year</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="action">
-                    <a href="#" class="button">Apply Now</a>
-                </div>
-            </div>
-
             @foreach ($careers as $c)
                 <div class="job">
                     <div class="job-detail">
                         <h1 class="job-title">
-                            {{$c->job_title}}
+                            {{ $c->job_title }}
                         </h1>
                         <div class="job-header">
                             <ul>
-                                <li><span>Vacancy: </span>{{$c->no_of_vacancy}}</li>
-                                <li><span>Salary: </span>Tk. {{$c->sarary}}</li>
-                                <li><span>Job Location: </span>{{$c->job_location}}</li>
-                                <li><span>Deadline: </span>{{$c->deadline}}</li>
-                                <li><span>Experience: </span>{{$c->experience}}</li>
+                                <li><span>Vacancy: </span>{{ $c->no_of_vacancy }}</li>
+                                <li><span>Salary: </span>Tk. {{ $c->sarary }}</li>
+                                <li><span>Job Location: </span>{{ $c->job_location }}</li>
+                                <li><span>Deadline: </span>{{ $c->deadline }}</li>
+                                <li><span>Experience: </span>{{ $c->experience }}</li>
                             </ul>
                         </div>
                     </div>
                     <div class="action">
-                        <a href="#" class="button">Apply Now</a>
+                        <a href="{{ route('frontend.careers.details', ['id' => $c->id]) }}" class="button">Apply Now</a>
                     </div>
                 </div>
             @endforeach
