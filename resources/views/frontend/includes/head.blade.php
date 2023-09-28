@@ -17,3 +17,8 @@
 
 <!-- Lead Style -->
 <link href="{{ asset('frontend/') }}/css/style.css" rel="stylesheet" type="text/css">
+
+<meta name="csrf-token" content="{{ csrf_token() }}">
+<script>
+    var CSRF_TOKEN = "{{ csrf_token() }}";
+</script>

@@ -60,7 +60,7 @@ Blog Details
 
                             <p>
                                 {{ $blog->blog_description }}
-                            </p>
+                            </p> 
 
                             <div class="video_post">
                                 <div class="ytube_video">

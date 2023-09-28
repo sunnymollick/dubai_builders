@@ -385,87 +385,124 @@ Home
             <h6 class="section_sub_title">Clients Requirement</h6>
             <h1 class="section_title">Request For Quotation</h1>
         </div>
-        <div class="row">
-            <div class="col-12">
-                <div class="container card-0 justify-content-center ">
-                    <div class="card-body px-sm-4 px-0">
-                        <div class="row justify-content-center mb-5">
-                            <div class="col-md-10 col">
-                                <h3 class="font-weight-bold ml-md-0 mx-auto text-center text-sm-left"> Request a Quote </h3>
-                                <p class="mt-md-4 ml-md-0 ml-2 text-center text-sm-left"> {{ $app_settings->app_name ?? '' }} is the best construction company. It has best team who are provideing best service possible.</p>
-                            </div>
-                        </div>
-                    <div class="row justify-content-center round">
-                        <div class="col-lg-10 col-md-12 ">
-                            <div class="card shadow-lg card-1">
-                                <div class="card-body inner-card">
-                                    <div class="row justify-content-center">
-                                        <div class="col-lg-5 col-md-6 col-sm-12">
-                                            <div class="form-group">
-                                                <label for="first-name">Name</label>
-                                                <input type="text" class="form-control" id="first-name" placeholder="Type your Name">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="Mobile-Number">Mobile Number</label>
-                                                <input type="text" class="form-control" id="Mobile-Number" placeholder="">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="inputEmail4">Project Type</label>
-                                                <select class="form-control">
-                                                    <option>Web Design</option>
-                                                    <option>Blockchain</option>
-                                                    <option>ML</option> </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="time">Maximum time for the project</label>
-                                                <input type="text" class="form-control" id="time" placeholder="">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-5 col-md-6 col-sm-12">
-                                            <div class="form-group">
-                                                <label for="phone">Email</label>
-                                                <input type="email" class="form-control" id="email" placeholder="">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="last-name">Location</label>
-                                                <input type="text" class="form-control" id="last-name" placeholder="">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="Evaluate Budget">Evaluate Budget</label>
-                                                <input type="text" class="form-control" id="Evaluate Budget" placeholder="">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="Company-Name">Company Name</label>
-                                                <input type="text" class="form-control" id="Company-Name" placeholder="">
-                                            </div>
-                                        </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="container card-0 justify-content-center ">
+                        <form id='create' action="" enctype="multipart/form-data" method="post" accept-charset="utf-8" class="needs-validation" novalidate>
+                            <div class="card-body px-sm-4 px-0">
+                                <div class="row justify-content-center mb-5">
+                                    <div class="col-md-10 col">
+                                        <h3 class="font-weight-bold ml-md-0 mx-auto text-center text-sm-left"> Request a Quote </h3>
+                                        <p class="mt-md-4 ml-md-0 ml-2 text-center text-sm-left"> {{ $app_settings->app_name ?? '' }} is the best construction company. It has best team who are provideing best service possible.</p>
                                     </div>
-                                    <div class="row justify-content-center">
-                                        <div class="col-md-12 col-lg-10 col-12">
-                                            <div class="form-group files">
-                                                <label class="my-auto">Upload Your File </label>
-                                                <input id="file" type="file" class="form-control" /></div>
-                                            </div> </div> <div class="row justify-content-center">
-                                                <div class="col-md-12 col-lg-10 col-12">
+                                </div>
+                                <div class="row justify-content-center round">
+                                <div class="col-lg-10 col-md-12 ">
+                                    <div class="card shadow-lg card-1">
+                                        <div class="card-body inner-card">
+                                            <div class="row justify-content-center">
+                                                <div class="col-lg-5 col-md-6 col-sm-12">
                                                     <div class="form-group">
-                                                        <label for="exampleFormControlTextarea2">Message</label>
-                                                        <textarea class="form-control rounded-0" id="exampleFormControlTextarea2" rows="5"></textarea>
+                                                        <label for="first-name">Name <span class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter your Name" required>
+                                                        @error('name')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
                                                     </div>
-                                                    <div class="mb-2 mt-4">
-                                                        <div class="text-right">
-                                                            <button type="submit" class="button"><small class="font-weight-bold">Request a Quote</small></button>
+                                                    <div class="form-group">
+                                                        <label for="Mobile-Number">Mobile Number <span class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Enter Phone Number" required>
+                                                        @error('name')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="inputEmail4">Project Type <span class="text-danger">*</span></label>
+                                                        <select class="form-control" name="project_type" id="project_type" required>
+                                                            <option value="" selected disabled>Select Project Type</option>
+                                                            <option>Commercial</option>
+                                                            <option>Highrise</option>
+                                                            <option>Residential</option>
+                                                            <option>Business</option>
+                                                        </select>
+                                                        @error('name')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="time">Maximum time for the project</label>
+                                                        <input type="text" class="form-control" id="project_time" name="project_time" placeholder="Enter Project Time" >
+                                                        @error('name')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-5 col-md-6 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label for="phone">Email <span class="text-danger">*</span></label>
+                                                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email" required>
+                                                        @error('email')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="last-name">Location <span class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" id="location" name="location" placeholder="Enter Location" required>
+                                                        @error('location')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="Evaluate Budget">Evaluate Budget <span class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" id="evaluate_budget" name="evaluate_budget" placeholder="Enter your evaluate budget" required>
+                                                        @error('evaluate_budget')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="Company-Name">Company Name</label>
+                                                        <input type="text" class="form-control" id="company_name" name="company_name" placeholder="Enter Company Name">
+                                                        @error('company_name')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-center">
+                                                <div class="col-md-12 col-lg-10 col-12">
+                                                    <div class="form-group files">
+                                                        <label class="my-auto">Upload Your File </label>
+                                                        <input id="file" type="file" class="form-control" />
+                                                        @error('file')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
+                                                    </div>
+                                                    </div> </div> <div class="row justify-content-center">
+                                                        <div class="col-md-12 col-lg-10 col-12">
+                                                            <div class="form-group">
+                                                                <label for="exampleFormControlTextarea2">Message <span class="text-danger">*</span></label>
+                                                                <textarea class="form-control rounded-0" id="message" name="message" rows="5" required></textarea>
+                                                                @error('message')
+                                                                    <span class="text-danger">{{ $message }}</span>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="mb-2 mt-4">
+                                                                <div class="text-right">
+                                                                    <button type="submit" class="button button-submit"><small class="font-weight-bold">Request a Quote</small></button>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
                             </div>
-                        </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
     </div>
 </div>
 
@@ -544,6 +581,52 @@ Home
 </div>
 @endsection
 @section('scripts')
+<script>
+    $('.button-submit').click(function () {
+        $('#create').validate({
+            submitHandler: function (form) {
+                var myData = new FormData($("#create")[0]);
+                myData.append('_token', CSRF_TOKEN);
+                swal({
+                    title: "Are you sure to submit?",
+                    text: "Submit Form",
+                    type: "warning",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "Yes, Submit!"
+                }, function () {
+                    // console.log('hi');
+                    $.ajax({
+                        url: '/',
+                        type: 'POST',
+                        data: myData,
+                        dataType: 'json',
+                        cache: false,
+                        processData: false,
+                        contentType: false,
+                        success: function (data) {
+                            if (data.type === 'success') {
+                                $('#myModal').modal('hide');
+                                swal("Done!", "It was succesfully done!", "success");
+                                reload_table();
+                            } else if (data.type === 'error') {
+                                if (data.errors) {
+                                    $.each(data.errors, function (key, val) {
+                                        $('#error_' + key).html(val);
+                                    });
+                                }
+                                $("#status").html(data.message);
+                                swal("Error sending!", "Please fix the errors", "error");
+                            }
+                        }
+                    });
+                });
+            }
+        });
+    });
+</script>
 <script src="{{ asset('frontend/') }}/js/funfacts.js"></script>
 <!-- <script>
     const buttons = document.querySelectorAll('.button');
