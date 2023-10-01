@@ -37,7 +37,7 @@
                         <li class="menu-item menu-item-has-children"><a href="#">More</a>
                             <ul class="sub-menu">
                                 <li class="menu-item"><a href="{{ route('frontend.about') }}">About</a></li>
-                                <li class="menu-item"><a href="">Career</a></li>
+                                <li class="menu-item"><a href="{{ route('frontend.careers') }}">Career</a></li>
                                 <li class="menu-item"><a href="{{ route('frontend.blogs') }}">Blog</a></li>
                             </ul>
                         </li>

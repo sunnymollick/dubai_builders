@@ -19,9 +19,11 @@ Contact
 @section('content')
 <div class="section">
     <div class="container">
-        <div class="gmapbox" data-aos="zoom-in">
+        {{-- <div class="gmapbox" data-aos="zoom-in">
             <div id="googleMap" class="map"></div>
-        </div>
+        </div> --}}
+
+        {!! $app_settings->maps !!}
     </div>
 </div>
 <div class="contact_inner">
@@ -66,39 +68,51 @@ Contact
                     <div class="section_header" data-aos="fade-left" data-aos-duration="700">
                         <h6 class="section_sub_title">Contact Us</h6>
                         <h1 class="section_title">Want to Ask anything?<br />
-                            Send Us a Mail Anytime</h1>
                     </div>
-                    <form class="contact_form" action="https://wpthemebooster.com/demo/themeforest/html/builderrin/dark/contact.php" method="post" data-aos="fade-left" data-aos-duration="1000">
+                    @if (Session::has('success'))
+                    <div class="alert alert-success">
+                        <ul>
+                            <li>{!! \Session::get('success') !!}</li>
+                        </ul>
+                    </div>
+                    @endif
+                    <form class="contact_form" action="{{route('frontend.contact.store')}}" enctype="multipart/form-data" method="post">
+                        @csrf
                         <div class="form-container">
                             <div class="row">
                                 <div class="col-md-6 col-lg-6">
                                     <div class="form-group">
-                                        <input type="text" name="name" class="form-control" placeholder="Your Name*" required="">
+                                        <input type="text" name="name" class="form-control" placeholder="Your Name*" required>
+                                        <span id="error_title" class="has-error"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-lg-6">
                                     <div class="form-group">
-                                        <input type="email" name="email" class="form-control" placeholder="Email Address*" required="">
+                                        <input type="email" name="email" class="form-control" placeholder="Email Address*" required>
+                                        <span id="error_title" class="has-error"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-lg-6">
                                     <div class="form-group">
-                                        <input type="text" name="phone" class="form-control" placeholder="Phone No">
+                                        <input type="text" name="phone" class="form-control" placeholder="Phone No" required>
+                                        <span id="error_title" class="has-error"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-lg-6">
                                     <div class="form-group">
-                                        <input type="text" name="subject" class="form-control" placeholder="Subject">
+                                        <input type="text" name="subject" class="form-control" placeholder="Subject" required>
+                                        <span id="error_title" class="has-error"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-lg-12">
                                     <div class="form-group">
-                                        <textarea name="message" class="form-control" placeholder="Message Here*" required=""></textarea>
+                                        <textarea name="message" class="form-control" placeholder="Message Here*" required></textarea>
+                                        <span id="error_title" class="has-error"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-lg-12">
                                     <div class="form-group">
-                                        <input class="button" type="submit" value="Send Mail" name="submit">
+                                        <button class="btn btn-warning" type="submit">Send</button>
                                     </div>
                                 </div>
                             </div>

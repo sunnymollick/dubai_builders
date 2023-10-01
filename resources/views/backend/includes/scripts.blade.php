@@ -5,6 +5,7 @@
 <script src="{{asset('backend')}}/plugins/simplebar/js/simplebar.min.js"></script>
 <script src="{{asset('backend')}}/plugins/metismenu/js/metisMenu.min.js"></script>
 <script src="{{asset('backend')}}/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+
 <script src="{{asset('backend')}}/js/index5.js"></script>
 <!--app JS-->
 <script src="{{asset('backend')}}/js/app.js"></script>
@@ -37,11 +38,9 @@
 
 
 <script>
-    $.fn.modal.Constructor.prototype.enforceFocus = function () {
-    };
+    $.fn.modal.Constructor.prototype.enforceFocus = function() {};
 </script>
 <script>
-
     function notify_view(type, message) {
 
         toastr.options = {

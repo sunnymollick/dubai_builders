@@ -5,7 +5,7 @@
     <div class="form-row">
 
         <div class="form-group col-md-12">
-            <label for="">Project Name <span style="color: red;">*</span></label>
+            <label for="">Project Name </label>
             <input type="text" class="form-control" id="project_title" name="project_title"
                 value="{{ $project->project_title }}" placeholder="">
             <span id="error_title" class="has-error"></span>
@@ -13,7 +13,7 @@
         <div class="clearfix"></div>
 
         <div class="form-group col-md-12">
-            <label for="">Client Name <span style="color: red;">*</span></label>
+            <label for="">Client Name </label>
             <select class="form-control" name="client_id" id="client_id">
                 <option value="">Select Client</option>
 
@@ -27,21 +27,14 @@
         <div class="clearfix"></div>
 
         <div class="form-group col-md-12 col-sm-12">
-            <label for="">Project Description <span style="color: red;">*</span></label>
+            <label for="">Project Description </label>
             <textarea class="form-control" id="project_description" name="project_description" cols="50" rows="4">{{ $project->project_description }}</textarea>
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
 
         <div class="form-group col-md-12 col-sm-12">
-            <label for="">Project Features <span style="color: red;">*</span></label>
-            <textarea class="form-control ckeditor" id="project_features" name="project_features" cols="50" rows="4">{{ $project->project_features }}</textarea>
-            <span id="error_title" class="has-error"></span>
-        </div>
-        <div class="clearfix"></div>
-
-        <div class="form-group col-md-12 col-sm-12">
-            <label for="">Project Location <span style="color: red;">*</span></label>
+            <label for="">Project Location </label>
             <input type="text" class="form-control" id="project_location" name="project_location"
                 value="{{ $project->project_location }}" placeholder="">
             <span id="error_title" class="has-error"></span>
@@ -49,15 +42,7 @@
         <div class="clearfix"></div>
 
         <div class="form-group col-md-12 col-sm-12">
-            <label for="">Project Problem <span style="color: red;">*</span></label>
-            <input type="text" class="form-control" id="project_problem" name="project_problem"
-                value="{{ $project->project_problem }}" placeholder="">
-            <span id="error_title" class="has-error"></span>
-        </div>
-        <div class="clearfix"></div>
-
-        <div class="form-group col-md-12 col-sm-12">
-            <label for="">Handover_time <span style="color: red;">*</span></label>
+            <label for="">Handover_time </label>
             <input type="text" class="form-control" id="handover_time" name="handover_time"
                 value="{{ $project->handover_time }}" placeholder="">
             <span id="error_title" class="has-error"></span>
@@ -65,7 +50,7 @@
         <div class="clearfix"></div>
 
         <div class="form-group col-md-12 col-sm-12">
-            <label for="">Project Type <span style="color: red;">*</span></label>
+            <label for="">Project Type </label>
             <select class="form-control" name="project_type" id="project_type">
                 <option value="">Select Type</option>
                 <option value="0" {{ $project->project_type == '0' ? 'selected' : '' }}>Residential</option>
@@ -78,7 +63,7 @@
         <div class="clearfix"></div>
 
         <div class="form-group col-md-12 col-sm-12">
-            <label for="">Project Status <span style="color: red;">*</span></label>
+            <label for="">Project Status </label>
             <select class="form-control" name="project_status" id="project_status">
                 <option value="">Select Status</option>
                 <option value="0" {{ $project->project_status == '0' ? 'selected' : '' }}>Running</option>
@@ -90,32 +75,29 @@
         <div class="clearfix"></div>
 
         <!-- <div class="form-group col-md-12 col-sm-12">
-            <label for="">Thumbnail Image <span style="color: red;">*</span></label>
+            <label for="">Thumbnail Image </label>
             <input type="file" class="form-control" id="thumbnail_image" name="thumbnail_image"  width="490" height="645">
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div> -->
 
         <div class="form-group col-md-12 col-sm-12">
-            <label for="">Hero Image <span style="color: red;">*</span></label>
-            <input type="file" class="form-control" id="hero_image" name="hero_image" width="772"
-                height="978">
+            <label for="">Hero Image </label>
+            <input type="file" class="form-control" id="hero_image" name="hero_image"><p style="color: red; font-size: 12px">Photo must be 770 X 980 pixel (width X height)</p>
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
 
         <div class="form-group col-md-12 col-sm-12">
-            <label for="">First Image <span style="color: red;">*</span></label>
-            <input type="file" class="form-control" id="image_1" name="image_1" width="370"
-                height="260">
+            <label for="">First Image </label>
+            <input type="file" class="form-control" id="image_1" name="image_1"><p style="color: red; font-size: 12px">Photo must be 370 X 260 pixel (width X height)</p>
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
 
         <div class="form-group col-md-12 col-sm-12">
-            <label for="">Second Image <span style="color: red;">*</span></label>
-            <input type="file" class="form-control" id="image_2" name="image_2" width="370"
-                height="260">
+            <label for="">Second Image </label>
+            <input type="file" class="form-control" id="image_2" name="image_2"><p style="color: red; font-size: 12px">Photo must be 370 X 260 pixel (width X height)</p>
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
@@ -124,7 +106,7 @@
 
             <input type="checkbox" class="form-check-input" id="is_active" name="is_active" value="1"
                 {{ $project->is_active == '1' ? 'checked' : '' }}>
-            <label class="form-check-label" for="">Is Active <span style="color: red;">*</span></label>
+            <label class="form-check-label" for="">Is Active </label>
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
@@ -132,7 +114,7 @@
         <div class="form-check">
             <input type="checkbox" class="form-check-input" id="is_popular" name="is_popular" value="1"
                 {{ $project->is_popular == '1' ? 'checked' : '' }}>
-            <label class="form-check-label" for="">Is Popular <span style="color: red;">*</span></label>
+            <label class="form-check-label" for="">Is Popular </label>
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>

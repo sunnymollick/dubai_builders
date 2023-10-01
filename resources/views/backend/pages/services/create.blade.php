@@ -32,8 +32,7 @@
 
         <div class="form-group col-md-12 col-sm-12">
             <label for="">Thumbnail Image <span style="color: red;">*</span></label>
-            <input type="file" class="form-control" id="thumb_image" name="thumb_image" required width="370"
-                height="340">
+            <input type="file" class="form-control" id="thumb_image" name="thumb_image" required>
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
@@ -41,8 +40,7 @@
 
         <div class="form-group col-md-12 col-sm-12">
             <label for="">Hero Image <span style="color: red;">*</span></label>
-            <input type="file" class="form-control" id="hero_image" name="hero_image" required width="772"
-                height="978">
+            <input type="file" class="form-control" id="hero_image" name="hero_image" required>
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
@@ -50,7 +48,7 @@
 
         <div class="form-group col-md-12 col-sm-12">
             <label for="">First Image <span style="color: red;">*</span></label>
-            <input type="file" class="form-control" id="image_1" name="image_1" required width="370" height="260">
+            <input type="file" class="form-control" id="image_1" name="image_1" required>
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
@@ -58,7 +56,7 @@
 
         <div class="form-group col-md-12 col-sm-12">
             <label for="">Second Image <span style="color: red;">*</span></label>
-            <input type="file" class="form-control" id="image_2" name="image_2" required width="370" height="260">
+            <input type="file" class="form-control" id="image_2" name="image_2" required>
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
@@ -66,7 +64,15 @@
 
         <div class="form-group col-md-12 col-sm-12">
             <label for="">Logo <span style="color: red;">*</span></label>
-            <input type="file" class="form-control" id="logo" name="logo" required width="73" height="73">
+            <input type="file" class="form-control" id="logo" name="logo" required>
+            <span id="error_title" class="has-error"></span>
+        </div>
+        <div class="clearfix"></div>
+        <br>
+
+        <div class="form-group col-md-12 col-sm-12">
+            <label for="">Home Image <span style="color: red;">*</span></label>
+            <input type="file" class="form-control" id="home_image" name="home_image" required>
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
@@ -74,8 +80,8 @@
 
         <div class="form-group col-md-12">
             <label for="">Video Link <span style="color: red;">*</span></label>
-            <input type="text" class="form-control" id="video_link" name="video_link" value="" placeholder=""
-                required>
+            <input type="text" class="form-control" id="video_link" name="video_link" value=""
+                placeholder="" required>
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
@@ -95,3 +101,4 @@
         ajax_submit_store('services')
     });
 </script>
+
