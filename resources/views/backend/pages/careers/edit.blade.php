@@ -71,7 +71,7 @@
 
         <div class="form-group col-md-12 col-sm-12">
             <label for="">Salary Range <span style="color: red;">*</span></label>
-            <input type="text" class="form-control" id="salary" name="salary" value="{{ $career->sarary }}"
+            <input type="text" class="form-control" id="salary" name="salary" value="{{ $career->salary }}"
                 placeholder="" required>
             <span id="error_title" class="has-error"></span>
         </div>

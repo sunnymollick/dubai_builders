@@ -69,8 +69,8 @@
                         name: 'job_type'
                     },
                     {
-                        data: 'sarary',
-                        name: 'sarary'
+                        data: 'salary',
+                        name: 'salary'
                     },
                     {
                         data: 'is_active',

@@ -71,8 +71,11 @@
                                                 <img src="{{ asset($s->logo) }}" alt="">
                                             </div>
                                             <div class="services_content_flex_cenrer">
-                                                <h4><a href="services.html">{{ $s->service_title }}</a></h4>
-                                                <a href="service-details.html">Get Service </a>
+                                                <h4><a
+                                                        href="{{ route('frontend.services.details', ['id' => $s->id]) }}">{{ $s->service_title }}</a>
+                                                </h4>
+                                                <a href="{{ route('frontend.services.details', ['id' => $s->id]) }}">Get
+                                                    Service </a>
                                             </div>
                                         </div>
                                         <div class="main_img" data-aos="fade-up" data-aos-duration="3000">
@@ -174,7 +177,8 @@
                                         <img src="{{ asset('frontend') }}/images/funfact/p2.png" alt="icon">
                                     </div>
                                     <div class="fun_content">
-                                        <h1><span class="fun-number">{{$completed}}</span><span class="fun-suffix">+</span></h1>
+                                        <h1><span class="fun-number">{{ $completed }}</span><span
+                                                class="fun-suffix">+</span></h1>
                                         <p>Projects Completed</p>
                                     </div>
                                 </div>
@@ -198,7 +202,7 @@
                                         <img src="{{ asset('frontend') }}/images/funfact/p4.png" alt="icon">
                                     </div>
                                     <div class="fun_content">
-                                        <h1><span class="fun-number">{{$running}}</span></h1>
+                                        <h1><span class="fun-number">{{ $running }}</span></h1>
                                         <p>Ongoing Project</p>
                                     </div>
                                 </div>
@@ -233,127 +237,151 @@
                         <button class="button" data-filter=".business">Business</button>
                     </div>
 
-                <div class="grid grid-5">
-                    <!-- @foreach ($all as $a)
+                    <div class="grid grid-5">
+                        <!-- @foreach ($all as $a)
     <div class="element-item all" id="tab-content-1">
-                                    <div class="teambox">
-                                        <img src="{{ asset($a->thumbnail_image) }}" alt="">
-                                        <div class="teambox_inner">
-                                            <div class="team_social">
-                                                <div class="share"><i class="ion-android-share-alt"></i></div>
-                                                <ul>
-                                                    <li class="facebook"><a href="#"><i class="ion-social-facebook"></i></a></li>
-                                                    <li class="twitter"><a href="#"><i class="ion-social-twitter"></i></a></li>
-                                                    <li class="instagram"><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
-                                                    <li class="linkedin"><a href="#"><i class="ion-social-linkedin-outline"></i></a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="teambox_intro">
-                                                <div class="team_flex">
-                                                    <h6>{{ $a->project_location }}</h6>
-                                                    <h5><a href="project-details.html">{{ $a->project_title }}</a></h5>
+                                            <div class="teambox">
+                                                <img src="{{ asset($a->thumbnail_image) }}" alt="">
+                                                <div class="teambox_inner">
+                                                    <div class="team_social">
+                                                        <div class="share"><i class="ion-android-share-alt"></i></div>
+                                                        <ul>
+                                                            <li class="facebook"><a href="#"><i class="ion-social-facebook"></i></a></li>
+                                                            <li class="twitter"><a href="#"><i class="ion-social-twitter"></i></a></li>
+                                                            <li class="instagram"><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
+                                                            <li class="linkedin"><a href="#"><i class="ion-social-linkedin-outline"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="teambox_intro">
+                                                        <div class="team_flex">
+                                                            <h6>{{ $a->project_location }}</h6>
+                                                            <h5><a href="project-details.html">{{ $a->project_title }}</a></h5>
+                                                        </div>
+                                                    </div>
                                                 </div>
+                                            </div>
+                                        </div>
+    @endforeach -->
+                        @foreach ($highrise as $hg)
+                            <div class="element-item highrise" id="tab-content-2">
+                                <div class="teambox">
+                                    <img src="{{ asset($hg->thumbnail_image) }}" alt="">
+                                    <div class="teambox_inner">
+                                        <div class="team_social">
+                                            <div class="share"><i class="ion-android-share-alt"></i></div>
+                                            <ul>
+                                                <li class="facebook"><a href="#"><i
+                                                            class="ion-social-facebook"></i></a></li>
+                                                <li class="twitter"><a href="#"><i
+                                                            class="ion-social-twitter"></i></a></li>
+                                                <li class="instagram"><a href="#"><i
+                                                            class="ion-social-instagram-outline"></i></a></li>
+                                                <li class="linkedin"><a href="#"><i
+                                                            class="ion-social-linkedin-outline"></i></a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="teambox_intro">
+                                            <div class="team_flex">
+                                                <h6>{{ $hg->project_location }}</h6>
+                                                <h5><a
+                                                        href="{{ route('frontend.projects.details', $hg->id) }}">{{ $hg->project_title }}</a>
+                                                </h5>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-    @endforeach -->
-                    @foreach ($highrise as $hg)
-                    <div class="element-item highrise" id="tab-content-2">
-                        <div class="teambox">
-                            <img src="{{ asset($hg->thumbnail_image) }}" alt="">
-                            <div class="teambox_inner">
-                                <div class="team_social">
-                                    <div class="share"><i class="ion-android-share-alt"></i></div>
-                                    <ul>
-                                        <li class="facebook"><a href="#"><i class="ion-social-facebook"></i></a></li>
-                                        <li class="twitter"><a href="#"><i class="ion-social-twitter"></i></a></li>
-                                        <li class="instagram"><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
-                                        <li class="linkedin"><a href="#"><i class="ion-social-linkedin-outline"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="teambox_intro">
-                                    <div class="team_flex">
-                                        <h6>{{ $hg->project_location }}</h6>
-                                        <h5><a href="{{route('frontend.projects.details', $hg->id)}}">{{ $hg->project_title }}</a></h5>
-                                    </div>
-                                </div>
                             </div>
-                        </div>
-                    </div>
-                    @endforeach
+                        @endforeach
 
-                    @foreach ($business as $bs)
-                    <div class="element-item business" id="tab-content-3">
-                        <div class="teambox">
-                            <img src="{{ asset($bs->thumbnail_image) }}" alt="">
-                            <div class="teambox_inner">
-                                <div class="team_social">
-                                    <div class="share"><i class="ion-android-share-alt"></i></div>
-                                    <ul>
-                                        <li class="facebook"><a href="#"><i class="ion-social-facebook"></i></a></li>
-                                        <li class="twitter"><a href="#"><i class="ion-social-twitter"></i></a></li>
-                                        <li class="instagram"><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
-                                        <li class="linkedin"><a href="#"><i class="ion-social-linkedin-outline"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="teambox_intro">
-                                    <div class="team_flex">
-                                        <h6>{{ $bs->project_location }}</h6>
-                                        <h5><a href="{{route('frontend.projects.details', $bs->id)}}">{{ $bs->project_title }}</a></h5>
+                        @foreach ($business as $bs)
+                            <div class="element-item business" id="tab-content-3">
+                                <div class="teambox">
+                                    <img src="{{ asset($bs->thumbnail_image) }}" alt="">
+                                    <div class="teambox_inner">
+                                        <div class="team_social">
+                                            <div class="share"><i class="ion-android-share-alt"></i></div>
+                                            <ul>
+                                                <li class="facebook"><a href="#"><i
+                                                            class="ion-social-facebook"></i></a></li>
+                                                <li class="twitter"><a href="#"><i
+                                                            class="ion-social-twitter"></i></a></li>
+                                                <li class="instagram"><a href="#"><i
+                                                            class="ion-social-instagram-outline"></i></a></li>
+                                                <li class="linkedin"><a href="#"><i
+                                                            class="ion-social-linkedin-outline"></i></a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="teambox_intro">
+                                            <div class="team_flex">
+                                                <h6>{{ $bs->project_location }}</h6>
+                                                <h5><a
+                                                        href="{{ route('frontend.projects.details', $bs->id) }}">{{ $bs->project_title }}</a>
+                                                </h5>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    @endforeach
+                        @endforeach
 
-                    @foreach ($residential as $rs)
-                    <div class="element-item residential" id="tab-content-4">
-                        <div class="teambox">
-                            <img src="{{ asset($rs->thumbnail_image) }}" alt="">
-                            <div class="teambox_inner">
-                                <div class="team_social">
-                                    <div class="share"><i class="ion-android-share-alt"></i></div>
-                                    <ul>
-                                        <li class="facebook"><a href="#"><i class="ion-social-facebook"></i></a></li>
-                                        <li class="twitter"><a href="#"><i class="ion-social-twitter"></i></a></li>
-                                        <li class="instagram"><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
-                                        <li class="linkedin"><a href="#"><i class="ion-social-linkedin-outline"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="teambox_intro">
-                                    <div class="team_flex">
-                                        <h6>{{ $rs->project_location }}</h6>
-                                        <h5><a href="{{route('frontend.projects.details', $rs->id)}}">{{ $rs->project_title }}</a></h5>
+                        @foreach ($residential as $rs)
+                            <div class="element-item residential" id="tab-content-4">
+                                <div class="teambox">
+                                    <img src="{{ asset($rs->thumbnail_image) }}" alt="">
+                                    <div class="teambox_inner">
+                                        <div class="team_social">
+                                            <div class="share"><i class="ion-android-share-alt"></i></div>
+                                            <ul>
+                                                <li class="facebook"><a href="#"><i
+                                                            class="ion-social-facebook"></i></a></li>
+                                                <li class="twitter"><a href="#"><i
+                                                            class="ion-social-twitter"></i></a></li>
+                                                <li class="instagram"><a href="#"><i
+                                                            class="ion-social-instagram-outline"></i></a></li>
+                                                <li class="linkedin"><a href="#"><i
+                                                            class="ion-social-linkedin-outline"></i></a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="teambox_intro">
+                                            <div class="team_flex">
+                                                <h6>{{ $rs->project_location }}</h6>
+                                                <h5><a
+                                                        href="{{ route('frontend.projects.details', $rs->id) }}">{{ $rs->project_title }}</a>
+                                                </h5>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    @endforeach
+                        @endforeach
 
-                    @foreach ($commercial as $cm)
-                    <div class="element-item commercial" id="tab-content-5">
-                        <div class="teambox">
-                            <img src="{{ asset($cm->thumbnail_image) }}" alt="">
-                            <div class="teambox_inner">
-                                <div class="team_social">
-                                    <div class="share"><i class="ion-android-share-alt"></i></div>
-                                    <ul>
-                                        <li class="facebook"><a href="#"><i class="ion-social-facebook"></i></a></li>
-                                        <li class="twitter"><a href="#"><i class="ion-social-twitter"></i></a></li>
-                                        <li class="instagram"><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
-                                        <li class="linkedin"><a href="#"><i class="ion-social-linkedin-outline"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="teambox_intro">
-                                    <div class="team_flex">
-                                        <h6>{{ $cm->project_location }}</h6>
-                                        <h5><a href="{{route('frontend.projects.details', $cm->id)}}">{{ $cm->project_title }}</a></h5>
+                        @foreach ($commercial as $cm)
+                            <div class="element-item commercial" id="tab-content-5">
+                                <div class="teambox">
+                                    <img src="{{ asset($cm->thumbnail_image) }}" alt="">
+                                    <div class="teambox_inner">
+                                        <div class="team_social">
+                                            <div class="share"><i class="ion-android-share-alt"></i></div>
+                                            <ul>
+                                                <li class="facebook"><a href="#"><i
+                                                            class="ion-social-facebook"></i></a></li>
+                                                <li class="twitter"><a href="#"><i
+                                                            class="ion-social-twitter"></i></a></li>
+                                                <li class="instagram"><a href="#"><i
+                                                            class="ion-social-instagram-outline"></i></a></li>
+                                                <li class="linkedin"><a href="#"><i
+                                                            class="ion-social-linkedin-outline"></i></a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="teambox_intro">
+                                            <div class="team_flex">
+                                                <h6>{{ $cm->project_location }}</h6>
+                                                <h5><a
+                                                        href="{{ route('frontend.projects.details', $cm->id) }}">{{ $cm->project_title }}</a>
+                                                </h5>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
                         @endforeach
                     </div>
 
@@ -641,20 +669,4 @@
 @endsection
 @section('scripts')
     <script src="{{ asset('frontend/') }}/js/funfacts.js"></script>
-    <!-- <script>
-        const buttons = document.querySelectorAll('.button');
-        const contentElements = document.querySelectorAll('.element-item');
-
-        buttons.forEach((button, index) => {
-            button.addEventListener('click', () => {
-                // Hide all content elements
-                contentElements.forEach((element) => {
-                    element.style.display = 'none';
-                });
-
-                // Show the clicked tab's content
-                contentElements[index].style.display = 'block';
-            });
-        });
-    </script> -->
 @endsection

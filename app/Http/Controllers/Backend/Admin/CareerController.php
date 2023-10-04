@@ -96,7 +96,7 @@ class CareerController extends Controller
                     $career->experience_requirement = $request->input('ex_requirement');
                     $career->additional_requirement = $request->input('ad_requirement');
                     $career->no_of_vacancy = $request->input('vacancy');
-                    $career->sarary = $request->input('salary');
+                    $career->salary = $request->input('salary');
                     $career->job_location = $request->input('location');
                     $career->experience = $request->input('experience');
                     $career->deadline = $request->input('deadline');
@@ -186,7 +186,7 @@ class CareerController extends Controller
                     $career->experience_requirement = $request->input('ex_requirement');
                     $career->additional_requirement = $request->input('ad_requirement');
                     $career->no_of_vacancy = $request->input('vacancy');
-                    $career->sarary = $request->input('salary');
+                    $career->salary = $request->input('salary');
                     $career->job_location = $request->input('location');
                     $career->experience = $request->input('experience');
                     $career->deadline = $request->input('deadline');

@@ -131,12 +131,9 @@
         </div>
         <div class="clearfix"></div>
         <br>
-        <div class="form-group col-md-12">
-            <label for="">Is Active <span style="color: red;">*</span></label>
-            <select class="form-control" name="is_active" id="is_active" required>
-                <option value="active" selected>Active</option>
-                <option value="inactive">Inactive</option>
-            </select>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="is_active" name="is_active" value="active">
+            <label class="form-check-label" for="">Is Active </label>
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
