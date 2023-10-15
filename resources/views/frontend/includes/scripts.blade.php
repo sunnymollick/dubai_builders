@@ -18,3 +18,15 @@
 <script src="{{ asset('frontend/') }}/plugins/aos/aos.js"></script>
 
 <script src="{{ asset('frontend/') }}/js/custom.js"></script>
+
+<!-- Sweet Alert library -->
+<link rel="stylesheet" href="{{ asset('backend/assets/plugins/sweet-alert/sweetalert.css') }}">
+<script src="{{ asset('backend/assets/plugins/sweet-alert/sweetalert.min.js') }}"></script>
+
+<link rel="stylesheet" href="{{ asset('backend/assets/plugins/select2/select2.min.css') }}">
+<script src="{{ asset('backend/assets/plugins/select2/select2.full.min.js') }}"></script>
+
+
+<!-- Toastr  library -->
+<link rel="stylesheet" href="{{ asset('backend/assets/plugins/toastr/toastr.min.css') }}">
+<script src="{{ asset('backend/assets/plugins/toastr/toastr.min.js') }}"></script>

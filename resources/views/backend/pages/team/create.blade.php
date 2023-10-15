@@ -25,28 +25,28 @@
 
         <div class="form-group col-md-12">
             <label for="">Phone No. <span style="color: red;">*</span></label>
-            <input type="text" class="form-control" id="phone" name="phone" value="" placeholder="" required>
+            <input type="text" class="form-control" id="phone" name="phone" value="" placeholder="" >
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
 
         <div class="form-group col-md-12">
             <label for="">Facebook <span style="color: red;">*</span></label>
-            <input type="text" class="form-control" id="fb_link" name="fb_link" value="" placeholder="" required>
+            <input type="text" class="form-control" id="fb_link" name="fb_link" value="" placeholder="" >
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
 
         <div class="form-group col-md-12">
             <label for="">Twitter <span style="color: red;">*</span></label>
-            <input type="text" class="form-control" id="x_link" name="x_link" value="" placeholder="" required>
+            <input type="text" class="form-control" id="x_link" name="x_link" value="" placeholder="" >
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
 
         <div class="form-group col-md-12">
             <label for="">Linkedin <span style="color: red;">*</span></label>
-            <input type="text" class="form-control" id="linkedin_link" name="linkedin_link" value="" placeholder="" required>
+            <input type="text" class="form-control" id="linkedin_link" name="linkedin_link" value="" placeholder="" >
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
@@ -61,7 +61,7 @@
 
         <div class="form-group col-md-12 col-sm-12">
             <label for="">Description <span style="color: red;">*</span></label>
-            <textarea class="form-control ckeditor" id="description" name="description" value="" cols="50" rows="4" required></textarea>
+            <textarea class="form-control ckeditor" id="description" name="description" value="" cols="50" rows="4" ></textarea>
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>

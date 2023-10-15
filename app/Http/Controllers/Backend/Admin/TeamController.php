@@ -150,11 +150,6 @@ class TeamController extends Controller
 
         if ($request->ajax()) {
             $rules = [
-                'name' => 'required',
-                'designation' => 'required',
-                'email' => 'required',
-                'order' => 'required',
-                'image' => 'required|image|mimes:jpg,png,jpeg',
 
             ];
             $validator = Validator::make($request->all(), $rules);
@@ -207,8 +202,13 @@ class TeamController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Team $team, Request $request)
     {
-        //
+        if ($request->ajax()) {
+            $team->delete();
+            return response()->json(['type' => 'success', 'message' => 'Successfully Deleted']);
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
     }
 }

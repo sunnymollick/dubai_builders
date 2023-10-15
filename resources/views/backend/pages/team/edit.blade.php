@@ -4,56 +4,56 @@
     <div class="form-row">
 
         <div class="form-group col-md-12">
-            <label for="">Name <span style="color: red;">*</span></label>
+            <label for="">Name </label>
             <input type="text" class="form-control" id="name" name="name" value="{{$team->name}}" placeholder="" >
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
 
         <div class="form-group col-md-12">
-            <label for="">Designation <span style="color: red;">*</span></label>
+            <label for="">Designation </label>
             <input type="text" class="form-control" id="designation" name="designation" value="{{$team->designation}}" placeholder="" >
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
 
         <div class="form-group col-md-12">
-            <label for="">Email <span style="color: red;">*</span></label>
+            <label for="">Email </label>
             <input type="text" class="form-control" id="email" name="email" value="{{$team->email}}" placeholder="" >
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
 
         <div class="form-group col-md-12">
-            <label for="">Phone No. <span style="color: red;">*</span></label>
+            <label for="">Phone No. </label>
             <input type="text" class="form-control" id="phone" name="phone" value="{{$team->phone}}" placeholder="" >
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
 
         <div class="form-group col-md-12">
-            <label for="">Facebook <span style="color: red;">*</span></label>
+            <label for="">Facebook </label>
             <input type="text" class="form-control" id="fb_link" name="fb_link" value="{{$team->fb_link}}" placeholder="" >
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
 
         <div class="form-group col-md-12">
-            <label for="">Twitter <span style="color: red;">*</span></label>
+            <label for="">Twitter </label>
             <input type="text" class="form-control" id="x_link" name="x_link" value="{{$team->x_link}}" placeholder="" >
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
 
         <div class="form-group col-md-12">
-            <label for="">Linkedin <span style="color: red;">*</span></label>
+            <label for="">Linkedin </label>
             <input type="text" class="form-control" id="linkedin_link" name="linkedin_link" value="{{$team->linkedin_link}}" placeholder="" >
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
 
         <div class="form-group col-md-12">
-            <label for="">Order <span style="color: red;">*</span></label>
+            <label for="">Order </label>
             <input type="number" class="form-control" id="order" name="order" value="{{$team->order}}" placeholder="" >
             <span id="error_title" class="has-error"></span>
         </div>
@@ -61,14 +61,14 @@
 
 
         <div class="form-group col-md-12 col-sm-12">
-            <label for="">Description <span style="color: red;">*</span></label>
+            <label for="">Description </label>
             <textarea class="form-control ckeditor" id="description" name="description" cols="50" rows="4" >{{$team->description}}</textarea>
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
 
         <div class="form-group col-md-12 col-sm-12">
-            <label for="">Photo <span style="color: red;">*</span></label>
+            <label for="">Photo </label>
 
             <input type="file" class="form-control" id="image" name="image"><p style="color: red; font-size: 12px">Photo must be 370 X 440 pixel (width X height)</p><br>
             <img src="{{asset($team->image)}}" height="100px" width="100px" alt="">
