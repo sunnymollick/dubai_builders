@@ -19,13 +19,6 @@
         <div class="clearfix"></div>
 
         <div class="form-group col-md-12">
-            <label for="">Project Permit <span style="color: red;">*</span></label>
-            <input type="text" class="form-control" id="project_permit" name="project_permit" value="" placeholder="" required>
-            <span id="error_title" class="has-error"></span>
-        </div>
-        <div class="clearfix"></div>
-
-        <div class="form-group col-md-12">
             <label for="">Client Name <span style="color: red;">*</span></label>
             <select class="form-control" name="client_id" id="client_id" required>
                 <option value="">Select Client</option>

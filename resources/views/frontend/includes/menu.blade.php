@@ -1,13 +1,13 @@
+@php
+    $app_settings = DB::table('settings')->where('id',1)->first();
+@endphp
 <div class="middle_bar">
     <div class="container">
         <div class="middle_bar_inner">
             <div class="logo">
                 <a href="index.html" class="light_mode_logo"><img src="{{ asset('frontend') }}/images/logo.svg" alt="logo"></a>
-                <a href="index.html" class="dark_mode_logo"><img src="{{ asset('frontend') }}/images/logo_foot.svg" alt="logo"></a>
+                <a href="{{ url('/') }}" class="dark_mode_logo"><img src="{{ asset($app_settings->app_logo) ?? '' }}" alt="logo"></a>
             </div>
-            @php
-                $app_settings = DB::table('settings')->where('id',1)->first();
-            @endphp
 
             <div class="header_right_part">
                 <div  class="mainnav">
@@ -38,6 +38,7 @@
                             <ul class="sub-menu">
                                 <li class="menu-item"><a href="{{ route('frontend.about') }}">About</a></li>
                                 <li class="menu-item"><a href="{{ route('frontend.careers') }}">Career</a></li>
+                                <li class="menu-item"><a href="{{ route('frontend.blogs') }}">Blog</a></li>
                             </ul>
                         </li>
                                 {{-- <li class="menu-item"><a style="  padding: 25px 5px 25px 0px;" href="{{ route('frontend.about') }}">About</a></li> --}}
@@ -73,7 +74,7 @@
                 <div class="phone">
                     <i class="fa fa-phone" aria-hidden="true"></i>
                     <div><span>Call Us Anytime</span><br><span class="phn_number">
-                        {{ $app_settings->phone_1 }}</span></div>
+                        {{ $app_settings->phone_1 ?? '' }}</span></div>
                 </div>
                 <div class="header_search">
                     <button type="submit" class="form-control-submit"><i class="ion-ios-search"></i></button>

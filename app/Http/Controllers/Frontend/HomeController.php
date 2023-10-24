@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\About;
+use App\Models\Backend\Blog;
 use App\Models\Backend\Contact;
 use App\Models\backend\Career;
 use App\Models\Backend\Project;
@@ -27,13 +29,18 @@ class HomeController extends Controller
         $running = Project::where('project_status', '0')->count();
         $app_settings = Setting::findOrFail(1);
         $services = Service::orderby('service_title', 'desc')->get();
-        return view('frontend.pages.index', compact('residential', 'commercial', 'highrise', 'business', 'all', 'app_settings', 'services','completed', 'running'));
+        $about = About::findOrFail(1);
+        $completed_project = Project::where('project_status','=','2')->count();
+        $ongoing_project = Project::where('project_status','=','0')->count();
+        $blogs = Blog::orderby('id','desc')->limit(2)->get();
+        return view('frontend.pages.index', compact('residential', 'commercial', 'highrise', 'business', 'all', 'app_settings', 'services','completed', 'running','about','completed_project','ongoing_project','blogs'));
     }
     public function contact()
     {
 
         $app_settings = Setting::findOrFail(1);
-        return view('frontend.pages.contact', compact('app_settings'));
+        $app_settings = Setting::findOrFail(1);
+        return view('frontend.pages.contact', compact('app_settings'),compact('app_settings'));
     }
     public function storeContact(Request $request)
     {
@@ -97,13 +104,16 @@ class HomeController extends Controller
     }
     public function about()
     {
-        return view('frontend.pages.about');
+        $about = About::findOrFail(1);
+        $app_settings = Setting::findOrFail(1);
+        return view('frontend.pages.about',compact('about','app_settings'));
     }
     public function services()
     {
         $all = Service::orderby('service_title', 'asc')->limit(5)->get();
         return view('frontend.pages.services', compact('all'));
     }
+
     public function servicesDetails($id)
     {
         $details = Service::find($id);
@@ -123,10 +133,19 @@ class HomeController extends Controller
     {
         return view('frontend.pages.faq');
     }
-
     public function careers()
     {
         $careers = Career::where('is_active', 'active')->get();
         return view('frontend.pages.careers.careers', compact('careers'));
+    }
+
+    public function blogs(){
+        $blogs = Blog::where('is_publish',1)->orderby('id','desc')->paginate(9);
+        return view('frontend.pages.blogs',compact('blogs'));
+    }
+
+    public function blogDetails(Request $request,$id){
+        $blog = Blog::findOrFail($id);
+        return view('frontend.pages.blog_details',compact('blog'));
     }
 }

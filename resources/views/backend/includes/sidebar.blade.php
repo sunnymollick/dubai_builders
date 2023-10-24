@@ -66,23 +66,6 @@
             </li>
         </ul>
     </li>
-    <li class="menu-label">UI Elements</li>
-    <!-- <li>
-        <a class="has-arrow" href="javascript:;">
-            <div class="parent-icon"><i class='bx bx-command'></i>
-            </div>
-            <div class="menu-title">Content</div>
-        </a>
-        <ul>
-            <li> <a href="content-grid-system.html"><i class="bx bx-right-arrow-alt"></i>Grid System</a>
-            </li>
-            <li> <a href="content-typography.html"><i class="bx bx-right-arrow-alt"></i>Typography</a>
-            </li>
-            <li> <a href="content-text-utilities.html"><i class="bx bx-right-arrow-alt"></i>Text
-                    Utilities</a>
-            </li>
-        </ul>
-    </li> -->
     <li>
         <a href="{{ route('admin.team.index') }}">
             <div class="parent-icon"> <i class='bx bx-atom'></i>
@@ -101,6 +84,13 @@
             <div class="parent-icon"><i class="lni lni-atlassian"></i>
             </div>
             <div class="menu-title">About</div>
+        </a>
+    </li>
+    <li>
+        <a href="{{ route('admin.blogs.index') }}">
+            <div class="parent-icon"><i class="lni lni-bootstrap"></i>
+            </div>
+            <div class="menu-title">Blog</div>
         </a>
     </li>
     <li>
