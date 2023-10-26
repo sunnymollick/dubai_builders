@@ -62,7 +62,7 @@
         <ul>
             <li> <a href="{{ route('admin.careers.index') }}"><i class="bx bx-right-arrow-alt"></i>Job Circular</a>
             </li>
-            <li> <a href="{{ route('admin.careers.index') }}"><i class="bx bx-right-arrow-alt"></i>Job Circular</a>
+            <li> <a href="#"><i class="bx bx-right-arrow-alt"></i>Job Application</a>
             </li>
         </ul>
     </li>
