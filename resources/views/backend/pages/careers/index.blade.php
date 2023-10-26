@@ -28,11 +28,11 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Job Title</th>
+                                    <th>Title</th>
                                     <th>Vacancy</th>
-                                    <th>Job Type</th>
+                                    <th>Type</th>
                                     <th>Salary Range</th>
-                                    <th>Job Type</th>
+                                    <th>Status</th>
                                     <th>Deadline</th>
                                     <th>Action </th>
                                 </tr>

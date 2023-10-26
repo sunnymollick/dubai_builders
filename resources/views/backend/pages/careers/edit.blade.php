@@ -99,7 +99,7 @@
         </div>
 
         <div class="row">
-            <div class="form-group col-md-12 col-sm-12">
+            <div class="form-group col-md-12 col-sm-12 mt-2">
                 <label for="">Job Description <span style="color: red;">*</span></label>
                 <textarea type="text" class="form-control" id="description" name="job_description" value=""
                     placeholder="" required>{!! $career->job_description !!}</textarea>
@@ -110,7 +110,7 @@
         </div>
 
         <div class="row">
-            <div class="form-group col-md-12 col-sm-12">
+            <div class="form-group col-md-12 col-sm-12 mt-2">
                 <label for="">Educational Reqiurement <span style="color: red;">*</span></label>
                 <textarea type="text" class="form-control" id="ed_requirement" name="ed_requirement" value=""
                     placeholder="" required>{!! $career->educational_requirement !!}</textarea>
@@ -121,7 +121,7 @@
         </div>
 
         <div class="row">
-            <div class="form-group col-md-12 col-sm-12">
+            <div class="form-group col-md-12 col-sm-12 mt-2">
                 <label for="">Experience Reqiurement <span style="color: red;">*</span></label>
                 <textarea type="text" class="form-control" id="ex_requirement" name="ex_requirement" value=""
                     placeholder="" required>{!! $career->experience_requirement !!}</textarea>
@@ -132,7 +132,7 @@
         </div>
 
         <div class="row">
-            <div class="form-group col-md-12 col-sm-12">
+            <div class="form-group col-md-12 col-sm-12 mt-2">
                 <label for="">Additional Reqiurement <span style="color: red;">*</span></label>
                 <textarea type="text" class="form-control" id="ad_requirement" name="ad_requirement" value=""
                     placeholder="" required>{!! $career->additional_requirement !!}</textarea>
@@ -143,7 +143,7 @@
         </div>
 
         <div class="row">
-            <div class="form-group col-md-12 col-sm-12">
+            <div class="form-group col-md-12 col-sm-12 mt-2">
                 <label for="">Compasations & Other Benifits <span style="color: red;">*</span></label>
                 <textarea type="text" class="form-control" id="compensations" name="compensations" value=""
                     placeholder="" required>{!! $career->compensations !!}</textarea>
@@ -154,7 +154,7 @@
         </div>
 
         <div class="row">
-            <div class="form-group col-md-6 mt-2">
+            <div class="form-group col-md-6 mt-2 mt-2">
                 <input type="checkbox" class="form-check-input" id="is_active" name="is_active" @if($career->is_active == 'active')checked @endif value="active">
                 <label for="">Is Active <span style="color: red;">*</span></label>
                 <span id="error_title" class="has-error"></span>
