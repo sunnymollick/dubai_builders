@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\Admin\ProjectController;
 use App\Http\Controllers\Backend\Auth\LoginController;
 use App\Http\Controllers\Backend\Admin\ClientController;
 use App\Http\Controllers\Backend\Admin\ContactController;
+use App\Http\Controllers\Backend\Admin\QuotationRequestController;
 use App\Http\Controllers\Backend\Admin\ServiceController;
 use App\Http\Controllers\Backend\Admin\TeamController;
 use App\Http\Controllers\Backend\Admin\SettingController;
@@ -60,3 +61,7 @@ Route::get('/logout', [LoginController::class, 'logout']);
 // Carrer route
 Route::resource('careers', CareerController::class);
 Route::get('allCareers', [CareerController::class, 'getAllCareers']);
+
+//Quotation Request Routes
+Route::get('request/for/quotation',[QuotationRequestController::class,'index'])->name('request.quotation');
+Route::get('getAllQuotationRequest',[QuotationRequestController::class,'getAllQuotationRequest']);

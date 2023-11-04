@@ -94,6 +94,13 @@
         </a>
     </li>
     <li>
+        <a href="{{ route('admin.request.quotation') }}">
+            <div class="parent-icon"><i class="lni lni-question-circle"></i>
+            </div>
+            <div class="menu-title">Quotation Request</div>
+        </a>
+    </li>
+    <li>
         <a href="javascript:;" class="has-arrow">
             <div class="parent-icon"><i class='bx bx-cart-alt'></i>
             </div>

@@ -453,7 +453,7 @@
                                                                     class="text-danger">*</span></label>
                                                             <input type="text" class="form-control" id="mobile"
                                                                 name="mobile" placeholder="Enter Phone Number" required>
-                                                            @error('name')
+                                                            @error('mobile')
                                                                 <span class="text-danger">{{ $message }}</span>
                                                             @enderror
                                                         </div>
@@ -464,12 +464,12 @@
                                                                 id="project_type" required>
                                                                 <option value="" selected disabled>Select Project
                                                                     Type</option>
-                                                                <option>Commercial</option>
-                                                                <option>Highrise</option>
-                                                                <option>Residential</option>
-                                                                <option>Business</option>
+                                                                <option value="Commercial">Commercial</option>
+                                                                <option value="Highrise">Highrise</option>
+                                                                <option value="Residential">Residential</option>
+                                                                <option value="Business">Business</option>
                                                             </select>
-                                                            @error('name')
+                                                            @error('project_type')
                                                                 <span class="text-danger">{{ $message }}</span>
                                                             @enderror
                                                         </div>
@@ -477,7 +477,7 @@
                                                             <label for="time">Maximum time for the project</label>
                                                             <input type="text" class="form-control" id="project_time"
                                                                 name="project_time" placeholder="Enter Project Time">
-                                                            @error('name')
+                                                            @error('project_time')
                                                                 <span class="text-danger">{{ $message }}</span>
                                                             @enderror
                                                         </div>
@@ -502,11 +502,10 @@
                                                             @enderror
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="Evaluate Budget">Evaluate Budget <span
-                                                                    class="text-danger">*</span></label>
+                                                            <label for="Evaluate Budget">Evaluate Budget</label>
                                                             <input type="text" class="form-control"
                                                                 id="evaluate_budget" name="evaluate_budget"
-                                                                placeholder="Enter your evaluate budget" required>
+                                                                placeholder="Enter your evaluate budget">
                                                             @error('evaluate_budget')
                                                                 <span class="text-danger">{{ $message }}</span>
                                                             @enderror
@@ -525,7 +524,7 @@
                                                     <div class="col-md-12 col-lg-10 col-12">
                                                         <div class="form-group files">
                                                             <label class="my-auto">Upload Your File </label>
-                                                            <input id="file" type="file" class="form-control" />
+                                                            <input id="file" type="file" name="file" class="form-control" />
                                                             @error('file')
                                                                 <span class="text-danger">{{ $message }}</span>
                                                             @enderror
@@ -660,7 +659,7 @@
                     }, function() {
                         // console.log('hi');
                         $.ajax({
-                            url: '/',
+                            url: '/storeQuotationRequest',
                             type: 'POST',
                             data: myData,
                             dataType: 'json',
@@ -670,9 +669,11 @@
                             success: function(data) {
                                 if (data.type === 'success') {
                                     $('#myModal').modal('hide');
-                                    swal("Done!", "It was succesfully done!",
+                                    swal("Thanks!", "We received your request.",
                                         "success");
-                                    reload_table();
+                                    $("#name").val('') && $("#email").val('') && $("#mobile").val('')
+                                    && $("#location").val('') && $("#project_type").val('') && $("#evaluate_budget").val('')
+                                    && $("#project_time").val('') && $("#company_name").val('') && $("#file").val('') && $("#message").val('');
                                 } else if (data.type === 'error') {
                                     if (data.errors) {
                                         $.each(data.errors, function(key, val) {
