@@ -19,28 +19,28 @@
                 <div class="clearfix"></div>
                 <div class="form-group col-xs-12 col-sm-12 col-md-12">
                     <strong>Description:</strong>
-                    <textarea name="description" id="description" cols="56" rows="5">{!! $about->description !!}
+                    <textarea name="description" id="description" class="form-control">{!! $about->description !!}
                     </textarea>
                     <span id="error_description" class="text-danger"></span>
                 </div>
                 <div class="clearfix"></div>
                 <div class="form-group col-xs-12 col-sm-12 col-md-12">
                     <strong>Short Description:</strong>
-                    <textarea name="short_description" id="short_description" cols="56" rows="3">{!! $about->short_description !!}
+                    <textarea name="short_description" id="short_description" class="form-control">{!! $about->short_description !!}
                     </textarea>
                     <span id="error_short_description" class="text-danger"></span>
                 </div>
                 <div class="clearfix"></div>
                 <div class="form-group col-xs-12 col-sm-12 col-md-12">
                     <strong>Our Mission:</strong>
-                    <textarea name="our_mission" id="our_mission" cols="56" rows="3">{!! $about->our_mission !!}
+                    <textarea name="our_mission" id="our_mission" class="form-control">{!! $about->our_mission !!}
                     </textarea>
                     <span id="error_our_mission" class="text-danger"></span>
                 </div>
                 <div class="clearfix"></div>
                 <div class="form-group col-xs-12 col-sm-12 col-md-12">
                     <strong>Our Vision:</strong>
-                    <textarea name="our_vision" id="our_vision" cols="56" rows="3">{!! $about->our_vision !!}
+                    <textarea name="our_vision" id="our_vision" class="form-control">{!! $about->our_vision !!}
                     </textarea>
                     <span id="error_our_vision" class="text-danger"></span>
                 </div>
