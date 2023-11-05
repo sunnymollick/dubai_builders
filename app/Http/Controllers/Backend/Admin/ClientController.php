@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Backend\Admin;
+
 use App\Http\Controllers\Controller;
 use App\Models\Backend\Client;
 use Illuminate\Http\Request;
@@ -19,7 +20,8 @@ class ClientController extends Controller
         return view('backend.pages.clients.index');
     }
 
-    public function getAllClients(Request $request){
+    public function getAllClients(Request $request)
+    {
         if ($request->ajax()) {
 
             $clients = Client::orderby('created_at', 'desc')->get();
@@ -47,7 +49,6 @@ class ClientController extends Controller
      */
     public function create(Request $request)
     {
-        dd('create_project');
         if ($request->ajax()) {
             $view = View::make('backend.pages.clients.create')->render();
             return response()->json(['html' => $view]);
@@ -64,38 +65,37 @@ class ClientController extends Controller
         // return $request;
         if ($request->ajax()) {
 
-                $rules = [
-                    'phone' => 'required',
-                    'name' => 'required',
-                ];
+            $rules = [
+                'phone' => 'required',
+                'name' => 'required',
+            ];
 
-                $validator = Validator::make($request->all(), $rules);
-                if ($validator->fails()) {
-                    return response()->json([
-                        'type' => 'error',
-                        'errors' => $validator->getMessageBag()->toArray()
-                    ]);
-                } else {
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json([
+                    'type' => 'error',
+                    'errors' => $validator->getMessageBag()->toArray()
+                ]);
+            } else {
 
-                    DB::beginTransaction();
-                    try {
+                DB::beginTransaction();
+                try {
 
-                        $client = new Client();
-                        $client->name = $request->input('name');
-                        $client->organization_name = $request->input('organization_name');
-                        $client->address = $request->input('address');
-                        $client->email = $request->input('email');
-                        $client->phone = $request->input('phone');
-                        $client->save(); //
-                        DB::commit();
-                        return response()->json(['type' => 'success', 'message' => "Successfully Inserted"]);
-                    } catch (\Exception $e) {
-                        DB::rollback();
-                        return response()->json(['type' => 'error', 'message' => "Please Fill With Correct data"]);
-                    }
-                    // }
+                    $client = new Client();
+                    $client->name = $request->input('name');
+                    $client->organization_name = $request->input('organization_name');
+                    $client->address = $request->input('address');
+                    $client->email = $request->input('email');
+                    $client->phone = $request->input('phone');
+                    $client->save(); //
+                    DB::commit();
+                    return response()->json(['type' => 'success', 'message' => "Successfully Inserted"]);
+                } catch (\Exception $e) {
+                    DB::rollback();
+                    return response()->json(['type' => 'error', 'message' => "Please Fill With Correct data"]);
                 }
-
+                // }
+            }
         } else {
             return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
         }
@@ -104,7 +104,7 @@ class ClientController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request , Client $client)
+    public function show(Request $request, Client $client)
     {
         if ($request->ajax()) {
             $view = View::make('backend.pages.clients.show', compact('client'))->render();
@@ -117,13 +117,12 @@ class ClientController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Client $client,Request $request)
+    public function edit(Client $client, Request $request)
     {
         if ($request->ajax()) {
-                $view = View::make('backend.pages.clients.edit', compact('client'))->render();
-                return response()->json(['html' => $view]);
-            }
-        else {
+            $view = View::make('backend.pages.clients.edit', compact('client'))->render();
+            return response()->json(['html' => $view]);
+        } else {
             return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
         }
     }
@@ -134,35 +133,35 @@ class ClientController extends Controller
     public function update(Request $request, Client $client)
     {
         if ($request->ajax()) {
-                $rules = [
-                    'phone' => 'required',
-                    'name' => 'required',
-                ];
+            $rules = [
+                'phone' => 'required',
+                'name' => 'required',
+            ];
 
-                $validator = Validator::make($request->all(), $rules);
-                if ($validator->fails()) {
-                    return response()->json([
-                        'type' => 'error',
-                        'errors' => $validator->getMessageBag()->toArray()
-                    ]);
-                } else {
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json([
+                    'type' => 'error',
+                    'errors' => $validator->getMessageBag()->toArray()
+                ]);
+            } else {
 
-                    DB::beginTransaction();
-                    try {
-                        $client = Client::findOrFail($client->id);
-                        $client->name = $request->input('name');
-                        $client->organization_name = $request->input('organization_name');
-                        $client->address = $request->input('address');
-                        $client->email = $request->input('email');
-                        $client->phone = $request->input('phone');
-                        $client->save();
-                        DB::commit();
-                        return response()->json(['type' => 'success', 'message' => "Successfully Updated"]);
-                    } catch (\Exception $e) {
-                        DB::rollback();
-                        return response()->json(['type' => 'error', 'message' => "Please Fill With Correct data"]);
-                    }
+                DB::beginTransaction();
+                try {
+                    $client = Client::findOrFail($client->id);
+                    $client->name = $request->input('name');
+                    $client->organization_name = $request->input('organization_name');
+                    $client->address = $request->input('address');
+                    $client->email = $request->input('email');
+                    $client->phone = $request->input('phone');
+                    $client->save();
+                    DB::commit();
+                    return response()->json(['type' => 'success', 'message' => "Successfully Updated"]);
+                } catch (\Exception $e) {
+                    DB::rollback();
+                    return response()->json(['type' => 'error', 'message' => "Please Fill With Correct data"]);
                 }
+            }
         } else {
             return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
         }
@@ -171,11 +170,11 @@ class ClientController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Client $client,Request $request)
+    public function destroy(Client $client, Request $request)
     {
         if ($request->ajax()) {
-                $client->delete();
-                return response()->json(['type' => 'success', 'message' => 'Successfully Deleted']);
+            $client->delete();
+            return response()->json(['type' => 'success', 'message' => 'Successfully Deleted']);
         } else {
             return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
         }

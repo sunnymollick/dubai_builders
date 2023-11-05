@@ -25,6 +25,7 @@ About Us
                         <tr>
                             <th>#</th>
                             <th>Title</th>
+                            <th>Slug</th>
                             <th>Image</th>
                             <th>Action </th>
                         </tr>
@@ -47,6 +48,7 @@ About Us
             columns: [
                 {data: 'DT_RowIndex', name: 'DT_RowIndex'},
                 {data: 'title', name: 'title'},
+                {data: 'slug', name: 'slug'},
                 {data: 'hero_image', name: 'hero_image'},
                 {data: 'action', name: 'action'},
             ],

@@ -188,9 +188,15 @@
                         </a>
                     </div>
                 </li>
+                @php
+                $message_count = DB::table('contacts')->where('is_read', '0')->count();
+                @endphp
                 <li class="nav-item dropdown dropdown-large">
 
                     <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="{{route('admin.messages.index')}}">
+                        <?php if ($message_count > 0) : ?>
+                            <span class="alert-count">{{$message_count}}</span>
+                        <?php endif; ?>
                         <i class='bx bx-comment'></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end">

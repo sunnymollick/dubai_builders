@@ -1,10 +1,12 @@
-<form id='create' action="" enctype="multipart/form-data" method="post" accept-charset="utf-8" class="needs-validation" novalidate>
+<form id='create' action="" enctype="multipart/form-data" method="post" accept-charset="utf-8"
+    class="needs-validation" novalidate>
     <div id="status"></div>
     <div class="form-row">
 
         <div class="form-group col-md-12">
             <label for="">Project Name <span style="color: red;">*</span></label>
-            <input type="text" class="form-control" id="project_title" name="project_title" value="" placeholder="" required>
+            <input type="text" class="form-control" id="project_title" name="project_title" value=""
+                placeholder="" required>
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>
@@ -20,8 +22,8 @@
             <label for="">Client Name <span style="color: red;">*</span></label>
             <select class="form-control" name="client_id" id="client_id" required>
                 <option value="">Select Client</option>
-                @foreach($clients as $client)
-                <option value="{{$client->id}}">{{$client->name}}</option>
+                @foreach ($clients as $client)
+                    <option value="{{ $client->id }}">{{ $client->name }}</option>
                 @endforeach
             </select>
             <span id="error_title" class="has-error"></span>
@@ -37,7 +39,8 @@
 
         <div class="form-group col-md-12 col-sm-12">
             <label for="">Project Location <span style="color: red;">*</span></label>
-            <input type="text" class="form-control" id="project_location" name="project_location" value="" placeholder="" required>
+            <input type="text" class="form-control" id="project_location" name="project_location" value=""
+                placeholder="" required>
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>

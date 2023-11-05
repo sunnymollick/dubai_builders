@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\About;
+use App\Models\Backend\Blog;
 use App\Models\Backend\Contact;
+use App\Models\backend\Career;
 use App\Models\Backend\Project;
 use App\Models\Backend\Team;
+use App\Models\Backend\Service;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -24,14 +28,23 @@ class HomeController extends Controller
         $completed = Project::where('project_status', '2')->count();
         $running = Project::where('project_status', '0')->count();
         $app_settings = Setting::findOrFail(1);
-        return view('frontend.pages.index', compact('residential', 'commercial', 'highrise', 'business', 'all', 'app_settings','completed', 'running'));
+        $services = Service::orderby('service_title', 'desc')->get();
+        $about = About::findOrFail(1);
+        $completed_project = Project::where('project_status', '=', '2')->count();
+        $ongoing_project = Project::where('project_status', '=', '0')->count();
+        $blogs = Blog::orderby('id', 'desc')->limit(2)->get();
+        return view('frontend.pages.index', compact('residential', 'commercial', 'highrise', 'business', 'all', 'app_settings', 'services', 'completed', 'running', 'about', 'completed_project', 'ongoing_project', 'blogs'));
     }
     public function contact()
     {
-        return view('frontend.pages.contact');
+
+        $app_settings = Setting::findOrFail(1);
+        $app_settings = Setting::findOrFail(1);
+        return view('frontend.pages.contact', compact('app_settings'), compact('app_settings'));
     }
     public function storeContact(Request $request)
     {
+        if ($request->ajax()) {
 
             $rules = [
                 'name' => 'required',
@@ -40,6 +53,7 @@ class HomeController extends Controller
                 'message' => 'required',
                 'phone' => 'required',
             ];
+
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
                 return response()->json([
@@ -47,9 +61,10 @@ class HomeController extends Controller
                     'errors' => $validator->getMessageBag()->toArray()
                 ]);
             } else {
+
                 DB::beginTransaction();
                 try {
-                    // $client_name = Client::where('id', $request->client_id)->first();
+
                     $contact = new Contact();
                     $contact->name = $request->input('name');
                     $contact->subject = $request->input('subject');
@@ -58,13 +73,16 @@ class HomeController extends Controller
                     $contact->message = $request->input('message');
                     $contact->save(); //
                     DB::commit();
-                    return Redirect::back()->with('msg', 'Message sent successfully');
+                    return response()->json(['type' => 'success', 'message' => "Successfully Inserted"]);
                 } catch (\Exception $e) {
                     DB::rollback();
-                    dd($e->getMessage());
                     return response()->json(['type' => 'error', 'message' => "Please Fill With Correct data"]);
                 }
+                // }
             }
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
     }
     public function completedProjects()
     {
@@ -92,11 +110,20 @@ class HomeController extends Controller
     }
     public function about()
     {
-        return view('frontend.pages.about');
+        $about = About::findOrFail(1);
+        $app_settings = Setting::findOrFail(1);
+        return view('frontend.pages.about', compact('about', 'app_settings'));
     }
     public function services()
     {
-        return view('frontend.pages.services');
+        $all = Service::orderby('service_title', 'asc')->limit(5)->get();
+        return view('frontend.pages.services', compact('all'));
+    }
+
+    public function servicesDetails($id)
+    {
+        $details = Service::find($id);
+        return view('frontend.pages.service_details', compact('details'));
     }
     public function team()
     {
@@ -112,8 +139,21 @@ class HomeController extends Controller
     {
         return view('frontend.pages.faq');
     }
-    public function servicesDetails()
+    public function careers()
     {
-        return view('frontend.pages.service_details');
+        $careers = Career::where('is_active', 'active')->get();
+        return view('frontend.pages.careers.careers', compact('careers'));
+    }
+
+    public function blogs()
+    {
+        $blogs = Blog::where('is_publish', 1)->orderby('id', 'desc')->paginate(9);
+        return view('frontend.pages.blogs', compact('blogs'));
+    }
+
+    public function blogDetails(Request $request, $id)
+    {
+        $blog = Blog::findOrFail($id);
+        return view('frontend.pages.blog_details', compact('blog'));
     }
 }

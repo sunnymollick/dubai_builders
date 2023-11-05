@@ -45,11 +45,19 @@
                     <span id="error_our_vision" class="text-danger"></span>
                 </div>
                 <div class="clearfix"></div>
-                <div class="col-md-12">
-                    <strong>Our Builders</strong>
-                    <input type="number" class="form-control" id="our_builders" name="our_builders" value="{{ $about->our_builders }}"
-                        placeholder="">
-                    <span id="error_our_builders" class="text-danger"></span>
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        <strong>Our Builders</strong>
+                        <input type="number" class="form-control" id="our_builders" name="our_builders" value="{{ $about->our_builders }}"
+                            placeholder="">
+                        <span id="error_our_builders" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Experience Year</strong>
+                        <input type="number" class="form-control" id="experience_year" name="experience_year" value="{{ $about->experience_year }}"
+                            placeholder="Enter Experience Year">
+                        <span id="error_experience_year" class="text-danger"></span>
+                    </div>
                 </div>
                 <div class="clearfix"></div>
                 <p></p>

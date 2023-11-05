@@ -42,22 +42,30 @@
             </li>
         </ul>
     </li>
-    <!-- <li>
-        <a class="has-arrow" href="javascript:;">
-            <div class="parent-icon"><i class='bx bx-command'></i>
+    <li>
+        <a href="javascript:;" class="has-arrow">
+            <div class="parent-icon"><i class='lni lni-construction-hammer'></i>
             </div>
-            <div class="menu-title">Content</div>
+            <div class="menu-title">Services</div>
         </a>
         <ul>
-            <li> <a href="content-grid-system.html"><i class="bx bx-right-arrow-alt"></i>Grid System</a>
-            </li>
-            <li> <a href="content-typography.html"><i class="bx bx-right-arrow-alt"></i>Typography</a>
-            </li>
-            <li> <a href="content-text-utilities.html"><i class="bx bx-right-arrow-alt"></i>Text
-                    Utilities</a>
+            <li> <a href="{{ route('admin.services.index') }}"><i class="bx bx-right-arrow-alt"></i>All Services</a>
             </li>
         </ul>
-    </li> -->
+    </li>
+    <li>
+        <a href="javascript:;" class="has-arrow">
+            <div class="parent-icon"><i class='lni lni-briefcase'></i>
+            </div>
+            <div class="menu-title">Career</div>
+        </a>
+        <ul>
+            <li> <a href="{{ route('admin.careers.index') }}"><i class="bx bx-right-arrow-alt"></i>Job Circular</a>
+            </li>
+            <li> <a href="{{ route('admin.careers.index') }}"><i class="bx bx-right-arrow-alt"></i>Job Circular</a>
+            </li>
+        </ul>
+    </li>
     <li>
         <a href="{{ route('admin.team.index') }}">
             <div class="parent-icon"> <i class='bx bx-atom'></i>
@@ -76,6 +84,13 @@
             <div class="parent-icon"><i class="lni lni-atlassian"></i>
             </div>
             <div class="menu-title">About</div>
+        </a>
+    </li>
+    <li>
+        <a href="{{ route('admin.blogs.index') }}">
+            <div class="parent-icon"><i class="lni lni-bootstrap"></i>
+            </div>
+            <div class="menu-title">Blog</div>
         </a>
     </li>
     <li>

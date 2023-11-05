@@ -22,14 +22,24 @@
                                 <td width="100%"><img src="{{ asset($setting->app_logo) }}" alt=""></td>
                             </tr>
                             <tr>
-                                <td width="40%">Email</td>
+                                <td width="40%">Primary Email</td>
                                 <td width="10%">:</td>
                                 <td width="100%">{{ $setting->email }}</td>
                             </tr>
                             <tr>
-                                <td width="40%">Address</td>
+                                <td width="40%">Secondary Email</td>
+                                <td width="10%">:</td>
+                                <td width="100%">{{ $setting->email_secondary }}</td>
+                            </tr>
+                            <tr>
+                                <td width="40%">Primary Address</td>
                                 <td width="10%">:</td>
                                 <td width="100%">{{ $setting->address }}</td>
+                            </tr>
+                            <tr>
+                                <td width="40%">Secondary Address</td>
+                                <td width="10%">:</td>
+                                <td width="100%">{{ $setting->address_secondary }}</td>
                             </tr>
                             <tr>
                                 <td width="40%">Primary Contact</td>
