@@ -94,6 +94,13 @@
         </a>
     </li>
     <li>
+        <a href="{{ route('admin.sliders.index') }}">
+            <div class="parent-icon"><i class="lni lni-bootstrap"></i>
+            </div>
+            <div class="menu-title">Slider</div>
+        </a>
+    </li>
+    <li>
         <a href="javascript:;" class="has-arrow">
             <div class="parent-icon"><i class='bx bx-cart-alt'></i>
             </div>

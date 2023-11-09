@@ -15,6 +15,8 @@ use App\Http\Controllers\Backend\MailController;
 use Illuminate\Support\Facades\Route;
 use PHPUnit\TextUI\XmlConfiguration\Logging\TeamCity;
 
+use App\Http\Controllers\Backend\Admin\SliderController;
+
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('index');
 Route::get('/profile', [DashboardController::class, 'profile'])->name('profile');
 
@@ -60,3 +62,8 @@ Route::get('/logout', [LoginController::class, 'logout']);
 // Carrer route
 Route::resource('careers', CareerController::class);
 Route::get('allCareers', [CareerController::class, 'getAllCareers']);
+
+
+//Slider Route
+Route::resource('sliders', SliderController::class);
+Route::get('getAllSliders', [SliderController::class, 'getAllSliders']);
