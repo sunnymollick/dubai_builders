@@ -93,7 +93,7 @@ class SliderController extends Controller
 
                     $slider->title = $request->input('title');
                     $slider->description = $request->input('description');
-                    $slider->video = $video_name;
+                    $slider->video = 'backend/uploads/videos/slider/' . $video_name;
                     $slider->is_active = $request->input('is_active');
 
                     $slider->save(); //

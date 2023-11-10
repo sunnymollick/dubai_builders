@@ -3,7 +3,7 @@
     Home
 @endsection
 @section('sliders')
-    <div class="theme_slider_1">
+    {{-- <div class="theme_slider_1">
         <div class="slider">
             <div class="container">
                 <div class="row">
@@ -27,6 +27,11 @@
                 </div>
             </div>
         </div>
+    </div> --}}
+    <div class="video_slider">
+        @foreach ($slider as $s)
+            <video src="{{ asset($s->video) }}" muted autoplay loop></video>
+        @endforeach
     </div>
 @endsection
 @section('content')
@@ -237,27 +242,27 @@
                     <div class="grid grid-5">
                         <!-- @foreach ($all as $a)
     <div class="element-item all" id="tab-content-1">
-                                                                    <div class="teambox">
-                                                                        <img src="{{ asset($a->thumbnail_image) }}" alt="">
-                                                                        <div class="teambox_inner">
-                                                                            <div class="team_social">
-                                                                                <div class="share"><i class="ion-android-share-alt"></i></div>
-                                                                                <ul>
-                                                                                    <li class="facebook"><a href="#"><i class="ion-social-facebook"></i></a></li>
-                                                                                    <li class="twitter"><a href="#"><i class="ion-social-twitter"></i></a></li>
-                                                                                    <li class="instagram"><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
-                                                                                    <li class="linkedin"><a href="#"><i class="ion-social-linkedin-outline"></i></a></li>
-                                                                                </ul>
-                                                                            </div>
-                                                                            <div class="teambox_intro">
-                                                                                <div class="team_flex">
-                                                                                    <h6>{{ $a->project_location }}</h6>
-                                                                                    <h5><a href="project-details.html">{{ $a->project_title }}</a></h5>
+                                                                            <div class="teambox">
+                                                                                <img src="{{ asset($a->thumbnail_image) }}" alt="">
+                                                                                <div class="teambox_inner">
+                                                                                    <div class="team_social">
+                                                                                        <div class="share"><i class="ion-android-share-alt"></i></div>
+                                                                                        <ul>
+                                                                                            <li class="facebook"><a href="#"><i class="ion-social-facebook"></i></a></li>
+                                                                                            <li class="twitter"><a href="#"><i class="ion-social-twitter"></i></a></li>
+                                                                                            <li class="instagram"><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
+                                                                                            <li class="linkedin"><a href="#"><i class="ion-social-linkedin-outline"></i></a></li>
+                                                                                        </ul>
+                                                                                    </div>
+                                                                                    <div class="teambox_intro">
+                                                                                        <div class="team_flex">
+                                                                                            <h6>{{ $a->project_location }}</h6>
+                                                                                            <h5><a href="project-details.html">{{ $a->project_title }}</a></h5>
+                                                                                        </div>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                </div>
     @endforeach -->
                         @foreach ($highrise as $hg)
                             <div class="element-item highrise" id="tab-content-2">
