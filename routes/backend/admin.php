@@ -13,6 +13,7 @@ use App\Http\Controllers\Backend\Admin\ServiceController;
 use App\Http\Controllers\Backend\Admin\TeamController;
 use App\Http\Controllers\Backend\Admin\SettingController;
 use App\Http\Controllers\Backend\MailController;
+use App\Http\Controllers\Backend\Admin\QuotationController;
 use Illuminate\Support\Facades\Route;
 use PHPUnit\TextUI\XmlConfiguration\Logging\TeamCity;
 
@@ -65,3 +66,7 @@ Route::get('allCareers', [CareerController::class, 'getAllCareers']);
 //Quotation Request Routes
 Route::get('request/for/quotation',[QuotationRequestController::class,'index'])->name('request.quotation');
 Route::get('getAllQuotationRequest',[QuotationRequestController::class,'getAllQuotationRequest']);
+Route::get('request/for/quotation/edit/{id}',[QuotationRequestController::class, 'edit']);
+
+// Quotation Routes
+Route::post('request/for/quotation/store',[QuotationController::class, 'store']);

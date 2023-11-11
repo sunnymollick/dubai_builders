@@ -4,17 +4,29 @@ namespace App\Http\Controllers\Backend\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Frontend\Quotation;
+use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
 
 class QuotationRequestController extends Controller
 {
-    public function index(){
-        $quotation_requests = Quotation::orderby('id','desc')->get();
-        return view('backend.pages.quotation.all_request',['quotation_requests'=>$quotation_requests]);
+    public function index()
+    {
+        $quotation_requests = Quotation::orderby('id', 'desc')->get();
+        return view('backend.pages.quotation.all_request', ['quotation_requests' => $quotation_requests]);
     }
+    public function edit($id, Request $request)
+    {
+        $quote = Quotation::where('id', $id)->first();
+        if ($request->ajax()) {
 
+            $view = View::make('backend.pages.quotation.reply', compact('quote'))->render();
+            return response()->json(['html' => $view]);
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
+    }
     // public function getAllQuotationRequest(Request $request){
     //     if ($request->ajax()) {
     //         $quotation_requests = Quotation::orderby('id','desc')->get();
