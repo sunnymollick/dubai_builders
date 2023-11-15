@@ -3,7 +3,7 @@
     Home
 @endsection
 @section('sliders')
-    <div class="theme_slider_1">
+    <!-- <div class="theme_slider_1">
         <div class="slider">
             <div class="container">
                 <div class="row">
@@ -27,6 +27,11 @@
                 </div>
             </div>
         </div>
+    </div> -->
+    <div class="video_slider">
+        @foreach ($slider as $s)
+            <video src="{{ asset($s->video) }}" muted autoplay loop></video>
+        @endforeach
     </div>
 @endsection
 @section('content')
@@ -71,8 +76,11 @@
                                                 <img src="{{ asset($s->logo) }}" alt="">
                                             </div>
                                             <div class="services_content_flex_cenrer">
-                                                <h4><a href="services.html">{{ $s->service_title }}</a></h4>
-                                                <a href="service-details.html">Get Service </a>
+                                                <h4><a
+                                                        href="{{ route('frontend.services.details', ['id' => $s->id]) }}">{{ $s->service_title }}</a>
+                                                </h4>
+                                                <a href="{{ route('frontend.services.details', ['id' => $s->id]) }}">Get
+                                                    Service </a>
                                             </div>
                                         </div>
                                         <div class="main_img" data-aos="fade-up" data-aos-duration="3000">

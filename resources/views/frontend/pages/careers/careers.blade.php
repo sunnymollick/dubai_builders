@@ -97,7 +97,7 @@
                         <div class="job-header">
                             <ul>
                                 <li><span>Vacancy: </span>{{ $c->no_of_vacancy }}</li>
-                                <li><span>Salary: </span>Tk. {{ $c->sarary }}</li>
+                                <li><span>Salary: </span>Tk. {{ $c->salary }}</li>
                                 <li><span>Job Location: </span>{{ $c->job_location }}</li>
                                 <li><span>Deadline: </span>{{ $c->deadline }}</li>
                                 <li><span>Experience: </span>{{ $c->experience }}</li>

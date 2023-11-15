@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\Admin\ProjectController;
 use App\Http\Controllers\Backend\Auth\LoginController;
 use App\Http\Controllers\Backend\Admin\ClientController;
 use App\Http\Controllers\Backend\Admin\ContactController;
+use App\Http\Controllers\Backend\Admin\ItemController;
 use App\Http\Controllers\Backend\Admin\QuotationRequestController;
 use App\Http\Controllers\Backend\Admin\ServiceController;
 use App\Http\Controllers\Backend\Admin\TeamController;
@@ -16,6 +17,9 @@ use App\Http\Controllers\Backend\MailController;
 use App\Http\Controllers\Backend\Admin\QuotationController;
 use Illuminate\Support\Facades\Route;
 use PHPUnit\TextUI\XmlConfiguration\Logging\TeamCity;
+
+use App\Http\Controllers\Backend\Admin\SliderController;
+use App\Http\Controllers\Backend\Admin\WorkCategoryController;
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('index');
 Route::get('/profile', [DashboardController::class, 'profile'])->name('profile');
@@ -68,5 +72,17 @@ Route::get('request/for/quotation',[QuotationRequestController::class,'index'])-
 Route::get('getAllQuotationRequest',[QuotationRequestController::class,'getAllQuotationRequest']);
 Route::get('request/for/quotation/edit/{id}',[QuotationRequestController::class, 'edit']);
 
+//Work Category Routes
+Route::resource('workcategories', WorkCategoryController::class);
+Route::get('allWorkCategories', [WorkCategoryController::class, 'getAllWorkCategories']);
+
+//Item/Works Routes
+Route::resource('itemworks', ItemController::class);
+Route::get('allItemWorks', [ItemController::class, 'getAllItemWorks']);
+
 // Quotation Routes
 Route::post('request/for/quotation/store',[QuotationController::class, 'store']);
+
+//Slider Route
+Route::resource('sliders', SliderController::class);
+Route::get('getAllSliders', [SliderController::class, 'getAllSliders']);

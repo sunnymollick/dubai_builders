@@ -9,6 +9,7 @@ use App\Models\Backend\Blog;
 use App\Models\Backend\Contact;
 use App\Models\backend\Career;
 use App\Models\Backend\Project;
+use App\Models\Backend\Slider;
 use App\Models\Backend\Team;
 use App\Models\Backend\Service;
 use App\Models\Frontend\Quotation;
@@ -35,7 +36,8 @@ class HomeController extends Controller
         $completed_project = Project::where('project_status', '=', '2')->count();
         $ongoing_project = Project::where('project_status', '=', '0')->count();
         $blogs = Blog::orderby('id', 'desc')->limit(2)->get();
-        return view('frontend.pages.index', compact('residential', 'commercial', 'highrise', 'business', 'all', 'app_settings', 'services', 'completed', 'running', 'about', 'completed_project', 'ongoing_project', 'blogs'));
+        $slider = Slider::where('is_active', '=', '1')->orderby('id', 'asc')->get();
+        return view('frontend.pages.index', compact('residential', 'commercial', 'highrise', 'business', 'all', 'app_settings', 'services', 'completed', 'running', 'about', 'completed_project', 'ongoing_project', 'blogs', 'slider'));
     }
     public function contact()
     {
