@@ -90,10 +90,12 @@ Projects
         // View Form
         $("#manage_all").on("click", ".view", function() {
             var id = $(this).attr('id');
+            console.log(id);
             $.ajax({
             url: 'view/quotation' + '/' + id,
             type: 'get',
             success: function (data) {
+                console.log(data);
                 $("#modal_data").html(data.html);
                 $('#myModal').modal('show'); // show bootstrap modal
             },
@@ -104,17 +106,41 @@ Projects
 
         });
 
-        // Edit Form
-        $("#manage_all").on("click", ".edit", function() {
-            var id = $(this).attr('id');
-            ajax_submit_edit('projects', id)
-        });
-
 
         // Delete
         $("#manage_all").on("click", ".delete", function() {
             var id = $(this).attr('id');
-            ajax_submit_delete('projects', id)
+            swal({
+                title: "Are you sure?",
+                text: "Deleted data cannot be recovered!!",
+                type: "warning",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true,
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Delete"
+            }, function () {
+                $.ajax({
+                    url: 'delete/requested/quotation' + '/' + id,
+                    type: 'DELETE',
+                    headers: {
+                        "X-CSRF-TOKEN": CSRF_TOKEN,
+                    },
+                    "dataType": 'json',
+                    success: function (data) {
+                        if (data.type === 'success') {
+                            swal("Done!", "Successfully Deleted", "success");
+                            location.reload();
+                        } else if (data.type === 'danger') {
+                            swal("Error deleting!", "Try again", "error");
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        swal("Error deleting!", "Try again", "error");
+                    }
+                });
+            });
         });
 
     });

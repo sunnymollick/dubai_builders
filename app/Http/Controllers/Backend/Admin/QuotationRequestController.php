@@ -7,6 +7,7 @@ use App\Models\Frontend\Quotation;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\View;
 
 class QuotationRequestController extends Controller
 {
@@ -15,28 +16,25 @@ class QuotationRequestController extends Controller
         return view('backend.pages.quotation.all_request',['quotation_requests'=>$quotation_requests]);
     }
 
-    // public function getAllQuotationRequest(Request $request){
-    //     if ($request->ajax()) {
-    //         $quotation_requests = Quotation::orderby('id','desc')->get();
+    public function viewQuotationRequest(Request $request, $id){
+        if ($request->ajax()) {
+            $quotation_request = Quotation::findOrFail($id);
+            $quotation_request->is_read = 1;
+            $quotation_request->save();
+            $view = View::make('backend.pages.quotation.view_quotation_request', compact('quotation_request'))->render();
+            return response()->json(['html' => $view]);
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
+    }
 
-    //         return DataTables::of($quotation_requests)
-
-    //             ->addColumn('action', function ($quotation_requests) {
-    //                 $html = '<div class="btn-group">';
-    //                 $html .= '<a data-toggle="tooltip"  id="' . $quotation_requests->id . '" class="btn btn-success mr-1 view" title="View"><i class="lni lni-eye"></i> </a>';
-    //                 $html .= '<a data-toggle="tooltip"  id="' . $quotation_requests->id . '" class="btn btn-info mr-1 edit" title="Reply"><i class="lni lni-reply"></i> </a>';
-    //                 $html .= '<a data-toggle="tooltip"  id="' . $quotation_requests->id . '" class="btn btn-danger delete" title="Delete"><i class="lni lni-trash"></i> </a>';
-    //                 $html .= '</div>';
-    //                 return $html;
-    //             })
-    //             ->addColumn('message', function ($quotation_requests) {
-    //                 return Str::of($quotation_requests->message)->limit(30);
-    //             })
-    //             ->rawColumns(['action','message'])
-    //             ->addIndexColumn()
-    //             ->make(true);
-    //     } else {
-    //         return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
-    //     }
-    // }
+    public function deleteQuotationRequest(Request $request,$id){
+        if ($request->ajax()) {
+            $quotation = Quotation::findOrFail($id);
+            $quotation->delete();
+            return response()->json(['type' => 'success', 'message' => 'Successfully Deleted']);
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
+    }
 }
