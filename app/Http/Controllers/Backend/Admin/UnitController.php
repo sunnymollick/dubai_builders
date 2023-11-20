@@ -5,31 +5,29 @@ namespace App\Http\Controllers\Backend\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Backend\Item;
 use App\Models\Backend\Unit;
-use App\Models\Backend\WorkCategory;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Yajra\DataTables\Facades\DataTables;
 
-class ItemController extends Controller
+class UnitController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('backend.pages.item_works.index');
+        return view('backend.pages.work_categories.index');
     }
 
-    public function getAllItemWorks(Request $request)
+    public function getUnits(Request $request)
     {
         if ($request->ajax()) {
 
-            $item_works = Item::orderby('created_at', 'desc')->get();
+            $units = Unit::orderby('created_at', 'desc')->get();
 
-            return DataTables::of($item_works)
+            return DataTables::of($units)
 
                 ->addColumn('action', function ($section) {
                     $html = '<div class="btn-group">';
@@ -38,14 +36,6 @@ class ItemController extends Controller
                     $html .= '<a data-toggle="tooltip"  id="' . $section->id . '" class="btn btn-danger delete" title="Delete"><i class="lni lni-trash"></i> </a>';
                     $html .= '</div>';
                     return $html;
-                })
-                ->addColumn('work_category', function ($itemwork) {
-                    return $itemwork->workcategory->title;
-                })
-                ->addColumn('unit', function ($itemwork) {
-                    if ($itemwork->unit == '') {
-                        return '';
-                    } else return $itemwork->unit->title;
                 })
                 ->rawColumns(['action'])
                 ->addIndexColumn()
@@ -60,10 +50,8 @@ class ItemController extends Controller
      */
     public function create(Request $request)
     {
-        $work_categories = WorkCategory::all();
-        $units = Unit::all();
         if ($request->ajax()) {
-            $view = View::make('backend.pages.item_works.create', compact(['work_categories', 'units']))->render();
+            $view = View::make('backend.pages.units.create')->render();
             return response()->json(['html' => $view]);
         } else {
             return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
@@ -79,10 +67,9 @@ class ItemController extends Controller
         if ($request->ajax()) {
 
             $rules = [
-                'item_work' => 'required',
-                'work_category_id' => 'required',
-                'unit_id' => 'required',
+                'title' => 'required',
             ];
+
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
                 return response()->json([
@@ -90,20 +77,17 @@ class ItemController extends Controller
                     'errors' => $validator->getMessageBag()->toArray()
                 ]);
             } else {
+
                 DB::beginTransaction();
                 try {
-                    // $client_name = Client::where('id', $request->client_id)->first();
-                    $item_work = new Item();
-                    $item_work->item_work = $request->input('item_work');
-                    $item_work->work_category_id = $request->input('work_category_id');
-                    $item_work->unit_id = $request->input('unit_id');
-                    $item_work->unit_price = $request->input('unit_price');
-                    $item_work->save(); //
+
+                    $unit = new Unit();
+                    $unit->title = $request->input('title');
+                    $unit->save(); //
                     DB::commit();
                     return response()->json(['type' => 'success', 'message' => "Successfully Inserted"]);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     DB::rollback();
-                    dd($e->getMessage());
                     return response()->json(['type' => 'error', 'message' => "Please Fill With Correct data"]);
                 }
                 // }
@@ -116,27 +100,26 @@ class ItemController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id, Request $request)
+    public function show(Request $request, $id)
     {
-        $item_work = Item::where('id', $id)->first();
+        $unit = Unit::where('id', $id)->first();
         if ($request->ajax()) {
-            $view = View::make('backend.pages.item_works.show', compact('item_work'))->render();
+            $view = View::make('backend.pages.units.show', compact('unit'))->render();
             return response()->json(['html' => $view]);
         } else {
             return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
         }
     }
 
+
     /**
      * Show the form for editing the specified resource.
      */
     public function edit($id, Request $request)
     {
-        $item_work = Item::where('id', $id)->first();
-        $work_categories = WorkCategory::all();
-        $units = Unit::all();
+        $unit = Unit::where('id', $id)->first();
         if ($request->ajax()) {
-            $view = View::make('backend.pages.item_works.edit', compact('item_work', 'work_categories', 'units'))->render();
+            $view = View::make('backend.pages.units.edit', compact('unit'))->render();
             return response()->json(['html' => $view]);
         } else {
             return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
@@ -149,10 +132,7 @@ class ItemController extends Controller
     public function update(Request $request, $id)
     {
         if ($request->ajax()) {
-            $rules = [
-                'item_work' => 'required',
-                'work_category_id' => 'required'
-            ];
+            $rules = [];
 
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
@@ -164,12 +144,9 @@ class ItemController extends Controller
 
                 DB::beginTransaction();
                 try {
-                    $item_work = Item::findOrFail($id);
-                    $item_work->item_work = $request->input('item_work');
-                    $item_work->work_category_id = $request->input('work_category_id');
-                    $item_work->unit_id = $request->input('unit_id');
-                    $item_work->unit_price = $request->input('unit_price');
-                    $item_work->save();
+                    $unit = Unit::findOrFail($id);
+                    $unit->title = $request->input('title');
+                    $unit->save();
                     DB::commit();
                     return response()->json(['type' => 'success', 'message' => "Successfully Updated"]);
                 } catch (\Exception $e) {
@@ -188,7 +165,9 @@ class ItemController extends Controller
     public function destroy($id, Request $request)
     {
         if ($request->ajax()) {
-            Item::findOrFail($id)->delete();
+            Item::where('unit_id', $id)->update(['unit_id' => '']);
+
+            Unit::findOrFail($id)->delete();
             return response()->json(['type' => 'success', 'message' => 'Successfully Deleted']);
         } else {
             return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);

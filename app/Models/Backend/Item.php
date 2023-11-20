@@ -12,4 +12,8 @@ class Item extends Model
     {
         return $this->belongsTo(WorkCategory::class, 'work_category_id');
     }
+    public function unit()
+    {
+        return $this->belongsTo(Unit::class,'unit_id');
+    }
 }

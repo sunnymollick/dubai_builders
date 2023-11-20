@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 use PHPUnit\TextUI\XmlConfiguration\Logging\TeamCity;
 
 use App\Http\Controllers\Backend\Admin\SliderController;
+use App\Http\Controllers\Backend\Admin\UnitController;
 use App\Http\Controllers\Backend\Admin\WorkCategoryController;
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('index');
@@ -76,12 +77,17 @@ Route::get('request/for/quotation/edit/{id}',[QuotationRequestController::class,
 Route::resource('workcategories', WorkCategoryController::class);
 Route::get('allWorkCategories', [WorkCategoryController::class, 'getAllWorkCategories']);
 
+//Unit Routes
+Route::resource('units', UnitController::class);
+Route::get('allUnits', [UnitController::class, 'getUnits']);
+
 //Item/Works Routes
 Route::resource('itemworks', ItemController::class);
 Route::get('allItemWorks', [ItemController::class, 'getAllItemWorks']);
 
 // Quotation Routes
 Route::post('request/for/quotation/store',[QuotationController::class, 'store']);
+Route::get('request/for/quotation/fetch-items/{id}',[QuotationController::class, 'fetchItems']);
 
 //Slider Route
 Route::resource('sliders', SliderController::class);

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Backend\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Backend\Unit;
+use App\Models\Backend\WorkCategory;
 use App\Models\Frontend\Quotation;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
@@ -18,10 +20,12 @@ class QuotationRequestController extends Controller
     }
     public function edit($id, Request $request)
     {
+        $work_categories = WorkCategory::all();
+        $units = Unit::all();
         $quote = Quotation::where('id', $id)->first();
         if ($request->ajax()) {
 
-            $view = View::make('backend.pages.quotation.reply', compact('quote'))->render();
+            $view = View::make('backend.pages.quotation.reply', compact('quote','work_categories', 'units'))->render();
             return response()->json(['html' => $view]);
         } else {
             return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);

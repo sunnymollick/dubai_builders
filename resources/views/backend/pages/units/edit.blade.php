@@ -5,8 +5,8 @@
     <div class="form-row">
 
         <div class="form-group col-md-6">
-            <label for="">Category Name <span style="color: red;">*</span></label>
-            <input type="text" class="form-control" id="title" name="title" value="{{ $work_category->title }}"
+            <label for="">Unit Name <span style="color: red;">*</span></label>
+            <input type="text" class="form-control" id="title" name="title" value="{{ $unit->title }}"
                    placeholder="" required>
             <span id="error_title" class="has-error"></span>
         </div>
@@ -30,7 +30,7 @@
 
     $('.button-submit').click(function () {
         // route name and record id
-        ajax_submit_update('workcategories', "{{ $work_category->id }}")
+        ajax_submit_update('units', "{{ $unit->id }}")
     });
 
 

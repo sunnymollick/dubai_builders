@@ -15,10 +15,13 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('work_category_id');
             $table->string('item_work');
-            $table->string('unit');
+            $table->unsignedBigInteger('unit_id');
             $table->integer('unit_price');
             $table->foreign('work_category_id')
                 ->references('id')->on('work_categories')
+                ->onDelete('cascade');
+            $table->foreign('unit_id')
+                ->references('id')->on('units')
                 ->onDelete('cascade');
             $table->timestamps();
         });

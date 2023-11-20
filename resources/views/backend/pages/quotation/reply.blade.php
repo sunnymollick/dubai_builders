@@ -2,20 +2,42 @@
     <div id="status"></div>
     <div>
         <div id="items">
-            <div class="item row" style="margin-bottom: 10px;">
+            <div class="item col" style="margin-bottom: 10px;">
                 <input type="text" class="form-control" name="request_id" hidden value="{{$quote->id}}" placeholder="Item Name">
-                <div class="form-group col-md-4">
-                    <input type="text" class="form-control" name="item[]" placeholder="Item Name">
+                <div class="row">
+                    <div class="form-group col-md-3">
+                        <select class="form-control" name="work_category_id" id="categorySelect" required>
+                            <option value="">Select Category</option>
+                            @foreach ($work_categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->title }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <select class="form-control" name="items[]" id="itemSelect" disabled>
+                            <option value="">Select Item</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <textarea class="form-control" name="description[]" placeholder="Description here..." id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
                 </div>
-                <div class="form-group col-md-2">
-                    <input type="number" class="form-control" name="quantity[]" placeholder="Quantity">
+                <br>
+                <div class="row">
+                    <div class="form-group col-md-3">
+                        <input type="number" class="form-control" name="quantity[]" placeholder="Quantity">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <input type="text" id="unitSelect" class="form-control" name="unit[]" placeholder="Unit">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <input type="number" id="unitPrice" class="form-control" name="unit_price[]" placeholder="Unit Price">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <input type="number" class="form-control" name="total_price[]" placeholder="Total Price" readonly>
+                    </div>
                 </div>
-                <div class="form-group col-md-2">
-                    <input type="number" class="form-control" name="unit_price[]" placeholder="Unit Price">
-                </div>
-                <div class="form-group col-md-3">
-                    <input type="number" class="form-control" name="total_price[]" placeholder="Total Price" readonly>
-                </div>
+
 
             </div>
         </div>
@@ -78,15 +100,61 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
+        // Example: Use AJAX to fetch items based on selected category
+        $('#categorySelect').change(function(e) {
+            e.preventDefault();
+            var categoryId = $(this).val();
+
+            if (categoryId !== '') {
+                // Make an AJAX request to fetch items and details for the selected category
+                $.ajax({
+                    url: 'quotation/fetch-items/' + categoryId,
+                    type: 'GET',
+                    success: function(data) {
+                        // Update item dropdown with fetched items and details
+                        var itemSelect = $('#itemSelect');
+                        itemSelect.prop('disabled', false).empty();
+
+                        if (data.items.length > 0) {
+                            $('#itemSelect').html('<option value="">Select Item</option>')
+                            $.each(data.items, function(index, item) {
+                                itemSelect.append('<option value="' + item.id + '" data-unit="' + item.unit.title + '" data-unit-price="' + item.unit_price + '">' + item.item_work + '</option>');
+                            });
+
+                            // Set default item details based on the first item
+                            updateItemDetails(data.items[0]);
+                        } else {
+                            itemSelect.append('<option value="">No items found</option>');
+                            resetItemDetails();
+                        }
+                    }
+                });
+            } else {
+                // If no category is selected, disable and reset the item dropdown
+                $('#itemSelect').prop('disabled', true).empty().append('<option value="">Select Item</option>');
+                resetItemDetails();
+            }
+        });
+
+        // When an item is selected, update the unit and unit_price fields
+        $('#itemSelect').change(function() {
+            var selectedItem = $(this).find(':selected');
+            var unit = selectedItem.data('unit');
+            var unitPrice = selectedItem.data('unit-price');
+
+            $('#unitSelect').val(unit);
+            $('#unitPrice').val(unitPrice);
+        });
+        // Function to reset the unit and unit_price fields
+        function resetItemDetails() {
+            $('#unitSelect').val('');
+            $('#unitPrice').val('');
+        }
         $('#addItem').on('click', function() {
             var newItem = $('.item:first').clone();
             newItem.find('input').val('');
-            newItem.find('input[name^="item"]').attr("name", "item[]"); // Ensure new inputs have the correct names
-            newItem.find('input[name^="quantity"]').attr("name", "quantity[]");
-            newItem.find('input[name^="unit_price"]').attr("name", "unit_price[]");
-            newItem.find('input[name^="total_price"]').attr("name", "total_price[]");
             $('#items').append(newItem);
-            newItem.append('<button type="button" class="btn btn-danger form-control col removeItem">X</button>');
+            newItem.append('<br><div class="col-md-1"><button type="button" class="btn btn-danger form-control removeItem">X</button></div>');
         });
 
         $('#items').on('click', '.removeItem', function() {

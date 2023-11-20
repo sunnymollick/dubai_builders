@@ -25,7 +25,14 @@
 
         <div class="form-group col-md-8 col-sm-8">
             <label for="">Unit <span style="color: red;">*</span></label>
-            <input type="text" class="form-control" id="unit" name="unit" value="{{$item_work->unit}}" placeholder="">
+            <select class="form-control" name="unit_id" id="unit_id" required>
+                <option value="">Select Unit</option>
+                @foreach ($units as $unit)
+                <option value="{{ $unit->id }}" {{ $unit->id == $item_work->unit_id ? 'selected' : '' }}>
+                    {{ $unit->title }}
+                </option>
+                @endforeach
+            </select>
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>

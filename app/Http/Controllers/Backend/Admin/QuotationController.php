@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Backend\Item;
 use App\Models\Backend\QuotationApplication;
 use Exception;
 use Illuminate\Http\Request;
@@ -11,6 +12,22 @@ use Illuminate\Support\Facades\Validator;
 
 class QuotationController extends Controller
 {
+    public function fetchItems($id)
+    {
+        $item_work = Item::where('work_category_id', $id)->get();
+
+        // Fetch unit details for each item
+        $itemsWithDetails = $item_work->map(function ($item) {
+            $unit = $item->unit()->first(); // Assuming 'unit' is the name of the relationship
+
+            // Add 'unit' details to the item
+            $item->unit = $unit;
+
+            return $item;
+        });
+
+        return response()->json(['items' => $itemsWithDetails]);
+    }
     public function store(Request $request)
     {
 

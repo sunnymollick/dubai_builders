@@ -20,7 +20,7 @@
 
         <div class="form-group col-md-8 col-sm-8">
             <label for="">Unit </label>
-            <input type="text" class="form-control" id="unit" name="unit" value="{{$item_work->unit}}" placeholder=""  readonly>
+            <input type="text" class="form-control" id="unit_id" name="unit_id" value="{{$item_work->unit->title}}" placeholder=""  readonly>
             <span id="error_title" class="has-error"></span>
         </div>
         <div class="clearfix"></div>

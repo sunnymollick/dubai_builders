@@ -107,7 +107,7 @@
             <div class="menu-title">Items</div>
         </a>
         <ul>
-            <li> <a href="{{route('admin.workcategories.index')}}"><i class="bx bx-right-arrow-alt"></i>All Categories</a>
+            <li> <a href="{{route('admin.workcategories.index')}}"><i class="bx bx-right-arrow-alt"></i>All Categories & Units</a>
             </li>
             <li> <a href="{{route('admin.itemworks.index')}}"><i class="bx bx-right-arrow-alt"></i>All Items</a>
             </li>

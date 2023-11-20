@@ -79,9 +79,9 @@ class WorkCategoryController extends Controller
                 DB::beginTransaction();
                 try {
 
-                    $client = new WorkCategory();
-                    $client->title = $request->input('title');
-                    $client->save(); //
+                    $work_category = new WorkCategory();
+                    $work_category->title = $request->input('title');
+                    $work_category->save(); //
                     DB::commit();
                     return response()->json(['type' => 'success', 'message' => "Successfully Inserted"]);
                 } catch (\Exception $e) {
