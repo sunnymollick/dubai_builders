@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('quotation_applications', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('quotation_request_id');
-            $table->string('item');
+            $table->unsignedBigInteger('item_id');
+            $table->string('unit');
             $table->integer('quantity');
             $table->integer('unit_price');
             $table->integer('total_price');
+            $table->string('description');
             $table->foreign('quotation_request_id')
                 ->references('id')->on('quotations')
                 ->onDelete('cascade');

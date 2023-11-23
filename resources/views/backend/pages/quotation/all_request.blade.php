@@ -86,6 +86,26 @@ Projects
 </script>
 <script type="text/javascript">
     $(document).ready(function() {
+        // Edit Form
+        $("#manage_all").on("click", ".edit", function() {
+            var id = $(this).attr('id');
+            $.ajax({
+                url: 'quotation/edit' + '/' + id,
+                type: 'get',
+                success: function(data) {
+                    $("#modal_data").html(data.html);
+                    $('#myModal').modal('show'); // show bootstrap modal
+                    $('.modal-title').text('Send Quotation');
+                },
+                error: function(result) {
+                    $("#modal_data").html("Sorry Cannot Load Data");
+                }
+            });
+        });
+
+    });
+
+    $(document).ready(function() {
         // View Form
         $("#manage_all").on("click", ".view", function() {
             var id = $(this).attr('id');
@@ -103,22 +123,7 @@ Projects
 
         });
 
-        // Edit Form
-        $("#manage_all").on("click", ".edit", function() {
-            var id = $(this).attr('id');
-            $.ajax({
-                url: 'quotation/edit' + '/' + id,
-                type: 'get',
-                success: function(data) {
-                    $("#modal_data").html(data.html);
-                    $('#myModal').modal('show'); // show bootstrap modal
-                    $('.modal-title').text('Send Quotation');
-                },
-                error: function(result) {
-                    $("#modal_data").html("Sorry Cannot Load Data");
-                }
-            });
-        });
+
 
 
         // Delete
