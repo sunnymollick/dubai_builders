@@ -6,7 +6,7 @@
         <div class="row">
             <div class="form-group col-md-6">
                 <label for="">Title <span style="color: red;">*</span></label>
-                <input type="text" class="form-control" id="title" name="title" value="" placeholder=""
+                <input type="text" class="form-control" id="title" name="title" value="" placeholder="Enter a video title"
                     required>
                 <span id="error_title" class="has-error"></span>
             </div>
@@ -14,9 +14,9 @@
         <br> --}}
 
             <div class="form-group col-md-6">
-                <label for="">Description <span style="color: red;">*</span></label>
+                <label for="">Description </label>
                 <input type="text" class="form-control" id="description" name="description" value=""
-                    placeholder="" required>
+                    placeholder="Enter a video description" required>
                 <span id="error_title" class="has-error"></span>
             </div>
             {{-- <div class="clearfix"></div>
