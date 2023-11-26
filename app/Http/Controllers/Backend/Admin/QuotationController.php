@@ -47,20 +47,24 @@ class QuotationController extends Controller
 
                 DB::beginTransaction();
                 try {
-                    
+
                     $items = $request->input('items');
                     $units = $request->input('unit');
                     $quantities = $request->input('quantity');
                     $unitPrices = $request->input('unit_price');
                     $totalPrices = $request->input('total_price');
                     $description = $request->input('description');
-
+                    $quo_id = $request->input('request_id');
+                    $request_id = array();
+                    for ($i = 0; $i < count($items); $i++) {
+                        $request_id[$i] = $quo_id;
+                    }
                     // Prepare data for mass insertion
                     $data = [];
                     for ($i = 0; $i < count($items); $i++) {
                         $data[] = [
                             'item_id' => $items[$i],
-                            'quotation_request_id' => $request->input('request_id'),
+                            'quotation_request_id' => $request_id[$i],
                             'unit' => $units[$i],
                             'quantity' => $quantities[$i],
                             'unit_price' => $unitPrices[$i],

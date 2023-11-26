@@ -194,7 +194,6 @@ Contact
         });
     });
 </script>
-<script src="{{ asset('frontend/') }}/js/funfacts.js"></script>
 <script src="{{ asset('frontend') }}/js/map.js"></script>
 <script src="https://maps.google.com/maps/api/js?key=AIzaSyCUiaBC-cJ0wcEtqCUtoXF3I91o9wS42gQ"></script>
 @endsection
