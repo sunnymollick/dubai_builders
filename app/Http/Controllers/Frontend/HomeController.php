@@ -112,7 +112,7 @@ class HomeController extends Controller
     }
     public function services()
     {
-        $all = Service::orderby('service_title', 'asc')->limit(5)->get();
+        $all = Service::orderby('service_title', 'asc')->paginate(9);
         return view('frontend.pages.services', compact('all'));
     }
 
@@ -137,7 +137,7 @@ class HomeController extends Controller
     }
     public function careers()
     {
-        $careers = Career::where('is_active', 'active')->get();
+        $careers = Career::where('is_active', 'active')->orderby('created_at', 'desc')->paginate(9);
         return view('frontend.pages.careers.careers', compact('careers'));
     }
 

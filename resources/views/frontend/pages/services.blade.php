@@ -39,11 +39,27 @@
 
                 <div class="pagination-div">
                     <ul class="pagination">
-                        <li><a href="#"><i class="ion-chevron-left"></i></a></li>
-                        <li><a class="page-number current" href="#">1</a></li>
-                        <li><a class="page-number" href="#">2</a></li>
-                        <li><a class="page-number" href="#">3</a></li>
-                        <li><a href="#"><i class="ion-chevron-right"></i></a></li>
+
+                        @if ($all->onFirstPage())
+                            <li class="disabled"><span>&laquo;</span></li>
+                        @else
+                            <li><a href="{{ $all->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+                        @endif
+
+                        @for ($i = 1; $i <= $all->lastPage(); $i++)
+                            @if ($i == $all->currentPage())
+                                <li><span class="page-number current">{{ $i }}</span></li>
+                            @else
+                                <li><a href="{{ $all->url($i) }}" class="page-number">{{ $i }}</a></li>
+                            @endif
+                        @endfor
+
+                        @if ($all->hasMorePages())
+                            <li><a href="{{ $all->nextPageUrl() }}" rel="next">&raquo;</a></li>
+                        @else
+                            <li class="disabled"><span>&raquo;</span></li>
+                        @endif
+
                     </ul>
                 </div>
             </div>

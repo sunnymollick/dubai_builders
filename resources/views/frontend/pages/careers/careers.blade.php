@@ -110,6 +110,32 @@
                 </div>
             @endforeach
         </div>
+
+        <div class="pagination-div">
+            <ul class="pagination">
+
+                @if ($careers->onFirstPage())
+                    <li class="disabled"><span>&laquo;</span></li>
+                @else
+                    <li><a href="{{ $careers->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+                @endif
+
+                @for ($i = 1; $i <= $careers->lastPage(); $i++)
+                    @if ($i == $careers->currentPage())
+                        <li><span class="page-number current">{{ $i }}</span></li>
+                    @else
+                        <li><a href="{{ $careers->url($i) }}" class="page-number">{{ $i }}</a></li>
+                    @endif
+                @endfor
+
+                @if ($careers->hasMorePages())
+                    <li><a href="{{ $careers->nextPageUrl() }}" rel="next">&raquo;</a></li>
+                @else
+                    <li class="disabled"><span>&raquo;</span></li>
+                @endif
+
+            </ul>
+        </div>
     </div>
 @endsection
 
