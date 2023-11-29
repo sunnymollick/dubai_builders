@@ -8,6 +8,7 @@ use App\Models\Backend\Service;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
@@ -187,7 +188,7 @@ class ServiceController extends Controller
                     if ($request->hasFile('thumb_image')) {
                         $thumb_path = $path . "/thumbnail";
                         if (!empty($request->file('thumb_image'))) {
-                            if ($service->thumbnail_image) {
+                            if (File::exists($service->thumbnail_image)) {
                                 $file_old = $service->thumbnail_image;
                                 unlink($file_old);
                             }
@@ -199,7 +200,7 @@ class ServiceController extends Controller
                     }
                     if ($request->hasFile('hero_image')) {
                         if (!empty($request->file('hero_image'))) {
-                            if ($service->hero_image) {
+                            if (File::exists($service->hero_image)) {
                                 $file_old = $service->hero_image;
                                 unlink($file_old);
                             }
@@ -211,7 +212,7 @@ class ServiceController extends Controller
                     }
                     if ($request->hasFile('image_1')) {
                         if (!empty($request->file('image_1'))) {
-                            if ($service->image_1) {
+                            if (File::exists($service->image_1)) {
                                 $file_old = $service->image_1;
                                 unlink($file_old);
                             }
@@ -223,7 +224,7 @@ class ServiceController extends Controller
                     }
                     if ($request->hasFile('image_2')) {
                         if (!empty($request->file('image_2'))) {
-                            if ($service->image_2) {
+                            if (File::exists($service->image_2)) {
                                 $file_old = $service->image_2;
                                 unlink($file_old);
                             }
@@ -235,7 +236,7 @@ class ServiceController extends Controller
                     }
                     if ($request->hasFile('logo')) {
                         if (!empty($request->file('logo'))) {
-                            if ($service->logo) {
+                            if (File::exists($service->logo)) {
                                 $file_old = $service->logo;
                                 unlink($file_old);
                             }
@@ -247,7 +248,7 @@ class ServiceController extends Controller
                     }
                     if ($request->hasFile('home_image')) {
                         if (!empty($request->file('home_image'))) {
-                            if ($service->home_image) {
+                            if (File::exists($service->home_image)) {
                                 $file_old = $service->home_image;
                                 unlink($file_old);
                             }

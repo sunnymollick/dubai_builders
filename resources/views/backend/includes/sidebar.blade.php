@@ -115,7 +115,7 @@
     </li>
     <li>
         <a href="{{ route('admin.sliders.index') }}">
-            <div class="parent-icon"><i class="lni lni-bootstrap"></i>
+            <div class="parent-icon"><i class="bx bx-carousel"></i>
             </div>
             <div class="menu-title">Slider</div>
         </a>

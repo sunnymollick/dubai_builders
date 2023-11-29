@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backend\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\backend\Career;
+use App\Models\Backend\Career;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
@@ -11,6 +11,7 @@ use Yajra\DataTables\DataTables;
 use App\Helpers\Helper;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 
 class CareerController extends Controller
@@ -159,12 +160,12 @@ class CareerController extends Controller
 
             if ($request->hasFile('poster')) {
                 if (!empty($request->file('poster'))) {
-                    if ($career->poster) {
+                    $poster = $request->file('poster');
+                    $poster_img = Helper::saveImage($poster, 215, 220, $path);
+                    if (File::exists($career->poster)) {
                         $file_old = $career->poster;
                         unlink($file_old);
                     }
-                    $poster = $request->file('poster');
-                    $poster_img = Helper::saveImage($poster, 215, 220, $path);
                 }
             } else {
                 $poster_img = $career->poster;
