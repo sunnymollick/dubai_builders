@@ -160,12 +160,12 @@ class CareerController extends Controller
 
             if ($request->hasFile('poster')) {
                 if (!empty($request->file('poster'))) {
+                    $poster = $request->file('poster');
+                    $poster_img = Helper::saveImage($poster, 215, 220, $path);
                     if (File::exists($career->poster)) {
                         $file_old = $career->poster;
                         unlink($file_old);
                     }
-                    $poster = $request->file('poster');
-                    $poster_img = Helper::saveImage($poster, 215, 220, $path);
                 }
             } else {
                 $poster_img = $career->poster;
