@@ -66,3 +66,14 @@
         </div>
     </div>
 @endsection
+
+<style>
+    .service_content p {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        /* number of lines to show */
+        line-clamp: 2;
+        -webkit-box-orient: vertical
+    }
+</style>
