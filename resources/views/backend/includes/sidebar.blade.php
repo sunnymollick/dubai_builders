@@ -62,7 +62,7 @@
         <ul>
             <li> <a href="{{ route('admin.careers.index') }}"><i class="bx bx-right-arrow-alt"></i>Job Circular</a>
             </li>
-            <li> <a href="{{ route('admin.careers.index') }}"><i class="bx bx-right-arrow-alt"></i>Job Circular</a>
+            <li> <a href="#"><i class="bx bx-right-arrow-alt"></i>Job Application</a>
             </li>
         </ul>
     </li>
@@ -98,6 +98,26 @@
             <div class="parent-icon"><i class="lni lni-question-circle"></i>
             </div>
             <div class="menu-title">Quotation Request</div>
+        </a>
+    </li>
+    <li>
+        <a class="has-arrow" href="javascript:;">
+            <div class="parent-icon"><i class='bx bx-command'></i>
+            </div>
+            <div class="menu-title">Items</div>
+        </a>
+        <ul>
+            <li> <a href="{{route('admin.workcategories.index')}}"><i class="bx bx-right-arrow-alt"></i>All Categories & Units</a>
+            </li>
+            <li> <a href="{{route('admin.itemworks.index')}}"><i class="bx bx-right-arrow-alt"></i>All Items</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="{{ route('admin.sliders.index') }}">
+            <div class="parent-icon"><i class="lni lni-bootstrap"></i>
+            </div>
+            <div class="menu-title">Slider</div>
         </a>
     </li>
     <li>

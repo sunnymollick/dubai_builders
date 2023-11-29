@@ -13,6 +13,7 @@ class ContactController extends Controller
      */
     public function index()
     {
+        Contact::where('is_read','0')->update(['is_read' => '1']);
         $all_messages = Contact::orderby('created_at', 'desc')->get();
         return view('backend.pages.chatbox.index', compact('all_messages'));
     }
