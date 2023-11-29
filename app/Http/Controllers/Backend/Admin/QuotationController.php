@@ -19,13 +19,10 @@ class QuotationController extends Controller
         // Fetch unit details for each item
         $itemsWithDetails = $item_work->map(function ($item) {
             $unit = $item->unit()->first(); // Assuming 'unit' is the name of the relationship
-
             // Add 'unit' details to the item
             $item->unit = $unit;
-
             return $item;
         });
-
         return response()->json(['items' => $itemsWithDetails]);
     }
     public function store(Request $request)
@@ -34,7 +31,8 @@ class QuotationController extends Controller
         if ($request->ajax()) {
             $path = "quotations";
             $rules = [
-                'item' => 'required',
+                'items' => 'required',
+                'unit' => 'required',
                 'unit_price' => 'required',
                 'quantity' => 'required',
             ];
@@ -49,21 +47,34 @@ class QuotationController extends Controller
 
                 DB::beginTransaction();
                 try {
-                    $items = $request->input('item');
+
+                    $items = $request->input('items');
+                    $units = $request->input('unit');
                     $quantities = $request->input('quantity');
                     $unitPrices = $request->input('unit_price');
-                    $totaPrices = $request->input('total_price');
-                    // Use a for loop to store the data
-                    $request_id = $request->request_id;
+                    $totalPrices = $request->input('total_price');
+                    $description = $request->input('description');
+                    $quo_id = $request->input('request_id');
+                    $request_id = array();
                     for ($i = 0; $i < count($items); $i++) {
-                        $new = new QuotationApplication();
-                        $new->item = $items[$i];
-                        $new->quotation_request_id = $request->request_id;
-                        $new->quantity = $quantities[$i];
-                        $new->unit_price = $unitPrices[$i];
-                        $new->total_price = $totaPrices[$i];
-                        $new->save();
+                        $request_id[$i] = $quo_id;
                     }
+                    // Prepare data for mass insertion
+                    $data = [];
+                    for ($i = 0; $i < count($items); $i++) {
+                        $data[] = [
+                            'item_id' => $items[$i],
+                            'quotation_request_id' => $request_id[$i],
+                            'unit' => $units[$i],
+                            'quantity' => $quantities[$i],
+                            'unit_price' => $unitPrices[$i],
+                            'total_price' => $totalPrices[$i],
+                            'description' => $description[$i],
+                        ];
+                    }
+
+                    // Mass insert the data
+                    QuotationApplication::insert($data);
                     DB::commit();
                     return response()->json(['type' => 'success', 'message' => "Successfully Inserted"]);
                 } catch (Exception $e) {
