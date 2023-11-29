@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Backend\Slider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
@@ -32,14 +33,18 @@ class SliderController extends Controller
                     $html = '<div class="btn-group">';
                     $html .= '<a data-toggle="tooltip"  id="' . $sliders->id . '" class="btn btn-success mr-1 view" title="View"><i class="lni lni-eye"></i> </a>';
                     $html .= '<a data-toggle="tooltip"  id="' . $sliders->id . '" class="btn btn-info mr-1 edit" title="Edit"><i class="lni lni-pencil-alt"></i> </a>';
-                    $html .= '<a data-toggle="tooltip"  id="' . $sliders->id . '" class="btn btn-danger delete" title="Delete"><i class="lni lni-trash"></i> </a>';
+                    // $html .= '<a data-toggle="tooltip"  id="' . $sliders->id . '" class="btn btn-danger delete" title="Delete"><i class="lni lni-trash"></i> </a>';
                     $html .= '</div>';
                     return $html;
                 })
-                ->addColumn('blog_description', function ($sliders) {
-                    return Str::of($sliders->blog_description)->limit(30);;
+                ->addColumn('description', function ($sliders) {
+                    return Str::of($sliders->description)->limit(30);
                 })
-                ->rawColumns(['action'])
+                ->addColumn('is_active', function ($sliders) {
+                    $html =  ($sliders->is_active == 1) ? '<span class="text-success">Active</span>' : '<span class="text-danger">Inactive</span>';
+                    return $html;
+                })
+                ->rawColumns(['action', 'is_active'])
                 ->addIndexColumn()
                 ->make(true);
         } else {
@@ -112,7 +117,7 @@ class SliderController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request,Slider $slider)
+    public function show(Request $request, Slider $slider)
     {
         if ($request->ajax()) {
             $view = View::make('backend.pages.slider.show', compact('slider'))->render();
@@ -125,7 +130,7 @@ class SliderController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Request $request,Slider $slider)
+    public function edit(Request $request, Slider $slider)
     {
         if ($request->ajax()) {
             $view = View::make('backend.pages.slider.edit', compact('slider'))->render();
@@ -140,6 +145,7 @@ class SliderController extends Controller
      */
     public function update(Request $request, Slider $slider)
     {
+
         if ($request->ajax()) {
 
             $rules = [
@@ -157,22 +163,22 @@ class SliderController extends Controller
 
                 DB::beginTransaction();
                 try {
-                    $video = $slider->video;
+                    $old_video = $slider->video;
 
+                    $video = $request->file('video');
+                    $video_name  = $video->getClientOriginalName();
+                    $video->move('backend/uploads/videos/slider', $video_name);
                     if ($request->hasFile('video')) {
-                        if (!empty($video)) {
-                            unlink($video);
+                        if (File::exists($old_video)) {
+                            $old_file = $old_video;
+                            unlink($old_file);
                         }
-                        $video = $request->file('video');
-                        $video_name  = $video->getClientOriginalName();
-                        $video->move('backend/uploads/videos/slider', $video_name);
-                        
                     }
-                    
 
                     $slider->title = $request->input('title');
                     $slider->description = $request->input('description');
-                    $slider->is_active = $request->input('is_publish');
+                    $slider->video = $slider->video = 'backend/uploads/videos/slider/' . $video_name;
+                    $slider->is_active = $request->input('is_active');
                     $slider->save(); //
                     DB::commit();
                     return response()->json(['type' => 'success', 'message' => "Successfully Updated"]);
@@ -190,7 +196,7 @@ class SliderController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request,Slider $slider)
+    public function destroy(Request $request, Slider $slider)
     {
         if ($request->ajax()) {
             $slider->delete();

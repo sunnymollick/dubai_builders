@@ -23,14 +23,21 @@
             {{-- <div class="clearfix"></div>
         <br> --}}
         </div>
-
         <div class="row">
             <div class="form-group col-md-6 col-sm-12 mt-2">
-                <video src="{{asset($slider->video)}}" height="100px" width="150px" autoplay></video>
-                <br>
-                <label for="">Video <span style="color: red;">*</span></label>
-                <input type="file" class="form-control" id="video" name="video" required>
-                <span id="error_title" class="has-error"></span>
+                <strong>Video: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>
+                <video id="logoPreview" src="{{ asset($slider->video) }}" height="100px" width="150px" autoplay></video>
+                <p></p>
+                <div class="input-group">
+                    <input id="video" type="file" name="video" style="display:none">
+                    <div class="input-group-prepend">
+                        <a class="btn btn-primary text-white" onclick="$('input[id=video]').click();">Browse</a>
+                    </div>
+                    <input type="text" name="SelectedFileName" class="form-control" id="SelectedFileName"
+                        value="{{ $slider->video }}" readonly>
+                </div>
+                <span>Video resolution must be 1080p </span>
+                <span id="error_video" class="text-danger"></span>
             </div>
             {{-- <div class="clearfix"></div>
             <br> --}}
@@ -57,8 +64,36 @@
 </form>
 
 <script>
-    $('.button-submit').click(function() {
-        // route name
-        ajax_submit_store('sliders')
+    $('.button-submit').click(function () {
+        // route name and record id
+        ajax_submit_update('sliders', "{{ $slider->id }}")
+    });
+</script>
+
+
+<script type="text/javascript">
+    $('input[id=video]').change(function () {
+        // Get the selected file
+        var file = this.files[0];
+
+        // Check if a file is selected
+        if (file) {
+            // Create a FileReader to read the selected file
+            var reader = new FileReader();
+
+            // Set up the FileReader onload event to update the image preview
+            reader.onload = function (e) {
+                $('#logoPreview').attr('src', e.target.result);
+            };
+
+            // Read the selected file as a data URL
+            reader.readAsDataURL(file);
+        } else {
+            // If no file is selected, revert to the current logo
+            $('#logoPreview').attr('src', '');
+        }
+
+        // Update the input field's value for display
+        $('#SelectedFileName').val($(this).val());
     });
 </script>
