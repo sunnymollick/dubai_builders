@@ -28,4 +28,4 @@ Route::get('/services/details/{id}', [HomeController::class, 'servicesDetails'])
 // Contact Routes
 Route::post('/contact/store', [HomeController::class, 'storeContact'])->name('contact.store');
 Route::get('/careers', [HomeController::class, 'careers'])->name('careers');
-Route::get('/careers/details/{id}', [HomeController::class, 'careers'])->name('careers.details');
+Route::get('/careers/details/{id}', [HomeController::class, 'job_application'])->name('careers.details');

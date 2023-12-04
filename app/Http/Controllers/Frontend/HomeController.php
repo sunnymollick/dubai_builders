@@ -152,4 +152,10 @@ class HomeController extends Controller
         $blog = Blog::findOrFail($id);
         return view('frontend.pages.blog_details', compact('blog'));
     }
+
+    public function job_application($id)
+    {
+        $job_app = Career::find($id);
+        return view('frontend.pages.careers.job_application', compact('job_app'));
+    }
 }

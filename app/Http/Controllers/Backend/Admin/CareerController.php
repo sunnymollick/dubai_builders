@@ -76,7 +76,7 @@ class CareerController extends Controller
 
             if ($request->hasFile('poster')) {
                 $poster = $request->file('poster');
-                $poster_img = Helper::saveImage($poster, 215, 220, $path);
+                $poster_img = Helper::saveImage($poster, 150, 220, $path);
             }
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
@@ -161,7 +161,7 @@ class CareerController extends Controller
             if ($request->hasFile('poster')) {
                 if (!empty($request->file('poster'))) {
                     $poster = $request->file('poster');
-                    $poster_img = Helper::saveImage($poster, 215, 220, $path);
+                    $poster_img = Helper::saveImage($poster, 150, 220, $path);
                     if (File::exists($career->poster)) {
                         $file_old = $career->poster;
                         unlink($file_old);
