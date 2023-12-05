@@ -27,5 +27,11 @@ Route::get('/services', [HomeController::class, 'services'])->name('services');
 Route::get('/services/details/{id}', [HomeController::class, 'servicesDetails'])->name('services.details');
 // Contact Routes
 Route::post('/contact/store', [HomeController::class, 'storeContact'])->name('contact.store');
+
+// career routes
 Route::get('/careers', [HomeController::class, 'careers'])->name('careers');
 Route::get('/careers/details/{id}', [HomeController::class, 'job_application'])->name('careers.details');
+Route::post('/storeJobApplication',[HomeController::class,'storeJobApplication']);
+
+//Quotation Request Routes
+Route::post('storeQuotationRequest',[HomeController::class,'storeQuotationRequest']);

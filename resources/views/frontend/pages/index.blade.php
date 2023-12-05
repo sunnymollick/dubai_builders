@@ -3,7 +3,7 @@
     Home
 @endsection
 @section('sliders')
-    {{-- <div class="theme_slider_1">
+    <!-- <div class="theme_slider_1">
         <div class="slider">
             <div class="container">
                 <div class="row">
@@ -27,7 +27,7 @@
                 </div>
             </div>
         </div>
-    </div> --}}
+    </div> -->
     <div class="video_slider">
         @foreach ($slider as $s)
             <video src="{{ asset($s->video) }}" muted autoplay loop></video>
@@ -221,168 +221,116 @@
         </div>
     </div>
 
-    <div class="section project_iso project_iso1">
-        <div class="container-fluid g-0">
-            <div class="section_header text-center">
-                <div class="shadow_icon"><img src="{{ asset('frontend') }}/images/about/shadow_icon1.png"
-                        alt=""></div>
-                <h6 class="section_sub_title">ABOUT {{ $app_settings->app_name ?? '' }} CONSTRUCTION</h6>
-                <h1 class="section_title">Our Most Popular Projects</h1>
-            </div>
-            <div class="row g-0">
-                <div class="col">
-                    <div class="button-group filters-button-group">
-                        <button class="button" data-filter="*">All</button>
-                        <button class="button is-checked" data-filter=".commercial">Commercial</button>
-                        <button class="button" data-filter=".highrise">Highrise</button>
-                        <button class="button" data-filter=".residential">Residential</button>
-                        <button class="button" data-filter=".business">Business</button>
+<div class="section project_iso project_iso1">
+    <div class="container-fluid g-0">
+        <div class="section_header text-center">
+            <div class="shadow_icon"><img src="{{ asset('frontend') }}/images/about/shadow_icon1.png" alt=""></div>
+            <h6 class="section_sub_title">ABOUT BUILDERRINE CONSTRUCTION</h6>
+            <h1 class="section_title">Our Most Popular Projects</h1>
+        </div>
+        <div class="row g-0">
+            <div class="col">
+                <div class="button-group filters-button-group">
+                    <button class="button is-checked" data-filter=".commercial">Commercial</button>
+                    <button class="button" data-filter=".highrise">Highrise</button>
+                    <button class="button" data-filter=".residential">Residential</button>
+                    <button class="button" data-filter=".business">Business</button>
+                </div>
+
+                <div class="grid grid-5">
+                    @foreach ($highrise as $hg)
+                    <div class="element-item highrise" >
+                        <div class="teambox">
+                            <img src="{{ asset($hg->thumbnail_image) }}" alt="">
+                            <div class="teambox_inner">
+                                <div class="team_social">
+                                    <div class="share"><i class="ion-android-share-alt"></i></div>
+                                    <ul>
+                                        <li class="facebook"><a href="#"><i class="ion-social-facebook"></i></a></li>
+                                        <li class="twitter"><a href="#"><i class="ion-social-twitter"></i></a></li>
+                                        <li class="instagram"><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
+                                        <li class="linkedin"><a href="#"><i class="ion-social-linkedin-outline"></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="teambox_intro">
+                                    <div class="team_flex">
+                                        <h6>{{ $hg->project_location }}</h6>
+                                        <h5><a href="{{route('frontend.projects.details', $hg->id)}}">{{ $hg->project_title }}</a></h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    @endforeach
 
-                    <div class="grid grid-5">
-                        <!-- @foreach ($all as $a)
-    <div class="element-item all" id="tab-content-1">
-                                                                            <div class="teambox">
-                                                                                <img src="{{ asset($a->thumbnail_image) }}" alt="">
-                                                                                <div class="teambox_inner">
-                                                                                    <div class="team_social">
-                                                                                        <div class="share"><i class="ion-android-share-alt"></i></div>
-                                                                                        <ul>
-                                                                                            <li class="facebook"><a href="#"><i class="ion-social-facebook"></i></a></li>
-                                                                                            <li class="twitter"><a href="#"><i class="ion-social-twitter"></i></a></li>
-                                                                                            <li class="instagram"><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
-                                                                                            <li class="linkedin"><a href="#"><i class="ion-social-linkedin-outline"></i></a></li>
-                                                                                        </ul>
-                                                                                    </div>
-                                                                                    <div class="teambox_intro">
-                                                                                        <div class="team_flex">
-                                                                                            <h6>{{ $a->project_location }}</h6>
-                                                                                            <h5><a href="project-details.html">{{ $a->project_title }}</a></h5>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-    @endforeach -->
-                        @foreach ($highrise as $hg)
-                            <div class="element-item highrise" id="tab-content-2">
-                                <div class="teambox">
-                                    <img src="{{ asset($hg->thumbnail_image) }}" alt="">
-                                    <div class="teambox_inner">
-                                        <div class="team_social">
-                                            <div class="share"><i class="ion-android-share-alt"></i></div>
-                                            <ul>
-                                                <li class="facebook"><a href="#"><i
-                                                            class="ion-social-facebook"></i></a></li>
-                                                <li class="twitter"><a href="#"><i
-                                                            class="ion-social-twitter"></i></a></li>
-                                                <li class="instagram"><a href="#"><i
-                                                            class="ion-social-instagram-outline"></i></a></li>
-                                                <li class="linkedin"><a href="#"><i
-                                                            class="ion-social-linkedin-outline"></i></a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="teambox_intro">
-                                            <div class="team_flex">
-                                                <h6>{{ $hg->project_location }}</h6>
-                                                <h5><a
-                                                        href="{{ route('frontend.projects.details', $hg->id) }}">{{ $hg->project_title }}</a>
-                                                </h5>
-                                            </div>
-                                        </div>
+                    @foreach ($business as $bs)
+                    <div class="element-item business">
+                        <div class="teambox">
+                            <img src="{{ asset($bs->thumbnail_image) }}" alt="">
+                            <div class="teambox_inner">
+                                <div class="team_social">
+                                    <div class="share"><i class="ion-android-share-alt"></i></div>
+                                    <ul>
+                                        <li class="facebook"><a href="#"><i class="ion-social-facebook"></i></a></li>
+                                        <li class="twitter"><a href="#"><i class="ion-social-twitter"></i></a></li>
+                                        <li class="instagram"><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
+                                        <li class="linkedin"><a href="#"><i class="ion-social-linkedin-outline"></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="teambox_intro">
+                                    <div class="team_flex">
+                                        <h6>{{ $bs->project_location }}</h6>
+                                        <h5><a href="{{route('frontend.projects.details', $bs->id)}}">{{ $bs->project_title }}</a></h5>
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
+                        </div>
+                    </div>
+                    @endforeach
 
-                        @foreach ($business as $bs)
-                            <div class="element-item business" id="tab-content-3">
-                                <div class="teambox">
-                                    <img src="{{ asset($bs->thumbnail_image) }}" alt="">
-                                    <div class="teambox_inner">
-                                        <div class="team_social">
-                                            <div class="share"><i class="ion-android-share-alt"></i></div>
-                                            <ul>
-                                                <li class="facebook"><a href="#"><i
-                                                            class="ion-social-facebook"></i></a></li>
-                                                <li class="twitter"><a href="#"><i
-                                                            class="ion-social-twitter"></i></a></li>
-                                                <li class="instagram"><a href="#"><i
-                                                            class="ion-social-instagram-outline"></i></a></li>
-                                                <li class="linkedin"><a href="#"><i
-                                                            class="ion-social-linkedin-outline"></i></a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="teambox_intro">
-                                            <div class="team_flex">
-                                                <h6>{{ $bs->project_location }}</h6>
-                                                <h5><a
-                                                        href="{{ route('frontend.projects.details', $bs->id) }}">{{ $bs->project_title }}</a>
-                                                </h5>
-                                            </div>
-                                        </div>
+                    @foreach ($residential as $rs)
+                    <div class="element-item residential">
+                        <div class="teambox">
+                            <img src="{{ asset($rs->thumbnail_image) }}" alt="">
+                            <div class="teambox_inner">
+                                <div class="team_social">
+                                    <div class="share"><i class="ion-android-share-alt"></i></div>
+                                    <ul>
+                                        <li class="facebook"><a href="#"><i class="ion-social-facebook"></i></a></li>
+                                        <li class="twitter"><a href="#"><i class="ion-social-twitter"></i></a></li>
+                                        <li class="instagram"><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
+                                        <li class="linkedin"><a href="#"><i class="ion-social-linkedin-outline"></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="teambox_intro">
+                                    <div class="team_flex">
+                                        <h6>{{ $rs->project_location }}</h6>
+                                        <h5><a href="{{route('frontend.projects.details', $rs->id)}}">{{ $rs->project_title }}</a></h5>
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
+                        </div>
+                    </div>
+                    @endforeach
 
-                        @foreach ($residential as $rs)
-                            <div class="element-item residential" id="tab-content-4">
-                                <div class="teambox">
-                                    <img src="{{ asset($rs->thumbnail_image) }}" alt="">
-                                    <div class="teambox_inner">
-                                        <div class="team_social">
-                                            <div class="share"><i class="ion-android-share-alt"></i></div>
-                                            <ul>
-                                                <li class="facebook"><a href="#"><i
-                                                            class="ion-social-facebook"></i></a></li>
-                                                <li class="twitter"><a href="#"><i
-                                                            class="ion-social-twitter"></i></a></li>
-                                                <li class="instagram"><a href="#"><i
-                                                            class="ion-social-instagram-outline"></i></a></li>
-                                                <li class="linkedin"><a href="#"><i
-                                                            class="ion-social-linkedin-outline"></i></a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="teambox_intro">
-                                            <div class="team_flex">
-                                                <h6>{{ $rs->project_location }}</h6>
-                                                <h5><a
-                                                        href="{{ route('frontend.projects.details', $rs->id) }}">{{ $rs->project_title }}</a>
-                                                </h5>
-                                            </div>
-                                        </div>
-                                    </div>
+                    @foreach ($commercial as $cm)
+                    <div class="element-item commercial">
+                        <div class="teambox">
+                            <img src="{{ asset($cm->thumbnail_image) }}" alt="">
+                            <div class="teambox_inner">
+                                <div class="team_social">
+                                    <div class="share"><i class="ion-android-share-alt"></i></div>
+                                    <ul>
+                                        <li class="facebook"><a href="#"><i class="ion-social-facebook"></i></a></li>
+                                        <li class="twitter"><a href="#"><i class="ion-social-twitter"></i></a></li>
+                                        <li class="instagram"><a href="#"><i class="ion-social-instagram-outline"></i></a></li>
+                                        <li class="linkedin"><a href="#"><i class="ion-social-linkedin-outline"></i></a></li>
+                                    </ul>
                                 </div>
-                            </div>
-                        @endforeach
-
-                        @foreach ($commercial as $cm)
-                            <div class="element-item commercial" id="tab-content-5">
-                                <div class="teambox">
-                                    <img src="{{ asset($cm->thumbnail_image) }}" alt="">
-                                    <div class="teambox_inner">
-                                        <div class="team_social">
-                                            <div class="share"><i class="ion-android-share-alt"></i></div>
-                                            <ul>
-                                                <li class="facebook"><a href="#"><i
-                                                            class="ion-social-facebook"></i></a></li>
-                                                <li class="twitter"><a href="#"><i
-                                                            class="ion-social-twitter"></i></a></li>
-                                                <li class="instagram"><a href="#"><i
-                                                            class="ion-social-instagram-outline"></i></a></li>
-                                                <li class="linkedin"><a href="#"><i
-                                                            class="ion-social-linkedin-outline"></i></a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="teambox_intro">
-                                            <div class="team_flex">
-                                                <h6>{{ $cm->project_location }}</h6>
-                                                <h5><a
-                                                        href="{{ route('frontend.projects.details', $cm->id) }}">{{ $cm->project_title }}</a>
-                                                </h5>
-                                            </div>
-                                        </div>
+                                <div class="teambox_intro">
+                                    <div class="team_flex">
+                                        <h6>{{ $cm->project_location }}</h6>
+                                        <h5><a href="{{route('frontend.projects.details', $cm->id)}}">{{ $cm->project_title }}</a></h5>
                                     </div>
                                 </div>
                             </div>
@@ -461,7 +409,7 @@
                                                                     class="text-danger">*</span></label>
                                                             <input type="text" class="form-control" id="mobile"
                                                                 name="mobile" placeholder="Enter Phone Number" required>
-                                                            @error('name')
+                                                            @error('mobile')
                                                                 <span class="text-danger">{{ $message }}</span>
                                                             @enderror
                                                         </div>
@@ -472,12 +420,12 @@
                                                                 id="project_type" required>
                                                                 <option value="" selected disabled>Select Project
                                                                     Type</option>
-                                                                <option>Commercial</option>
-                                                                <option>Highrise</option>
-                                                                <option>Residential</option>
-                                                                <option>Business</option>
+                                                                <option value="Commercial">Commercial</option>
+                                                                <option value="Highrise">Highrise</option>
+                                                                <option value="Residential">Residential</option>
+                                                                <option value="Business">Business</option>
                                                             </select>
-                                                            @error('name')
+                                                            @error('project_type')
                                                                 <span class="text-danger">{{ $message }}</span>
                                                             @enderror
                                                         </div>
@@ -485,7 +433,7 @@
                                                             <label for="time">Maximum time for the project</label>
                                                             <input type="text" class="form-control" id="project_time"
                                                                 name="project_time" placeholder="Enter Project Time">
-                                                            @error('name')
+                                                            @error('project_time')
                                                                 <span class="text-danger">{{ $message }}</span>
                                                             @enderror
                                                         </div>
@@ -510,11 +458,10 @@
                                                             @enderror
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="Evaluate Budget">Evaluate Budget <span
-                                                                    class="text-danger">*</span></label>
+                                                            <label for="Evaluate Budget">Evaluate Budget</label>
                                                             <input type="text" class="form-control"
                                                                 id="evaluate_budget" name="evaluate_budget"
-                                                                placeholder="Enter your evaluate budget" required>
+                                                                placeholder="Enter your evaluate budget">
                                                             @error('evaluate_budget')
                                                                 <span class="text-danger">{{ $message }}</span>
                                                             @enderror
@@ -533,7 +480,7 @@
                                                     <div class="col-md-12 col-lg-10 col-12">
                                                         <div class="form-group files">
                                                             <label class="my-auto">Upload Your File </label>
-                                                            <input id="file" type="file" class="form-control" />
+                                                            <input id="file" type="file" name="file" class="form-control" />
                                                             @error('file')
                                                                 <span class="text-danger">{{ $message }}</span>
                                                             @enderror
@@ -668,7 +615,7 @@
                     }, function() {
                         // console.log('hi');
                         $.ajax({
-                            url: '/',
+                            url: '/storeQuotationRequest',
                             type: 'POST',
                             data: myData,
                             dataType: 'json',
@@ -678,9 +625,11 @@
                             success: function(data) {
                                 if (data.type === 'success') {
                                     $('#myModal').modal('hide');
-                                    swal("Done!", "It was succesfully done!",
+                                    swal("Thanks!", "We received your request.",
                                         "success");
-                                    reload_table();
+                                    $("#name").val('') && $("#email").val('') && $("#mobile").val('')
+                                    && $("#location").val('') && $("#project_type").val('') && $("#evaluate_budget").val('')
+                                    && $("#project_time").val('') && $("#company_name").val('') && $("#file").val('') && $("#message").val('');
                                 } else if (data.type === 'error') {
                                     if (data.errors) {
                                         $.each(data.errors, function(key, val) {
@@ -734,7 +683,6 @@
         }
 
         .container {
-            ;
             border-radius: 20px
         }
 

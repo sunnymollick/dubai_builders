@@ -22,7 +22,8 @@ class BlogController extends Controller
         return view('backend.pages.blog.index');
     }
 
-    public function getAllBlogs(Request $request){
+    public function getAllBlogs(Request $request)
+    {
         if ($request->ajax()) {
             $blogs = Blog::orderby('created_at', 'desc')->get();
 
@@ -46,7 +47,7 @@ class BlogController extends Controller
                 ->addColumn('author_image', function ($blog) {
                     return "<img src='" . asset($blog->author_image) . "' class='img-thumbnail' width='100px'>";
                 })
-                ->rawColumns(['action','author_image'])
+                ->rawColumns(['action', 'author_image'])
                 ->addIndexColumn()
                 ->make(true);
         } else {
@@ -150,7 +151,9 @@ class BlogController extends Controller
                     DB::commit();
                     return response()->json(['type' => 'success', 'message' => "Successfully Inserted"]);
                 } catch (\Exception $e) {
+                    dd($e->getMessage());
                     DB::rollback();
+
                     return response()->json(['type' => 'error', 'message' => "Please Fill With Correct data"]);
                 }
                 // }
@@ -163,7 +166,7 @@ class BlogController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request,Blog $blog)
+    public function show(Request $request, Blog $blog)
     {
         if ($request->ajax()) {
             $view = View::make('backend.pages.blog.show', compact('blog'))->render();
@@ -176,7 +179,7 @@ class BlogController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Request $request,Blog $blog)
+    public function edit(Request $request, Blog $blog)
     {
         if ($request->ajax()) {
             $view = View::make('backend.pages.blog.edit', compact('blog'))->render();
@@ -281,7 +284,7 @@ class BlogController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request,Blog $blog)
+    public function destroy(Request $request, Blog $blog)
     {
         if ($request->ajax()) {
             $blog->delete();

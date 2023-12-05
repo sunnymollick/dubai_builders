@@ -99,8 +99,6 @@ class ProjectController extends Controller
                 'project_title' => 'required',
                 'client_id' => 'required',
                 'hero_image' => 'required|image|mimes:jpg,png,jpeg',
-                'image_1' => 'required|image|mimes:jpg,png,jpeg',
-                'image_2' => 'required|image|mimes:jpg,png,jpeg',
             ];
             $path = "projects";
             if ($request->hasFile('hero_image')) {
@@ -109,18 +107,26 @@ class ProjectController extends Controller
                 Image::make($hero_image)->resize(270, 354)->save('backend/uploads/images/projects/thumbnail/' . $image_rename);
                 $image_url = 'backend/uploads/images/projects/thumbnail/' . $image_rename;
                 $thumbnail_img = $image_url;
+            } else {
+                $thumbnail_img = "";
             }
             if ($request->hasFile('hero_image')) {
                 $hero_image = $request->file('hero_image');
                 $hero_img = Helper::saveImage($hero_image, 772, 978, $path);
+            } else {
+                $hero_img = "";
             }
             if ($request->hasFile('image_1')) {
                 $image_1 = $request->file('image_1');
                 $img_1 = Helper::saveImage($image_1, 370, 260, $path);
+            } else {
+                $img_1 = "";
             }
             if ($request->hasFile('image_2')) {
                 $image_2 = $request->file('image_2');
                 $img_2 = Helper::saveImage($image_2, 370, 260, $path);
+            } else {
+                $img_2 = "";
             }
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
@@ -209,13 +215,7 @@ class ProjectController extends Controller
     public function update(Request $request, Project $project)
     {
         if ($request->ajax()) {
-            $rules = [
-                'project_title' => 'required',
-                'client_id' => 'required',
-                'hero_image' => 'required|image|mimes:jpg,png,jpeg',
-                'image_1' => 'required|image|mimes:jpg,png,jpeg',
-                'image_2' => 'required|image|mimes:jpg,png,jpeg',
-            ];
+            $rules = [];
 
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
@@ -230,53 +230,45 @@ class ProjectController extends Controller
                     $project = Project::findOrFail($project->id);
                     $path = "projects";
                     if ($request->hasFile('hero_image')) {
-                        if (!empty($request->file('hero_image'))) {
-                            if ($project->thumbnail_image) {
-                                $file_old = $project->thumbnail_image;
-                                unlink($file_old);
-                            }
-                            $hero_image = $request->file('hero_image');
-                            $image_rename = hexdec(uniqid('', false)) . '.' . $hero_image->getClientOriginalExtension();
-                            Image::make($hero_image)->resize(270, 354)->save('backend/uploads/images/projects/thumbnail/' . $image_rename);
-                            $image_url = 'backend/uploads/images/projects/thumbnail/' . $image_rename;
-                            $thumbnail_img = $image_url;
+                        if ($project->thumbnail_image) {
+                            $file_old = $project->thumbnail_image;
+                            unlink($file_old);
                         }
+                        $hero_image = $request->file('hero_image');
+                        $image_rename = hexdec(uniqid('', false)) . '.' . $hero_image->getClientOriginalExtension();
+                        Image::make($hero_image)->resize(270, 354)->save('backend/uploads/images/projects/thumbnail/' . $image_rename);
+                        $image_url = 'backend/uploads/images/projects/thumbnail/' . $image_rename;
+                        $thumbnail_img = $image_url;
                     } else {
                         $thumbnail_img = $project->thumbnail_image;
                     }
                     if ($request->hasFile('hero_image')) {
-                        if (!empty($request->file('hero_image'))) {
-                            if ($project->hero_image) {
-                                $file_old = $project->hero_image;
-                                unlink($file_old);
-                            }
-                            $hero_image = $request->file('hero_image');
-                            $hero_img = Helper::saveImage($hero_image, 772, 978, $path);
+                        if ($project->hero_image) {
+                            $file_old = $project->hero_image;
+                            unlink($file_old);
                         }
+                        $hero_image = $request->file('hero_image');
+                        $hero_img = Helper::saveImage($hero_image, 772, 978, $path);
                     } else {
                         $hero_img = $project->hero_image;
                     }
                     if ($request->hasFile('image_1')) {
-                        if (!empty($request->file('image_1'))) {
-                            if ($project->image_1) {
-                                $file_old = $project->image_1;
-                                unlink($file_old);
-                            }
-                            $image_1 = $request->file('image_1');
-                            $img_1 = Helper::saveImage($image_1, 370, 260, $path);
+                        if ($project->image_1) {
+                            $file_old = $project->image_1;
+                            unlink($file_old);
                         }
+                        $image_1 = $request->file('image_1');
+                        $img_1 = Helper::saveImage($image_1, 370, 260, $path);
                     } else {
                         $img_1 = $project->image_1;
                     }
                     if ($request->hasFile('image_2')) {
-                        if (!empty($request->file('image_2'))) {
-                            if ($project->image_2) {
-                                $file_old = $project->image_2;
-                                unlink($file_old);
-                            }
-                            $image_2 = $request->file('image_2');
-                            $img_2 = Helper::saveImage($image_2, 370, 260, $path);
+                        if ($project->image_2) {
+                            $file_old = $project->image_2;
+                            unlink($file_old);
                         }
+                        $image_2 = $request->file('image_2');
+                        $img_2 = Helper::saveImage($image_2, 370, 260, $path);
                     } else {
                         $img_2 = $project->image_2;
                     }
@@ -284,6 +276,7 @@ class ProjectController extends Controller
 
                     $project->project_title = $request->input('project_title');
                     $project->client_id = $request->input('client_id');
+                    $project->project_permit = $request->input('project_permit');
                     $project->project_description = $request->input('project_description');
                     $project->project_location = $request->input('project_location');
                     $project->handover_time = $request->input('handover_time');

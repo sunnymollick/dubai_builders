@@ -7,7 +7,7 @@
                 <div class="form-group col-md-12">
                     <strong>Title</strong>
                     <input type="text" class="form-control" id="title" name="title" value="{{ $about->title }}"
-                           placeholder="" readonly>
+                        placeholder="" readonly>
                     <span id="error_title" class="text-danger"></span>
                 </div>
                 <div class="form-group col-xs-12 col-sm-12 col-md-12">
@@ -19,28 +19,28 @@
                 <div class="clearfix"></div>
                 <div class="form-group col-xs-12 col-sm-12 col-md-12">
                     <strong>Description:</strong>
-                    <textarea name="description" id="description" cols="56" rows="5" readonly>{!! $about->description !!}
+                    <textarea name="description" id="description" class="form-control" readonly>{!! $about->description !!}
                     </textarea>
                     <span id="error_description" class="text-danger"></span>
                 </div>
                 <div class="clearfix"></div>
                 <div class="form-group col-xs-12 col-sm-12 col-md-12">
                     <strong>Short Description:</strong>
-                    <textarea name="short_description" id="short_description" cols="56" rows="3" readonly>{!! $about->short_description !!}
+                    <textarea name="short_description" id="short_description" class="form-control" readonly>{!! $about->short_description !!}
                     </textarea>
                     <span id="error_short_description" class="text-danger"></span>
                 </div>
                 <div class="clearfix"></div>
                 <div class="form-group col-xs-12 col-sm-12 col-md-12">
                     <strong>Our Mission:</strong>
-                    <textarea name="our_mission" id="our_mission" cols="56" rows="3" readonly>{!! $about->our_mission !!}
+                    <textarea name="our_mission" id="our_mission" class="form-control" readonly>{!! $about->our_mission !!}
                     </textarea>
                     <span id="error_our_mission" class="text-danger"></span>
                 </div>
                 <div class="clearfix"></div>
                 <div class="form-group col-xs-12 col-sm-12 col-md-12">
                     <strong>Our Vision:</strong>
-                    <textarea name="our_vision" id="our_vision" cols="56" rows="3" readonly>{!! $about->our_vision !!}
+                    <textarea name="our_vision" id="our_vision" class="form-control" readonly>{!! $about->our_vision !!}
                     </textarea>
                     <span id="error_our_vision" class="text-danger"></span>
                 </div>
@@ -61,14 +61,14 @@
                 </div>
                 <div class="clearfix"></div>
                 <p></p>
-                <div class="form-group col-md-12">
+                <div class="form-group col-md-6">
                     <strong>Hero Image: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>
                     <img id="logoPreview" src="{{ asset($about->hero_image) }}" alt="Current Logo" width="100" height="100">
                     <p></p>
                 </div>
                 <div class="clearfix"></div>
                 <p></p>
-                <div class="form-group col-md-12">
+                <div class="form-group col-md-6">
                     <strong>About Image : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>
                     <img id="logoPreview_1" src="{{ asset($about->about_image) }}" alt="Current Logo" width="100" height="100">
                 </div>

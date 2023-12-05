@@ -76,7 +76,7 @@ Contact
                         </ul>
                     </div>
                     @endif
-                    <form class="contact_form" action="{{route('frontend.contact.store')}}" enctype="multipart/form-data" method="post">
+                    <form id="create" class="contact_form" enctype="multipart/form-data" method="post">
                         @csrf
                         <div class="form-container">
                             <div class="row">
@@ -112,7 +112,7 @@ Contact
                                 </div>
                                 <div class="col-md-12 col-lg-12">
                                     <div class="form-group">
-                                        <button class="btn btn-warning" type="submit">Send</button>
+                                        <button class="btn btn-warning button-submit" type="submit">Send</button>
                                     </div>
                                 </div>
                             </div>
@@ -146,6 +146,54 @@ Contact
 @endsection
 
 @section('scripts')
+<script>
+    $('.button-submit').click(function() {
+        $('#create').validate({
+            submitHandler: function(form) {
+                var myData = new FormData($("#create")[0]);
+                myData.append('_token', CSRF_TOKEN);
+                swal({
+                    title: "Are you sure to send?",
+                    text: "Send Message",
+                    type: "warning",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "Yes, Send!"
+                }, function() {
+                    // console.log('hi');
+                    $.ajax({
+                        url: '/contact/store',
+                        type: 'POST',
+                        data: myData,
+                        dataType: 'json',
+                        cache: false,
+                        processData: false,
+                        contentType: false,
+                        success: function(data) {
+                            if (data.type === 'success') {
+                                $('#myModal').modal('hide');
+                                swal("Thanks!", "We've received your message",
+                                    "success");
+                                reload_table();
+                            } else if (data.type === 'error') {
+                                if (data.errors) {
+                                    $.each(data.errors, function(key, val) {
+                                        $('#error_' + key).html(val);
+                                    });
+                                }
+                                $("#status").html(data.message);
+                                swal("Error sending!", "Please fix the errors",
+                                    "error");
+                            }
+                        }
+                    });
+                });
+            }
+        });
+    });
+</script>
 <script src="{{ asset('frontend') }}/js/map.js"></script>
 <script src="https://maps.google.com/maps/api/js?key=AIzaSyCUiaBC-cJ0wcEtqCUtoXF3I91o9wS42gQ"></script>
 @endsection

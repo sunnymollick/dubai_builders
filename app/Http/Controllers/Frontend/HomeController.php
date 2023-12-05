@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\About;
 use App\Models\Backend\Blog;
@@ -11,6 +12,8 @@ use App\Models\Backend\Project;
 use App\Models\Backend\Slider;
 use App\Models\Backend\Team;
 use App\Models\Backend\Service;
+use App\Models\Frontend\JobApplication;
+use App\Models\Frontend\Quotation;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -46,38 +49,44 @@ class HomeController extends Controller
     }
     public function storeContact(Request $request)
     {
+        if ($request->ajax()) {
 
-        $rules = [
-            'name' => 'required',
-            'subject' => 'required',
-            'email' => 'required',
-            'message' => 'required',
-            'phone' => 'required',
-        ];
-        $validator = Validator::make($request->all(), $rules);
-        if ($validator->fails()) {
-            return response()->json([
-                'type' => 'error',
-                'errors' => $validator->getMessageBag()->toArray()
-            ]);
-        } else {
-            DB::beginTransaction();
-            try {
-                // $client_name = Client::where('id', $request->client_id)->first();
-                $contact = new Contact();
-                $contact->name = $request->input('name');
-                $contact->subject = $request->input('subject');
-                $contact->email = $request->input('email');
-                $contact->phone = $request->input('phone');
-                $contact->message = $request->input('message');
-                $contact->save(); //
-                DB::commit();
-                return Redirect::back()->with('msg', 'Message sent successfully');
-            } catch (\Exception $e) {
-                DB::rollback();
-                dd($e->getMessage());
-                return response()->json(['type' => 'error', 'message' => "Please Fill With Correct data"]);
+            $rules = [
+                'name' => 'required',
+                'subject' => 'required',
+                'email' => 'required',
+                'message' => 'required',
+                'phone' => 'required',
+            ];
+
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json([
+                    'type' => 'error',
+                    'errors' => $validator->getMessageBag()->toArray()
+                ]);
+            } else {
+
+                DB::beginTransaction();
+                try {
+
+                    $contact = new Contact();
+                    $contact->name = $request->input('name');
+                    $contact->subject = $request->input('subject');
+                    $contact->email = $request->input('email');
+                    $contact->phone = $request->input('phone');
+                    $contact->message = $request->input('message');
+                    $contact->save(); //
+                    DB::commit();
+                    return response()->json(['type' => 'success', 'message' => "Successfully Inserted"]);
+                } catch (\Exception $e) {
+                    DB::rollback();
+                    return response()->json(['type' => 'error', 'message' => "Please Fill With Correct data"]);
+                }
+                // }
             }
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
         }
     }
     public function completedProjects()
@@ -157,5 +166,138 @@ class HomeController extends Controller
     {
         $job_app = Career::find($id);
         return view('frontend.pages.careers.job_application', compact('job_app'));
+    }
+
+    public function storeQuotationRequest(Request $request)
+    {
+        if ($request->ajax()) {
+            $rules = [
+                'name' => 'required',
+                'location' => 'required',
+                'email' => 'required',
+                'message' => 'required',
+                'mobile' => 'required',
+            ];
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json([
+                    'type' => 'error',
+                    'errors' => $validator->getMessageBag()->toArray()
+                ]);
+            } else {
+                DB::beginTransaction();
+                try {
+                    $quotation = new Quotation();
+
+                    if ($request->hasFile('file')) {
+                        $dextension = $request->file('file')->getClientOriginalExtension();
+                        if ($dextension == "pdf" || $dextension == "doc" || $dextension == "docx") {
+                            if ($request->file('file')->isValid()) {
+                                $dPath = public_path('backend\uploads\images\quotation_request');
+                                $dName = time() . '.' . $dextension; // renameing image
+                                $d_path = 'backend\uploads\images\quotation_request/' . $dName;
+                                $request->file('file')->move($dPath, $d_path); // uploading file to given path
+                                $quotation->file = $d_path;
+                            } else {
+                                return response()->json([
+                                    'type' => 'error',
+                                    'message' => "<div class='alert alert-warning'>File is not valid</div>",
+                                ]);
+                            }
+                        } else {
+                            return response()->json([
+                                'type' => 'error',
+                                'message' => "<div class='alert alert-warning'>Error! File type is not valid</div>",
+                            ]);
+                        }
+                    }
+
+                    $quotation->name = $request->input('name');
+                    $quotation->location = $request->input('location');
+                    $quotation->email = $request->input('email');
+                    $quotation->mobile = $request->input('mobile');
+                    $quotation->project_type = $request->input('project_type');
+                    $quotation->evaluate_budget = $request->input('evaluate_budget');
+                    $quotation->project_time = $request->input('project_time');
+                    $quotation->company_name = $request->input('company_name');
+                    $quotation->is_read = 0;
+                    $quotation->message = $request->input('message');
+                    $quotation->save(); //
+                    DB::commit();
+                    return response()->json(['type' => 'success', 'message' => "Thank you ! We received your message ."]);
+                } catch (\Exception $e) {
+                    DB::rollback();
+                    dd($e->getMessage());
+                    return response()->json(['type' => 'error', 'message' => "Please Fill With Correct data"]);
+                }
+            }
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
+    }
+
+
+    public function storeJobApplication(Request $request)
+    {
+        if ($request->ajax()) {
+            $rules = [
+                'name' => 'required',
+                'location' => 'required',
+                'email' => 'required',
+                'mobile' => 'required',
+                'file' => 'required'
+            ];
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json([
+                    'type' => 'error',
+                    'errors' => $validator->getMessageBag()->toArray()
+                ]);
+            } else {
+                DB::beginTransaction();
+                try {
+                    $job_app = new JobApplication();
+
+                    if ($request->hasFile('file')) {
+                        $dextension = $request->file('file')->getClientOriginalExtension();
+                        if ($dextension == "pdf" || $dextension == "doc" || $dextension == "docx") {
+                            if ($request->file('file')->isValid()) {
+                                $dPath = public_path('backend\uploads\files\cv');
+                                $dName = time() . '.' . $dextension; // renameing image
+                                $d_path = 'backend\uploads\files\cv/' . $dName;
+                                $request->file('file')->move($dPath, $d_path); // uploading file to given path
+                                $job_app->file = $d_path;
+                            } else {
+                                return response()->json([
+                                    'type' => 'error',
+                                    'message' => "<div class='alert alert-warning'>File is not valid</div>",
+                                ]);
+                            }
+                        } else {
+                            return response()->json([
+                                'type' => 'error',
+                                'message' => "<div class='alert alert-warning'>Error! File type is not valid</div>",
+                            ]);
+                        }
+                    }
+
+                    $job_app->name = $request->input('name');
+                    $job_app->address = $request->input('location');
+                    $job_app->email = $request->input('email');
+                    $job_app->mobile = $request->input('mobile');
+                    $job_app->is_read = 0;
+                    $job_app->message = $request->input('message');
+                    $job_app->save(); //
+                    DB::commit();
+                    return response()->json(['type' => 'success', 'message' => "Thank you ! We received your message ."]);
+                } catch (\Exception $e) {
+                    DB::rollback();
+                    dd($e->getMessage());
+                    return response()->json(['type' => 'error', 'message' => "Please Fill With Correct data"]);
+                }
+            }
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
     }
 }

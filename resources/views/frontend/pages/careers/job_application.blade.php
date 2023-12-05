@@ -186,12 +186,12 @@
                                                                             @enderror
                                                                         </div>
                                                                         <div class="form-group">
-                                                                            <label for="last-name">Location <span
+                                                                            <label for="last-name">Address <span
                                                                                     class="text-danger">*</span></label>
                                                                             <input type="text" class="form-control"
-                                                                                id="location" name="location"
-                                                                                placeholder="Enter Location" required>
-                                                                            @error('location')
+                                                                                id="address" name="address"
+                                                                                placeholder="Enter Your Addres" required>
+                                                                            @error('address')
                                                                                 <span
                                                                                     class="text-danger">{{ $message }}</span>
                                                                             @enderror
@@ -267,7 +267,9 @@
         $('#create').validate({
             submitHandler: function(form) {
                 var myData = new FormData($("#create")[0]);
+                var job_id = {{ $job_app->id }}
                 myData.append('_token', CSRF_TOKEN);
+                myData.append('job_id', job_id)
                 swal({
                     title: "Are you sure to submit?",
                     text: "Submit Form",
@@ -278,9 +280,9 @@
                     confirmButtonClass: "btn-danger",
                     confirmButtonText: "Yes, Submit!"
                 }, function() {
-                    // console.log('hi');
+                    console.log(myData);return;
                     $.ajax({
-                        url: '/',
+                        url: '/storeJobApplication',
                         type: 'POST',
                         data: myData,
                         dataType: 'json',
@@ -290,9 +292,12 @@
                         success: function(data) {
                             if (data.type === 'success') {
                                 $('#myModal').modal('hide');
-                                swal("Done!", "It was succesfully done!",
+                                swal("Thanks!", "We received your request.",
                                     "success");
-                                reload_table();
+                                $("#name").val('') && $("#email").val('') && $(
+                                        "#mobile").val('') &&
+                                    $("#address").val('') && $("#file")
+                                    .val('');
                             } else if (data.type === 'error') {
                                 if (data.errors) {
                                     $.each(data.errors, function(key, val) {
