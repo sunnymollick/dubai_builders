@@ -218,7 +218,8 @@
                                                                             <div class="text-right">
                                                                                 <button type="submit"
                                                                                     class="button button-submit"><small
-                                                                                        class="font-weight-bold">Apply Now</small></button>
+                                                                                        class="font-weight-bold">Apply
+                                                                                        Now</small></button>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -259,3 +260,53 @@
 
     <link rel="stylesheet" href="{{ asset('frontend/css/custom.css') }}">
 @endsection
+
+
+<script>
+    $('.button-submit').click(function() {
+        $('#create').validate({
+            submitHandler: function(form) {
+                var myData = new FormData($("#create")[0]);
+                myData.append('_token', CSRF_TOKEN);
+                swal({
+                    title: "Are you sure to submit?",
+                    text: "Submit Form",
+                    type: "warning",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "Yes, Submit!"
+                }, function() {
+                    // console.log('hi');
+                    $.ajax({
+                        url: '/',
+                        type: 'POST',
+                        data: myData,
+                        dataType: 'json',
+                        cache: false,
+                        processData: false,
+                        contentType: false,
+                        success: function(data) {
+                            if (data.type === 'success') {
+                                $('#myModal').modal('hide');
+                                swal("Done!", "It was succesfully done!",
+                                    "success");
+                                reload_table();
+                            } else if (data.type === 'error') {
+                                if (data.errors) {
+                                    $.each(data.errors, function(key, val) {
+                                        $('#error_' + key).html(val);
+                                    });
+                                }
+                                $("#status").html(data.message);
+                                swal("Error sending!", "Please fix the errors",
+                                    "error");
+                            }
+                        }
+                    });
+                });
+            }
+        });
+    });
+</script>
