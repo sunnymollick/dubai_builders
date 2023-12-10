@@ -203,7 +203,7 @@
                                                                         <div class="form-group files">
                                                                             <label class="my-auto">Upload Your CV
                                                                             </label>
-                                                                            <input id="file" type="file"
+                                                                            <input id="file" type="file" name="file"
                                                                                 class="form-control" />
                                                                             @error('file')
                                                                                 <span
@@ -262,6 +262,7 @@
 @endsection
 
 
+@section('scripts')
 <script>
     $('.button-submit').click(function() {
         $('#create').validate({
@@ -280,7 +281,6 @@
                     confirmButtonClass: "btn-danger",
                     confirmButtonText: "Yes, Submit!"
                 }, function() {
-                    console.log(myData);return;
                     $.ajax({
                         url: '/storeJobApplication',
                         type: 'POST',
@@ -315,3 +315,4 @@
         });
     });
 </script>
+@endsection

@@ -242,7 +242,7 @@ class HomeController extends Controller
         if ($request->ajax()) {
             $rules = [
                 'name' => 'required',
-                'location' => 'required',
+                'address' => 'required',
                 'email' => 'required',
                 'mobile' => 'required',
                 'file' => 'required'
@@ -264,7 +264,7 @@ class HomeController extends Controller
                             if ($request->file('file')->isValid()) {
                                 $dPath = public_path('backend\uploads\files\cv');
                                 $dName = time() . '.' . $dextension; // renameing image
-                                $d_path = 'backend\uploads\files\cv/' . $dName;
+                                $d_path = 'backend\uploads\files\cv\\' . $dName;
                                 $request->file('file')->move($dPath, $d_path); // uploading file to given path
                                 $job_app->file = $d_path;
                             } else {
@@ -286,7 +286,7 @@ class HomeController extends Controller
                     $job_app->email = $request->input('email');
                     $job_app->mobile = $request->input('mobile');
                     $job_app->is_read = 0;
-                    $job_app->message = $request->input('message');
+                    $job_app->job_id = $request->input('job_id');
                     $job_app->save(); //
                     DB::commit();
                     return response()->json(['type' => 'success', 'message' => "Thank you ! We received your message ."]);
