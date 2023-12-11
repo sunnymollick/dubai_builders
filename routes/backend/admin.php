@@ -56,6 +56,7 @@ Route::get('getSettings', [SettingController::class, 'getSettings']);
 Route::resource('abouts', AboutController::class);
 Route::get('getAboutInfo', [AboutController::class, 'getAboutInfo']);
 
+
 Route::resource('messages', ContactController::class);
 Route::get('/fetch-messages', [ContactController::class, 'fetchMessages'])->name('fetch.messages');
 Route::get('/fetch-chat/{id}', [ContactController::class, 'fetchChat'])->name('fetch.chat');
@@ -92,3 +93,5 @@ Route::get('request/for/quotation/fetch-items/{id}',[QuotationController::class,
 //Slider Route
 Route::resource('sliders', SliderController::class);
 Route::get('getAllSliders', [SliderController::class, 'getAllSliders']);
+Route::get('request/for/view/quotation/{id}',[QuotationRequestController::class,'viewQuotationRequest']);
+Route::delete('request/for/delete/requested/quotation/{id}',[QuotationRequestController::class,'deleteQuotationRequest']);

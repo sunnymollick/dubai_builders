@@ -138,158 +138,39 @@ About
         <div class="row">
             <div class="col">
                 <div class="owl_team owl-carousel owl-theme">
-                    <div class="item">
-                        <div class="team_construction">
-                            <figure class="team_construction_inner">
-                                <a href="team.html">
-                                    <img src="{{asset("frontend")}}/images/team/6.png" alt="Oscar Holland" loading="lazy">
-                                </a>
-                                <div class="team-box__info">
-                                    <a href="https://wpthemebooster.com/team" class="name h5">Oscar
-                                        Holland</a>
-                                    <p class="position">CEO</p>
+                    @foreach ($team as $row)
+                        <div class="item">
+                            <div class="team_construction">
+                                <figure class="team_construction_inner">
+                                    <a href="team.html">
+                                        <img src="{{ $row->image }}" alt="Oscar Holland" loading="lazy">
+                                    </a>
+                                    <div class="team-box__info">
+                                        <a href="https://wpthemebooster.com/team" class="name h5">{{ $row->name }}</a>
+                                        <p class="position">{{ $row->designation }}</p>
+                                    </div>
+                                </figure>
+                                <div class="team_hover_content">
+                                    <ul class="speakers-social-lists-simple">
+                                        <li>
+                                            <a href="{{ $row->fb_link }}" class="fa fa-facebook-square"></a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ $row->x_link }}" class="fa fa-twitter"></a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ $row->linkedin_link }}" class="fa fa-linkedin"></a>
+                                        </li>
+                                    </ul>
+                                    <h2 class="speaker-title-simple">
+                                        <a href="team.html">{{ $row->name }}</a>
+                                    </h2>
+                                    <p>{{ $row->designation }}</p>
                                 </div>
-                            </figure>
-                            <div class="team_hover_content">
-                                <ul class="speakers-social-lists-simple">
-                                    <li>
-                                        <a href="https://www.facebook.com/" class="fa fa-facebook-square"></a>
-                                    </li>
-                                    <li>
-                                        <a href="https://twitter.com/" class="fa fa-twitter"></a>
-                                    </li>
-                                    <li>
-                                        <a href="https://linkedin.com/" class="fa fa-linkedin"></a>
-                                    </li>
-                                    <li>
-                                        <a href="https://linkedin.com/" class="fa fa-linkedin"></a>
-                                    </li>
-                                    <li>
-                                        <a href="https://linkedin.com/" class="fa fa-linkedin"></a>
-                                    </li>
-                                </ul>
-                                <h2 class="speaker-title-simple">
-                                    <a href="team.html">Oscar
-                                        Holland</a>
-                                </h2>
-                                <p>CEO</p>
                             </div>
                         </div>
-                    </div>
-                    <div class="item">
-                        <div class="team_construction">
-                            <figure class="team_construction_inner">
-                                <a href="team.html">
-                                    <img src="{{asset("frontend")}}/images/team/7.png" alt="Oscar Holland" loading="lazy">
-                                </a>
-                                <div class="team-box__info">
-                                    <a href="https://wpthemebooster.com/team" class="name h5">Christpher
-                                        Neel</a>
-                                    <p class="position">Constructor</p>
-                                </div>
-                            </figure>
-                            <div class="team_hover_content">
-                                <ul class="speakers-social-lists-simple">
-                                    <li>
-                                        <a href="https://www.facebook.com/" class="fa fa-facebook-square"></a>
-                                    </li>
-                                    <li>
-                                        <a href="https://twitter.com/" class="fa fa-twitter"></a>
-                                    </li>
-                                    <li>
-                                        <a href="https://linkedin.com/" class="fa fa-linkedin"></a>
-                                    </li>
-                                    <li>
-                                        <a href="https://linkedin.com/" class="fa fa-linkedin"></a>
-                                    </li>
-                                    <li>
-                                        <a href="https://linkedin.com/" class="fa fa-linkedin"></a>
-                                    </li>
-                                </ul>
-                                <h2 class="speaker-title-simple">
-                                    <a href="team.html">Christpher
-                                        Neel</a>
-                                </h2>
-                                <p>Constructor</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="team_construction">
-                            <figure class="team_construction_inner">
-                                <a href="team.html">
-                                    <img src="{{asset("frontend")}}/images/team/8.png" alt="Kiara Nordstorm" loading="lazy">
-                                </a>
-                                <div class="team-box__info">
-                                    <a href="https://wpthemebooster.com/team" class="name h5">Kiara
-                                        Nordstorm</a>
-                                    <p class="position">Constructor</p>
-                                </div>
-                            </figure>
-                            <div class="team_hover_content">
-                                <ul class="speakers-social-lists-simple">
-                                    <li>
-                                        <a href="https://www.facebook.com/" class="fa fa-facebook-square"></a>
-                                    </li>
-                                    <li>
-                                        <a href="https://twitter.com/" class="fa fa-twitter"></a>
-                                    </li>
-                                    <li>
-                                        <a href="https://linkedin.com/" class="fa fa-linkedin"></a>
-                                    </li>
-                                    <li>
-                                        <a href="https://linkedin.com/" class="fa fa-linkedin"></a>
-                                    </li>
-                                    <li>
-                                        <a href="https://linkedin.com/" class="fa fa-linkedin"></a>
-                                    </li>
-                                </ul>
-                                <h2 class="speaker-title-simple">
-                                    <a href="team.html">Kiara
-                                        Nordstorm</a>
-                                </h2>
-                                <p>Constructor</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="team_construction">
-                            <figure class="team_construction_inner">
-                                <a href="team.html">
-                                    <img src="{{asset("frontend")}}/images/team/8.png" alt="Oscar Holland" loading="lazy">
-                                </a>
-                                <div class="team-box__info">
-                                    <a href="https://wpthemebooster.com/team" class="name h5">Oscar
-                                        Holland</a>
-                                    <p class="position">CEO</p>
-                                </div>
-                            </figure>
-                            <div class="team_hover_content">
-                                <ul class="speakers-social-lists-simple">
-                                    <li>
-                                        <a href="https://www.facebook.com/" class="fa fa-facebook-square"></a>
-                                    </li>
-                                    <li>
-                                        <a href="https://twitter.com/" class="fa fa-twitter"></a>
-                                    </li>
-                                    <li>
-                                        <a href="https://linkedin.com/" class="fa fa-linkedin"></a>
-                                    </li>
-                                    <li>
-                                        <a href="https://linkedin.com/" class="fa fa-linkedin"></a>
-                                    </li>
-                                    <li>
-                                        <a href="https://linkedin.com/" class="fa fa-linkedin"></a>
-                                    </li>
-                                </ul>
-                                <h2 class="speaker-title-simple">
-                                    <a href="team.html">Oscar
-                                        Holland</a>
-                                </h2>
-                                <p>CEO</p>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
+
                 </div>
             </div>
         </div>
@@ -317,7 +198,7 @@ About
     </div>
 </div>
 
-<div class="testimonial pd_btom_110">
+{{-- <div class="testimonial pd_btom_110">
     <div class="container">
         <div class="section_header text-center">
             <div class="shadow_icon"><img src="{{asset("frontend")}}/images/shadow_icon3.png" alt></div>
@@ -499,7 +380,9 @@ About
             </div>
         </div>
     </div>
-</div>
+</div> --}}
+<br>
+<br>
 
 <div class="patner_2 pd_btom_110 pd_tp_110">
     <div class="container">

@@ -116,7 +116,8 @@ class HomeController extends Controller
     {
         $about = About::findOrFail(1);
         $app_settings = Setting::findOrFail(1);
-        return view('frontend.pages.about', compact('about', 'app_settings'));
+        $team = Team::orderby('order','asc')->get();
+        return view('frontend.pages.about',compact('about','app_settings','team'));
     }
     public function services()
     {
