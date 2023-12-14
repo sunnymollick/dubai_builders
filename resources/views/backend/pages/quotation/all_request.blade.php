@@ -88,7 +88,7 @@ Projects
     $(document).ready(function() {
         // Edit Form
         $("#manage_all").on("click", ".edit", function() {
-            var id = $(this).attr('id');
+            var id = $(this).attr('id'); 
             console.log(id);
             $.ajax({
                 url: 'quotation/edit' + '/' + id,

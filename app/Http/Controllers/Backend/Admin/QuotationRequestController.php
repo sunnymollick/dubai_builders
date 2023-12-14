@@ -15,7 +15,7 @@ class QuotationRequestController extends Controller
 {
     public function index()
     {
-        $quotation_requests = Quotation::orderby('id', 'desc')->get();
+        $quotation_requests = Quotation::orderby('id', 'desc')->where('is_replied',0)->get();
         return view('backend.pages.quotation.all_request', ['quotation_requests' => $quotation_requests]);
     }
     public function edit($id, Request $request)
