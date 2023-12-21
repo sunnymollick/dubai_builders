@@ -42,6 +42,7 @@
                 <label for="">Thumbnail Image <span style="color: red;">*</span></label>
                 <input type="file" class="form-control" id="thumb_image" value="{{ $service->thumbnail_image }}"
                     name="thumb_image">
+                    <span>Image Size Must Be 370 × 340 (width - height) </span>
                 <span id="error_title" class="has-error"></span>
             </div>
             {{-- <div class="clearfix"></div> --}}
@@ -51,6 +52,7 @@
                 <label for="">Hero Image <span style="color: red;">*</span></label>
                 <input type="file" class="form-control" id="hero_image" vallue="{{ $service->hero_image }}"
                     name="hero_image">
+                    <span>Image Size Must Be 770 × 480 (width - height) </span>
                 <span id="error_title" class="has-error"></span>
             </div>
             {{-- <div class="clearfix"></div>
@@ -63,6 +65,7 @@
                 <label for="">First Image <span style="color: red;">*</span></label>
                 <input type="file" class="form-control" id="image_1" value="{{ $service->image_1 }}"
                     name="image_1">
+                    <span>Image Size Must Be 370 × 260 (width - height) </span>
                 <span id="error_title" class="has-error"></span>
             </div>
             {{-- <div class="clearfix"></div>
@@ -73,6 +76,7 @@
                 <label for="">Second Image <span style="color: red;">*</span></label>
                 <input type="file" class="form-control" id="image_2" value="{{ $service->image_2 }}"
                     name="image_2">
+                    <span>Image Size Must Be 370 × 260 (width - height) </span>
                 <span id="error_title" class="has-error"></span>
             </div>
             {{-- <div class="clearfix"></div>
@@ -85,6 +89,7 @@
                 <label for="">Logo <span style="color: red;">*</span></label>
                 <input type="file" class="form-control" id="logo" value="{{ $service->logo }}"
                     name="logo">
+                    <span>Image Size Must Be 73 × 73 (width - height) </span>
                 <span id="error_title" class="has-error"></span>
             </div>
             {{-- <div class="clearfix"></div>
@@ -95,6 +100,7 @@
                 <label for="">Home Image <span style="color: red;">*</span></label>
                 <input type="file" class="form-control" id="home_image" value="{{ $service->home_image }}"
                     name="home_image">
+                    <span>Image Size Must Be 215 × 220 (width - height) </span>
                 <span id="error_title" class="has-error"></span>
             </div>
             {{-- <div class="clearfix"></div>

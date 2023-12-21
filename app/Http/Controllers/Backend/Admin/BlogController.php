@@ -146,7 +146,11 @@ class BlogController extends Controller
                     $blog->author_instagram = $request->input('author_instagram');
                     $blog->author_pinterest = $request->input('author_pinterest');
                     $blog->author_linkedin = $request->input('author_linkedin');
-                    $blog->is_publish = $request->input('is_publish');
+                    if ($request->input('is_publish') == 1 ) {
+                        $blog->is_publish = 1;
+                    }else{
+                        $blog->is_publish = 0;
+                    }
                     $blog->save(); //
                     DB::commit();
                     return response()->json(['type' => 'success', 'message' => "Successfully Inserted"]);
@@ -266,7 +270,13 @@ class BlogController extends Controller
                     $blog->author_instagram = $request->input('author_instagram');
                     $blog->author_pinterest = $request->input('author_pinterest');
                     $blog->author_linkedin = $request->input('author_linkedin');
-                    $blog->is_publish = $request->input('is_publish');
+                    // $blog->is_publish = $request->input('is_publish');
+                    if ($request->input('is_publish') == 1 ) {
+                        $blog->is_publish = 1;
+                    }else{
+                        $blog->is_publish = 0;
+                    }
+
                     $blog->save(); //
                     DB::commit();
                     return response()->json(['type' => 'success', 'message' => "Successfully Updated"]);

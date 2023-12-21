@@ -7,7 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin\About;
 use App\Models\Backend\Blog;
 use App\Models\Backend\Contact;
-use App\Models\backend\Career;
+use App\Models\Backend\Client;
+use App\Models\Backend\Career;
 use App\Models\Backend\Project;
 use App\Models\Backend\Slider;
 use App\Models\Backend\Team;
@@ -41,8 +42,6 @@ class HomeController extends Controller
     }
     public function contact()
     {
-
-        $app_settings = Setting::findOrFail(1);
         $app_settings = Setting::findOrFail(1);
         return view('frontend.pages.contact', compact('app_settings'), compact('app_settings'));
     }
@@ -116,12 +115,12 @@ class HomeController extends Controller
     {
         $about = About::findOrFail(1);
         $app_settings = Setting::findOrFail(1);
-        $team = Team::orderby('order','asc')->get();
-        return view('frontend.pages.about',compact('about','app_settings','team'));
+        $team = Team::orderby('order', 'asc')->get();
+        return view('frontend.pages.about', compact('about', 'app_settings', 'team'));
     }
     public function services()
     {
-        $all = Service::orderby('service_title', 'asc')->limit(5)->get();
+        $all = Service::orderby('service_title', 'asc')->paginate(9);
         return view('frontend.pages.services', compact('all'));
     }
 
@@ -146,7 +145,7 @@ class HomeController extends Controller
     }
     public function careers()
     {
-        $careers = Career::where('is_active', 'active')->get();
+        $careers = Career::where('is_active', 'active')->orderby('created_at', 'desc')->paginate(9);
         return view('frontend.pages.careers.careers', compact('careers'));
     }
 
@@ -162,16 +161,23 @@ class HomeController extends Controller
         return view('frontend.pages.blog_details', compact('blog'));
     }
 
-    public function storeQuotationRequest(Request $request){
+    public function storeQuotationRequest(Request $request)
+    {
         if ($request->ajax()) {
             $rules = [
                 'name' => 'required',
                 'location' => 'required',
-                'email' => 'required',
+                'email' => 'required|unique:App\Models\Backend\Client,email',
                 'message' => 'required',
                 'mobile' => 'required',
             ];
-            $validator = Validator::make($request->all(), $rules);
+            $validator = Validator::make(
+                $request->all(),
+                $rules,
+                [
+                    'unique' => 'This :attribute is already in records'
+                ]
+            );
             if ($validator->fails()) {
                 return response()->json([
                     'type' => 'error',
@@ -181,7 +187,7 @@ class HomeController extends Controller
                 DB::beginTransaction();
                 try {
                     $quotation = new Quotation();
-
+                    $client = new Client();
                     if ($request->hasFile('file')) {
                         $dextension = $request->file('file')->getClientOriginalExtension();
                         if ($dextension == "pdf" || $dextension == "doc" || $dextension == "docx") {
@@ -191,7 +197,6 @@ class HomeController extends Controller
                                 $d_path = 'backend\uploads\images\quotation_request/' . $dName;
                                 $request->file('file')->move($dPath, $d_path); // uploading file to given path
                                 $quotation->file = $d_path;
-
                             } else {
                                 return response()->json([
                                     'type' => 'error',
@@ -206,6 +211,15 @@ class HomeController extends Controller
                         }
                     }
 
+                    // client store
+                    $client->name = $request->input('name');
+                    $client->email = $request->input('email');
+                    $client->phone = $request->input('mobile');
+                    $client->address = "";
+                    $client->organization_name = $request->input('company_name');
+                    $client->save();
+                    // quotation request store
+
                     $quotation->name = $request->input('name');
                     $quotation->location = $request->input('location');
                     $quotation->email = $request->input('email');
@@ -215,6 +229,7 @@ class HomeController extends Controller
                     $quotation->project_time = $request->input('project_time');
                     $quotation->company_name = $request->input('company_name');
                     $quotation->is_read = 0;
+                    $quotation->is_replied = 0;
                     $quotation->message = $request->input('message');
                     $quotation->save(); //
                     DB::commit();
@@ -228,6 +243,5 @@ class HomeController extends Controller
         } else {
             return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
         }
-
     }
 }

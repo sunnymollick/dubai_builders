@@ -8,12 +8,12 @@ Sliders
         <div class="card">
             <div class="card-header">
                 <h6><i class="lni lni-bootstrap" aria-hidden="true"></i> &nbsp; All Slider
-                    <span style="float: right;">
+                    {{-- <span style="float: right;">
                         <button class="btn btn-primary btn-sm" onclick="create()"><i
                         class="fadeIn animated bx bx-user-plus"></i>
                         Add
                         </button>
-                    </span>
+                    </span> --}}
                 </h6>
             </div>
         </div>

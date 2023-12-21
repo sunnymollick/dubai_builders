@@ -61,7 +61,6 @@ Route::resource('messages', ContactController::class);
 Route::get('/fetch-messages', [ContactController::class, 'fetchMessages'])->name('fetch.messages');
 Route::get('/fetch-chat/{id}', [ContactController::class, 'fetchChat'])->name('fetch.chat');
 
-Route::get('sendbasicemail',[MailController::class, 'basic_email']);
 //Auth Route
 Route::get('/logout', [LoginController::class, 'logout']);
 
@@ -73,6 +72,9 @@ Route::get('allCareers', [CareerController::class, 'getAllCareers']);
 Route::get('request/for/quotation',[QuotationRequestController::class,'index'])->name('request.quotation');
 Route::get('getAllQuotationRequest',[QuotationRequestController::class,'getAllQuotationRequest']);
 Route::get('request/for/quotation/edit/{id}',[QuotationRequestController::class, 'edit']);
+Route::get('request/for/view/quotation/{id}',[QuotationRequestController::class,'viewQuotationRequest']);
+Route::delete('request/for/delete/requested/quotation/{id}',[QuotationRequestController::class,'deleteQuotationRequest']);
+
 
 //Work Category Routes
 Route::resource('workcategories', WorkCategoryController::class);
@@ -87,11 +89,14 @@ Route::resource('itemworks', ItemController::class);
 Route::get('allItemWorks', [ItemController::class, 'getAllItemWorks']);
 
 // Quotation Routes
+Route::get('all-quotations',[QuotationController::class,'index'])->name('all.quotations');
+Route::delete('all-quotations/delete/{id}',[QuotationController::class,'deleteQuotation']);
+Route::get('all-quotations/view/{id}',[QuotationController::class,'viewQuotation']);
+Route::get('all-quotations/generate-pdf/{id}', [QuotationController::class, 'generatePDF']);
 Route::post('request/for/quotation/store',[QuotationController::class, 'store']);
 Route::get('request/for/quotation/fetch-items/{id}',[QuotationController::class, 'fetchItems']);
 
 //Slider Route
 Route::resource('sliders', SliderController::class);
 Route::get('getAllSliders', [SliderController::class, 'getAllSliders']);
-Route::get('request/for/view/quotation/{id}',[QuotationRequestController::class,'viewQuotationRequest']);
-Route::delete('request/for/delete/requested/quotation/{id}',[QuotationRequestController::class,'deleteQuotationRequest']);
+

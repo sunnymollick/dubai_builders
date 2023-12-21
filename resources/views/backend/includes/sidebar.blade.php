@@ -101,6 +101,13 @@
         </a>
     </li>
     <li>
+        <a href="{{ route('admin.all.quotations') }}">
+            <div class="parent-icon"><i class='bx bx-file'></i>
+            </div>
+            <div class="menu-title">All Quotations</div>
+        </a>
+    </li>
+    <li>
         <a class="has-arrow" href="javascript:;">
             <div class="parent-icon"><i class='bx bx-command'></i>
             </div>
@@ -115,7 +122,7 @@
     </li>
     <li>
         <a href="{{ route('admin.sliders.index') }}">
-            <div class="parent-icon"><i class="lni lni-bootstrap"></i>
+            <div class="parent-icon"><i class="bx bx-carousel"></i>
             </div>
             <div class="menu-title">Slider</div>
         </a>

@@ -15,7 +15,7 @@ class QuotationRequestController extends Controller
 {
     public function index()
     {
-        $quotation_requests = Quotation::orderby('id', 'desc')->get();
+        $quotation_requests = Quotation::orderby('id', 'desc')->where('is_replied', 0)->get();
         return view('backend.pages.quotation.all_request', ['quotation_requests' => $quotation_requests]);
     }
     public function edit($id, Request $request)
@@ -25,13 +25,14 @@ class QuotationRequestController extends Controller
         $quote = Quotation::where('id', $id)->first();
         if ($request->ajax()) {
 
-            $view = View::make('backend.pages.quotation.reply', compact('quote','work_categories', 'units'))->render();
+            $view = View::make('backend.pages.quotation.reply', compact('quote', 'work_categories', 'units'))->render();
             return response()->json(['html' => $view]);
         } else {
             return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
         }
     }
-    public function viewQuotationRequest(Request $request, $id){
+    public function viewQuotationRequest(Request $request, $id)
+    {
         if ($request->ajax()) {
             $quotation_request = Quotation::findOrFail($id);
             $quotation_request->is_read = 1;
@@ -43,7 +44,8 @@ class QuotationRequestController extends Controller
         }
     }
 
-    public function deleteQuotationRequest(Request $request,$id){
+    public function deleteQuotationRequest(Request $request, $id)
+    {
         if ($request->ajax()) {
             $quotation = Quotation::findOrFail($id);
             $quotation->delete();

@@ -89,10 +89,19 @@
 
         <div class="row">
             <div class="form-group col-md-6 col-sm-12 mt-2">
-                <img src="{{ asset($career->poster) }}" alt="poster" height="80px"><br>
-                <label for="">Poster <span style="color: red;">*</span></label>
-                <input type="file" class="form-control" id="poster" name="poster" required>
-                <span id="error_title" class="has-error"></span>
+                <strong>Poster: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>
+                <img id="logoPreview" src="{{ asset($career->poster) }}" alt="Poster" height="150px">
+                <p></p>
+                <div class="input-group">
+                    <input id="poster" type="file" name="poster" style="display:none">
+                    <div class="input-group-prepend">
+                        <a class="btn btn-primary text-white" onclick="$('input[id=poster]').click();">Browse</a>
+                    </div>
+                    <input type="text" name="SelectedFileName" class="form-control" id="SelectedFileName"
+                        value="{{ $career->poster }}" readonly>
+                </div>
+                <span>Image Size Must Be 1170 × 620 (width - height) </span>
+                <span id="error_poster" class="text-danger"></span>
             </div>
             {{-- <div class="clearfix"></div>
     <br> --}}
@@ -155,7 +164,8 @@
 
         <div class="row">
             <div class="form-group col-md-6 mt-2 mt-2">
-                <input type="checkbox" class="form-check-input" id="is_active" name="is_active" @if($career->is_active == 'active')checked @endif value="active">
+                <input type="checkbox" class="form-check-input" id="is_active" name="is_active"
+                    @if ($career->is_active == 'active') checked @endif value="active">
                 <label for="">Is Active <span style="color: red;">*</span></label>
                 <span id="error_title" class="has-error"></span>
             </div>
@@ -178,6 +188,35 @@
         ajax_submit_update('careers', "{{ $career->id }}")
     });
 </script>
+
+<script type="text/javascript">
+    $('input[id=poster]').change(function() {
+        // Get the selected file
+        var file = this.files[0];
+
+        // Check if a file is selected
+        if (file) {
+            // Create a FileReader to read the selected file
+            var reader = new FileReader();
+
+            // Set up the FileReader onload event to update the image preview
+            reader.onload = function(e) {
+                $('#logoPreview').attr('src', e.target.result);
+            };
+
+            // Read the selected file as a data URL
+            reader.readAsDataURL(file);
+        } else {
+            // If no file is selected, revert to the current logo
+            $('#logoPreview').attr('src', '');
+        }
+
+        // Update the input field's value for display
+        $('#SelectedFileName').val($(this).val());
+    });
+</script>
+
+
 <script src="{{ asset('backend/ckeditor/ckeditor.js') }}"></script>
 <script>
     CKEDITOR.replace('description', {

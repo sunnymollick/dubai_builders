@@ -88,11 +88,13 @@ Projects
     $(document).ready(function() {
         // Edit Form
         $("#manage_all").on("click", ".edit", function() {
-            var id = $(this).attr('id');
+            var id = $(this).attr('id'); 
+            console.log(id);
             $.ajax({
                 url: 'quotation/edit' + '/' + id,
                 type: 'get',
                 success: function(data) {
+                console.log(data);
                     $("#modal_data").html(data.html);
                     $('#myModal').modal('show'); // show bootstrap modal
                     $('.modal-title').text('Send Quotation');
@@ -109,21 +111,21 @@ Projects
         // View Form
         $("#manage_all").on("click", ".view", function() {
             var id = $(this).attr('id');
-            console.log(id);
             $.ajax({
-            url: 'view/quotation' + '/' + id,
-            type: 'get',
-            success: function (data) {
-                console.log(data);
-                $("#modal_data").html(data.html);
-                $('#myModal').modal('show'); // show bootstrap modal
-            },
-            error: function (result) {
-                $("#modal_data").html("Sorry Cannot Load Data");
-            }
-        });
+                url: 'view/quotation' + '/' + id,
+                type: 'get',
+                success: function(data) {
+                    $("#modal_data").html(data.html);
+                    $('#myModal').modal('show'); // show bootstrap modal
+                },
+                error: function(result) {
+                    $("#modal_data").html("Sorry Cannot Load Data");
+                }
+            });
 
         });
+
+
 
 
         // Delete
