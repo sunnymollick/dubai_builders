@@ -222,4 +222,6 @@ class CareerController extends Controller
             return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
         }
     }
+
+    
 }
