@@ -34,7 +34,6 @@
                                     {!! $details->service_details !!}
                                 </p>
 
-
                                 <div class="post_gallery">
                                     <div class="row">
                                         <div class="col-lg-6 col-sm-6">

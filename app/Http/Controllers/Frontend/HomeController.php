@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin\About;
 use App\Models\Backend\Blog;
 use App\Models\Backend\Contact;
-use App\Models\backend\Career;
+use App\Models\Backend\Career;
 use App\Models\Backend\Project;
 use App\Models\Backend\Slider;
 use App\Models\Backend\Team;
@@ -42,8 +42,6 @@ class HomeController extends Controller
     }
     public function contact()
     {
-
-        $app_settings = Setting::findOrFail(1);
         $app_settings = Setting::findOrFail(1);
         return view('frontend.pages.contact', compact('app_settings'), compact('app_settings'));
     }
@@ -117,7 +115,8 @@ class HomeController extends Controller
     {
         $about = About::findOrFail(1);
         $app_settings = Setting::findOrFail(1);
-        return view('frontend.pages.about', compact('about', 'app_settings'));
+        $team = Team::orderby('order','asc')->get();
+        return view('frontend.pages.about',compact('about','app_settings','team'));
     }
     public function services()
     {

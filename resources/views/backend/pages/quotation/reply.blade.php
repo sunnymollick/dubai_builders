@@ -1,9 +1,10 @@
 <form id="create" action="" enctype="multipart/form-data" method="post" accept-charset="utf-8" class="needs-validation" novalidate>
     <div id="status"></div>
+    <input type="text" class="form-control" name="request_id" hidden value="{{$quote->id}}">
     <div>
         <div id="items">
             <div class="item col" style="margin-bottom: 10px;">
-                <input type="text" class="form-control" name="request_id" hidden value="{{$quote->id}}">
+
                 <div class="row">
                     <div class="form-group col-md-3">
                         <select class="form-control categorySelect" name="work_category_id" id="" required>
