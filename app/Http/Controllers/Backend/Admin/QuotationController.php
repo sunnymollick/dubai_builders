@@ -134,7 +134,12 @@ class QuotationController extends Controller
     {
         if ($request->ajax()) {
             $company_details = Setting::first();
-            $quotation_details = QuotationApplication::where('quotation_request_id', $id)->get();
+            // $quotation_details = QuotationApplication::where('quotation_request_id', $id)->get();
+            $quotation_details = QuotationApplication::join('items', 'quotation_applications.item_id', '=', 'items.id')
+                ->select('items.work_category_id', 'quotation_applications.*')
+                ->where('quotation_applications.quotation_request_id', $id)
+                ->groupBy('items.work_category_id', 'quotation_applications.id')
+                ->get();
             $client_details = Quotation::join('clients', 'quotations.email', '=', 'clients.email')
                 ->where('quotations.id', '=', $id)
                 ->select('clients.*', 'quotations.*')
@@ -161,7 +166,7 @@ class QuotationController extends Controller
         for ($i = 0; $i < count($quotation_details); $i++) {
             $subtotal = $subtotal + $quotation_details[$i]->total_price;
         }
-        $pdf = PDF::loadView('backend.pages.all_quotations.quotation_pdf', compact('quotation_details', 'subtotal', 'company_details', 'client_details'))->setPaper('letter', 'landscape');
+        $pdf = PDF::loadView('backend.pages.all_quotations.quotation_pdf', compact('quotation_details', 'subtotal', 'company_details', 'client_details'))->setPaper('letter', 'portrait');
         return $pdf->download('QOUTATION.pdf');
     }
     public function deleteQuotation(Request $request, $id)
