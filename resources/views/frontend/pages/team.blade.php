@@ -53,7 +53,7 @@
                                         data-name="{{ $team->name }}" data-designation="{{ $team->designation }}"
                                         data-email="{{ $team->email }}" data-phone="{{ $team->phone }}"
                                         data-fb="{{ $team->fb_link }}" data-xlink="{{ $team->x_link }}"
-                                        data-linkedIn="{{ $team->linkedin_link }}"
+                                        data-linkedin="{{ $team->linkedin_link }}"
                                         data-description="{{ $team->description }}">
                                         {{ $team->name }}
                                     </button>
@@ -87,13 +87,28 @@
                 </div>
                 <div class="modal-body">
 
-<div class="avatar">
+                    <div class="avatar">
 
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPfO37MK81JIyR1ptwqr_vYO3w4VR-iC2wqQ&usqp=CAU"  alt="">
-</div>
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPfO37MK81JIyR1ptwqr_vYO3w4VR-iC2wqQ&usqp=CAU"
+                            alt="">
+                    </div>
 
                     <h3 class="name">Name</h3>
                     <p class="designation">Designation</p>
+                    <div class="social">
+                        <ul class="social-address-list">
+                            <li class="fb-link social-item"><a href=""><span class="fa fa-facebook-square"> Facebook
+                                        Profile</span></a></li>
+                            <li class="x-link social-item"><a href=""><span class="fa fa-twitter"> X
+                                        Profile</span></a></li>
+                            <li class="linkedin-link social-item"><a href=""><span class="fa fa-linkedin"> LinkedIn
+                                        Profile</span></a></li>
+                        </ul>
+                        <ul class="contact-address-list">
+                            <li class="social-item"><a href=""><span class="fa fa-phone con-phone"> Mobile</span></a></li>
+                            <li class="social-item"><a href=""><span class="fa fa-envelope con-email"> Email</span></a></li>
+                        </ul>
+                    </div>
 
                 </div>
                 {{-- <div class="modal-footer">
@@ -107,13 +122,18 @@
 
 
 <style>
-    /* .modal-body img {
-        height: 150px;
-        width: 150px;
-        background-size: cover;
-        border-radius: 50%;
-        vertical-align: middle;
-    } */
+    .modal-header{
+
+        background-color: #00234b;
+    }
+    .modal-body{
+        background-color: #002a5c;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+    }
     .modal-body .avatar {
         height: 150px;
         width: 150px;
@@ -122,12 +142,28 @@
         border-radius: 50%;
         border: 4px solid #ffa903;
         box-shadow: 0px 0px 6px rgba(0, 0, 0, 2.2);
-        
+
     }
-    .modal-body .avatar img{
+
+    .modal-body .avatar img {
         width: 150px;
         height: auto;
         object-fit: cover;
+    }
+
+    .modal-body .social {
+        display: flex;
+    }
+
+    .modal-body .social ul {
+        list-style: none;
+    }
+
+    .modal-body .social-item span {
+        padding: 0 8px
+    }
+    .contact-address-list a{
+        pointer-events: none;
     }
 </style>
 
@@ -140,6 +176,13 @@
                 // console.log($(this).data('img'));return;
                 // $('.modal-body img').attr('src', $(this).data('img'));
                 $('.modal-body .avatar img').attr('src', $(this).data('img'));
+                $('.modal-body .name').html($(this).data('name'));
+                $('.modal-body .designation').html($(this).data('designation'));
+                $('.modal-body .fb-link a').attr('href',$(this).data('fb'));
+                $('.modal-body .x-link a').attr('href',$(this).data('xlink'));
+                $('.modal-body .linkedin-link a').attr('href',$(this).data('linkedin'));
+                $('.modal-body .con-phone').html(' '+$(this).data('phone'))
+                $('.modal-body .con-email').html(' '+$(this).data('email'))
 
                 // $('.modal-body .avatar').css({'background-image':'url("'+$(this).data('img')+'")'})
             });
