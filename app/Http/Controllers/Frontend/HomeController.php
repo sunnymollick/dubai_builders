@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin\About;
 use App\Models\Backend\Blog;
 use App\Models\Backend\Contact;
+use App\Models\Backend\Client;
 use App\Models\Backend\Career;
 use App\Models\Backend\Project;
 use App\Models\Backend\Slider;
@@ -115,8 +116,8 @@ class HomeController extends Controller
     {
         $about = About::findOrFail(1);
         $app_settings = Setting::findOrFail(1);
-        $team = Team::orderby('order','asc')->get();
-        return view('frontend.pages.about',compact('about','app_settings','team'));
+        $team = Team::orderby('order', 'asc')->get();
+        return view('frontend.pages.about', compact('about', 'app_settings', 'team'));
     }
     public function services()
     {
@@ -137,6 +138,13 @@ class HomeController extends Controller
     public function teamShow($id)
     {
         $team_details = Team::find($id);
+        return response()->json($team_details);
+    }
+    public function teamDetails(Request $request)
+    {
+        $id = $request->type_id;
+        $team_details = Team::find($id);
+        dd($team_details);
         return response()->json($team_details);
     }
     public function faq()
@@ -173,11 +181,17 @@ class HomeController extends Controller
             $rules = [
                 'name' => 'required',
                 'location' => 'required',
-                'email' => 'required',
+                'email' => 'required|unique:App\Models\Backend\Client,email',
                 'message' => 'required',
                 'mobile' => 'required',
             ];
-            $validator = Validator::make($request->all(), $rules);
+            $validator = Validator::make(
+                $request->all(),
+                $rules,
+                [
+                    'unique' => 'This :attribute is already in records'
+                ]
+            );
             if ($validator->fails()) {
                 return response()->json([
                     'type' => 'error',
@@ -187,7 +201,7 @@ class HomeController extends Controller
                 DB::beginTransaction();
                 try {
                     $quotation = new Quotation();
-
+                    $client = new Client();
                     if ($request->hasFile('file')) {
                         $dextension = $request->file('file')->getClientOriginalExtension();
                         if ($dextension == "pdf" || $dextension == "doc" || $dextension == "docx") {
@@ -211,6 +225,15 @@ class HomeController extends Controller
                         }
                     }
 
+                    // client store
+                    $client->name = $request->input('name');
+                    $client->email = $request->input('email');
+                    $client->phone = $request->input('mobile');
+                    $client->address = "";
+                    $client->organization_name = $request->input('company_name');
+                    $client->save();
+                    // quotation request store
+
                     $quotation->name = $request->input('name');
                     $quotation->location = $request->input('location');
                     $quotation->email = $request->input('email');
@@ -220,6 +243,7 @@ class HomeController extends Controller
                     $quotation->project_time = $request->input('project_time');
                     $quotation->company_name = $request->input('company_name');
                     $quotation->is_read = 0;
+                    $quotation->is_replied = 0;
                     $quotation->message = $request->input('message');
                     $quotation->save(); //
                     DB::commit();
@@ -284,7 +308,7 @@ class HomeController extends Controller
                     $job_app->address = $request->input('location');
                     $job_app->email = $request->input('email');
                     $job_app->mobile = $request->input('mobile');
-                    $job_app->is_read = 0;
+                    $job_app->is_replied = 0;
                     $job_app->job_id = $request->input('job_id');
                     $job_app->save(); //
                     DB::commit();

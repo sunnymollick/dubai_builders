@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 use App\Helpers\Helper;
+use App\Models\Frontend\JobApplication;
 use Exception;
+use Illuminate\Queue\Jobs\JobName;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
@@ -48,6 +50,7 @@ class CareerController extends Controller
             return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
         }
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -223,5 +226,41 @@ class CareerController extends Controller
         }
     }
 
-    
+
+    public function jobApplicationIndex()
+    {
+        // dd('hi fron jobapp');
+
+        return view('backend.pages.careers.job_application');
+    }
+
+    public function getallJobApplications(Request $request)
+    {
+        if ($request->ajax()) {
+
+            $jobApplications = JobApplication::orderby('created_at', 'asc')->get();
+
+            return DataTables::of($jobApplications)
+                ->addColumn('applied_for', function ($section) {
+                    $job_name  = Career::where('id', $section->id)->value('job_title');
+                    return $job_name;
+                })->addColumn('cv', function ($section) {
+                    $html = "<a class='cv_file' href='" . $section->file . "'>" . $section->name . " CV</a>";
+                    return $html;
+                })
+                ->addColumn('action', function ($section) {
+                    $html = '<div class="btn-group">';
+                    $html .= '<a data-toggle="tooltip"  id="' . $section->id . '" class="btn btn-success mr-1 view" title="View"><i class="lni lni-eye"></i> </a>';
+                    $html .= '<a data-toggle="tooltip"  id="' . $section->id . '" class="btn btn-info mr-1 edit" title="Edit"><i class="lni lni-pencil-alt"></i> </a>';
+                    $html .= '<a data-toggle="tooltip"  id="' . $section->id . '" class="btn btn-danger delete" title="Delete"><i class="lni lni-trash"></i> </a>';
+                    $html .= '</div>';
+                    return $html;
+                })
+                ->rawColumns(['action', 'applied_for', 'cv'])
+                ->addIndexColumn()
+                ->make(true);
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
+    }
 }

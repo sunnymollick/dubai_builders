@@ -61,6 +61,7 @@
         </a>
         <ul>
             <li> <a href="{{ route('admin.careers.index') }}"><i class="bx bx-right-arrow-alt"></i>Job Circular</a>
+            <li> <a href="{{ route('admin.job_applications') }}"><i class="bx bx-right-arrow-alt"></i>Job Application</a>
         </ul>
     </li>
     <li>
@@ -95,6 +96,13 @@
             <div class="parent-icon"><i class="lni lni-question-circle"></i>
             </div>
             <div class="menu-title">Quotation Request</div>
+        </a>
+    </li>
+    <li>
+        <a href="{{ route('admin.all.quotations') }}">
+            <div class="parent-icon"><i class='bx bx-file'></i>
+            </div>
+            <div class="menu-title">All Quotations</div>
         </a>
     </li>
     <li>

@@ -20,7 +20,8 @@ Route::get('blog-details/{id}',[HomeController::class,'blogDetails'])->name('blo
 
 
 Route::get('/team', [HomeController::class, 'team'])->name('team');
-Route::get('team/{id}', [HomeController::class, 'teamShow'])->name('team.show');
+// Route::get('team/{id}', [HomeController::class, 'teamShow'])->name('team.show');
+Route::post('/team/fetch-team-details', [HomeController::class, 'teamDetails'])->name('team.show');
 Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
 
 Route::get('/services', [HomeController::class, 'services'])->name('services');

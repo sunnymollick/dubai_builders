@@ -22,7 +22,7 @@ return new class extends Migration
             $table->foreign('job_id')
                 ->references('id')->on('careers')
                 ->onDelete('cascade');
-            $table->tinyInteger('is_read')->default(0);
+            $table->tinyInteger('is_replied')->default(0);
             $table->timestamps();
         });
     }

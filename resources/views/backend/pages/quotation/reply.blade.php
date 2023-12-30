@@ -1,3 +1,9 @@
+<style>
+    .form-group {
+        padding: 4px;
+    }
+</style>
+
 <form id="create" action="" enctype="multipart/form-data" method="post" accept-charset="utf-8" class="needs-validation" novalidate>
     <div id="status"></div>
     <input type="text" class="form-control" name="request_id" hidden value="{{$quote->id}}">
@@ -6,7 +12,8 @@
             <div class="item col" style="margin-bottom: 10px;">
 
                 <div class="row">
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-2">
+                        <label for="">Category</label>
                         <select class="form-control categorySelect" name="work_category_id" id="" required>
                             <option value="">Select Category</option>
                             @foreach ($work_categories as $category)
@@ -14,34 +21,33 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-2">
+                        <label for="">Item/Work</label>
                         <select class="form-control itemSelect" name="items[]" id="" disabled>
                             <option value="">Select Item</option>
                         </select>
                     </div>
-                    <div class="form-group col-md-6">
-                        <textarea class="form-control" name="description[]" placeholder="Description here..." id="exampleFormControlTextarea1" rows="3"></textarea>
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-2">
+                        <label for="">Quantity</label>
                         <input type="number" class="form-control quantity" name="quantity[]" placeholder="Quantity">
                     </div>
-                    <div class="form-group col-md-2">
+                    <div class="form-group col-md-1">
+                        <label for="">Unit</label>
                         <input type="text" class="form-control unitSelect" id="" name="unit[]" placeholder="Unit" readonly>
                     </div>
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-2">
+                        <label for="">Unit Price</label>
                         <input type="number" class="form-control unitPrice" id="" name="unit_price[]" placeholder="Unit Price">
                     </div>
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-2">
+                        <label for="">Total</label>
                         <input type="number" class="form-control totalPrice" name="total_price[]" placeholder="Total Price" readonly>
                     </div>
-                    <div class="col-sm-1">
+                    <div class="col-md-1">
+                        <br>
                         <button type="button" class="btn btn-danger form-control removeItem">X</button>
                     </div>
                 </div>
-                <br>
             </div>
         </div>
 
@@ -114,6 +120,7 @@
             var newItem = $('#items .item:first').clone(); // Clone the first item
             newItem.find('input').val(''); // Clear input values in the cloned item
             newItem.find('.removeItem').show(); // Show remove button for the cloned item
+            $('#items').append('<hr>');
             $('#items').append(newItem); // Append the cloned item to the items container
             initializeItem(newItem); // Initialize event handlers for the new item
 

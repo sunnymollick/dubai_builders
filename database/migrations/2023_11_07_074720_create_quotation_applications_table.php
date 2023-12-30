@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('quotation_request_id');
             $table->unsignedBigInteger('item_id');
+            $table->string('quotation_code');
             $table->string('unit');
             $table->integer('quantity');
             $table->integer('unit_price');
             $table->integer('total_price');
-            $table->string('description');
             $table->foreign('quotation_request_id')
                 ->references('id')->on('quotations')
                 ->onDelete('cascade');
