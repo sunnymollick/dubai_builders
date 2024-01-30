@@ -14,7 +14,7 @@
                 <div class="row">
                     <div class="form-group col-md-2">
                         <label for="">Category</label>
-                        <select class="form-control categorySelect" name="work_category_id" id="" required>
+                        <select class="form-control categorySelect" name="work_category_id[]" id="" required>
                             <option value="">Select Category</option>
                             @foreach ($work_categories as $category)
                             <option value="{{ $category->id }}">{{ $category->title }}</option>
@@ -43,17 +43,42 @@
                         <label for="">Total</label>
                         <input type="number" class="form-control totalPrice" name="total_price[]" placeholder="Total Price" readonly>
                     </div>
+
                     <div class="col-md-1">
                         <br>
                         <button type="button" class="btn btn-danger form-control removeItem">X</button>
                     </div>
                 </div>
+                <hr>
+
             </div>
         </div>
-
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label for="">Terms and Conditions</label>
+                <textarea class="form-control" name="terms_conditions" id="terms_conditions"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-2">
+                <label for="">Tax</label>
+                <input type="number" class="form-control" id="" name="tax" placeholder="Tax">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="">Discount in %</label>
+                <input type="number" class="form-control" id="" name="discount_percentage" placeholder="%">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="">Discount in amount</label>
+                <input type="number" class="form-control" id="" name="discount_amount" placeholder="amount..">
+            </div>
+        </div>
+        <br>
         <button class="btn btn-primary" type="button" id="addItem">Add Item</button>
         <button class="btn btn-primary button-submit" type="submit" data-loading-text="Loading...">
             <i class="fadeIn animated bx bx-save"></i>Send Quotation</button>
+        <button class="btn btn-primary" type="button" id="preview">
+            <i class="fadeIn animated bx bx-save"></i>Preview</button>
     </div>
 </form>
 <script>
@@ -114,13 +139,32 @@
                 updateTotalPrice(); // Update total price when an item is removed
             });
         }
+        $('#preview').on('click', function() {
+            var formData = $("#create").serialize();
+            $.ajax({
+                type: 'GET',
+                url: 'quotation/preview',
+                data: formData,
+                dataType: 'json',
+                cache: false,
+                success: function(data) {
+                    $("#quotation_data").html(data.html);
+                    jQuery.noConflict();
+                    $('#previewModal').modal('show'); // show bootstrap modal
+                    $('.quotation-title').text('Quotation');
+                },
+                error: function(result) {
+                    $("#modal_data").html("Sorry Cannot Load Data");
+                }
+            });
+        });
+
 
         // Event handler for the "Add Item" button
         $('#addItem').on('click', function() {
             var newItem = $('#items .item:first').clone(); // Clone the first item
             newItem.find('input').val(''); // Clear input values in the cloned item
             newItem.find('.removeItem').show(); // Show remove button for the cloned item
-            $('#items').append('<hr>');
             $('#items').append(newItem); // Append the cloned item to the items container
             initializeItem(newItem); // Initialize event handlers for the new item
 
@@ -205,5 +249,28 @@
             unitPriceInput.val(unitPrice);
         });
 
+    });
+</script>
+<script src="{{ asset('backend/ckeditor/ckeditor.js') }}"></script>
+<script>
+    CKEDITOR.replace('terms_conditions', {
+        filebrowserBrowseUrl: '{{ asset('
+        backend ') }}/ckeditor/filemanager/browser/default/browser.html?Connector={{ asset('
+        backend ') }}/ckeditor/filemanager/connectors/php/connector.php',
+        filebrowserImageBrowseUrl: '{{ asset('
+        backend ') }}/ext/ckeditor/filemanager/browser/default/browser.html?Type=Image&Connector=' +
+        '{{ asset('
+        backend ') }}/ext/ckeditor/filemanager/connectors/php/connector.php',
+        filebrowserFlashBrowseUrl: '/ext/ckeditor/filemanager/browser/default/browser.html?Type=Flash&Connector=' +
+            '{{ asset('
+        backend ') }}/ext/ckeditor/filemanager/connectors/php/connector.php',
+        filebrowserUploadUrl: '{{ asset('
+        backend ') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=File',
+        filebrowserImageUploadUrl: '{{ asset('
+        backend ') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Image',
+        filebrowserFlashUploadUrl: '{{ asset('
+        backend ') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Flash',
+        width: 500,
+        height: 100
     });
 </script>

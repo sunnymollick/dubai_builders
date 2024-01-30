@@ -115,7 +115,7 @@
 
 
                         </td>
-                        <td valign='top' width='30%' style='font-size:13px;background-color:blanchedalmond'>03/03/2021
+                        <td valign='top' width='30%' style='font-size:13px;background-color:blanchedalmond'>{{$quotation_details->created_at}}
 
                         </td>
                     </tr>
@@ -140,7 +140,7 @@
 <br>
     <table>
         <tr>
-            <td class="credit-note"><b>Quotation ID # <span style="color:aqua;"> {{$quotation_details->first()->quotation_code}}</span> </b></td>
+            <td class="credit-note"><b>Quotation ID # <span style="color:aqua;"> {{$quotation_details->quotation_code}}</span> </b></td>
         </tr>
     </table>
 <br>
@@ -160,14 +160,14 @@
         <tr style="display:none;">
             <td colspan="*">
                 @php $currentCategory = null; @endphp
-                @foreach($quotation_details as $info)
-                @if($info->item->work_category_id !== $currentCategory)
+                @foreach($quotation_details->details as $info)
+                @if($info->category_id !== $currentCategory)
         <tr>
             <td colspan="5" style="background-color:blanchedalmond;font-size:14px;">
                 {{ $info->item->workcategory->title }}
             </td>
         </tr>
-        @php $currentCategory = $info->item->work_category_id; @endphp
+        @php $currentCategory = $info->category_id; @endphp
         @endif
         <tr>
             <td valign='top' style='font-size:14px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info->item->item_work }}</td>

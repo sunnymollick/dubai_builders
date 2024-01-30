@@ -16,8 +16,8 @@ class Item extends Model
     {
         return $this->belongsTo(Unit::class,'unit_id');
     }
-    public function quotationApplications()
+    public function quotationDetails()
     {
-        return $this->hasMany(QuotationApplication::class, 'item_id');
+        return $this->hasMany(QuotationDetails::class, 'item_id');
     }
 }
