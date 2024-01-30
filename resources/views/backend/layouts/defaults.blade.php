@@ -28,8 +28,7 @@
         <!--start overlay-->
         <div class="overlay toggle-icon"></div>
         <!--end overlay-->
-        <!--Start Back To Top Button--> <a href="javaScript:;" class="back-to-top"><i
-                class='bx bxs-up-arrow-alt'></i></a>
+        <!--Start Back To Top Button--> <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
         <!--End Back To Top Button-->
         <footer class="page-footer">
             @include('backend.includes.footer')
@@ -40,6 +39,7 @@
     @include('backend.includes.theme_customizer')
     <!--end switcher-->
     @include('backend.includes.modal')
+    @include('backend.includes.quotation_modal')
     @include('backend.includes.scripts')
     @include('backend.includes.datatable')
     @yield('scripts')

@@ -36,7 +36,7 @@
 
 
                                 </td>
-                                <td valign='top' width='30%' style='font-size:12px;background-color:blanchedalmond'>{{$quotation_details->first()->created_at}}
+                                <td valign='top' width='30%' style='font-size:12px;background-color:blanchedalmond'>03/03/2021
 
                                 </td>
                             </tr>
@@ -78,18 +78,20 @@
 
                     </tr>
 
-                    <tr style="display:none;">
-                        <td colspan="*">
-                            @php $currentCategory = null; @endphp
-                            @foreach($quotation_details as $info)
-                            @if($info->category_id !== $currentCategory)
+                    @php
+                    $currentCategory = null;
+                    @endphp
+
+                    @foreach($quotation_details as $info)
+                    @if($info->item->work_category_id !== $currentCategory)
+                    @php
+                    $currentCategory = $info->item->work_category_id;
+                    @endphp
                     <tr>
-                        <td colspan="5" style="background-color:blanchedalmond;">
-                            {{ $info->category_id->title }}
-                        </td>
+                        <td colspan="5" style="background-color:blanchedalmond; font-size:14px; border-bottom: 1px solid gray;"><strong>{{ $info->item->workcategory->title }}</strong></td>
                     </tr>
-                    @php $currentCategory = $info->category_id; @endphp
                     @endif
+
                     <tr>
                         <td valign='top' style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info->item->item_work }}</td>
                         <td valign='top' style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info->quantity }}</td>
@@ -105,9 +107,9 @@
                         <td valign='top' style='font-size:12px;'>&nbsp;</td>
                         <td valign='top' style='font-size:12px;'>&nbsp;</td>
                     </tr>
-            </td>
-        </tr>
-    </table>
+                </td>
+            </tr>
+        </table>
     <table width='100%' cellspacing='0' cellpadding='2' border='0'>
         <tr>
             <td style='font-size:12px;width:40%;'><strong></strong>
@@ -116,11 +118,11 @@
                 <table width='100%' cellspacing='0' cellpadding='2' border='0'>
                     <tr>
                         <td align='right' style='font-size:12px;'>Subtotal</td>
-                        <td align='right' style='font-size:12px;  color:tomato'>{{$quotation_details->grand_total}}
+                        <td align='right' style='font-size:12px;  color:tomato'>{{$subtotal}}
                         <td>
                     </tr>
                     <tr>
-                        <td align='right' style='font-size:12px;'>TAX({{$quotation_details->tax}}%)</td>
+                        <td align='right' style='font-size:12px;'>TAX(6.25%)</td>
                         <td align='right' style='font-size:12px; color:tomato'>$68.44</td>
                     </tr>
                     <tr>

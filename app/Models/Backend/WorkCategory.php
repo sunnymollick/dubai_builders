@@ -12,4 +12,8 @@ class WorkCategory extends Model
     {
         return $this->hasMany(Item::class,'work_category_id');
     }
+    public function quotationDetails()
+    {
+        return $this->hasMany(QuotationDetails::class, 'category_id');
+    }
 }

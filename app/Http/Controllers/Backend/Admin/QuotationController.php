@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\QuotationMail;
 use App\Models\Backend\Item;
 use App\Models\Backend\QuotationApplication;
+use App\Models\Backend\QuotationDetails;
 use App\Models\Frontend\Quotation;
 use App\Models\Setting;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
@@ -38,6 +39,45 @@ class QuotationController extends Controller
         });
         return response()->json(['items' => $itemsWithDetails]);
     }
+    public function preview(Request $request)
+    {
+        if ($request->ajax()) {
+            $path = "quotations";
+            $rules = [
+                'items' => 'required',
+                'unit' => 'required',
+                'unit_price' => 'required',
+                'quantity' => 'required',
+            ];
+
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json([
+                    'type' => 'error',
+                    'errors' => $validator->getMessageBag()->toArray()
+                ]);
+            } else {
+
+                DB::beginTransaction();
+                try {
+                    $formData = $request->all(); // Assuming form data is submitted through GET
+
+                    // Process and validate the form data as needed
+
+                    // Group form data by category using Laravel collection methods
+                    $groupedData = collect($formData['items'])->groupBy('work_category_id');
+                    echo $groupedData;
+                    // dd($client_info->email);
+                    // $view = View::make('backend.pages.all_quotations.quotation_preview', compact('groupedData', 'subtotal', 'company_details', 'client_details'))->render();
+                    // return response()->json(['html' => $view]);
+                } catch (Exception $e) {
+                    return response()->json(['type' => 'error', 'message' => "Please Fill With Correct data"]);
+                }
+            }
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
+    }
     public function store(Request $request)
     {
         if ($request->ajax()) {
@@ -59,42 +99,60 @@ class QuotationController extends Controller
 
                 DB::beginTransaction();
                 try {
+
                     $created_time = Carbon::now();
                     $last_quotation = QuotationApplication::first();
                     if (is_null($last_quotation)) {
                         $latest_id = 0;
                         $quotation_code = Helper::uniqueQuoId("QT-", $created_time->year, $latest_id);
                     } else {
-                        $latest_id = Quotation::orderBy('id', 'desc')->first()->id;
+                        $latest_id = QuotationApplication::orderBy('id', 'desc')->first()->id;
                         $quotation_code = Helper::uniqueQuoId("QT-", $created_time->year, $latest_id);
                     }
-
+                    $cateogry = $request->input('work_category_id');
                     $items = $request->input('items');
                     $units = $request->input('unit');
                     $quantities = $request->input('quantity');
                     $unitPrices = $request->input('unit_price');
                     $totalPrices = $request->input('total_price');
+                    $tax = $request->input('tax');
+                    $discountPercentage = $request->input('discount_percentage');
+                    $discountAmount = $request->input('discount_amount');
                     $quo_id = $request->input('request_id');
+                    $terms_conditions = $request->input('terms_conditions');
+
+                    $quotationApplication = new QuotationApplication();
+                    $quotationApplication->quotation_request_id = $quo_id;
+                    $quotationApplication->quotation_code = $quotation_code;
+                    $quotationApplication->terms_conditions = $terms_conditions;
+                    $quotationApplication->tax = $tax;
+                    $quotationApplication->discount_percentage = $discountPercentage;
+                    $quotationApplication->discount_amount = $discountAmount;
+                    $grandTotal = 0;
+                    for ($i = 0; $i < count($totalPrices); $i++) {
+                        $grandTotal = $grandTotal + $totalPrices[$i];
+                    }
+                    $quotationApplication->grand_total = $grandTotal;
+                    $quotationApplication->save();
 
                     foreach ($items as $key => $value) {
-                        $quotationApplication = new QuotationApplication();
-                        $quotationApplication->quotation_request_id = $quo_id;
-                        $quotationApplication->quotation_code = $quotation_code;
-                        $quotationApplication->item_id = $value;
-                        $quotationApplication->unit = $units[$key];
-                        $quotationApplication->quantity = $quantities[$key];
-                        $quotationApplication->unit_price = $unitPrices[$key];
-                        $quotationApplication->total_price = $totalPrices[$key];
-                        $quotationApplication->save();
+                        $quotation_id = QuotationApplication::orderBy('id', 'desc')->first()->id;
+                        $quotationDetails = new QuotationDetails();
+                        $quotationDetails->quotation_id = $quotation_id;
+                        $quotationDetails->category_id = $cateogry[$key];
+                        $quotationDetails->item_id = $value;
+                        $quotationDetails->unit = $units[$key];
+                        $quotationDetails->quantity = $quantities[$key];
+                        $quotationDetails->unit_price = $unitPrices[$key];
+                        $quotationDetails->total_price = $totalPrices[$key];
+                        $quotationDetails->save();
                     }
-
                     $quotation_request = Quotation::findOrFail($request->input('request_id'));
                     $quotation_request->is_replied = 1;
                     $quotation_request->save();
-
                     // email send part
                     $company_details = Setting::first();
-                    $quotation_details = QuotationApplication::where('quotation_request_id', $quotation_request->id)->get();
+                    $quotation_details = QuotationApplication::where('quotation_request_id', $quotation_request->id)->join('quotation_details', 'quotation_applications.id', '=', 'quotation_details.quotation_id')->select('quotation_details.* as details')->get();
                     $client_details = Quotation::join('clients', 'quotations.email', '=', 'clients.email')
                         ->where('quotations.id', '=', $quotation_request->id)
                         ->select('clients.*', 'quotations.*')
@@ -135,20 +193,15 @@ class QuotationController extends Controller
         if ($request->ajax()) {
             $company_details = Setting::first();
             // $quotation_details = QuotationApplication::where('quotation_request_id', $id)->get();
-            $quotation_details = QuotationApplication::join('items', 'quotation_applications.item_id', '=', 'items.id')
-                ->select('items.work_category_id', 'quotation_applications.*')
+            $quotation_details = QuotationApplication::join('quotation_details', 'quotation_applications.id', '=', 'quotation_details.quotation_id')
                 ->where('quotation_applications.quotation_request_id', $id)
-                ->groupBy('items.work_category_id', 'quotation_applications.id')
+                ->select('quotation_details.*', 'quotation_applications.*')
                 ->get();
             $client_details = Quotation::join('clients', 'quotations.email', '=', 'clients.email')
                 ->where('quotations.id', '=', $id)
                 ->select('clients.*', 'quotations.*')
                 ->first();
-            $subtotal = 0;
-            for ($i = 0; $i < count($quotation_details); $i++) {
-                $subtotal = $subtotal + $quotation_details[$i]->total_price;
-            }
-            $view = View::make('backend.pages.all_quotations.quotation_view', compact('quotation_details', 'subtotal', 'company_details', 'client_details'))->render();
+            $view = View::make('backend.pages.all_quotations.quotation_view', compact('quotation_details', 'company_details', 'client_details'))->render();
             return response()->json(['html' => $view]);
         } else {
             return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);

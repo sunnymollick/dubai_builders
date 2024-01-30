@@ -93,6 +93,7 @@ Route::get('all-quotations', [QuotationController::class, 'index'])->name('all.q
 Route::delete('all-quotations/delete/{id}', [QuotationController::class, 'deleteQuotation']);
 Route::get('all-quotations/view/{id}', [QuotationController::class, 'viewQuotation']);
 Route::get('all-quotations/generate-pdf/{id}', [QuotationController::class, 'generatePDF']);
+Route::get('request/for/quotation/preview',[QuotationController::class, 'preview']);
 Route::post('request/for/quotation/store', [QuotationController::class, 'store']);
 Route::get('request/for/quotation/fetch-items/{id}', [QuotationController::class, 'fetchItems']);
 
