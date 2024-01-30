@@ -43,6 +43,7 @@ Projects
                                 <td>
                                     <a data-toggle="tooltip" id="{{ $row->id }}" class="btn btn-success mr-1 view" title="View"><i class="lni lni-eye"></i> </a>
                                     <a data-toggle="tooltip" href="{{URL('admin/all-quotations/generate-pdf/'.$row->id)}}" id="{{ $row->id }}" class="btn btn-info mr-1" title="Invoice"><i class="lni lni-printer"></i> </a>
+                                    <a data-toggle="tooltip" id="{{ $row->id }}" class="btn btn-primary edit" title="Invoice"><i class="lni lni-write"></i> </a>
                                     <a data-toggle="tooltip" id="{{ $row->id }}" class="btn btn-danger delete" title="Delete"><i class="lni lni-trash"></i> </a>
                                 </td>
                             </tr>

@@ -91,7 +91,7 @@
                     },
                     {
                         orderable: false,
-                        targets: [1,7]
+                        targets: [1, 7]
                     }
                 ],
                 "autoWidth": false,
@@ -103,10 +103,6 @@
         });
     </script>
     <script type="text/javascript">
-        function create() {
-            ajax_submit_create('careers');
-        }
-
         $(document).ready(function() {
             // View Form
             $("#manage_all").on("click", ".view", function() {
@@ -115,9 +111,39 @@
             });
 
             // Edit Form
-            $("#manage_all").on("click", ".edit", function() {
+            $("#manage_all").on("click", ".reply", function() {
                 var id = $(this).attr('id');
-                ajax_submit_edit('careers', id)
+                swal({
+                    title: "Are you sure?",
+                    text: "Candidate will get a reply!!",
+                    type: "warning",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true,
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "Delete"
+                }, function() {
+                    $.ajax({
+                        url: 'job_application/reply' + '/' + id,
+                        type: 'POST',
+                        headers: {
+                            "X-CSRF-TOKEN": CSRF_TOKEN,
+                        },
+                        "dataType": 'json',
+                        success: function(data) {
+                            if (data.type === 'success') {
+                                swal("Done!", "Successfully sent reply", "success");
+                                location.reload();
+                            } else if (data.type === 'danger') {
+                                swal("Error sending reply!", "Try again", "error");
+                            }
+                        },
+                        error: function(xhr, ajaxOptions, thrownError) {
+                            swal("Error sending reply!", "Try again", "error");
+                        }
+                    });
+                });
             });
 
 

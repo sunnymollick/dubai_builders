@@ -15,6 +15,7 @@ use Illuminate\Queue\Jobs\JobName;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
 
 class CareerController extends Controller
 {
@@ -251,7 +252,7 @@ class CareerController extends Controller
                 ->addColumn('action', function ($section) {
                     $html = '<div class="btn-group">';
                     $html .= '<a data-toggle="tooltip"  id="' . $section->id . '" class="btn btn-success mr-1 view" title="View"><i class="lni lni-eye"></i> </a>';
-                    $html .= '<a data-toggle="tooltip"  id="' . $section->id . '" class="btn btn-info mr-1 edit" title="Edit"><i class="lni lni-pencil-alt"></i> </a>';
+                    $html .= '<a data-toggle="tooltip"  id="' . $section->id . '" class="btn btn-info mr-1 reply" title="Edit"><i class="lni lni-reply"></i> </a>';
                     $html .= '<a data-toggle="tooltip"  id="' . $section->id . '" class="btn btn-danger delete" title="Delete"><i class="lni lni-trash"></i> </a>';
                     $html .= '</div>';
                     return $html;
@@ -262,5 +263,32 @@ class CareerController extends Controller
         } else {
             return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
         }
+    }
+
+
+    public function jobApplicationReply($id)
+    {
+
+        // DB::beginTransaction();
+        // try {
+        //     $job = DB::table('job')
+
+        //     $data["email"] = $client_info->email;
+        //     $data["title"] = "Here is Quotation on your request";
+        //     $data["body"] = "This is the quotation we made according to your requirement .";
+
+        //     Mail::send('backend.pages.all_quotations.quotation_mail', $data, function ($message) use ($data, $pdf) {
+        //         $message->to($data["email"], $data["email"])
+        //             ->subject($data["title"])
+        //             ->attachData($pdf->output(), "Quotation.pdf");
+        //     });
+
+        //     DB::commit();
+        //     return response()->json(['type' => 'success', 'message' => "Successfully Inserted"]);
+        // } catch (Exception $e) {
+        //     DB::rollback();
+        //     dd($e->getMessage());
+        //     return response()->json(['type' => 'error', 'message' => "Please Fill With Correct data"]);
+        // }
     }
 }
