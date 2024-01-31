@@ -268,27 +268,34 @@ class CareerController extends Controller
 
     public function jobApplicationReply($id)
     {
+        DB::beginTransaction();
+        try {
+            // $job = DB::table('job_applications')->where('id',$id)->first();
+            $job = JobApplication::findOrFail($id);
+            // dd($job);
+            // return;
 
-        // DB::beginTransaction();
-        // try {
-        //     $job = DB::table('job')
+            $data["email"] = $job->email;
+            $cnd_name = $job->name;
+            $j_title = DB::table('careers')->where('id', $job->job_id)->value('job_title');
+            $data["title"] = "Dubai Builders Career";
+            $data["body"] = "Dear " . $cnd_name . " you are invited for an interview for " . $j_title . " post at Dubai Builders";
 
-        //     $data["email"] = $client_info->email;
-        //     $data["title"] = "Here is Quotation on your request";
-        //     $data["body"] = "This is the quotation we made according to your requirement .";
+            Mail::send('backend.pages.careers.send_career_reply_mail', $data, function ($message) use ($data) {
+                $message->to($data["email"], $data["email"])
+                    ->subject($data["title"]);
+            });
 
-        //     Mail::send('backend.pages.all_quotations.quotation_mail', $data, function ($message) use ($data, $pdf) {
-        //         $message->to($data["email"], $data["email"])
-        //             ->subject($data["title"])
-        //             ->attachData($pdf->output(), "Quotation.pdf");
-        //     });
-
-        //     DB::commit();
-        //     return response()->json(['type' => 'success', 'message' => "Successfully Inserted"]);
-        // } catch (Exception $e) {
-        //     DB::rollback();
-        //     dd($e->getMessage());
-        //     return response()->json(['type' => 'error', 'message' => "Please Fill With Correct data"]);
-        // }
+            // dd('data reached');
+            // return;
+            $job->is_replied = 1;
+            $job->save();
+            DB::commit();
+            return response()->json(['type' => 'success', 'message' => "Successfully Sent"]);
+        } catch (Exception $e) {
+            DB::rollback();
+            dd($e->getMessage());
+            return response()->json(['type' => 'error', 'message' => "Please Fill With Correct data"]);
+        }
     }
 }

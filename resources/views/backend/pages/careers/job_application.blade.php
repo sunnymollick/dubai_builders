@@ -122,7 +122,7 @@
                     showLoaderOnConfirm: true,
                     showCancelButton: true,
                     confirmButtonClass: "btn-danger",
-                    confirmButtonText: "Delete"
+                    confirmButtonText: "Send"
                 }, function() {
                     $.ajax({
                         url: 'job_application/reply' + '/' + id,
