@@ -36,7 +36,7 @@
 
 
                                 </td>
-                                <td valign='top' width='30%' style='font-size:12px;background-color:blanchedalmond'>{{$quotation_details->first()->created_at}}
+                                <td valign='top' width='30%' style='font-size:12px;background-color:blanchedalmond'>{{$quotationApplication->created_at->format('d/m/Y')}}
 
                                 </td>
                             </tr>
@@ -60,7 +60,7 @@
                 <table width='100%' height='100' cellspacing='0' cellpadding='0'>
                     <tr>
                         <td>
-                            <div align='center' style='font-size: 17px;font-weight: bold; color:red'>Quotation ID # {{$quotation_details->first()->quotation_code}} </div>
+                            <div align='center' style='font-size: 17px;font-weight: bold; color:red'>Quotation ID # {{$quotationApplication->quotation_code}} </div>
                         </td>
                     </tr>
                 </table>
@@ -80,23 +80,24 @@
 
                     <tr style="display:none;">
                         <td colspan="*">
-                            @php $currentCategory = null; @endphp
-                            @foreach($quotation_details as $info)
-                            @if($info->category_id !== $currentCategory)
+                    @foreach ($groupedDetails as $category => $categoryDetails)
+                            @php
+                            $categoryTitle = $categoryDetails->first()->category->title;
+                            @endphp
                     <tr>
                         <td colspan="5" style="background-color:blanchedalmond;">
-                            {{ $info->category_id->title }}
+                            {{ $categoryTitle }}
                         </td>
                     </tr>
-                    @php $currentCategory = $info->category_id; @endphp
-                    @endif
-                    <tr>
-                        <td valign='top' style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info->item->item_work }}</td>
-                        <td valign='top' style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info->quantity }}</td>
-                        <td valign='top' style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info->unit }}</td>
-                        <td valign='top' style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info->unit_price }}</td>
-                        <td valign='top' style='font-size:12px; border-collapse:collapse;  border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info->total_price }}</td>
-                    </tr>
+                        @foreach($categoryDetails as $info)
+                        <tr>
+                            <td valign='top' style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info->item->item_work }}</td>
+                            <td valign='top' style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info->quantity }}</td>
+                            <td valign='top' style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info->unit }}</td>
+                            <td valign='top' style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info->unit_price }}</td>
+                            <td valign='top' style='font-size:12px; border-collapse:collapse;  border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info->total_price }}</td>
+                        </tr>
+                        @endforeach
                     @endforeach
                     <tr>
 
@@ -116,11 +117,11 @@
                 <table width='100%' cellspacing='0' cellpadding='2' border='0'>
                     <tr>
                         <td align='right' style='font-size:12px;'>Subtotal</td>
-                        <td align='right' style='font-size:12px;  color:tomato'>{{$quotation_details->grand_total}}
+                        <td align='right' style='font-size:12px;  color:tomato'>{{$quotationApplication->grand_total}}
                         <td>
                     </tr>
                     <tr>
-                        <td align='right' style='font-size:12px;'>TAX({{$quotation_details->tax}}%)</td>
+                        <td align='right' style='font-size:12px;'>TAX({{$quotationApplication->tax}}%)</td>
                         <td align='right' style='font-size:12px; color:tomato'>$68.44</td>
                     </tr>
                     <tr>
@@ -162,3 +163,17 @@
     </tr>
     </table>
 </div>
+
+
+
+<!-- {"id":17,"quotation_request_id":7,"quotation_code":"QT-2024017","tax":null,"discount_percentage":null,
+"discount_amount":null,"grand_total":98240,"terms_conditions":null,
+"created_at":"2024-01-30T11:21:36.000000Z","updated_at":"2024-01-30T11:21:36.000000Z",
+"quotation_details":[{"id":22,"quotation_id":17,"item_id":2,"category_id":3,"unit":"No.",
+"quantity":6,"unit_price":4000,"total_price":24000,"created_at":"2024-01-30T11:21:36.000000Z",
+"updated_at":"2024-01-30T11:21:36.000000Z"},{"id":23,"quotation_id":17,"item_id":5,"category_id":5,
+"unit":"Hour","quantity":8,"unit_price":780,"total_price":6240,
+"created_at":"2024-01-30T11:21:36.000000Z","updated_at":"2024-01-30T11:21:36.000000Z"},
+{"id":24,"quotation_id":17,"item_id":2,"category_id":3,"unit":"No.","quantity":17,"unit_price":4000,
+"total_price":68000,"created_at":"2024-01-30T11:21:36.000000Z",
+"updated_at":"2024-01-30T11:21:36.000000Z"}]} -->

@@ -115,7 +115,7 @@
 
 
                         </td>
-                        <td valign='top' width='30%' style='font-size:13px;background-color:blanchedalmond'>{{$quotation_details->created_at}}
+                        <td valign='top' width='30%' style='font-size:13px;background-color:blanchedalmond'>{{$quotationApplication->created_at->format('d/m/Y')}}
 
                         </td>
                     </tr>
@@ -140,7 +140,7 @@
 <br>
     <table>
         <tr>
-            <td class="credit-note"><b>Quotation ID # <span style="color:aqua;"> {{$quotation_details->quotation_code}}</span> </b></td>
+            <td class="credit-note"><b>Quotation ID # <span style="color:aqua;"> {{$quotationApplication->quotation_code}}</span> </b></td>
         </tr>
     </table>
 <br>
@@ -159,16 +159,16 @@
 
         <tr style="display:none;">
             <td colspan="*">
-                @php $currentCategory = null; @endphp
-                @foreach($quotation_details->details as $info)
-                @if($info->category_id !== $currentCategory)
+                    @foreach ($groupedDetails as $category => $categoryDetails)
+                            @php
+                            $categoryTitle = $categoryDetails->first()->category->title;
+                            @endphp
         <tr>
             <td colspan="5" style="background-color:blanchedalmond;font-size:14px;">
-                {{ $info->item->workcategory->title }}
+                {{ $categoryTitle }}
             </td>
         </tr>
-        @php $currentCategory = $info->category_id; @endphp
-        @endif
+        @foreach($categoryDetails as $info)
         <tr>
             <td valign='top' style='font-size:14px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info->item->item_work }}</td>
             <td valign='top' style='font-size:14px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info->quantity }}</td>
@@ -177,6 +177,7 @@
             <td valign='top' style='font-size:14px; border-collapse:collapse;  border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info->total_price }}</td>
         </tr>
         @endforeach
+ @endforeach
     </table>
     <table style="height: 100px;" width="700px" cellspacing="0" cellpadding="2" border="0">
         <tr>
@@ -187,11 +188,11 @@
                     <tr>
                         <td align='right' style='font-size:14px;'>Subtotal</td>
                         <td width="10%"></td>
-                        <td align='right' style='font-size:14px; color:tomato'>{{$subtotal}}
+                        <td align='right' style='font-size:14px; color:tomato'>{{$quotationApplication->grand_total}}
                         </td>
                     </tr>
                     <tr>
-                        <td align='right' style='font-size:14px;'>TAX(6.25%)</td>
+                        <td align='right' style='font-size:14px;'>TAX({{$quotationApplication->tax}}%)</td>
                         <td width="10%"></td>
                         <td align='right' style='font-size:14px; color:tomato'>$68.44</td>
                     </tr>
