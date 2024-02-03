@@ -137,13 +137,13 @@
 
         </tr>
     </table>
-<br>
+    <br>
     <table>
         <tr>
             <td class="credit-note"><b>Quotation ID # <span style="color:aqua;"> {{$quotationApplication->quotation_code}}</span> </b></td>
         </tr>
     </table>
-<br>
+    <br>
     <table class="details" cellpadding='5'>
         <tr>
             <td width='35%' bordercolor='#ccc' bgcolor='yellowgreen' style='font-size:15px; border-collapse:collapse; border-right: 1px solid gray'><strong>Description
@@ -159,10 +159,10 @@
 
         <tr style="display:none;">
             <td colspan="*">
-                    @foreach ($groupedDetails as $category => $categoryDetails)
-                            @php
-                            $categoryTitle = $categoryDetails->first()->category->title;
-                            @endphp
+                @foreach ($groupedDetails as $category => $categoryDetails)
+                @php
+                $categoryTitle = $categoryDetails->first()->category->title;
+                @endphp
         <tr>
             <td colspan="5" style="background-color:blanchedalmond;font-size:14px;">
                 {{ $categoryTitle }}
@@ -177,7 +177,7 @@
             <td valign='top' style='font-size:14px; border-collapse:collapse;  border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info->total_price }}</td>
         </tr>
         @endforeach
- @endforeach
+        @endforeach
     </table>
     <table style="height: 100px;" width="700px" cellspacing="0" cellpadding="2" border="0">
         <tr>
@@ -188,18 +188,40 @@
                     <tr>
                         <td align='right' style='font-size:14px;'>Subtotal</td>
                         <td width="10%"></td>
-                        <td align='right' style='font-size:14px; color:tomato'>{{$quotationApplication->grand_total}}
+                        <td align='right' style='font-size:14px; color:tomato'>{{$subTotal}}
                         </td>
                     </tr>
+                    @if($quotationApplication->tax)
+                    @php
+                    $tax_amount = ($quotationApplication->tax*$subTotal)/100;
+                    @endphp
                     <tr>
                         <td align='right' style='font-size:14px;'>TAX({{$quotationApplication->tax}}%)</td>
                         <td width="10%"></td>
-                        <td align='right' style='font-size:14px; color:tomato'>$68.44</td>
+                        <td align='right' style='font-size:14px; color:tomato'>{{$tax_amount}}</td>
                     </tr>
+                    @endif
+                    @if($quotationApplication->discount_percentage>0)
+                    @php
+                    $discount_amount = ($quotationApplication->discount_percentage*$subTotal)/100;
+                    @endphp
+                    <tr>
+                        <td align='right' style='font-size:14px;'>DISCOUNT({{$quotationApplication->discount_percentage}}%)</td>
+                        <td width="10%"></td>
+                        <td align='right' style='font-size:14px; color:tomato'>{{$discount_amount}}</td>
+                    </tr>
+                    @endif
+                    @if($quotationApplication->discount_amount>0)
+                    <tr>
+                        <td align='right' style='font-size:14px;'>DISCOUNT(amount)</td>
+                        <td width="10%"></td>
+                        <td align='right' style='font-size:14px; color:tomato'>{{$quotationApplication->discount_amount}}</td>
+                    </tr>
+                    @endif
                     <tr>
                         <td align='right' style='font-size:14px;'><b>Total</b></td>
                         <td width="10%"></td>
-                        <td align='right' style='font-size:14px; color:tomato'><b>$1,163.44</b></td>
+                        <td align='right' style='font-size:14px; color:tomato'><b>{{$quotationApplication->grand_total}}</b></td>
                     </tr>
                 </table>
             </td>
