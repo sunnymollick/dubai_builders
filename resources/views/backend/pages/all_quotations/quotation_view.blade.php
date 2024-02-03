@@ -80,7 +80,7 @@
 
                     <tr style="display:none;">
                         <td colspan="*">
-                    @foreach ($groupedDetails as $category => $categoryDetails)
+                            @foreach ($groupedDetails as $category => $categoryDetails)
                             @php
                             $categoryTitle = $categoryDetails->first()->category->title;
                             @endphp
@@ -89,15 +89,16 @@
                             {{ $categoryTitle }}
                         </td>
                     </tr>
-                        @foreach($categoryDetails as $info)
-                        <tr>
-                            <td valign='top' style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info->item->item_work }}</td>
-                            <td valign='top' style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info->quantity }}</td>
-                            <td valign='top' style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info->unit }}</td>
-                            <td valign='top' style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info->unit_price }}</td>
-                            <td valign='top' style='font-size:12px; border-collapse:collapse;  border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info->total_price }}</td>
-                        </tr>
-                        @endforeach
+                    @foreach($categoryDetails as $info)
+                    <tr>
+                        <td valign='top' style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info->item->item_work }}</td>
+                        <td valign='top' style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info->quantity }}</td>
+                        <td valign='top' style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info->unit }}</td>
+                        <td valign='top' style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info->unit_price }}</td>
+                        <td valign='top' style='font-size:12px; border-collapse:collapse;  border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info->total_price }}</td>
+                    </tr>
+
+                    @endforeach
                     @endforeach
                     <tr>
 
@@ -117,17 +118,37 @@
                 <table width='100%' cellspacing='0' cellpadding='2' border='0'>
                     <tr>
                         <td align='right' style='font-size:12px;'>Subtotal</td>
-                        <td align='right' style='font-size:12px;  color:tomato'>{{$quotationApplication->grand_total}}
+                        <td align='right' style='font-size:12px;  color:tomato'>{{$subTotal}}
                         <td>
                     </tr>
+                    @if($quotationApplication->tax)
+                    @php
+                    $tax_amount = ($quotationApplication->tax*$subTotal)/100;
+                    @endphp
                     <tr>
                         <td align='right' style='font-size:12px;'>TAX({{$quotationApplication->tax}}%)</td>
-                        <td align='right' style='font-size:12px; color:tomato'>$68.44</td>
+                        <td align='right' style='font-size:12px; color:tomato'>{{$tax_amount}}</td>
                     </tr>
+                    @endif
+                    @if($quotationApplication->discount_percentage>0)
+                    @php
+                    $discount_amount = ($quotationApplication->discount_percentage*$subTotal)/100;
+                    @endphp
+                    <tr>
+                        <td align='right' style='font-size:12px;'>DISCOUNT({{$quotationApplication->discount_percentage}}%)</td>
+                        <td align='right' style='font-size:12px; color:tomato'>{{$discount_amount}}</td>
+                    </tr>
+                    @endif
+                    @if($quotationApplication->discount_amount>0)
+                    <tr>
+                        <td align='right' style='font-size:12px;'>DISCOUNT(amount)</td>
+                        <td align='right' style='font-size:12px; color:tomato'>{{$quotationApplication->discount_amount}}</td>
+                    </tr>
+                    @endif
                     <tr>
 
                         <td align='right' style='font-size:12px;'><b>Total</b></td>
-                        <td align='right' style='font-size:12px; color:tomato'><b>$1,163.44</b></td>
+                        <td align='right' style='font-size:12px; color:tomato'><b>{{$quotationApplication->grand_total}}</b></td>
                     </tr>
                 </table>
             </td>
@@ -136,6 +157,22 @@
         </tr>
     </table>
 
+    @if($quotationApplication->terms_conditions)
+    <br>
+    <br>
+    <table width='100%' cellspacing='0' cellpadding='10' border='1' bordercolor='#CCCCCC'>
+        <tr>
+
+            <td width='35%' bordercolor='#ccc' bgcolor='yellowgreen' style='font-size:14px; border-collapse:collapse; border-right: 1px solid gray'><strong>TERMS & CONDITIONS
+                </strong>
+            </td>
+
+        </tr>
+        <tr>
+            <td valign='top' style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $quotationApplication->terms_conditions }}</td>
+        </tr>
+    </table>
+    @endif
     <table width='100%' height='50'>
         <tr>
             <td style='font-size:12px;text-align:justify;'></td>

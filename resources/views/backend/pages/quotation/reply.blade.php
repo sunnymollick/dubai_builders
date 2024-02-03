@@ -29,7 +29,7 @@
                     </div>
                     <div class="form-group col-md-2">
                         <label for="">Quantity</label>
-                        <input type="number" class="form-control quantity" name="quantity[]" placeholder="Quantity">
+                        <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" class="form-control quantity" name="quantity[]" placeholder="Quantity">
                     </div>
                     <div class="form-group col-md-1">
                         <label for="">Unit</label>
@@ -37,7 +37,7 @@
                     </div>
                     <div class="form-group col-md-2">
                         <label for="">Unit Price</label>
-                        <input type="number" class="form-control unitPrice" id="" name="unit_price[]" placeholder="Unit Price">
+                        <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" class="form-control unitPrice" id="" name="unit_price[]" placeholder="Unit Price">
                     </div>
                     <div class="form-group col-md-2">
                         <label for="">Total</label>
@@ -61,16 +61,16 @@
         </div>
         <div class="row">
             <div class="form-group col-md-2">
-                <label for="">Tax</label>
-                <input type="number" class="form-control" id="tax" name="tax" placeholder="Tax">
+                <label for="">Tax(%)</label>
+                <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" class="form-control" id="tax" name="tax" placeholder="Tax">
             </div>
             <div class="form-group col-md-3">
                 <label for="">Discount in %</label>
-                <input type="number" class="form-control" id="discount_percentage" name="discount_percentage" placeholder="%">
+                <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" class="form-control" id="discount_percentage" name="discount_percentage" placeholder="%">
             </div>
             <div class="form-group col-md-3">
                 <label for="">Discount in amount</label>
-                <input type="number" class="form-control" id="discount_amount" name="discount_amount" placeholder="amount..">
+                <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" class="form-control" id="discount_amount" name="discount_amount" placeholder="amount..">
             </div>
             <div class="form-group col-md-2">
                 <label for="">Grand Total</label>
@@ -317,5 +317,7 @@
         backend ') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Image',
         filebrowserFlashUploadUrl: '{{ asset('
         backend ') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Flash',
+        height: 100,
+        width: 700
     });
 </script>

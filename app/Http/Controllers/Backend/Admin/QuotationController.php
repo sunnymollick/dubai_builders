@@ -116,7 +116,7 @@ class QuotationController extends Controller
                         ->select('clients.*', 'quotations.*')
                         ->first();;
                     // dd($client_info->email);
-                    $view = View::make('backend.pages.all_quotations.quotation_preview', compact('groupedData','grandTotal', 'company_details', 'client_details'))->render();
+                    $view = View::make('backend.pages.all_quotations.quotation_preview', compact('groupedData', 'grandTotal', 'company_details', 'client_details'))->render();
                     return response()->json(['html' => $view]);
                 } catch (Exception $e) {
                     dd($e->getMessage());
@@ -169,6 +169,7 @@ class QuotationController extends Controller
                     $discountAmount = $request->input('discount_amount');
                     $quo_id = $request->input('request_id');
                     $terms_conditions = $request->input('terms_conditions');
+                    $grand_total = $request->input('grand_total');
 
                     $quotationApplication = new QuotationApplication();
                     $quotationApplication->quotation_request_id = $quo_id;
@@ -177,11 +178,11 @@ class QuotationController extends Controller
                     $quotationApplication->tax = $tax;
                     $quotationApplication->discount_percentage = $discountPercentage;
                     $quotationApplication->discount_amount = $discountAmount;
-                    $grandTotal = 0;
+                    $subTotal = 0;
                     for ($i = 0; $i < count($totalPrices); $i++) {
-                        $grandTotal = $grandTotal + $totalPrices[$i];
+                        $subTotal = $subTotal + $totalPrices[$i];
                     }
-                    $quotationApplication->grand_total = $grandTotal;
+                    $quotationApplication->grand_total = $grand_total;
                     $quotationApplication->save();
 
                     foreach ($items as $key => $value) {
@@ -211,7 +212,7 @@ class QuotationController extends Controller
                         ->where('quotations.id', '=', $quotation_request->id)
                         ->select('clients.*', 'quotations.*')
                         ->first();
-                    $pdf = PDF::loadView('backend.pages.all_quotations.quotation_pdf', compact('quotationApplication', 'groupedDetails', 'company_details', 'client_details'))->setPaper('letter', 'portrait');
+                    $pdf = PDF::loadView('backend.pages.all_quotations.quotation_pdf', compact('quotationApplication', 'groupedDetails', 'subTotal', 'company_details', 'client_details'))->setPaper('letter', 'portrait');
                     // dd($quo_id);
                     $client_info = Quotation::findOrFail($quo_id);
                     // dd($client_info->email);
@@ -246,12 +247,16 @@ class QuotationController extends Controller
             $quotationApplication = QuotationApplication::with('quotationDetails')
                 ->where('quotation_request_id', $id)
                 ->first();
+            // dd($quotationApplication->quotationDetails);
+            $subTotal = 0;
+            for ($i = 0; $i < count($quotationApplication->quotationDetails); $i++)
+                $subTotal = $subTotal + $quotationApplication->quotationDetails[$i]['total_price'];
             $groupedDetails = $quotationApplication->quotationDetails->groupBy('category_id');
             $client_details = Quotation::join('clients', 'quotations.email', '=', 'clients.email')
                 ->where('quotations.id', '=', $id)
                 ->select('clients.*', 'quotations.*')
                 ->first();
-            $view = View::make('backend.pages.all_quotations.quotation_view', compact('quotationApplication', 'groupedDetails', 'company_details', 'client_details'))->render();
+            $view = View::make('backend.pages.all_quotations.quotation_view', compact('quotationApplication', 'subTotal', 'groupedDetails', 'company_details', 'client_details'))->render();
             return response()->json(['html' => $view]);
         } else {
             return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
@@ -260,16 +265,18 @@ class QuotationController extends Controller
     public function generatePDF($id)
     {
         $company_details = Setting::first();
-        $quotation_details = QuotationApplication::where('quotation_request_id', $id)->get();
+        $quotationApplication = QuotationApplication::with('quotationDetails')
+            ->where('quotation_request_id', $id)
+            ->first();
+        $groupedDetails = $quotationApplication->quotationDetails->groupBy('category_id');
         $client_details = Quotation::join('clients', 'quotations.email', '=', 'clients.email')
             ->where('quotations.id', '=', $id)
             ->select('clients.*', 'quotations.*')
             ->first();
-        $subtotal = 0;
-        for ($i = 0; $i < count($quotation_details); $i++) {
-            $subtotal = $subtotal + $quotation_details[$i]->total_price;
-        }
-        $pdf = PDF::loadView('backend.pages.all_quotations.quotation_pdf', compact('quotation_details', 'subtotal', 'company_details', 'client_details'))->setPaper('letter', 'portrait');
+        $subTotal = 0;
+        for ($i = 0; $i < count($quotationApplication->quotationDetails); $i++)
+            $subTotal = $subTotal + $quotationApplication->quotationDetails[$i]['total_price'];
+        $pdf = PDF::loadView('backend.pages.all_quotations.quotation_pdf', compact('quotationApplication', 'groupedDetails', 'subTotal', 'company_details', 'client_details'))->setPaper('letter', 'portrait');
         return $pdf->download('QOUTATION.pdf');
     }
     public function deleteQuotation(Request $request, $id)
