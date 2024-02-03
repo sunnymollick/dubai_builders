@@ -8,6 +8,7 @@ use App\Mail\QuotationMail;
 use App\Models\Backend\Item;
 use App\Models\Backend\QuotationApplication;
 use App\Models\Backend\QuotationDetails;
+use App\Models\Backend\WorkCategory;
 use App\Models\Frontend\Quotation;
 use App\Models\Setting;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
@@ -60,17 +61,65 @@ class QuotationController extends Controller
 
                 DB::beginTransaction();
                 try {
-                    $formData = $request->all(); // Assuming form data is submitted through GET
+                    // Get item_ids, quantities, and total_prices from the form data
+                    $itemIds = $request->input('items');
+                    $categoryIds = $request->input('work_category_id');
+                    $unitPrices = $request->input('unit_price');
+                    $quantities = $request->input('quantity');
+                    $totalPrices = $request->input('total_price');
+                    $grandTotal = 0;
+                    for ($i = 0; $i < count($totalPrices); $i++) {
+                        $grandTotal = $grandTotal + $totalPrices[$i];
+                    }
 
-                    // Process and validate the form data as needed
+                    // Fetch items from the database based on item_ids
+                    $items = Item::whereIn('id', $itemIds)->get();
+                    $categories = WorkCategory::whereIn('id', $categoryIds)->get();
 
-                    // Group form data by category using Laravel collection methods
-                    $groupedData = collect($formData['items'])->groupBy('work_category_id');
-                    echo $groupedData;
+                    // Combine item data with quantities and total prices, grouped by category
+                    $groupedData = [];
+                    foreach ($items as $index => $item) {
+                        $categoryId = $categoryIds[$index];
+
+                        if (!isset($groupedData[$categoryId])) {
+                            $groupedData[$categoryId] = [
+                                'category' => $categories->firstWhere('id', $categoryId),
+                                'items' => [],
+                            ];
+                        }
+
+                        $groupedData[$categoryId]['items'][] = [
+                            'item' => $item,
+                            'unit_price' => $unitPrices[$index],
+                            'quantity' => $quantities[$index],
+                            'total_price' => $totalPrices[$index],
+                        ];
+                    }
+                    // dd($previewData);
+                    // $groupedData = [];
+
+                    // // Iterate through the form data and group by category
+                    // foreach ($formData['work_category_id'] as $key => $category) {
+                    //     $groupedData[$category][] = [
+                    //         'item' => $formData['items'][$key],
+                    //         'quantity' => $formData['quantity'][$key],
+                    //         'unit' => $formData['unit'][$key],
+                    //         'unit_price' => $formData['unit_price'][$key],
+                    //         'total_price' => $formData['total_price'][$key],
+                    //         // Add more fields as needed
+                    //     ];
+                    // }
+                    // // dd($groupedData);
+                    $company_details = Setting::first();
+                    $client_details = Quotation::join('clients', 'quotations.email', '=', 'clients.email')
+                        ->where('quotations.id', '=', $request->request_id)
+                        ->select('clients.*', 'quotations.*')
+                        ->first();;
                     // dd($client_info->email);
-                    // $view = View::make('backend.pages.all_quotations.quotation_preview', compact('groupedData', 'subtotal', 'company_details', 'client_details'))->render();
-                    // return response()->json(['html' => $view]);
+                    $view = View::make('backend.pages.all_quotations.quotation_preview', compact('groupedData','grandTotal', 'company_details', 'client_details'))->render();
+                    return response()->json(['html' => $view]);
                 } catch (Exception $e) {
+                    dd($e->getMessage());
                     return response()->json(['type' => 'error', 'message' => "Please Fill With Correct data"]);
                 }
             }
@@ -151,17 +200,18 @@ class QuotationController extends Controller
                     $quotation_request->is_replied = 1;
                     $quotation_request->save();
                     // email send part
+
                     $company_details = Setting::first();
-                    $quotation_details = QuotationApplication::where('quotation_request_id', $quotation_request->id)->join('quotation_details', 'quotation_applications.id', '=', 'quotation_details.quotation_id')->select('quotation_details.* as details')->get();
+                    // $quotation_details = QuotationApplication::where('quotation_request_id', $id)->get();
+                    $quotationApplication = QuotationApplication::with('quotationDetails')
+                        ->where('quotation_request_id', $quotation_request->id)
+                        ->first();
+                    $groupedDetails = $quotationApplication->quotationDetails->groupBy('category_id');
                     $client_details = Quotation::join('clients', 'quotations.email', '=', 'clients.email')
                         ->where('quotations.id', '=', $quotation_request->id)
                         ->select('clients.*', 'quotations.*')
                         ->first();
-                    $subtotal = 0;
-                    for ($i = 0; $i < count($quotation_details); $i++) {
-                        $subtotal = $subtotal + $quotation_details[$i]->total_price;
-                    }
-                    $pdf = PDF::loadView('backend.pages.all_quotations.quotation_pdf', compact('quotation_details', 'subtotal', 'company_details', 'client_details'))->setPaper('letter', 'landscape');
+                    $pdf = PDF::loadView('backend.pages.all_quotations.quotation_pdf', compact('quotationApplication', 'groupedDetails', 'company_details', 'client_details'))->setPaper('letter', 'portrait');
                     // dd($quo_id);
                     $client_info = Quotation::findOrFail($quo_id);
                     // dd($client_info->email);
@@ -193,15 +243,15 @@ class QuotationController extends Controller
         if ($request->ajax()) {
             $company_details = Setting::first();
             // $quotation_details = QuotationApplication::where('quotation_request_id', $id)->get();
-            $quotation_details = QuotationApplication::join('quotation_details', 'quotation_applications.id', '=', 'quotation_details.quotation_id')
-                ->where('quotation_applications.quotation_request_id', $id)
-                ->select('quotation_details.*', 'quotation_applications.*')
-                ->get();
+            $quotationApplication = QuotationApplication::with('quotationDetails')
+                ->where('quotation_request_id', $id)
+                ->first();
+            $groupedDetails = $quotationApplication->quotationDetails->groupBy('category_id');
             $client_details = Quotation::join('clients', 'quotations.email', '=', 'clients.email')
                 ->where('quotations.id', '=', $id)
                 ->select('clients.*', 'quotations.*')
                 ->first();
-            $view = View::make('backend.pages.all_quotations.quotation_view', compact('quotation_details', 'company_details', 'client_details'))->render();
+            $view = View::make('backend.pages.all_quotations.quotation_view', compact('quotationApplication', 'groupedDetails', 'company_details', 'client_details'))->render();
             return response()->json(['html' => $view]);
         } else {
             return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);

@@ -239,7 +239,7 @@ class CareerController extends Controller
     {
         if ($request->ajax()) {
 
-            $jobApplications = JobApplication::orderby('created_at', 'asc')->get();
+            $jobApplications = JobApplication::where('is_replied',0)->orderby('created_at', 'asc')->get();
 
             return DataTables::of($jobApplications)
                 ->addColumn('applied_for', function ($section) {

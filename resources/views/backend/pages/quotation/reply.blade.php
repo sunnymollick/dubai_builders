@@ -62,15 +62,19 @@
         <div class="row">
             <div class="form-group col-md-2">
                 <label for="">Tax</label>
-                <input type="number" class="form-control" id="" name="tax" placeholder="Tax">
+                <input type="number" class="form-control" id="tax" name="tax" placeholder="Tax">
             </div>
             <div class="form-group col-md-3">
                 <label for="">Discount in %</label>
-                <input type="number" class="form-control" id="" name="discount_percentage" placeholder="%">
+                <input type="number" class="form-control" id="discount_percentage" name="discount_percentage" placeholder="%">
             </div>
             <div class="form-group col-md-3">
                 <label for="">Discount in amount</label>
-                <input type="number" class="form-control" id="" name="discount_amount" placeholder="amount..">
+                <input type="number" class="form-control" id="discount_amount" name="discount_amount" placeholder="amount..">
+            </div>
+            <div class="form-group col-md-2">
+                <label for="">Grand Total</label>
+                <input type="number" class="form-control" id="grandTotal" name="grand_total" placeholder="Grand Total" readonly>
             </div>
         </div>
         <br>
@@ -148,6 +152,7 @@
                 dataType: 'json',
                 cache: false,
                 success: function(data) {
+                    console.log(data.data);
                     $("#quotation_data").html(data.html);
                     jQuery.noConflict();
                     $('#previewModal').modal('show'); // show bootstrap modal
@@ -188,6 +193,48 @@
             var unitPrice = parseFloat(item.find('.unitPrice').val()) || 0;
             var totalPrice = quantity * unitPrice;
             item.find('.totalPrice').val(totalPrice.toFixed(2));
+        }
+
+        // Event handler for updating total price when quantity or unit price changes
+        $('#items').on('input', '.quantity, .unitPrice', function() {
+            updateTotalPrice($(this).closest('.item'));
+            updateGrandTotal(); // Update grand total when quantity or unit price changes
+        });
+
+        // Event handler for updating grand total when tax or discount changes
+        $('#tax, #discount_percentage, #discount_amount').on('input', function() {
+            updateGrandTotal();
+        });
+
+        // Function to update grand total based on the subtotal of each item, tax, and discount
+        function updateGrandTotal() {
+            console.log('Updating grand total...');
+
+            var grandTotal = 0;
+            $('.totalPrice').each(function() {
+                grandTotal += parseFloat($(this).val()) || 0;
+            });
+
+            var tax = parseFloat($('#tax').val()) || 0;
+            var discountPercentage = parseFloat($('#discount_percentage').val()) || 0;
+            var discountAmount = parseFloat($('#discount_amount').val()) || 0;
+
+            console.log('Tax:', tax);
+            console.log('Discount Percentage:', discountPercentage);
+            console.log('Discount Amount:', discountAmount);
+
+            // Apply tax to the grand total
+            grandTotal = grandTotal + (grandTotal * tax) / 100;
+
+            // Calculate discount based on either discountPercentage or discountAmount
+            var discount = discountPercentage ? (grandTotal * discountPercentage) / 100 : discountAmount;
+
+            // Subtract discount from the grand total
+            grandTotal = grandTotal - discount;
+
+            console.log('Grand Total:', grandTotal);
+
+            $('#grandTotal').val(grandTotal.toFixed(2));
         }
 
         // Event handler for updating item dropdown based on the selected category
@@ -270,7 +317,5 @@
         backend ') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Image',
         filebrowserFlashUploadUrl: '{{ asset('
         backend ') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Flash',
-        width: 500,
-        height: 100
     });
 </script>

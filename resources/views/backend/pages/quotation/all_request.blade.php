@@ -96,8 +96,10 @@ Projects
                 success: function(data) {
                 console.log(data);
                     $("#modal_data").html(data.html);
+
                     $('#myModal').modal('show'); // show bootstrap modal
                     $('.modal-title').text('Send Quotation');
+
                 },
                 error: function(result) {
                     $("#modal_data").html("Sorry Cannot Load Data");
