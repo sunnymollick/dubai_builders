@@ -42,8 +42,8 @@ Projects
                                 <td><b> {{ $row->location }} </b></td>
                                 <td>
                                     <a data-toggle="tooltip" id="{{ $row->id }}" class="btn btn-success mr-1 view" title="View"><i class="lni lni-eye"></i> </a>
-                                    <a data-toggle="tooltip" href="{{URL('admin/all-quotations/generate-pdf/'.$row->id)}}" id="{{ $row->id }}" class="btn btn-info mr-1" title="Invoice"><i class="lni lni-printer"></i> </a>
-                                    <a data-toggle="tooltip" id="{{ $row->id }}" class="btn btn-primary edit" title="Invoice"><i class="lni lni-write"></i> </a>
+                                    <a data-toggle="tooltip" href="{{URL('admin/all-quotations/generate-pdf/'.$row->id)}}" id="{{ $row->id }}" class="btn btn-info mr-1" title="Print"><i class="lni lni-printer"></i> </a>
+                                    <a data-toggle="tooltip" id="{{ $row->id }}" class="btn btn-primary generate_invoice" title="Invoice"><i class="lni lni-write"></i> </a>
                                     <a data-toggle="tooltip" id="{{ $row->id }}" class="btn btn-danger delete" title="Delete"><i class="lni lni-trash"></i> </a>
                                 </td>
                             </tr>
@@ -72,17 +72,17 @@ Projects
 <script type="text/javascript">
     $(document).ready(function() {
         // Edit Form
-        $("#manage_all").on("click", ".generateinvoice", function() {
+        $("#manage_all").on("click", ".generate_invoice", function() {
             var id = $(this).attr('id');
             console.log(id);
             $.ajax({
-                url: 'quotation/edit' + '/' + id,
+                url: 'generate_invoice' + '/' + id,
                 type: 'get',
                 success: function(data) {
                     console.log(data);
                     $("#modal_data").html(data.html);
                     $('#myModal').modal('show'); // show bootstrap modal
-                    $('.modal-title').text('Send Quotation');
+                    $('.modal-title').text('Generate Invoice');
                 },
                 error: function(result) {
                     $("#modal_data").html("Sorry Cannot Load Data");

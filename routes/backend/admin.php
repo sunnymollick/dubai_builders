@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\Admin\ProjectController;
 use App\Http\Controllers\Backend\Auth\LoginController;
 use App\Http\Controllers\Backend\Admin\ClientController;
 use App\Http\Controllers\Backend\Admin\ContactController;
+use App\Http\Controllers\Backend\Admin\InvoiceController;
 use App\Http\Controllers\Backend\Admin\ItemController;
 use App\Http\Controllers\Backend\Admin\QuotationRequestController;
 use App\Http\Controllers\Backend\Admin\ServiceController;
@@ -106,3 +107,7 @@ Route::get('getAllSliders', [SliderController::class, 'getAllSliders']);
 Route::get('job_application_index', [CareerController::class, 'jobApplicationIndex'])->name('job_applications');
 Route::get('allJobApplications', [CareerController::class, 'getallJobApplications']);
 Route::post('job_application/reply/{id}', [CareerController::class, 'jobApplicationReply']);
+
+
+// invoice route
+Route::get('generate_invoice/{id}', [InvoiceController::class, 'generateInvoice']);

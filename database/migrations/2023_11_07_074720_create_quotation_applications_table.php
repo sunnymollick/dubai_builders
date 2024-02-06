@@ -23,7 +23,6 @@ return new class extends Migration
             $table->foreign('quotation_request_id')
                 ->references('id')->on('quotations')
                 ->onDelete('cascade');
-
             $table->timestamps();
         });
     }
