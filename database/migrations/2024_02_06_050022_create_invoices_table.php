@@ -15,20 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('invoice_code');
             $table->unsignedBigInteger('quotation_id');
-            $table->unsignedBigInteger('item_id');
-            $table->unsignedBigInteger('category_id');
-            $table->string('unit');
-            $table->float('quantity');
-            $table->float('unit_price');
-            $table->float('total_price');
+            $table->float('tax')->default('0')->nullable();
+            $table->float('discount_percentage')->default(0)->nullable();
+            $table->float('discount_amount')->default(0)->nullable();
+            $table->float('grand_total');
+            $table->float('paid_amount')->default(0)->nullable();
             $table->foreign('quotation_id')
                 ->references('id')->on('quotation_applications')
-                ->onDelete('cascade');
-            $table->foreign('item_id')
-                ->references('id')->on('items')
-                ->onDelete('cascade');
-            $table->foreign('category_id')
-                ->references('id')->on('work_categories')
                 ->onDelete('cascade');
             $table->timestamps();
         });
