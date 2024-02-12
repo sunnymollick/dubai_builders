@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\Backend\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Backend\Item;
+use App\Models\Backend\QuotationApplication;
+use App\Models\Backend\QuotationDetails;
 use App\Models\Backend\Unit;
 use App\Models\Backend\WorkCategory;
 use App\Models\Frontend\Quotation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 
 class InvoiceController extends Controller
@@ -67,14 +71,16 @@ class InvoiceController extends Controller
         //
     }
 
-    public function generateInvoice($id, Request $request){
-
-        $work_categories = WorkCategory::all();
-        $units = Unit::all();
-        $quote = Quotation::where('id', $id)->first();
+    public function generateInvoice($id, Request $request)
+    {
         if ($request->ajax()) {
-
-            $view = View::make('backend.pages.invoice.invoice_form', compact('quote', 'work_categories', 'units'))->render();
+            $all_work_categories = WorkCategory::all();
+            $all_units = Unit::all();
+            $all_items = Item::all();
+            $quote = QuotationApplication::where('id', $id)->first();
+            $quotation_details = QuotationDetails::where('quotation_id',$quote->id)->get();
+            // dd($quotation_details);
+            $view = View::make('backend.pages.invoice.invoice_form', compact('quote','quotation_details','all_items', 'all_work_categories', 'all_units'))->render();
             return response()->json(['html' => $view]);
         } else {
             return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);

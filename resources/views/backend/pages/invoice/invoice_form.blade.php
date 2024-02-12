@@ -4,77 +4,91 @@
     }
 </style>
 
-<form id="create" action="" enctype="multipart/form-data" method="post" accept-charset="utf-8" class="needs-validation" novalidate>
+<form id="create" action="" enctype="multipart/form-data" method="post" accept-charset="utf-8"
+    class="needs-validation" novalidate>
     <div id="status"></div>
-    <input type="text" class="form-control" name="request_id" hidden value="{{$quote->id}}">
+    <input type="text" class="form-control" name="request_id" hidden value="{{ $quote->id }}">
     <div>
         <div id="items">
-            <div class="item col" style="margin-bottom: 10px;">
+            @foreach ($quotation_details as $qd)
+                <div class="item col" style="margin-bottom: 10px;">
+                    <div class="row">
+                        <div class="form-group col-md-2">
+                            <label for="">Category</label>
+                            <select disabled class="form-control categorySelect" name="work_category_id[]" id=""
+                                required>
+                                @foreach ($all_work_categories as $awc)
+                                    $@if ($qd->category_id==$awc->id)
+                                        
+                                    <option selected value="{{$awc->id}}">{{$awc->title}}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="">Item/Work</label>
+                            <select class="form-control itemSelect" name="items[]" id="" disabled>
+                                @foreach ($all_items as $ai)
+                                    $@if ($qd->item_id==$ai->id)
+                                        
+                                    <option selected value="{{$ai->id}}">{{$ai->item_work}}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="">Quantity</label>
+                            <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}"
+                                class="form-control quantity" name="quantity[]"
+                                value="{{$qd->quantity}}" placeholder="Quantity">
+                        </div>
+                        <div class="form-group col-md-1">
+                            <label for="">Unit</label>
+                            <input type="text" class="form-control unitSelect" id="" name="unit[]"
+                                placeholder="Unit" value="{{$qd->unit}}" readonly>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="">Unit Price</label>
+                            <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}"
+                                class="form-control unitPrice" id="" name="unit_price[]"
+                                placeholder="Unit Price" value="{{$qd->unit_price}}">
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="">Total</label>
+                            <input type="number" class="form-control totalPrice" name="total_price[]"
+                                placeholder="Total Price" readonly value="{{$qd->total_price}}">
+                        </div>
 
-                <div class="row">
-                    <div class="form-group col-md-2">
-                        <label for="">Category</label>
-                        <select class="form-control categorySelect" name="work_category_id[]" id="" required>
-                            <option value="">Select Category</option>
-                            @foreach ($work_categories as $category)
-                            <option value="{{ $category->id }}">{{ $category->title }}</option>
-                            @endforeach
-                        </select>
+                        <div class="col-md-1">
+                            <br>
+                            <button type="button" class="btn btn-danger form-control removeItem">X</button>
+                        </div>
                     </div>
-                    <div class="form-group col-md-2">
-                        <label for="">Item/Work</label>
-                        <select class="form-control itemSelect" name="items[]" id="" disabled>
-                            <option value="">Select Item</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-md-2">
-                        <label for="">Quantity</label>
-                        <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" class="form-control quantity" name="quantity[]" placeholder="Quantity">
-                    </div>
-                    <div class="form-group col-md-1">
-                        <label for="">Unit</label>
-                        <input type="text" class="form-control unitSelect" id="" name="unit[]" placeholder="Unit" readonly>
-                    </div>
-                    <div class="form-group col-md-2">
-                        <label for="">Unit Price</label>
-                        <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" class="form-control unitPrice" id="" name="unit_price[]" placeholder="Unit Price">
-                    </div>
-                    <div class="form-group col-md-2">
-                        <label for="">Total</label>
-                        <input type="number" class="form-control totalPrice" name="total_price[]" placeholder="Total Price" readonly>
-                    </div>
+                    <hr>
 
-                    <div class="col-md-1">
-                        <br>
-                        <button type="button" class="btn btn-danger form-control removeItem">X</button>
-                    </div>
                 </div>
-                <hr>
-
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-6">
-                <label for="">Terms and Conditions</label>
-                <textarea class="form-control" name="terms_conditions" id="terms_conditions"></textarea>
-            </div>
+            @endforeach
         </div>
         <div class="row">
             <div class="form-group col-md-2">
                 <label for="">Tax(%)</label>
-                <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" class="form-control" id="tax" name="tax" placeholder="Tax">
+                <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}"
+                    class="form-control" id="tax" name="tax" placeholder="Tax">
             </div>
             <div class="form-group col-md-3">
                 <label for="">Discount in %</label>
-                <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" class="form-control" id="discount_percentage" name="discount_percentage" placeholder="%">
+                <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}"
+                    class="form-control" id="discount_percentage" name="discount_percentage" placeholder="%">
             </div>
             <div class="form-group col-md-3">
                 <label for="">Discount in amount</label>
-                <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" class="form-control" id="discount_amount" name="discount_amount" placeholder="amount..">
+                <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}"
+                    class="form-control" id="discount_amount" name="discount_amount" placeholder="amount..">
             </div>
             <div class="form-group col-md-2">
                 <label for="">Grand Total</label>
-                <input type="number" class="form-control" id="grandTotal" name="grand_total" placeholder="Grand Total" readonly>
+                <input type="number" class="form-control" id="grandTotal" name="grand_total"
+                    placeholder="Grand Total" readonly>
             </div>
         </div>
         <br>
@@ -130,11 +144,10 @@
         });
     });
 </script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
     $(document).ready(function() {
-        $('.removeItem').hide();
+        // $('.removeItem').hide();
         // Function to initialize event handlers for an item
         function initializeItem(item) {
             item.find('.quantity, .unitPrice').on('change', updateTotalPrice);
@@ -258,7 +271,10 @@
                     if (data.items && data.items.length > 0) {
                         $.each(data.items, function(index, item) {
 
-                            itemSelect.append('<option value="' + item.id + '" data-unit="' + item.unit.title + '" data-unit-price="' + item.unit_price + '">' + item.item_work + '</option>');
+                            itemSelect.append('<option value="' + item.id +
+                                '" data-unit="' + item.unit.title +
+                                '" data-unit-price="' + item.unit_price + '">' +
+                                item.item_work + '</option>');
                         });
 
                         // Set the unit and unit price based on the selected item
@@ -302,21 +318,21 @@
 <script>
     CKEDITOR.replace('terms_conditions', {
         filebrowserBrowseUrl: '{{ asset('
-        backend ') }}/ckeditor/filemanager/browser/default/browser.html?Connector={{ asset('
-        backend ') }}/ckeditor/filemanager/connectors/php/connector.php',
+                                backend ') }}/ckeditor/filemanager/browser/default/browser.html?Connector={{ asset('
+                                backend ') }}/ckeditor/filemanager/connectors/php/connector.php',
         filebrowserImageBrowseUrl: '{{ asset('
-        backend ') }}/ext/ckeditor/filemanager/browser/default/browser.html?Type=Image&Connector=' +
-        '{{ asset('
-        backend ') }}/ext/ckeditor/filemanager/connectors/php/connector.php',
+                                backend ') }}/ext/ckeditor/filemanager/browser/default/browser.html?Type=Image&Connector=' +
+            '{{ asset('
+                                            backend ') }}/ext/ckeditor/filemanager/connectors/php/connector.php',
         filebrowserFlashBrowseUrl: '/ext/ckeditor/filemanager/browser/default/browser.html?Type=Flash&Connector=' +
             '{{ asset('
-        backend ') }}/ext/ckeditor/filemanager/connectors/php/connector.php',
+                                            backend ') }}/ext/ckeditor/filemanager/connectors/php/connector.php',
         filebrowserUploadUrl: '{{ asset('
-        backend ') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=File',
+                                backend ') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=File',
         filebrowserImageUploadUrl: '{{ asset('
-        backend ') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Image',
+                                backend ') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Image',
         filebrowserFlashUploadUrl: '{{ asset('
-        backend ') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Flash',
+                                backend ') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Flash',
         height: 100,
         width: 700
     });

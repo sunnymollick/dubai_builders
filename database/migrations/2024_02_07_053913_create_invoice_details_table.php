@@ -13,6 +13,22 @@ return new class extends Migration
     {
         Schema::create('invoice_details', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('invoice_id');
+            $table->unsignedBigInteger('item_id');
+            $table->unsignedBigInteger('category_id');
+            $table->string('unit');
+            $table->float('quantity');
+            $table->float('unit_price');
+            $table->float('total_price');
+            $table->foreign('invoice_id')
+                ->references('id')->on('invoices')
+                ->onDelete('cascade');
+            $table->foreign('item_id')
+                ->references('id')->on('items')
+                ->onDelete('cascade');
+            $table->foreign('category_id')
+                ->references('id')->on('work_categories')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }
