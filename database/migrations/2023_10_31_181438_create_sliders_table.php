@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('title')->nullable();
             $table->text('description')->nullable();
-            $table->string('video')->nullable();
-            $table->tinyInteger('is_active')->default(0);
+            $table->string('video')->default('backend/uploads/videos/slider/default_slider/pexels_videos_3925 (1080p).mp4');
+            $table->tinyInteger('is_active')->default(1);
             $table->timestamps();
         });
     }
