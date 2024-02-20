@@ -67,11 +67,15 @@ class QuotationController extends Controller
                     $unitPrices = $request->input('unit_price');
                     $quantities = $request->input('quantity');
                     $totalPrices = $request->input('total_price');
-                    $grandTotal = 0;
-                    for ($i = 0; $i < count($totalPrices); $i++) {
-                        $grandTotal = $grandTotal + $totalPrices[$i];
-                    }
+                    $discountAmount = $request->input('discount_amount');
+                    $tax = $request->input('tax');
+                    $grandTotal = $request->input('grand_total');
 
+                    $subTotal = 0;
+                    for ($i = 0; $i < count($totalPrices); $i++) {
+                        $subTotal = $subTotal + $totalPrices[$i];
+                    }
+                    $afterDiscount = $subTotal - $discountAmount;
                     // Fetch items from the database based on item_ids
                     $items = Item::whereIn('id', $itemIds)->get();
                     $categories = WorkCategory::whereIn('id', $categoryIds)->get();
@@ -116,7 +120,7 @@ class QuotationController extends Controller
                         ->select('clients.*', 'quotations.*')
                         ->first();;
                     // dd($client_info->email);
-                    $view = View::make('backend.pages.all_quotations.quotation_preview', compact('groupedData', 'grandTotal', 'company_details', 'client_details'))->render();
+                    $view = View::make('backend.pages.all_quotations.quotation_preview', compact('groupedData', 'grandTotal', 'subTotal', 'afterDiscount', 'discountAmount', 'tax', 'company_details', 'client_details'))->render();
                     return response()->json(['html' => $view]);
                 } catch (Exception $e) {
                     dd($e->getMessage());
@@ -165,7 +169,6 @@ class QuotationController extends Controller
                     $unitPrices = $request->input('unit_price');
                     $totalPrices = $request->input('total_price');
                     $tax = $request->input('tax');
-                    $discountPercentage = $request->input('discount_percentage');
                     $discountAmount = $request->input('discount_amount');
                     $quo_id = $request->input('request_id');
                     $terms_conditions = $request->input('terms_conditions');
@@ -176,7 +179,6 @@ class QuotationController extends Controller
                     $quotationApplication->quotation_code = $quotation_code;
                     $quotationApplication->terms_conditions = $terms_conditions;
                     $quotationApplication->tax = $tax;
-                    $quotationApplication->discount_percentage = $discountPercentage;
                     $quotationApplication->discount_amount = $discountAmount;
                     $subTotal = 0;
                     for ($i = 0; $i < count($totalPrices); $i++) {
@@ -249,14 +251,16 @@ class QuotationController extends Controller
                 ->first();
             // dd($quotationApplication->quotationDetails);
             $subTotal = 0;
-            for ($i = 0; $i < count($quotationApplication->quotationDetails); $i++)
-                $subTotal = $subTotal + $quotationApplication->quotationDetails[$i]['total_price'];
+            foreach ($quotationApplication->quotationDetails as $detail) {
+                $subTotal += (float) $detail->total_price;
+            }
+            $subTotalFormatted = number_format($subTotal, 2);
             $groupedDetails = $quotationApplication->quotationDetails->groupBy('category_id');
             $client_details = Quotation::join('clients', 'quotations.email', '=', 'clients.email')
                 ->where('quotations.id', '=', $id)
                 ->select('clients.*', 'quotations.*')
                 ->first();
-            $view = View::make('backend.pages.all_quotations.quotation_view', compact('quotationApplication', 'subTotal', 'groupedDetails', 'company_details', 'client_details'))->render();
+            $view = View::make('backend.pages.all_quotations.quotation_view', compact('quotationApplication', 'subTotalFormatted','subTotal', 'groupedDetails', 'company_details', 'client_details'))->render();
             return response()->json(['html' => $view]);
         } else {
             return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);

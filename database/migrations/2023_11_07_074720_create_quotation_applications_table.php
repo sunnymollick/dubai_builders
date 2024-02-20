@@ -16,7 +16,6 @@ return new class extends Migration
             $table->unsignedBigInteger('quotation_request_id');
             $table->string('quotation_code');
             $table->float('tax')->default('0')->nullable();
-            $table->float('discount_percentage')->default('0')->nullable();
             $table->float('discount_amount')->default('0')->nullable();
             $table->float('grand_total');
             $table->string('terms_conditions')->nullable();

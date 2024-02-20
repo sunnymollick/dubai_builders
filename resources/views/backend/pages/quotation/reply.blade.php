@@ -60,17 +60,13 @@
             </div>
         </div>
         <div class="row">
+            <div class="form-group col-md-3">
+                <label for="">Discount in amount</label>
+                <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" class="form-control" id="discount_amount" name="discount_amount" placeholder="discount..">
+            </div>
             <div class="form-group col-md-2">
                 <label for="">Tax(%)</label>
                 <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" class="form-control" id="tax" name="tax" placeholder="Tax">
-            </div>
-            <div class="form-group col-md-3">
-                <label for="">Discount in %</label>
-                <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" class="form-control" id="discount_percentage" name="discount_percentage" placeholder="%">
-            </div>
-            <div class="form-group col-md-3">
-                <label for="">Discount in amount</label>
-                <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" class="form-control" id="discount_amount" name="discount_amount" placeholder="amount..">
             </div>
             <div class="form-group col-md-2">
                 <label for="">Grand Total</label>
@@ -202,7 +198,7 @@
         });
 
         // Event handler for updating grand total when tax or discount changes
-        $('#tax, #discount_percentage, #discount_amount').on('input', function() {
+        $('#tax, #discount_amount').on('input', function() {
             updateGrandTotal();
         });
 
@@ -216,21 +212,20 @@
             });
 
             var tax = parseFloat($('#tax').val()) || 0;
-            var discountPercentage = parseFloat($('#discount_percentage').val()) || 0;
             var discountAmount = parseFloat($('#discount_amount').val()) || 0;
 
             console.log('Tax:', tax);
-            console.log('Discount Percentage:', discountPercentage);
             console.log('Discount Amount:', discountAmount);
 
-            // Apply tax to the grand total
-            grandTotal = grandTotal + (grandTotal * tax) / 100;
+            // Apply discount to the grand total
+            grandTotal = grandTotal - discountAmount;
 
-            // Calculate discount based on either discountPercentage or discountAmount
-            var discount = discountPercentage ? (grandTotal * discountPercentage) / 100 : discountAmount;
+            // Calculate tax based on the after-discount amount
+            var afterDiscountTotal = grandTotal;
+            var taxAmount = afterDiscountTotal * (tax / 100);
 
-            // Subtract discount from the grand total
-            grandTotal = grandTotal - discount;
+            // Add tax to the grand total
+            grandTotal = grandTotal + taxAmount;
 
             console.log('Grand Total:', grandTotal);
 

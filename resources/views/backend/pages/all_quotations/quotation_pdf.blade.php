@@ -22,18 +22,27 @@
         .details {
             width: 100%;
             font-size: 17px;
-            border-collapse: collapse;
             margin: auto;
+        }
+
+        .top-table {
+            height: 80px;
+            padding-right: 70px;
         }
 
         .bill-info {
-            width: 100%;
-            font-size: 15px;
-            border-collapse: collapse;
-            margin: auto;
+            width: 300px;
+            margin-top: 80px;
+            height: 50px;
+            font-size: 13px;
         }
 
-        .details td {
+        .company-info {
+            width: 300px;
+            font-size: 15px;
+        }
+
+        .details {
             border: 1px solid #ccc;
         }
 
@@ -41,19 +50,6 @@
             margin-bottom: 10px;
         }
 
-        .bill-to {
-            text-align: left;
-            float: left;
-            width: 35%;
-            font-size: 15px;
-        }
-
-        .invoice-details {
-            text-align: right;
-            float: right;
-            width: 30%;
-            font-size: 15px;
-        }
 
         td.credit-note {
             color: red;
@@ -82,78 +78,93 @@
 </head>
 
 <body>
-    <table width="100%" cellspacing="0" cellpadding="2">
+    <table class="top-table">
         <tr>
-            <td width="33%"><img height="100px" width="140" src="{{ public_path($company_details->app_logo) }}" /><br /><br></td>
-        </tr>
-    </table>
-    <table class="bill-info">
-        <tr>
-            <td align="left" style="float: left; text-align:left">
-                <table width='100%' align="left" cellspacing='0' cellpadding='5'>
-                    <tr style="background-color: yellowgreen;font-size:18px; font-weight:bold; ">
-                        <td>Bill To:</td>
-
+            <td align="left">
+                <table class="company-info" cellspacing="0" cellpadding="2">
+                    <tr>
+                        <td width="33%"><img height="100px" width="140" src="{{ public_path($company_details->app_logo) }}" /></td>
                     </tr>
                     <tr>
-                        <td valign='top' style='font-size:18px; color:red; background-color:blanchedalmond'> <strong>{{$client_details->company_name}}</strong><br />
-                            <p style="color:black; font-size:14px">{{$client_details->address}} <br>
-                                [Client's company address line 2] <br /></p>
+                        <td width='33%' style='font-size:18px; color:red' valign='top'><b>{{$company_details->app_name}}</b><br />
 
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width='100%' style='font-size:15px;' valign='top'>
+                            {{$company_details->address}}
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width='100%' style='font-size:15px;' valign='top'>
+                            {{$company_details->email}}, {{$company_details->phone_1}}
 
                         </td>
                     </tr>
                 </table>
             </td>
-            <td width="30%">
-
-            </td>
-            <td>
-                <table width='80%' align="right" cellspacing='0' cellpadding='5'>
+            <td width="150px"></td>
+            <td align="right">
+                <table class="bill-info">
                     <tr>
-                        <td valign='top' width='30%' style='font-size:14px; background-color:yellowgreen'><b>Invoice Date: </b>
+                        <td>
+                            <table cellspacing='0' cellpadding='5'>
+                                <tr>
+                                    <td style='background-color:yellowgreen'>
+                                        <b>Quotation To</b>
+                                    </td>
+                                    <td style='background-color:blanchedalmond; color:red'>
+                                        {{$client_details->company_name}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td valign='top' style=' background-color:yellowgreen'>
+                                        <b>Customer ID</b>
+                                    </td>
+                                    <td valign='top' style='background-color:blanchedalmond; color:red'>
+                                        {{$client_details->client_code}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td valign='top' style='background-color:yellowgreen'>
+                                        <b>Quotation ID</b>
+                                    </td>
+                                    <td valign='top' style='background-color:blanchedalmond; color:red'>
+                                        {{$quotationApplication->quotation_code}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td valign='top' style='background-color:yellowgreen'><b>Quotation Date: </b>
+                                    </td>
+                                    <td valign='top' style='background-color:blanchedalmond'>{{$quotationApplication->created_at->format('d/m/Y')}}
 
+                                    </td>
+                                </tr>
 
+                            </table>
                         </td>
-                        <td valign='top' width='30%' style='font-size:13px;background-color:blanchedalmond'>{{$quotationApplication->created_at->format('d/m/Y')}}
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td valign='top' width='30%' style='font-size:14px; background-color:yellowgreen'>
-                            <b>Due Date:</b>
 
 
-                        </td>
-                        <td valign='top' width='30%' style='font-size:13px;background-color:blanchedalmond'>
-                            03/18/2021
-
-
-                        </td>
                     </tr>
                 </table>
             </td>
-
-
         </tr>
     </table>
+
     <br>
-    <table>
-        <tr>
-            <td class="credit-note"><b>Quotation ID # <span style="color:aqua;"> {{$quotationApplication->quotation_code}}</span> </b></td>
-        </tr>
-    </table>
     <br>
     <table class="details" cellpadding='5'>
         <tr>
-            <td width='35%' bordercolor='#ccc' bgcolor='yellowgreen' style='font-size:15px; border-collapse:collapse; border-right: 1px solid gray'><strong>Description
+            <td width='35%' bordercolor='#ccc' bgcolor='yellowgreen' style='font-size:15px; border:1px solid #001a00;'><strong>Description
                 </strong></td>
-            <td bordercolor='#ccc' bgcolor='yellowgreen' style='font-size:15px; border-collapse:collapse; border-right: 1px solid gray'><strong>Qty</strong></td>
-            <td bordercolor='#ccc' bgcolor='yellowgreen' style='font-size:15px; border-collapse:collapse; border-right: 1px solid gray'><strong>Unit</strong>
+            <td bgcolor='yellowgreen' style='font-size:15px; border:1px solid #001a00;'><strong>Qty</strong></td>
+            <td bgcolor='yellowgreen' style='font-size:15px; border:1px solid #001a00;'><strong>Unit</strong>
             </td>
-            <td bordercolor='#ccc' bgcolor='yellowgreen' style='font-size:15px; border-collapse:collapse; border-right: 1px solid gray'><strong>Unit Price</strong>
+            <td bgcolor='yellowgreen' style='font-size:15px; border:1px solid #001a00;'><strong>Unit Price</strong>
             </td>
-            <td bordercolor='#ccc' bgcolor='yellowgreen' style='font-size:15px;'><strong>Subtotal</strong></td>
+            <td bgcolor='yellowgreen' style='font-size:15px;border:1px solid #001a00; text-align:right'><strong>Subtotal</strong></td>
 
         </tr>
 
@@ -164,70 +175,162 @@
                 $categoryTitle = $categoryDetails->first()->category->title;
                 @endphp
         <tr>
-            <td colspan="5" style="background-color:blanchedalmond;font-size:14px;">
+            <td colspan="5" style="background-color:blanchedalmond;font-size:14px; border: 1px solid #001a00">
                 {{ $categoryTitle }}
             </td>
         </tr>
         @foreach($categoryDetails as $info)
         <tr>
-            <td valign='top' style='font-size:14px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info->item->item_work }}</td>
-            <td valign='top' style='font-size:14px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info->quantity }}</td>
-            <td valign='top' style='font-size:14px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info->unit }}</td>
-            <td valign='top' style='font-size:14px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info->unit_price }}</td>
-            <td valign='top' style='font-size:14px; border-collapse:collapse;  border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info->total_price }}</td>
+            <td valign='top' style='font-size:14px; border: 1px solid #001a00'>{{ $info->item->item_work }}</td>
+            <td valign='top' style='font-size:14px; border: 1px solid #001a00'>{{ $info->quantity }}</td>
+            <td valign='top' style='font-size:14px;border: 1px solid #001a00'>{{ $info->unit }}</td>
+            <td valign='top' style='font-size:14px; border: 1px solid #001a00'>{{ $info->unit_price }}</td>
+            <td valign='top' style='font-size:14px; border: 1px solid #001a00; text-align:right; padding-right:5px'>{{ $info->total_price }}</td>
         </tr>
         @endforeach
         @endforeach
-    </table>
-    <table style="height: 100px;" width="700px" cellspacing="0" cellpadding="2" border="0">
+        @if($quotationApplication->discount_amount && $quotationApplication->tax)
         <tr>
-            <td align="left" style="font-size:14px; width:60%"><strong></strong>
-            </td>
-            <td align="right" style="width:40%">
-                <table width='100%' cellspacing='0' cellpadding='2' border='0'>
-                    <tr>
-                        <td align='right' style='font-size:14px;'>Subtotal</td>
-                        <td width="10%"></td>
-                        <td align='right' style='font-size:14px; color:tomato'>{{$subTotal}}
-                        </td>
-                    </tr>
-                    @if($quotationApplication->tax)
-                    @php
-                    $tax_amount = ($quotationApplication->tax*$subTotal)/100;
-                    @endphp
-                    <tr>
-                        <td align='right' style='font-size:14px;'>TAX({{$quotationApplication->tax}}%)</td>
-                        <td width="10%"></td>
-                        <td align='right' style='font-size:14px; color:tomato'>{{$tax_amount}}</td>
-                    </tr>
-                    @endif
-                    @if($quotationApplication->discount_percentage>0)
-                    @php
-                    $discount_amount = ($quotationApplication->discount_percentage*$subTotal)/100;
-                    @endphp
-                    <tr>
-                        <td align='right' style='font-size:14px;'>DISCOUNT({{$quotationApplication->discount_percentage}}%)</td>
-                        <td width="10%"></td>
-                        <td align='right' style='font-size:14px; color:tomato'>{{$discount_amount}}</td>
-                    </tr>
-                    @endif
-                    @if($quotationApplication->discount_amount>0)
-                    <tr>
-                        <td align='right' style='font-size:14px;'>DISCOUNT(amount)</td>
-                        <td width="10%"></td>
-                        <td align='right' style='font-size:14px; color:tomato'>{{$quotationApplication->discount_amount}}</td>
-                    </tr>
-                    @endif
-                    <tr>
-                        <td align='right' style='font-size:14px;'><b>Total</b></td>
-                        <td width="10%"></td>
-                        <td align='right' style='font-size:14px; color:tomato'><b>{{$quotationApplication->grand_total}}</b></td>
-                    </tr>
-                </table>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style='font-size:14px;;'>Sub Total</td>
+
+            <td style='font-size:14px;; color:tomato; text-align:right; padding-right:5px'>{{$subTotal}}
             </td>
         </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style='font-size:14px;;'>DISCOUNT(amount)</td>
+
+            <td style='font-size:14px;; color:tomato; border: 1px solid #001a00; text-align:right; padding-right:5px '>{{$quotationApplication->discount_amount}}</td>
+        </tr>
+        @php
+        $afterDiscount = $subTotal - $quotationApplication->discount_amount;
+        $tax_amount = ($quotationApplication->tax*$afterDiscount)/100;
+        @endphp
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style='font-size:14px;;'>Total</td>
+
+            <td style='font-size:14px;; color:tomato; border: 1px solid #001a00 ; text-align:right; padding-right:5px'>{{$afterDiscount}}
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style='font-size:14px;;'>TAX({{$quotationApplication->tax}}%)</td>
+
+            <td style='font-size:14px;; color:tomato; border: 1px solid #001a00 ; text-align:right; padding-right:5px'>{{$tax_amount}}</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style='font-size:14px;;'><b>Grand Total</b></td>
+
+            <td style='font-size:14px;; color:tomato; border: 1px solid #001a00 ; text-align:right; padding-right:5px'><b>{{$quotationApplication->grand_total}}</b></td>
+        </tr>
+        @elseif($quotationApplication->discount_amount)
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style='font-size:14px;'>Sub Total</td>
+
+            <td style='font-size:14px; color:tomato; text-align:right; padding-right:5px'>{{$subTotal}}
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style='font-size:14px;'>DISCOUNT(amount)</td>
+
+            <td style='font-size:14px; color:tomato; border: 1px solid #001a00 ; text-align:right; padding-right:5px'>{{$quotationApplication->discount_amount}}</td>
+        </tr>
+        @php
+        $afterDiscount = $subTotal - $quotationApplication->discount_amount;
+        @endphp
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style='font-size:14px;'>Grand Total</td>
+
+            <td style='font-size:14px; color:tomato; border: 1px solid #001a00 ; text-align:right; padding-right:5px'>{{$quotationApplication->grand_total}}
+            </td>
+        </tr>
+        @elseif($quotationApplication->tax)
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style='font-size:14px;'>Subtotal</td>
+
+            <td style='font-size:14px; color:tomato; text-align:right; padding-right:5px'>{{$subTotal}}
+            </td>
+        </tr>
+        @php
+        $tax_amount = ($quotationApplication->tax*$subTotal)/100;
+        @endphp
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style='font-size:14px;'>TAX({{$quotationApplication->tax}}%)</td>
+
+            <td style='font-size:14px; color:tomato; border: 1px solid #001a00; text-align:right; padding-right:5px '>{{$tax_amount}}</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style='font-size:14px;'><b>Grand Total</b></td>
+
+            <td style='font-size:14px; color:tomato; border: 1px solid #001a00; text-align:right; padding-right:5px '><b>{{$quotationApplication->grand_total}}</b></td>
+        </tr>
+        else
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style='font-size:14px;'>Grand Total</td>
+
+            <td style='font-size:14px; color:tomato; text-align:right; padding-right:5px'>{{$quotationApplication->grand_total}}
+            </td>
+        </tr>
+        @endif
+
     </table>
 
+    @if($quotationApplication->terms_conditions)
+    <br>
+    <br>
+    <table width='100%' cellspacing='0' cellpadding='10' border='1' bordercolor='#CCCCCC'>
+        <tr>
+
+            <td width='35%' bordercolor='#ccc' bgcolor='yellowgreen' style='font-size:14px; border-right: 1px solid gray'><strong>TERMS & CONDITIONS
+                </strong>
+            </td>
+
+        </tr>
+        <tr>
+            <td valign='top' style='font-size:12px; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $quotationApplication->terms_conditions }}</td>
+        </tr>
+    </table>
+    @endif
+
+    <!-- <table width='100%'>
+        <tr>
+            <td style='font-size:12px;text-align:justify; height:50px;'></td>
+        </tr>
+    </table>
     <table width='100%' cellspacing='0' cellpadding='2'>
         <tr>
             <td width='33%' style='border-top:double medium #CCCCCC;font-size:18px; color:red' valign='top'><b>{{$company_details->app_name}}</b><br />
@@ -236,16 +339,17 @@
             </td>
             <td width='33%' style='border-top:double medium #CCCCCC; font-size:15px;' align='center' valign='top'>
                 <strong>{{$company_details->address}}<br />
-                    [Company address line 2] <br />
+                    @if($company_details->address_secondary)
+                    Second Address: {{$company_details->address_secondary}} <br />
+                    @endif
                     Phone: {{$company_details->phone_1}}<br /></strong>
 
             </td>
 
-            <td valign='top' width='34%' style='border-top:double medium #CCCCCC;font-size:14px;' align='right'>[payment
-                details]<br />
+            <td valign='top' width='34%' style='border-top:double medium #CCCCCC;font-size:14px;' align='right'><br />
             </td>
         </tr>
-    </table>
+    </table> -->
     </td>
     </tr>
     </table>
