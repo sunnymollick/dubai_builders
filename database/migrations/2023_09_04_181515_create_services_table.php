@@ -16,12 +16,12 @@ return new class extends Migration
             $table->string('service_title')->nullable();
             $table->text('service_details')->nullable();
             $table->text('slogan')->nullable();
-            $table->string('hero_image')->nullable();
-            $table->string('thumbnail_image')->nullable();
-            $table->string('image_1')->nullable();
-            $table->string('image_2')->nullable();
-            $table->string('logo')->nullable();
-            $table->string('home_image')->nullable();
+            $table->string('hero_image')->default('backend/uploads/images/services/default_images/default_hero.png');
+            $table->string('thumbnail_image')->default('backend/uploads/images/services/default_images/default_thumbnail.jpg');
+            $table->string('image_1')->default('backend/uploads/images/services/default_images/default_first.png');
+            $table->string('image_2')->default('backend/uploads/images/services/default_images/default_second.png');
+            $table->string('logo')->default('backend/uploads/images/services/default_images/default_logo.png');
+            $table->string('home_image')->default('backend/uploads/images/services/default_images/default_home.png');
             $table->string('video_link')->nullable();
             $table->timestamps();
         });

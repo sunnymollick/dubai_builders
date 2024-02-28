@@ -103,12 +103,10 @@
                                     </span></a></li>
                             <li class="x-link social-item"><a href=""><span class="fa fa-twitter"> X
                                     </span></a></li>
-                            <li class="linkedin-link social-item"><a href=""><span class="fa fa-linkedin"> LinkedIn
-                                    </span></a></li>
                         </ul>
                         <ul class="contact-address-list">
-                            <li class="social-item"><a href=""><span class="fa fa-phone con-phone"> Mobile</span></a>
-                            </li>
+                            <li class="linkedin-link social-item"><a href=""><span class="fa fa-linkedin"> LinkedIn
+                                    </span></a></li>
                             <li class="social-item"><a href=""><span class="fa fa-envelope con-email">
                                         Email</span></a></li>
                         </ul>
@@ -199,7 +197,6 @@
                 $('.modal-body .fb-link a').attr('href', $(this).data('fb'));
                 $('.modal-body .x-link a').attr('href', $(this).data('xlink'));
                 $('.modal-body .linkedin-link a').attr('href', $(this).data('linkedin'));
-                $('.modal-body .con-phone').html(' ' + $(this).data('phone'))
                 $('.modal-body .con-email').html(' ' + $(this).data('email'))
 
                 // $('.modal-body .avatar').css({'background-image':'url("'+$(this).data('img')+'")'})
