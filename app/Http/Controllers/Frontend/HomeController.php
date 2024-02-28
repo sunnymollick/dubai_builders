@@ -16,6 +16,7 @@ use App\Models\Backend\Service;
 use App\Models\Frontend\JobApplication;
 use App\Models\Frontend\Quotation;
 use App\Models\Setting;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -226,14 +227,24 @@ class HomeController extends Controller
                     }
 
                     // client store
+                    $created_time = Carbon::now();
+                    $last_client = Client::first();
+                    if (is_null($last_client)) {
+                        $latest_id = 0;
+                        $client_code = Helper::uniqueNumberConvertor("CUS-", $created_time->year, $latest_id);
+                    } else {
+                        $latest_id = Client::orderBy('id', 'desc')->first()->id;
+                        $client_code = Helper::uniqueNumberConvertor("CUS-", $created_time->year, $latest_id);
+                    }
                     $client->name = $request->input('name');
+                    $client->client_code = $client_code;
                     $client->email = $request->input('email');
                     $client->phone = $request->input('mobile');
                     $client->address = "";
                     $client->organization_name = $request->input('company_name');
                     $client->save();
                     // quotation request store
-
+                    $quotation->client_id = $client->id;
                     $quotation->name = $request->input('name');
                     $quotation->location = $request->input('location');
                     $quotation->email = $request->input('email');

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('quotations', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('client_id');
             $table->string('name')->nullable();
             $table->string('email')->nullable();
             $table->string('mobile')->nullable();
@@ -24,7 +25,10 @@ return new class extends Migration
             $table->string('file')->nullable();
             $table->text('message')->nullable();
             $table->tinyInteger('is_read')->default(0);
-            $table->tinyInteger('is_replied')->default(0);
+$table->tinyInteger('is_replied')->default(0);
+            $table->foreign('client_id')
+                ->references('id')->on('clients')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

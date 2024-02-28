@@ -60,17 +60,13 @@
             </div>
         </div>
         <div class="row">
+            <div class="form-group col-md-3">
+                <label for="">Discount in amount</label>
+                <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" class="form-control" id="discount_amount" name="discount_amount" placeholder="discount..">
+            </div>
             <div class="form-group col-md-2">
                 <label for="">Tax(%)</label>
                 <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" class="form-control" id="tax" name="tax" placeholder="Tax">
-            </div>
-            <div class="form-group col-md-3">
-                <label for="">Discount in %</label>
-                <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" class="form-control" id="discount_percentage" name="discount_percentage" placeholder="%">
-            </div>
-            <div class="form-group col-md-3">
-                <label for="">Discount in amount</label>
-                <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" class="form-control" id="discount_amount" name="discount_amount" placeholder="amount..">
             </div>
             <div class="form-group col-md-2">
                 <label for="">Grand Total</label>
@@ -177,6 +173,8 @@
             newItem.find('.categorySelect').prop('disabled', false);
             // Disable the cloned item's item dropdown initially
             newItem.find('.itemSelect').prop('disabled', true);
+            // Remove the cloned item from other item dropdowns
+            $('.itemSelect option[value="' + newItem.find('.itemSelect').val() + '"]').hide();
         });
 
         // Initialize event handlers for the initial item
@@ -202,7 +200,7 @@
         });
 
         // Event handler for updating grand total when tax or discount changes
-        $('#tax, #discount_percentage, #discount_amount').on('input', function() {
+        $('#tax, #discount_amount').on('input', function() {
             updateGrandTotal();
         });
 
@@ -216,21 +214,20 @@
             });
 
             var tax = parseFloat($('#tax').val()) || 0;
-            var discountPercentage = parseFloat($('#discount_percentage').val()) || 0;
             var discountAmount = parseFloat($('#discount_amount').val()) || 0;
 
             console.log('Tax:', tax);
-            console.log('Discount Percentage:', discountPercentage);
             console.log('Discount Amount:', discountAmount);
 
-            // Apply tax to the grand total
-            grandTotal = grandTotal + (grandTotal * tax) / 100;
+            // Apply discount to the grand total
+            grandTotal = grandTotal - discountAmount;
 
-            // Calculate discount based on either discountPercentage or discountAmount
-            var discount = discountPercentage ? (grandTotal * discountPercentage) / 100 : discountAmount;
+            // Calculate tax based on the after-discount amount
+            var afterDiscountTotal = grandTotal;
+            var taxAmount = afterDiscountTotal * (tax / 100);
 
-            // Subtract discount from the grand total
-            grandTotal = grandTotal - discount;
+            // Add tax to the grand total
+            grandTotal = grandTotal + taxAmount;
 
             console.log('Grand Total:', grandTotal);
 
@@ -243,8 +240,9 @@
             var itemSelect = $(this).closest('.item').find('.itemSelect');
             var unitInput = $(this).closest('.item').find('.unitSelect');
             var unitPriceInput = $(this).closest('.item').find('.unitPrice');
+
             // Enable the item dropdown
-            itemSelect.prop('disabled', false);
+            itemSelect.prop('disabled', false); // Add this line to enable the item dropdown
 
             // Fetch items based on the selected category using Ajax
             $.ajax({
@@ -254,16 +252,15 @@
                     // Clear existing options
                     itemSelect.empty();
                     itemSelect.append('<option>Select Item</option>')
+
                     // Add items based on the fetched data
                     if (data.items && data.items.length > 0) {
                         $.each(data.items, function(index, item) {
-
                             itemSelect.append('<option value="' + item.id + '" data-unit="' + item.unit.title + '" data-unit-price="' + item.unit_price + '">' + item.item_work + '</option>');
                         });
 
                         // Set the unit and unit price based on the selected item
                         var selectedItem = itemSelect.find(':selected');
-
                         var unit = selectedItem.data('unit');
                         var unitPrice = selectedItem.data('unit-price');
                         console.log(unitPrice);
@@ -279,19 +276,23 @@
                     console.log(error);
                 }
             });
+            // Remove the previously selected item from other item dropdowns
+            $('.itemSelect option[value="' + itemSelect.val() + '"]').hide();
         });
 
-        // Event handler for updating item dropdown based on the selected category
+
+        // Event handler for updating unit and unit price based on the selected item
         $('#items').on('change', '.itemSelect', function() {
             var itemSelect = $(this);
             var unitInput = itemSelect.closest('.item').find('.unitSelect');
             var unitPriceInput = itemSelect.closest('.item').find('.unitPrice');
 
+            // Retrieve data attributes from the selected item option
             var selectedItem = itemSelect.find(':selected');
             var unit = selectedItem.data('unit');
             var unitPrice = selectedItem.data('unit-price');
 
-            // Set the unit and unit price based on the selected item
+            // Set the unit and unit price inputs with the retrieved values
             unitInput.val(unit);
             unitPriceInput.val(unitPrice);
         });
