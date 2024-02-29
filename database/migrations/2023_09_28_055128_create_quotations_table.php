@@ -25,7 +25,8 @@ return new class extends Migration
             $table->string('file')->nullable();
             $table->text('message')->nullable();
             $table->tinyInteger('is_read')->default(0);
-$table->tinyInteger('is_replied')->default(0);
+            $table->tinyInteger('is_replied')->default(0);
+            $table->tinyInteger('is_confirmed')->nullable()->default(0);
             $table->foreign('client_id')
                 ->references('id')->on('clients')
                 ->onDelete('cascade');

@@ -90,7 +90,7 @@ Route::get('allItemWorks', [ItemController::class, 'getAllItemWorks']);
 
 // Quotation Routes
 Route::get('all-quotations',[QuotationController::class,'index'])->name('all.quotations');
-Route::delete('all-quotations/delete/{id}',[QuotationController::class,'deleteQuotation']);
+Route::delete('all-quotations/save/{id}',[QuotationController::class,'saveQuotation']);
 Route::get('all-quotations/view/{id}',[QuotationController::class,'viewQuotation']);
 Route::get('all-quotations/generate-pdf/{id}', [QuotationController::class, 'generatePDF']);
 Route::get('request/for/quotation/preview',[QuotationController::class, 'preview']);

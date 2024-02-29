@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Mail\QuotationMail;
 use App\Models\Backend\Item;
+use App\Models\Backend\Project;
 use App\Models\Backend\QuotationApplication;
 use App\Models\Backend\QuotationDetails;
 use App\Models\Backend\WorkCategory;
@@ -24,7 +25,7 @@ class QuotationController extends Controller
 {
     public function index()
     {
-        $quotation_requests = Quotation::orderby('id', 'desc')->where('is_replied', 1)->get();
+        $quotation_requests = Quotation::orderby('id', 'desc')->where('is_replied', 1)->where('is_confirmed', 0)->get();
         return view('backend.pages.all_quotations.index', ['quotation_requests' => $quotation_requests]);
     }
     public function fetchItems($id)
@@ -260,7 +261,7 @@ class QuotationController extends Controller
                 ->where('quotations.id', '=', $id)
                 ->select('clients.*', 'quotations.*')
                 ->first();
-            $view = View::make('backend.pages.all_quotations.quotation_view', compact('quotationApplication', 'subTotalFormatted','subTotal', 'groupedDetails', 'company_details', 'client_details'))->render();
+            $view = View::make('backend.pages.all_quotations.quotation_view', compact('quotationApplication', 'subTotalFormatted', 'subTotal', 'groupedDetails', 'company_details', 'client_details'))->render();
             return response()->json(['html' => $view]);
         } else {
             return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
@@ -283,11 +284,35 @@ class QuotationController extends Controller
         $pdf = PDF::loadView('backend.pages.all_quotations.quotation_pdf', compact('quotationApplication', 'groupedDetails', 'subTotal', 'company_details', 'client_details'))->setPaper('letter', 'portrait');
         return $pdf->download('QOUTATION.pdf');
     }
-    public function deleteQuotation(Request $request, $id)
+    public function saveQuotation(Request $request, $id)
     {
         if ($request->ajax()) {
-            Quotation::where('id', $id)->update(['is_replied' => 0]);
-            QuotationApplication::where('quotation_request_id', $id)->delete();
+            Quotation::where('id', $id)->update(['is_replied' => 0,'is_confirmed' => 1]);
+            $quotation_id = QuotationApplication::where('quotation_request_id', $id)->first();
+            $quotation_request_details = Quotation::where('id', $id)->first();
+
+
+            // $client_name = Client::where('id', $request->client_id)->first();
+            $project = new Project();
+            $created_time = Carbon::now();
+            $last_project = Project::first();
+            if (is_null($last_project)) {
+                $latest_id = 0;
+                $project_code = Helper::uniqueNumberConvertor("DB-", $created_time->year, $latest_id);
+            } else {
+                $latest_id = Project::orderBy('id', 'desc')->first()->id;
+                $project_code = Helper::uniqueNumberConvertor("DB-", $created_time->year, $latest_id);
+            }
+            $project->client_id = $quotation_request_details->client_id;
+            $project->quotation_id = $quotation_id->id;
+            $project->project_code = $project_code;
+            $project->project_location = $quotation_request_details->location;
+            $project->handover_time = $quotation_request_details->project_time;
+            $project->project_type = $quotation_request_details->project_type;
+            $project->save(); //
+
+
+
             return response()->json(['type' => 'success', 'message' => 'Successfully Deleted']);
         } else {
             return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);

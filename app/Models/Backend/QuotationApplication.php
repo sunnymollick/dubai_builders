@@ -20,4 +20,8 @@ class QuotationApplication extends Model
     {
         return $this->hasMany(QuotationDetails::class, 'quotation_id');
     }
+    public function project()
+    {
+        return $this->hasOne(Project::class);
+    }
 }
