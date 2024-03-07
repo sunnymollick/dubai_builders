@@ -98,7 +98,6 @@ class ProjectController extends Controller
             $rules = [
                 'project_title' => 'required',
                 'client_id' => 'required',
-                'hero_image' => 'required|image|mimes:jpg,png,jpeg',
             ];
             $path = "projects";
             if ($request->hasFile('hero_image')) {

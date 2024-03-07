@@ -42,9 +42,8 @@ Projects
                                 <td><b> {{ $row->location }} </b></td>
                                 <td>
                                     <a data-toggle="tooltip" id="{{ $row->id }}" class="btn btn-success mr-1 view" title="View"><i class="lni lni-eye"></i> </a>
-                                    <a data-toggle="tooltip" href="{{URL('admin/all-quotations/generate-pdf/'.$row->id)}}" id="{{ $row->id }}" class="btn btn-info mr-1" title="Print"><i class="lni lni-printer"></i> </a>
-                                    <a data-toggle="tooltip" id="{{ $row->id }}" class="btn btn-primary generate_invoice" title="Invoice"><i class="lni lni-write"></i> </a>
-                                    <a data-toggle="tooltip" id="{{ $row->id }}" class="btn btn-danger delete" title="Delete"><i class="lni lni-trash"></i> </a>
+                                    <a data-toggle="tooltip" href="{{URL('admin/all-quotations/generate-pdf/'.$row->id)}}" id="{{ $row->id }}" class="btn btn-info mr-1" title="Invoice"><i class="lni lni-printer"></i> </a>
+                                    <a data-toggle="tooltip" id="{{ $row->id }}" class="btn btn-warning delete" title="Save"><i class="lni lni-checkmark-circle"></i> </a>
                                 </td>
                             </tr>
                             @endforeach
@@ -118,33 +117,27 @@ Projects
         $("#manage_all").on("click", ".delete", function() {
             var id = $(this).attr('id');
             swal({
-                title: "Are you sure?",
-                text: "Deleted data cannot be recovered!!",
-                type: "warning",
-                showCancelButton: true,
-                closeOnConfirm: false,
-                showLoaderOnConfirm: true,
-                showCancelButton: true,
-                confirmButtonClass: "btn-danger",
-                confirmButtonText: "Delete"
+                title: "Done!",
+                text: "Saved in Projects!",
+                icon: "success"
             }, function() {
                 $.ajax({
-                    url: 'all-quotations/delete' + '/' + id,
-                    type: 'DELETE',
+                    url: 'all-quotations/save' + '/' + id,
+                    type: 'Delete',
                     headers: {
                         "X-CSRF-TOKEN": CSRF_TOKEN,
                     },
                     "dataType": 'json',
                     success: function(data) {
                         if (data.type === 'success') {
-                            swal("Done!", "Successfully Deleted", "success");
+                            swal("Done!", "Successfully Saved in Projects", "success");
                             location.reload();
                         } else if (data.type === 'danger') {
-                            swal("Error deleting!", "Try again", "error");
+                            swal("Error saving!", "Try again", "error");
                         }
                     },
                     error: function(xhr, ajaxOptions, thrownError) {
-                        swal("Error deleting!", "Try again", "error");
+                        swal("Error saving!", "Try again", "error");
                     }
                 });
             });
