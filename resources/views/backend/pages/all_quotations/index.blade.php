@@ -8,6 +8,11 @@ Projects
         <div class="card">
             <div class="card-header">
                 <h6><i class="lni lni-user" aria-hidden="true"></i> &nbsp; All Quotations
+                    <span style="float: right;">
+                        <button class="btn btn-primary btn-sm" onclick="create()"><i class="fadeIn animated bx bx-user-plus"></i>
+                            Add
+                        </button>
+                    </span>
                 </h6>
             </div>
         </div>
@@ -57,6 +62,23 @@ Projects
 @endsection
 @section('scripts')
 <script>
+    function create() {
+        $.ajax({
+            url: 'quotation/create',
+            type: 'get',
+            success: function(data) {
+                console.log(data);
+                $("#modal_data").html(data.html);
+
+                $('#myModal').modal('show'); // show bootstrap modal
+                $('.modal-title').text('Send Quotation');
+
+            },
+            error: function(result) {
+                $("#modal_data").html("Sorry Cannot Load Data");
+            }
+        });
+    }
     $(function() {
         //alert("alert");
         table = $('#manage_all').DataTable({

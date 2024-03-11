@@ -22,7 +22,7 @@
 
                             </tr>
                             <tr>
-                                <td valign='top' style='font-size:14px; color:red; background-color:blanchedalmond'> <strong>{{$client_details->company_name}}</strong><br />
+                                <td valign='top' style='font-size:14px; color:red; background-color:blanchedalmond'> <strong>{{$client_details->organization_name}}</strong><br />
                                     <p style="color:black; font-size:12px">{{$client_details->address}}
 
 
@@ -74,17 +74,17 @@
                         <td bordercolor='#ccc' bgcolor='yellowgreen' style='font-size:12px;'><strong>Subtotal</strong></td>
 
                     </tr>
-                    @foreach($groupedData as $categoryData)
+                    @foreach($groupedData as $categoryId => $categoryItems)
 
                     <tr>
-                        <td colspan="5" style="background-color:blanchedalmond; font-size:14px; border-bottom: 1px solid gray;"><strong>{{ $categoryData['category']->title }}</strong></td>
+                        <td colspan="5" style="background-color:blanchedalmond; font-size:14px; border-bottom: 1px solid gray;"><strong>{{ $categoryItems['category']->title }}</strong></td>
                     </tr>
-                    @foreach($categoryData['items'] as $info)
+                    @foreach($categoryItems['items'] as $index => $info)
 
                     <tr>
                         <td valign='top' style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info['item']->item_work }}</td>
                         <td valign='top' style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info['quantity'] }}</td>
-                        <td valign='top' style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info['item']->unit->title }}</td>
+                        <td valign='top' style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info['unit'] }}</td>
                         <td valign='top' style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info['unit_price'] }}</td>
                         <td valign='top' style='font-size:12px; border-collapse:collapse;  border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $info['total_price'] }}</td>
                     </tr>

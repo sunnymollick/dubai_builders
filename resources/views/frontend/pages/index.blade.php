@@ -420,10 +420,10 @@
                                                                 id="project_type" required>
                                                                 <option value="" selected disabled>Select Project
                                                                     Type</option>
-                                                                <option value="Commercial">Commercial</option>
-                                                                <option value="Highrise">Highrise</option>
-                                                                <option value="Residential">Residential</option>
-                                                                <option value="Business">Business</option>
+                                                                <option value="1">Commercial</option>
+                                                                <option value="2">Highrise</option>
+                                                                <option value="0">Residential</option>
+                                                                <option value="3">Business</option>
                                                             </select>
                                                             @error('project_type')
                                                                 <span class="text-danger">{{ $message }}</span>

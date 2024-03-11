@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Backend\Admin;
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Mail\QuotationMail;
+use App\Models\Backend\Client;
 use App\Models\Backend\Item;
 use App\Models\Backend\Project;
 use App\Models\Backend\QuotationApplication;
 use App\Models\Backend\QuotationDetails;
+use App\Models\Backend\Unit;
 use App\Models\Backend\WorkCategory;
 use App\Models\Frontend\Quotation;
 use App\Models\Setting;
@@ -41,6 +43,19 @@ class QuotationController extends Controller
         });
         return response()->json(['items' => $itemsWithDetails]);
     }
+    public function create(Request $request)
+    {
+        $clients = Client::all();
+        $work_categories = WorkCategory::all();
+        $units = Unit::all();
+        if ($request->ajax()) {
+
+            $view = View::make('backend.pages.all_quotations.create', compact('clients', 'work_categories', 'units'))->render();
+            return response()->json(['html' => $view]);
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
+    }
     public function preview(Request $request)
     {
         if ($request->ajax()) {
@@ -65,6 +80,7 @@ class QuotationController extends Controller
                     // Get item_ids, quantities, and total_prices from the form data
                     $itemIds = $request->input('items');
                     $categoryIds = $request->input('work_category_id');
+                    $units = $request->input('unit');
                     $unitPrices = $request->input('unit_price');
                     $quantities = $request->input('quantity');
                     $totalPrices = $request->input('total_price');
@@ -81,46 +97,41 @@ class QuotationController extends Controller
                     $items = Item::whereIn('id', $itemIds)->get();
                     $categories = WorkCategory::whereIn('id', $categoryIds)->get();
 
-                    // Combine item data with quantities and total prices, grouped by category
+                    // Group items by category
                     $groupedData = [];
+                    foreach ($categories as $category) {
+                        $groupedData[$category->id] = [
+                            'category' => $category,
+                            'items' => [],
+                        ];
+                    }
+
                     foreach ($items as $index => $item) {
                         $categoryId = $categoryIds[$index];
 
-                        if (!isset($groupedData[$categoryId])) {
-                            $groupedData[$categoryId] = [
-                                'category' => $categories->firstWhere('id', $categoryId),
-                                'items' => [],
-                            ];
-                        }
-
                         $groupedData[$categoryId]['items'][] = [
                             'item' => $item,
+                            'unit' => $units[$index],
                             'unit_price' => $unitPrices[$index],
                             'quantity' => $quantities[$index],
                             'total_price' => $totalPrices[$index],
                         ];
                     }
-                    // dd($previewData);
-                    // $groupedData = [];
 
-                    // // Iterate through the form data and group by category
-                    // foreach ($formData['work_category_id'] as $key => $category) {
-                    //     $groupedData[$category][] = [
-                    //         'item' => $formData['items'][$key],
-                    //         'quantity' => $formData['quantity'][$key],
-                    //         'unit' => $formData['unit'][$key],
-                    //         'unit_price' => $formData['unit_price'][$key],
-                    //         'total_price' => $formData['total_price'][$key],
-                    //         // Add more fields as needed
-                    //     ];
-                    // }
-                    // // dd($groupedData);
                     $company_details = Setting::first();
-                    $client_details = Quotation::join('clients', 'quotations.email', '=', 'clients.email')
-                        ->where('quotations.id', '=', $request->request_id)
-                        ->select('clients.*', 'quotations.*')
-                        ->first();;
-                    // dd($client_info->email);
+                    if ($request->request_id) {
+                        $client_details = Quotation::join('clients', 'quotations.email', '=', 'clients.email')
+                            ->where('quotations.id', '=', $request->request_id)
+                            ->select('clients.*', 'quotations.*')
+                            ->first();
+                    }
+                    if ($request->client_id) {
+                        $client_details = Client::where('id', $request->client_id)
+                            ->first();
+                    }
+
+                    // dd($client_details);
+                    // echo $groupedData;
                     $view = View::make('backend.pages.all_quotations.quotation_preview', compact('groupedData', 'grandTotal', 'subTotal', 'afterDiscount', 'discountAmount', 'tax', 'company_details', 'client_details'))->render();
                     return response()->json(['html' => $view]);
                 } catch (Exception $e) {
@@ -171,64 +182,114 @@ class QuotationController extends Controller
                     $totalPrices = $request->input('total_price');
                     $tax = $request->input('tax');
                     $discountAmount = $request->input('discount_amount');
-                    $quo_id = $request->input('request_id');
                     $terms_conditions = $request->input('terms_conditions');
                     $grand_total = $request->input('grand_total');
 
-                    $quotationApplication = new QuotationApplication();
-                    $quotationApplication->quotation_request_id = $quo_id;
-                    $quotationApplication->quotation_code = $quotation_code;
-                    $quotationApplication->terms_conditions = $terms_conditions;
-                    $quotationApplication->tax = $tax;
-                    $quotationApplication->discount_amount = $discountAmount;
-                    $subTotal = 0;
-                    for ($i = 0; $i < count($totalPrices); $i++) {
-                        $subTotal = $subTotal + $totalPrices[$i];
+                    if ($request->request_id) {
+                        $quo_id = $request->input('request_id');
+                        $quotation_client = Quotation::find($quo_id);
+                        $quotationApplication = new QuotationApplication();
+                        $quotationApplication->quotation_request_id = $quo_id;
+                        $quotationApplication->client_id = $quotation_client->client_id;
+                        $quotationApplication->quotation_code = $quotation_code;
+                        $quotationApplication->terms_conditions = $terms_conditions;
+                        $quotationApplication->tax = $tax;
+                        $quotationApplication->discount_amount = $discountAmount;
+                        $subTotal = 0;
+                        for ($i = 0; $i < count($totalPrices); $i++) {
+                            $subTotal = $subTotal + $totalPrices[$i];
+                        }
+                        $quotationApplication->grand_total = $grand_total;
+                        $quotationApplication->save();
+
+                        foreach ($items as $key => $value) {
+                            $quotation_id = QuotationApplication::orderBy('id', 'desc')->first()->id;
+                            $quotationDetails = new QuotationDetails();
+                            $quotationDetails->quotation_id = $quotation_id;
+                            $quotationDetails->category_id = $cateogry[$key];
+                            $quotationDetails->item_id = $value;
+                            $quotationDetails->unit = $units[$key];
+                            $quotationDetails->quantity = $quantities[$key];
+                            $quotationDetails->unit_price = $unitPrices[$key];
+                            $quotationDetails->total_price = $totalPrices[$key];
+                            $quotationDetails->save();
+                        }
+                        $quotation_client->is_replied = 1;
+                        $quotation_client->save();
+                        // email send part
+
+                        $company_details = Setting::first();
+                        // $quotation_details = QuotationApplication::where('quotation_request_id', $id)->get();
+                        $quotationApplication = QuotationApplication::with('quotationDetails')
+                            ->where('quotation_request_id', $quotation_client->id)
+                            ->first();
+                        $groupedDetails = $quotationApplication->quotationDetails->groupBy('category_id');
+                        $client_details = Client::where('id', $quotation_client->client_id)
+                            ->first();
+                        $pdf = PDF::loadView('backend.pages.all_quotations.quotation_pdf', compact('quotationApplication', 'groupedDetails', 'subTotal', 'company_details', 'client_details'))->setPaper('letter', 'portrait');
+                        // dd($quo_id);
+                        // dd($client_info->email);
+
+                        $data["email"] = $quotation_client->email;
+                        $data["title"] = "Here is Quotation on your request";
+                        $data["body"] = "This is the quotation we made according to your requirement .";
+
+                        Mail::send('backend.pages.all_quotations.quotation_mail', $data, function ($message) use ($data, $pdf) {
+                            $message->to($data["email"], $data["email"])
+                                ->subject($data["title"])
+                                ->attachData($pdf->output(), "Quotation.pdf");
+                        });
                     }
-                    $quotationApplication->grand_total = $grand_total;
-                    $quotationApplication->save();
 
-                    foreach ($items as $key => $value) {
-                        $quotation_id = QuotationApplication::orderBy('id', 'desc')->first()->id;
-                        $quotationDetails = new QuotationDetails();
-                        $quotationDetails->quotation_id = $quotation_id;
-                        $quotationDetails->category_id = $cateogry[$key];
-                        $quotationDetails->item_id = $value;
-                        $quotationDetails->unit = $units[$key];
-                        $quotationDetails->quantity = $quantities[$key];
-                        $quotationDetails->unit_price = $unitPrices[$key];
-                        $quotationDetails->total_price = $totalPrices[$key];
-                        $quotationDetails->save();
+                    if ($request->client_id) {
+                        $quotationApplication = new QuotationApplication();
+                        $quotationApplication->client_id = $request->client_id;
+                        $quotationApplication->quotation_code = $quotation_code;
+                        $quotationApplication->terms_conditions = $terms_conditions;
+                        $quotationApplication->tax = $tax;
+                        $quotationApplication->discount_amount = $discountAmount;
+                        $subTotal = 0;
+                        for ($i = 0; $i < count($totalPrices); $i++) {
+                            $subTotal = $subTotal + $totalPrices[$i];
+                        }
+                        $quotationApplication->grand_total = $grand_total;
+                        $quotationApplication->save();
+
+                        foreach ($items as $key => $value) {
+                            $quotation_id = QuotationApplication::orderBy('id', 'desc')->first()->id;
+                            $quotationDetails = new QuotationDetails();
+                            $quotationDetails->quotation_id = $quotation_id;
+                            $quotationDetails->category_id = $cateogry[$key];
+                            $quotationDetails->item_id = $value;
+                            $quotationDetails->unit = $units[$key];
+                            $quotationDetails->quantity = $quantities[$key];
+                            $quotationDetails->unit_price = $unitPrices[$key];
+                            $quotationDetails->total_price = $totalPrices[$key];
+                            $quotationDetails->save();
+                        }
+                        // email send part
+
+                        $company_details = Setting::first();
+                        // $quotation_details = QuotationApplication::where('quotation_request_id', $id)->get();
+                        $quotationApplication = QuotationApplication::with('quotationDetails')
+                            ->orderBy('id', 'desc')->first();
+                        $groupedDetails = $quotationApplication->quotationDetails->groupBy('category_id');
+                        $client_details = Client::where('id', $request->client_id)
+                            ->first();
+                        $pdf = PDF::loadView('backend.pages.all_quotations.quotation_pdf', compact('quotationApplication', 'groupedDetails', 'subTotal', 'company_details', 'client_details'))->setPaper('letter', 'portrait');
+                        // dd($quo_id);
+                        // dd($client_info->email);
+
+                        $data["email"] = $client_details->email;
+                        $data["title"] = "Here is Quotation on your request";
+                        $data["body"] = "This is the quotation we made according to your requirement .";
+
+                        Mail::send('backend.pages.all_quotations.quotation_mail', $data, function ($message) use ($data, $pdf) {
+                            $message->to($data["email"], $data["email"])
+                                ->subject($data["title"])
+                                ->attachData($pdf->output(), "Quotation.pdf");
+                        });
                     }
-                    $quotation_request = Quotation::findOrFail($request->input('request_id'));
-                    $quotation_request->is_replied = 1;
-                    $quotation_request->save();
-                    // email send part
-
-                    $company_details = Setting::first();
-                    // $quotation_details = QuotationApplication::where('quotation_request_id', $id)->get();
-                    $quotationApplication = QuotationApplication::with('quotationDetails')
-                        ->where('quotation_request_id', $quotation_request->id)
-                        ->first();
-                    $groupedDetails = $quotationApplication->quotationDetails->groupBy('category_id');
-                    $client_details = Quotation::join('clients', 'quotations.email', '=', 'clients.email')
-                        ->where('quotations.id', '=', $quotation_request->id)
-                        ->select('clients.*', 'quotations.*')
-                        ->first();
-                    $pdf = PDF::loadView('backend.pages.all_quotations.quotation_pdf', compact('quotationApplication', 'groupedDetails', 'subTotal', 'company_details', 'client_details'))->setPaper('letter', 'portrait');
-                    // dd($quo_id);
-                    $client_info = Quotation::findOrFail($quo_id);
-                    // dd($client_info->email);
-
-                    $data["email"] = $client_info->email;
-                    $data["title"] = "Here is Quotation on your request";
-                    $data["body"] = "This is the quotation we made according to your requirement .";
-
-                    Mail::send('backend.pages.all_quotations.quotation_mail', $data, function ($message) use ($data, $pdf) {
-                        $message->to($data["email"], $data["email"])
-                            ->subject($data["title"])
-                            ->attachData($pdf->output(), "Quotation.pdf");
-                    });
 
                     DB::commit();
                     return response()->json(['type' => 'success', 'message' => "Successfully Inserted"]);
@@ -287,7 +348,7 @@ class QuotationController extends Controller
     public function saveQuotation(Request $request, $id)
     {
         if ($request->ajax()) {
-            Quotation::where('id', $id)->update(['is_replied' => 0,'is_confirmed' => 1]);
+            Quotation::where('id', $id)->update(['is_replied' => 0, 'is_confirmed' => 1]);
             $quotation_id = QuotationApplication::where('quotation_request_id', $id)->first();
             $quotation_request_details = Quotation::where('id', $id)->first();
 
@@ -319,3 +380,5 @@ class QuotationController extends Controller
         }
     }
 }
+
+
