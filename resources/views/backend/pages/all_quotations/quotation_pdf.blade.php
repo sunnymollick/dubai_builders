@@ -116,7 +116,7 @@
                                         <b>Quotation To</b>
                                     </td>
                                     <td style='background-color:blanchedalmond; color:red'>
-                                        {{$client_details->company_name}}
+                                        {{$client_details->organization_name}}
                                     </td>
                                 </tr>
                                 <tr>

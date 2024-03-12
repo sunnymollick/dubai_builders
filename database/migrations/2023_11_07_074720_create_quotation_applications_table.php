@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('quotation_applications', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('quotation_request_id');
+            $table->unsignedBigInteger('client_id');
             $table->string('quotation_code');
             $table->float('tax')->default('0')->nullable();
             $table->float('discount_amount')->default('0')->nullable();
@@ -21,6 +22,9 @@ return new class extends Migration
             $table->string('terms_conditions')->nullable();
             $table->foreign('quotation_request_id')
                 ->references('id')->on('quotations')
+                ->onDelete('cascade');
+            $table->foreign('client_id')
+                ->references('id')->on('clients')
                 ->onDelete('cascade');
             $table->timestamps();
         });

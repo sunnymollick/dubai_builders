@@ -8,16 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class QuotationDetails extends Model
 {
     use HasFactory;
-    public function item()
-    {
-        return $this->belongsTo(Item::class, 'item_id');
-    }
     public function category()
     {
-        return $this->belongsTo(WorkCategory::class, 'category_id');
+        return $this->belongsTo(WorkCategory::class,'category_id');
     }
-    public function quotation()
+    public function item()
     {
-        return $this->belongsTo(QuotationApplication::class, 'quotation_id');
+        return $this->belongsTo(Item::class,'item_id');
     }
 }

@@ -90,6 +90,7 @@ Route::resource('itemworks', ItemController::class);
 Route::get('allItemWorks', [ItemController::class, 'getAllItemWorks']);
 
 // Quotation Routes
+Route::get('quotation/create',[QuotationController::class, 'create']);
 Route::get('all-quotations',[QuotationController::class,'index'])->name('all.quotations');
 Route::delete('all-quotations/save/{id}',[QuotationController::class,'saveQuotation']);
 Route::get('all-quotations/view/{id}',[QuotationController::class,'viewQuotation']);

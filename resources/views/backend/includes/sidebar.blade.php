@@ -26,7 +26,14 @@
         <ul>
             <li> <a href="{{ route('admin.clients.index') }}"><i class="bx bx-right-arrow-alt"></i>All Customer</a>
             </li>
-            <li> <a href="{{ route('admin.projects.index') }}"><i class="bx bx-right-arrow-alt"></i>Projects List</a>
+            <li> <a class="has-arrow" href="javascript:;"><i class="bx bx-right-arrow-alt"></i>Project List</a>
+                <ul>
+                    
+                    <li> <a href="{{ route('admin.projects.index') }}"><i class="bx bx-right-arrow-alt"></i>Frontend Projects</a>
+                    </li>
+                    <li> <a href="{{ route('admin.projects.index') }}"><i class="bx bx-right-arrow-alt"></i>Backend Projects</a>
+                    </li>
+                </ul>
             </li>
         </ul>
     </li>
