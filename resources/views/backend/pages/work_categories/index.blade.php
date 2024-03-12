@@ -1,6 +1,6 @@
 @extends('backend.layouts.defaults')
 @section('title')
-Projects
+Categories
 @endsection
 @section('content')
 
