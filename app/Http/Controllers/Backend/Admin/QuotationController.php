@@ -27,7 +27,11 @@ class QuotationController extends Controller
 {
     public function index()
     {
-        $quotation_requests = Quotation::orderby('id', 'desc')->where('is_replied', 1)->where('is_confirmed', 0)->get();
+        $quotation_requests = Quotation::orderBy('is_confirmed', 'asc')->orderBy('id', 'desc')
+            ->join('quotation_applications', 'quotations.id', '=', 'quotation_applications.quotation_request_id')
+            ->select('quotations.*', 'quotation_applications.quotation_code')
+            ->where('quotations.is_replied', 1)
+            ->get();
         return view('backend.pages.all_quotations.index', ['quotation_requests' => $quotation_requests]);
     }
     public function fetchItems($id)
@@ -242,7 +246,24 @@ class QuotationController extends Controller
                     }
 
                     if ($request->client_id) {
+                        $quotation = new Quotation();
+                        $client_details = Client::where('id', $request->client_id)
+                            ->first();
+                        $quotation->client_id = $request->client_id;
+                        $quotation->name = $client_details->name;
+                        $quotation->company_name = $client_details->organization_name;
+                        $quotation->location = $client_details->address;
+                        $quotation->email = $client_details->email;
+                        $quotation->mobile = $client_details->phone;
+                        $quotation->is_read = 1;
+                        $quotation->is_replied = 1;
+                        $quotation->is_confirmed = 0;
+                        $quotation->message = $request->input('message');
+                        $quotation->save();
+
+
                         $quotationApplication = new QuotationApplication();
+                        $quotationApplication->quotation_request_id = $quotation->id;
                         $quotationApplication->client_id = $request->client_id;
                         $quotationApplication->quotation_code = $quotation_code;
                         $quotationApplication->terms_conditions = $terms_conditions;
@@ -274,8 +295,6 @@ class QuotationController extends Controller
                         $quotationApplication = QuotationApplication::with('quotationDetails')
                             ->orderBy('id', 'desc')->first();
                         $groupedDetails = $quotationApplication->quotationDetails->groupBy('category_id');
-                        $client_details = Client::where('id', $request->client_id)
-                            ->first();
                         $pdf = PDF::loadView('backend.pages.all_quotations.quotation_pdf', compact('quotationApplication', 'groupedDetails', 'subTotal', 'company_details', 'client_details'))->setPaper('letter', 'portrait');
                         // dd($quo_id);
                         // dd($client_info->email);
@@ -348,7 +367,7 @@ class QuotationController extends Controller
     public function saveQuotation(Request $request, $id)
     {
         if ($request->ajax()) {
-            Quotation::where('id', $id)->update(['is_replied' => 0, 'is_confirmed' => 1]);
+            Quotation::where('id', $id)->update(['is_confirmed' => 1]);
             $quotation_id = QuotationApplication::where('quotation_request_id', $id)->first();
             $quotation_request_details = Quotation::where('id', $id)->first();
 
@@ -380,5 +399,3 @@ class QuotationController extends Controller
         }
     }
 }
-
-

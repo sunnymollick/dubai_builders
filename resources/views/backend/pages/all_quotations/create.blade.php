@@ -120,9 +120,9 @@
                 success: function(data) {
                     if (data.type === 'success') {
                         // $('#myModal').modal('hide');
+                        location.reload();
                         swal("Done!", "It was succesfully done!", "success");
                         // reload_table();
-                        location.reload();
                     } else if (data.type === 'error') {
                         if (data.errors) {
                             $.each(data.errors, function(key, val) {

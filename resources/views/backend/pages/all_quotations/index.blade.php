@@ -1,6 +1,6 @@
 @extends('backend.layouts.defaults')
 @section('title')
-Projects
+Quotations
 @endsection
 @section('content')
 <div class="row">
@@ -29,8 +29,9 @@ Projects
                                 <th>#</th>
                                 <th>Company Name</th>
                                 <th>Client Name</th>
-                                <th>Project Type</th>
+                                <th>Quotation ID</th>
                                 <th>Location</th>
+                                <th>Status</th>
                                 <th>Action </th>
                             </tr>
                         </thead>
@@ -43,12 +44,20 @@ Projects
                                 <td><b> {{ $i++ }} </b></td>
                                 <td><b> {{ $row->company_name }} </b></td>
                                 <td><b> {{ $row->name }} </b></td>
-                                <td><b> {{ $row->project_type }} </b></td>
+                                <td><b> {{ $row->quotation_code }} </b></td>
                                 <td><b> {{ $row->location }} </b></td>
+                                @if($row->is_confirmed == 0)
+                                <td style="color:red"><b> Pending </b></td>
+                                @endif
+                                @if($row->is_confirmed == 1)
+                                <td style="color:green"><b> Confirmed </b></td>
+                                @endif
                                 <td>
                                     <a data-toggle="tooltip" id="{{ $row->id }}" class="btn btn-success mr-1 view" title="View"><i class="lni lni-eye"></i> </a>
                                     <a data-toggle="tooltip" href="{{URL('admin/all-quotations/generate-pdf/'.$row->id)}}" id="{{ $row->id }}" class="btn btn-info mr-1" title="Invoice"><i class="lni lni-printer"></i> </a>
+                                    @if($row->is_confirmed == 0)
                                     <a data-toggle="tooltip" id="{{ $row->id }}" class="btn btn-warning delete" title="Save"><i class="lni lni-checkmark-circle"></i> </a>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
@@ -139,9 +148,14 @@ Projects
         $("#manage_all").on("click", ".delete", function() {
             var id = $(this).attr('id');
             swal({
-                title: "Done!",
-                text: "Saved in Projects!",
-                icon: "success"
+                title: "Are you sure to submit?",
+                text: "Submit Form",
+                type: "warning",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Yes, Submit!"
             }, function() {
                 $.ajax({
                     url: 'all-quotations/save' + '/' + id,
@@ -154,6 +168,7 @@ Projects
                         if (data.type === 'success') {
                             swal("Done!", "Successfully Saved in Projects", "success");
                             location.reload();
+                            // reload_table();
                         } else if (data.type === 'danger') {
                             swal("Error saving!", "Try again", "error");
                         }
