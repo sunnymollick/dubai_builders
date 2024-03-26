@@ -20,4 +20,9 @@ class Helper
         $latest_id = $latest_id + 1;
         return $code . $year . str_pad($latest_id, 3, "0", STR_PAD_LEFT);
     }
+    public static function uniqueQuoId($code, $year, $latest_id)
+    {
+        $latest_id = $latest_id + 1;
+        return $code . $year . str_pad($latest_id, 3, "0", STR_PAD_LEFT);
+    }
 }

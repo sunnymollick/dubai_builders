@@ -29,11 +29,11 @@ class ProjectController extends Controller
      * Show the form for creating a new resource.
      */
 
-    public function getAllProjects(Request $request)
+    public function getAllWebsiteProjects(Request $request)
     {
         if ($request->ajax()) {
 
-            $projects = Project::orderby('created_at', 'desc')->get();
+            $projects = Project::where('is_frontend',1)->orderby('created_at', 'desc')->get();
             // $client = $projects->client_id->name;
             return Datatables::of($projects)
 
@@ -98,7 +98,6 @@ class ProjectController extends Controller
             $rules = [
                 'project_title' => 'required',
                 'client_id' => 'required',
-                'hero_image' => 'required|image|mimes:jpg,png,jpeg',
             ];
             $path = "projects";
             if ($request->hasFile('hero_image')) {
@@ -313,6 +312,57 @@ class ProjectController extends Controller
         if ($request->ajax()) {
             $project->delete();
             return response()->json(['type' => 'success', 'message' => 'Successfully Deleted']);
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
+    }
+
+    public function clientProjectIndex(){
+        return view('backend.pages.projects.client_projects');
+    }
+
+    public function getAllClientProjects(Request $request){
+        if ($request->ajax()) {
+
+            $projects = Project::where('is_frontend',0)->orderby('created_at', 'desc')->get();
+            // $client = $projects->client_id->name;
+            return Datatables::of($projects)
+
+                ->addColumn('action', function ($section) {
+                    $html = '<div class="btn-group">';
+                    $html .= '<a data-toggle="tooltip"  id="' . $section->id . '" class="btn btn-success mr-1 view" title="View"><i class="lni lni-eye"></i> </a>';
+                    $html .= '<a data-toggle="tooltip"  id="' . $section->id . '" class="btn btn-info mr-1 edit" title="Edit"><i class="lni lni-pencil-alt"></i> </a>';
+                    $html .= '<a data-toggle="tooltip"  id="' . $section->quotation_id . '" class="btn btn-secondary mr-1 add_invoice" title="Invoice"><i class="bx bx-file"></i> </a>';
+                    $html .= '<a data-toggle="tooltip"  id="' . $section->id . '" class="btn btn-danger delete" title="Delete"><i class="lni lni-trash"></i> </a>';
+                    $html .= '</div>';
+                    return $html;
+                })
+                ->addColumn('client_name', function ($project) {
+                    return $project->client->name;
+                })
+                ->addColumn('project_type', function ($project) {
+                    if ($project->project_type == 0) {
+                        return 'Residential';
+                    } elseif ($project->project_type == 1) {
+                        return 'Commercial';
+                    } elseif ($project->project_type == 2) {
+                        return 'Highrise';
+                    } else {
+                        return 'Business';
+                    }
+                })
+                ->addColumn('project_status', function ($project) {
+                    if ($project->project_status == 0) {
+                        return 'Running';
+                    } elseif ($project->project_status == 1) {
+                        return 'Upcoming';
+                    } else {
+                        return 'Completed';
+                    }
+                })
+                ->rawColumns(['action'])
+                ->addIndexColumn()
+                ->make(true);
         } else {
             return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
         }

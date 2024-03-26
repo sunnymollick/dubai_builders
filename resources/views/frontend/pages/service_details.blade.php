@@ -27,8 +27,7 @@
                         </div>
                         <div class="post_content">
                             <div class="post_header">
-                                <h3 class="post_title">Comertial
-                                    Construction</h3>
+                                <h3 class="post_title">{{ $details->service_title }}</h3>
                             </div>
                             <div class="fulltext">
                                 <p>

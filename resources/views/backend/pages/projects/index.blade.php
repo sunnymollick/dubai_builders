@@ -49,7 +49,7 @@ Projects
         table = $('#manage_all').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '/admin/allProjects',
+            ajax: '/admin/allWebsiteProjects',
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex'

@@ -20,15 +20,19 @@ Route::get('blog-details/{id}',[HomeController::class,'blogDetails'])->name('blo
 
 
 Route::get('/team', [HomeController::class, 'team'])->name('team');
-Route::get('team/{id}', [HomeController::class, 'teamShow'])->name('team.show');
+// Route::get('team/{id}', [HomeController::class, 'teamShow'])->name('team.show');
+Route::post('/team/fetch-team-details', [HomeController::class, 'teamDetails'])->name('team.show');
 Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
 
 Route::get('/services', [HomeController::class, 'services'])->name('services');
 Route::get('/services/details/{id}', [HomeController::class, 'servicesDetails'])->name('services.details');
 // Contact Routes
 Route::post('/contact/store', [HomeController::class, 'storeContact'])->name('contact.store');
+
+// career routes
 Route::get('/careers', [HomeController::class, 'careers'])->name('careers');
-Route::get('/careers/details/{id}', [HomeController::class, 'careers'])->name('careers.details');
+Route::get('/careers/details/{id}', [HomeController::class, 'job_application'])->name('careers.details');
+Route::post('/storeJobApplication',[HomeController::class,'storeJobApplication']);
 
 //Quotation Request Routes
 Route::post('storeQuotationRequest',[HomeController::class,'storeQuotationRequest']);

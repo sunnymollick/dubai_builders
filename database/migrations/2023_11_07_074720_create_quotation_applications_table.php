@@ -14,14 +14,17 @@ return new class extends Migration
         Schema::create('quotation_applications', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('quotation_request_id');
-            $table->unsignedBigInteger('item_id');
-            $table->string('unit');
-            $table->integer('quantity');
-            $table->integer('unit_price');
-            $table->integer('total_price');
-            $table->string('description');
+            $table->unsignedBigInteger('client_id');
+            $table->string('quotation_code');
+            $table->float('tax')->default('0')->nullable();
+            $table->float('discount_amount')->default('0')->nullable();
+            $table->float('grand_total');
+            $table->string('terms_conditions')->nullable();
             $table->foreign('quotation_request_id')
                 ->references('id')->on('quotations')
+                ->onDelete('cascade');
+            $table->foreign('client_id')
+                ->references('id')->on('clients')
                 ->onDelete('cascade');
             $table->timestamps();
         });

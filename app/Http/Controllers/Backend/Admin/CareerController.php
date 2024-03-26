@@ -9,10 +9,13 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 use App\Helpers\Helper;
+use App\Models\Frontend\JobApplication;
 use Exception;
+use Illuminate\Queue\Jobs\JobName;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
 
 class CareerController extends Controller
 {
@@ -49,6 +52,7 @@ class CareerController extends Controller
         }
     }
 
+
     /**
      * Show the form for creating a new resource.
      */
@@ -76,7 +80,7 @@ class CareerController extends Controller
 
             if ($request->hasFile('poster')) {
                 $poster = $request->file('poster');
-                $poster_img = Helper::saveImage($poster, 215, 220, $path);
+                $poster_img = Helper::saveImage($poster, 150, 220, $path);
             }
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
@@ -161,7 +165,7 @@ class CareerController extends Controller
             if ($request->hasFile('poster')) {
                 if (!empty($request->file('poster'))) {
                     $poster = $request->file('poster');
-                    $poster_img = Helper::saveImage($poster, 215, 220, $path);
+                    $poster_img = Helper::saveImage($poster, 150, 220, $path);
                     if (File::exists($career->poster)) {
                         $file_old = $career->poster;
                         unlink($file_old);
@@ -220,6 +224,78 @@ class CareerController extends Controller
             return response()->json(['type' => 'success', 'message' => 'Successfully Deleted']);
         } else {
             return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
+    }
+
+
+    public function jobApplicationIndex()
+    {
+        // dd('hi fron jobapp');
+
+        return view('backend.pages.careers.job_application');
+    }
+
+    public function getallJobApplications(Request $request)
+    {
+        if ($request->ajax()) {
+
+            $jobApplications = JobApplication::where('is_replied',0)->orderby('created_at', 'asc')->get();
+
+            return DataTables::of($jobApplications)
+                ->addColumn('applied_for', function ($section) {
+                    $job_name  = Career::where('id', $section->id)->value('job_title');
+                    return $job_name;
+                })->addColumn('cv', function ($section) {
+                    $html = "<a class='cv_file' href='" . $section->file . "'>" . $section->name . " CV</a>";
+                    return $html;
+                })
+                ->addColumn('action', function ($section) {
+                    $html = '<div class="btn-group">';
+                    $html .= '<a data-toggle="tooltip"  id="' . $section->id . '" class="btn btn-success mr-1 view" title="View"><i class="lni lni-eye"></i> </a>';
+                    $html .= '<a data-toggle="tooltip"  id="' . $section->id . '" class="btn btn-info mr-1 reply" title="Edit"><i class="lni lni-reply"></i> </a>';
+                    $html .= '<a data-toggle="tooltip"  id="' . $section->id . '" class="btn btn-danger delete" title="Delete"><i class="lni lni-trash"></i> </a>';
+                    $html .= '</div>';
+                    return $html;
+                })
+                ->rawColumns(['action', 'applied_for', 'cv'])
+                ->addIndexColumn()
+                ->make(true);
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
+    }
+
+
+    public function jobApplicationReply($id)
+    {
+        DB::beginTransaction();
+        try {
+            // $job = DB::table('job_applications')->where('id',$id)->first();
+            $job = JobApplication::findOrFail($id);
+            // dd($job);
+            // return;
+
+            $data["email"] = $job->email;
+            $cnd_name = $job->name;
+            $j_title = DB::table('careers')->where('id', $job->job_id)->value('job_title');
+            $data["title"] = "Dubai Builders Career";
+            $data["body"] = "Dear " . $cnd_name . " you are invited for an interview for " . $j_title . " post at Dubai Builders";
+
+            Mail::send('backend.pages.careers.send_career_reply_mail', $data, function ($message) use ($data) {
+                $message->to($data["email"], $data["email"])
+                    ->subject($data["title"]);
+            });
+
+            // dd('data reached');
+            // return;
+            $job->is_replied = 1;
+            $job->save();
+            DB::commit();
+            return response()->json(['type' => 'success', 'message' => "Successfully Sent"]);
+        } catch (Exception $e) {
+            DB::rollback();
+            dd($e->getMessage());
+            return response()->json(['type' => 'error', 'message' => "Please Fill With Correct data"]);
         }
     }
 }

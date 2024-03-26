@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Backend\Admin;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Backend\Client;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -82,7 +84,19 @@ class ClientController extends Controller
                 try {
 
                     $client = new Client();
+
+                    $created_time = Carbon::now();
+                    $last_client = Client::first();
+                    if (is_null($last_client)) {
+                        $latest_id = 0;
+                        $client_code = Helper::uniqueNumberConvertor("CUS-", $created_time->year, $latest_id);
+                    } else {
+                        $latest_id = Client::orderBy('id', 'desc')->first()->id;
+                        $client_code = Helper::uniqueNumberConvertor("CUS-", $created_time->year, $latest_id);
+                    }
+
                     $client->name = $request->input('name');
+                    $client->client_code = $client_code;
                     $client->organization_name = $request->input('organization_name');
                     $client->address = $request->input('address');
                     $client->email = $request->input('email');

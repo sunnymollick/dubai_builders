@@ -1,6 +1,6 @@
 @extends('backend.layouts.defaults')
 @section('title')
-Projects
+Items & Works
 @endsection
 @section('content')
 <div class="row">

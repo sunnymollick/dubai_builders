@@ -8,14 +8,17 @@ use App\Mail\RequestQuotationMail;
 use App\Models\Admin\About;
 use App\Models\Backend\Blog;
 use App\Models\Backend\Contact;
+use App\Models\Backend\Client;
 use App\Models\Backend\Career;
 use App\Models\Backend\Client;
 use App\Models\Backend\Project;
 use App\Models\Backend\Slider;
 use App\Models\Backend\Team;
 use App\Models\Backend\Service;
+use App\Models\Frontend\JobApplication;
 use App\Models\Frontend\Quotation;
 use App\Models\Setting;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -117,8 +120,8 @@ class HomeController extends Controller
     {
         $about = About::findOrFail(1);
         $app_settings = Setting::findOrFail(1);
-        $team = Team::orderby('order','asc')->get();
-        return view('frontend.pages.about',compact('about','app_settings','team'));
+        $team = Team::orderby('order', 'asc')->get();
+        return view('frontend.pages.about', compact('about', 'app_settings', 'team'));
     }
     public function services()
     {
@@ -139,6 +142,13 @@ class HomeController extends Controller
     public function teamShow($id)
     {
         $team_details = Team::find($id);
+        return response()->json($team_details);
+    }
+    public function teamDetails(Request $request)
+    {
+        $id = $request->type_id;
+        $team_details = Team::find($id);
+        dd($team_details);
         return response()->json($team_details);
     }
     public function faq()
@@ -163,16 +173,29 @@ class HomeController extends Controller
         return view('frontend.pages.blog_details', compact('blog'));
     }
 
-    public function storeQuotationRequest(Request $request){
+    public function job_application($id)
+    {
+        $job_app = Career::find($id);
+        return view('frontend.pages.careers.job_application', compact('job_app'));
+    }
+
+    public function storeQuotationRequest(Request $request)
+    {
         if ($request->ajax()) {
             $rules = [
                 'name' => 'required',
                 'location' => 'required',
-                'email' => 'required',
+                'email' => 'required|unique:App\Models\Backend\Client,email',
                 'message' => 'required',
                 'mobile' => 'required',
             ];
-            $validator = Validator::make($request->all(), $rules);
+            $validator = Validator::make(
+                $request->all(),
+                $rules,
+                [
+                    'unique' => 'This :attribute is already in records'
+                ]
+            );
             if ($validator->fails()) {
                 return response()->json([
                     'type' => 'error',
@@ -182,7 +205,7 @@ class HomeController extends Controller
                 DB::beginTransaction();
                 try {
                     $quotation = new Quotation();
-
+                    $client = new Client();
                     if ($request->hasFile('file')) {
                         $dextension = $request->file('file')->getClientOriginalExtension();
                         if ($dextension == "pdf" || $dextension == "doc" || $dextension == "docx") {
@@ -192,7 +215,6 @@ class HomeController extends Controller
                                 $d_path = 'backend\uploads\images\quotation_request/' . $dName;
                                 $request->file('file')->move($dPath, $d_path); // uploading file to given path
                                 $quotation->file = $d_path;
-
                             } else {
                                 return response()->json([
                                     'type' => 'error',
@@ -207,6 +229,25 @@ class HomeController extends Controller
                         }
                     }
 
+                    // client store
+                    $created_time = Carbon::now();
+                    $last_client = Client::first();
+                    if (is_null($last_client)) {
+                        $latest_id = 0;
+                        $client_code = Helper::uniqueNumberConvertor("CUS-", $created_time->year, $latest_id);
+                    } else {
+                        $latest_id = Client::orderBy('id', 'desc')->first()->id;
+                        $client_code = Helper::uniqueNumberConvertor("CUS-", $created_time->year, $latest_id);
+                    }
+                    $client->name = $request->input('name');
+                    $client->client_code = $client_code;
+                    $client->email = $request->input('email');
+                    $client->phone = $request->input('mobile');
+                    $client->address = "";
+                    $client->organization_name = $request->input('company_name');
+                    $client->save();
+                    // quotation request store
+                    $quotation->client_id = $client->id;
                     $quotation->name = $request->input('name');
                     $quotation->location = $request->input('location');
                     $quotation->email = $request->input('email');
@@ -216,6 +257,7 @@ class HomeController extends Controller
                     $quotation->project_time = $request->input('project_time');
                     $quotation->company_name = $request->input('company_name');
                     $quotation->is_read = 0;
+                    $quotation->is_replied = 0;
                     $quotation->message = $request->input('message');
                     $quotation->save();
 
@@ -237,6 +279,70 @@ class HomeController extends Controller
         } else {
             return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
         }
+    }
 
+
+    public function storeJobApplication(Request $request)
+    {
+        if ($request->ajax()) {
+            $rules = [
+                'name' => 'required',
+                'address' => 'required',
+                'email' => 'required',
+                'mobile' => 'required',
+                'file' => 'required'
+            ];
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json([
+                    'type' => 'error',
+                    'errors' => $validator->getMessageBag()->toArray()
+                ]);
+            } else {
+                DB::beginTransaction();
+                try {
+                    $job_app = new JobApplication();
+
+                    if ($request->hasFile('file')) {
+                        $dextension = $request->file('file')->getClientOriginalExtension();
+                        if ($dextension == "pdf" || $dextension == "doc" || $dextension == "docx") {
+                            if ($request->file('file')->isValid()) {
+                                $dPath = public_path('backend\uploads\files\cv');
+                                $dName = time() . '.' . $dextension; // renameing image
+                                $d_path = 'backend\uploads\files\cv\\' . $dName;
+                                $request->file('file')->move($dPath, $d_path); // uploading file to given path
+                                $job_app->file = $d_path;
+                            } else {
+                                return response()->json([
+                                    'type' => 'error',
+                                    'message' => "<div class='alert alert-warning'>File is not valid</div>",
+                                ]);
+                            }
+                        } else {
+                            return response()->json([
+                                'type' => 'error',
+                                'message' => "<div class='alert alert-warning'>Error! File type is not valid</div>",
+                            ]);
+                        }
+                    }
+
+                    $job_app->name = $request->input('name');
+                    $job_app->address = $request->input('location');
+                    $job_app->email = $request->input('email');
+                    $job_app->mobile = $request->input('mobile');
+                    $job_app->is_replied = 0;
+                    $job_app->job_id = $request->input('job_id');
+                    $job_app->save(); //
+                    DB::commit();
+                    return response()->json(['type' => 'success', 'message' => "Thank you ! We received your message ."]);
+                } catch (\Exception $e) {
+                    DB::rollback();
+                    dd($e->getMessage());
+                    return response()->json(['type' => 'error', 'message' => "Please Fill With Correct data"]);
+                }
+            }
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
     }
 }
