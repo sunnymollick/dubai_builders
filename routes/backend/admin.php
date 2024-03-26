@@ -28,8 +28,9 @@ Route::get('/profile', [DashboardController::class, 'profile'])->name('profile')
 
 //Project Routes
 Route::resource('projects', ProjectController::class);
-Route::get('allProjects', [ProjectController::class, 'getAllProjects']);
-
+Route::get('allWebsiteProjects', [ProjectController::class, 'getAllWebsiteProjects']);
+Route::get('client_projects',[ProjectController::class,'clientProjectIndex'])->name('projects.client-projects');
+Route::get('allClientProjects', [ProjectController::class, 'getAllClientProjects']);
 
 //Client Routes
 Route::resource('clients', ClientController::class);
@@ -112,3 +113,4 @@ Route::post('job_application/reply/{id}', [CareerController::class, 'jobApplicat
 
 // invoice route
 Route::get('generate_invoice/{id}', [InvoiceController::class, 'generateInvoice']);
+Route::post('request/for/invoice/store', [InvoiceController::class, 'store']);

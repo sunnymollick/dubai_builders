@@ -9,9 +9,7 @@ Projects
             <div class="card-header">
                 <h6><i class="lni lni-user" aria-hidden="true"></i> &nbsp; All Projects
                     <span style="float: right;">
-                        <button class="btn btn-primary btn-sm" onclick="create()"><i class="fadeIn animated bx bx-user-plus"></i>
-                            Add
-                        </button>
+                        
                     </span>
                 </h6>
             </div>
@@ -49,7 +47,7 @@ Projects
         table = $('#manage_all').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '/admin/allWebsiteProjects',
+            ajax: '/admin/allClientProjects',
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex'
@@ -95,6 +93,24 @@ Projects
     function create() {
         ajax_submit_create('projects');
     }
+
+    $("#manage_all").on("click", ".add_invoice", function() {
+            var id = $(this).attr('id');
+            // console.log(id);
+            $.ajax({
+                url: 'generate_invoice' + '/' + id,
+                type: 'get',
+                success: function(data) {
+                    // console.log(data);
+                    $("#modal_data").html(data.html);
+                    $('#myModal').modal('show'); // show bootstrap modal
+                    $('.modal-title').text('Generate Invoice');
+                },
+                error: function(result) {
+                    $("#modal_data").html("Sorry Cannot Load Data");
+                }
+            });
+        });
 
     $(document).ready(function() {
         // View Form

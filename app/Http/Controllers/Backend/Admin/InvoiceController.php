@@ -2,16 +2,26 @@
 
 namespace App\Http\Controllers\Backend\Admin;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
+use App\Models\Backend\Client;
 use App\Models\Backend\Item;
 use App\Models\Backend\QuotationApplication;
 use App\Models\Backend\QuotationDetails;
+use App\Models\Backend\Invoice;
+use App\Models\Backend\InvoiceDetails;
 use App\Models\Backend\Unit;
 use App\Models\Backend\WorkCategory;
 use App\Models\Frontend\Quotation;
+use App\Models\Setting;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
+
+use function PHPSTORM_META\type;
 
 class InvoiceController extends Controller
 {
@@ -36,7 +46,79 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if ($request->ajax()) {
+            $path = "invoice";
+            $rules = [
+                'items' => 'required',
+                'unit' => 'required',
+                'unit_price' => 'required',
+                'quantity' => 'required',
+            ];
+
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json([
+                    'type' => 'error',
+                    'errors' => $validator->getMessageBag()->toArray()
+                ]);
+            } else {
+                DB::beginTransaction();
+                try {
+
+                    $created_time = Carbon::now();
+                    $last_quotation = Invoice::first();
+                    if (is_null($last_quotation)) {
+                        $latest_id = 0;
+                        $invoice_code = Helper::uniqueQuoId("I-", $created_time->year, $latest_id);
+                    } else {
+                        $latest_id = Invoice::orderBy('id', 'desc')->first()->id;
+                        $invoice_code = Helper::uniqueQuoId("I-", $created_time->year, $latest_id);
+                    }
+                    $cateogry = $request->input('work_category_id');
+                    $items = $request->input('items');
+                    $units = $request->input('unit');
+                    $quantities = $request->input('quantity');
+                    $unitPrices = $request->input('unit_price');
+                    $totalPrices = $request->input('total_price');
+                    $paidAmount = $request->input('paid_amount');
+                    $grand_total = $request->input('grand_total');
+
+                    $quotation_id = $request->input('quotation_id');
+                    $invoice = new Invoice();
+                    $invoice->quotation_id = $quotation_id;
+                    $invoice->invoice_code = $invoice_code;
+                    $invoice->paid_amount = $paidAmount == null ? 0 : $paidAmount;
+                    $subTotal = 0;
+                    for ($i = 0; $i < count($totalPrices); $i++) {
+                        $subTotal = $subTotal + $totalPrices[$i];
+                    }
+                    $invoice->grand_total = $grand_total;
+                    $invoice->save();
+
+                    foreach ($items as $key => $value) {
+                        $invoice_id = Invoice::orderBy('id', 'desc')->first()->id;
+                        $invoiceDetails = new InvoiceDetails();
+                        $invoiceDetails->invoice_id = $invoice_id;
+                        $invoiceDetails->category_id = $cateogry[$key];
+                        $invoiceDetails->item_id = $value;
+                        $invoiceDetails->unit = $units[$key];
+                        $invoiceDetails->quantity = $quantities[$key];
+                        $invoiceDetails->unit_price = $unitPrices[$key];
+                        $invoiceDetails->total_price = $totalPrices[$key];
+                        $invoiceDetails->save();
+                    }
+
+                    DB::commit();
+                    return response()->json(['type' => 'success', 'message' => "Successfully Inserted"]);
+                } catch (Exception $e) {
+                    DB::rollback();
+                    dd($e->getMessage());
+                    return response()->json(['type' => 'error', 'message' => "Please Fill With Correct data"]);
+                }
+            }
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
     }
 
     /**
@@ -78,9 +160,42 @@ class InvoiceController extends Controller
             $all_units = Unit::all();
             $all_items = Item::all();
             $quote = QuotationApplication::where('id', $id)->first();
-            $quotation_details = QuotationDetails::where('quotation_id',$quote->id)->get();
+            $quotation_details = QuotationDetails::where('quotation_id', $quote->id)->get();
+            try {
+                $invoice =  DB::table('invoice_details')
+                    ->select('invoice_details.item_id', DB::raw('SUM(invoice_details.quantity) AS tq'))
+                    ->leftJoin('invoices', 'invoice_details.invoice_id', '=', 'invoices.id')
+                    ->where('invoices.quotation_id', $id)
+                    ->groupBy('invoice_details.item_id')
+                    ->get();
+
+                function getInvoiceD($invoices, $item)
+                {
+                    foreach ($invoices as $iv) {
+                        if ($iv->item_id == $item) {
+                            return $iv->tq;
+                        }
+                    }
+                }
+                if (!empty($invoice)) {
+                    foreach ($quotation_details as $key => $value) {
+                        $item_id  = $value['item_id'];
+                        $item_quantity = getInvoiceD($invoice, $item_id);
+                        $value['quantity'] = $value['quantity'] - $item_quantity;
+
+                        if ($value['quantity'] <= 0) {
+                            unset($quotation_details[$key]);
+                        } else {
+                            $value['total_price'] = $value['unit_price'] * $value['quantity'];
+                        }
+                    }
+                }
+                // dd($invoice);
+            } catch (Exception $exception) {
+            }
+
             // dd($quotation_details);
-            $view = View::make('backend.pages.invoice.invoice_form', compact('quote','quotation_details','all_items', 'all_work_categories', 'all_units'))->render();
+            $view = View::make('backend.pages.invoice.invoice_form', compact('quote', 'quotation_details', 'all_items', 'all_work_categories', 'all_units'))->render();
             return response()->json(['html' => $view]);
         } else {
             return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);

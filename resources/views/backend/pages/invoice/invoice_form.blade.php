@@ -7,7 +7,7 @@
 <form id="create" action="" enctype="multipart/form-data" method="post" accept-charset="utf-8"
     class="needs-validation" novalidate>
     <div id="status"></div>
-    <input type="text" class="form-control" name="request_id" hidden value="{{ $quote->id }}">
+    <input type="text" class="form-control" name="quotation_id" hidden value="{{ $quote->id }}">
     <div>
         <div id="items">
             @foreach ($quotation_details as $qd)
@@ -15,23 +15,23 @@
                     <div class="row">
                         <div class="form-group col-md-2">
                             <label for="">Category</label>
-                            <select disabled class="form-control categorySelect" name="work_category_id[]" id=""
-                                required>
+                            <select disabled class="form-control categorySelect" name="work_category_id[]"
+                                id="" required>
+                                <option value="">Select Category</option>
                                 @foreach ($all_work_categories as $awc)
-                                    $@if ($qd->category_id==$awc->id)
-                                        
-                                    <option selected value="{{$awc->id}}">{{$awc->title}}</option>
-                                    @endif
+                                    <option @if ($qd->category_id == $awc->id) selected @endif
+                                        value="{{ $awc->id }}">{{ $awc->title }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group col-md-2">
                             <label for="">Item/Work</label>
                             <select class="form-control itemSelect" name="items[]" id="" disabled>
+                                <option>Select Item</option>
                                 @foreach ($all_items as $ai)
-                                    $@if ($qd->item_id==$ai->id)
-                                        
-                                    <option selected value="{{$ai->id}}">{{$ai->item_work}}</option>
+                                    @if ($qd->category_id == $ai->work_category_id)
+                                        <option @if ($qd->item_id == $ai->id) selected @endif
+                                            value="{{ $ai->id }}">{{ $ai->item_work }}</option>
                                     @endif
                                 @endforeach
                             </select>
@@ -39,24 +39,24 @@
                         <div class="form-group col-md-2">
                             <label for="">Quantity</label>
                             <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}"
-                                class="form-control quantity" name="quantity[]"
-                                value="{{$qd->quantity}}" placeholder="Quantity">
+                                class="form-control quantity" name="quantity[]" value="{{ $qd->quantity }}"
+                                placeholder="Quantity">
                         </div>
                         <div class="form-group col-md-1">
                             <label for="">Unit</label>
                             <input type="text" class="form-control unitSelect" id="" name="unit[]"
-                                placeholder="Unit" value="{{$qd->unit}}" readonly>
+                                placeholder="Unit" value="{{ $qd->unit }}" readonly>
                         </div>
                         <div class="form-group col-md-2">
                             <label for="">Unit Price</label>
                             <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}"
                                 class="form-control unitPrice" id="" name="unit_price[]"
-                                placeholder="Unit Price" value="{{$qd->unit_price}}">
+                                placeholder="Unit Price" value="{{ $qd->unit_price }}">
                         </div>
                         <div class="form-group col-md-2">
                             <label for="">Total</label>
                             <input type="number" class="form-control totalPrice" name="total_price[]"
-                                placeholder="Total Price" readonly value="{{$qd->total_price}}">
+                                placeholder="Total Price" readonly value="{{ $qd->total_price }}">
                         </div>
 
                         <div class="col-md-1">
@@ -69,32 +69,25 @@
                 </div>
             @endforeach
         </div>
-        <div class="row">
-            <div class="form-group col-md-2">
-                <label for="">Tax(%)</label>
-                <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}"
-                    class="form-control" id="tax" name="tax" placeholder="Tax">
+        <div class="row col-md-12 d-flex flex-row">
+            <div class="form-group col-md-2 float-right">
+                <label for="">Paid Amount</label>
+                <input type="number" class="form-control" min="0" id="paid_amount" name="paid_amount"
+                    placeholder="Paid Amount">
+                <span class="error_msg danger"></span>
             </div>
-            <div class="form-group col-md-3">
-                <label for="">Discount in %</label>
-                <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}"
-                    class="form-control" id="discount_percentage" name="discount_percentage" placeholder="%">
-            </div>
-            <div class="form-group col-md-3">
-                <label for="">Discount in amount</label>
-                <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}"
-                    class="form-control" id="discount_amount" name="discount_amount" placeholder="amount..">
-            </div>
-            <div class="form-group col-md-2">
+        </div>
+        <div class="row col-md-12 d-flex flex-row">
+            <div class="form-group col-md-2 float-right">
                 <label for="">Grand Total</label>
-                <input type="number" class="form-control" id="grandTotal" name="grand_total"
+                <input type="number" class="form-control" min="0" id="grandTotal" name="grand_total"
                     placeholder="Grand Total" readonly>
             </div>
         </div>
         <br>
         <button class="btn btn-primary" type="button" id="addItem">Add Item</button>
         <button class="btn btn-primary button-submit" type="submit" data-loading-text="Loading...">
-            <i class="fadeIn animated bx bx-save"></i>Send Quotation</button>
+            <i class="fadeIn animated bx bx-save"></i>Generate Invoice</button>
         <button class="btn btn-primary" type="button" id="preview">
             <i class="fadeIn animated bx bx-save"></i>Preview</button>
     </div>
@@ -102,6 +95,8 @@
 <script>
     $('#create').on('submit', function(e) {
         e.preventDefault();
+        $('.categorySelect').prop('disabled', false);
+        $('.itemSelect').prop('disabled', false);
         var myData = new FormData($("#create")[0]);
         myData.append('_token', CSRF_TOKEN);
 
@@ -117,7 +112,7 @@
         }, function() {
             // console.log('hi');
             $.ajax({
-                url: 'quotation/store',
+                url: 'request/for/invoice/store',
                 type: 'POST',
                 data: myData,
                 dataType: 'json',
@@ -149,13 +144,22 @@
     $(document).ready(function() {
         // $('.removeItem').hide();
         // Function to initialize event handlers for an item
+
+        // $('.removeItem').on('click', function() {
+        //     updateTotalPrice(); // Update total price when an item is removed
+        //     updateGrandTotal();
+        //     $(this).closest('.item').remove();
+        // });
+
         function initializeItem(item) {
             item.find('.quantity, .unitPrice').on('change', updateTotalPrice);
             item.find('.removeItem').on('click', function() {
                 $(this).closest('.item').remove();
-                updateTotalPrice(); // Update total price when an item is removed
+                // updateTotalPrice(); // Update total price when an item is removed
+                updateGrandTotal();
             });
         }
+        
         $('#preview').on('click', function() {
             var formData = $("#create").serialize();
             $.ajax({
@@ -165,11 +169,12 @@
                 dataType: 'json',
                 cache: false,
                 success: function(data) {
-                    console.log(data.data);
+                    // console.log(data.data);
                     $("#quotation_data").html(data.html);
                     jQuery.noConflict();
                     $('#previewModal').modal('show'); // show bootstrap modal
                     $('.quotation-title').text('Quotation');
+
                 },
                 error: function(result) {
                     $("#modal_data").html("Sorry Cannot Load Data");
@@ -189,7 +194,7 @@
             // Enable the cloned item's category dropdown
             newItem.find('.categorySelect').prop('disabled', false);
             // Disable the cloned item's item dropdown initially
-            newItem.find('.itemSelect').prop('disabled', true);
+            newItem.find('.itemSelect').prop('disabled', false);
         });
 
         // Initialize event handlers for the initial item
@@ -215,14 +220,14 @@
         });
 
         // Event handler for updating grand total when tax or discount changes
-        $('#tax, #discount_percentage, #discount_amount').on('input', function() {
+        $('#tax, #discount_percentage, #discount_amount,#paid_amount').on('input', function() {
             updateGrandTotal();
         });
 
         // Function to update grand total based on the subtotal of each item, tax, and discount
         function updateGrandTotal() {
-            console.log('Updating grand total...');
-
+            // console.log('Updating grand total...');
+            // console.log('hi');
             var grandTotal = 0;
             $('.totalPrice').each(function() {
                 grandTotal += parseFloat($(this).val()) || 0;
@@ -231,10 +236,11 @@
             var tax = parseFloat($('#tax').val()) || 0;
             var discountPercentage = parseFloat($('#discount_percentage').val()) || 0;
             var discountAmount = parseFloat($('#discount_amount').val()) || 0;
+            var paidAmount = parseFloat($('#paid_amount').val()) || 0;
 
-            console.log('Tax:', tax);
-            console.log('Discount Percentage:', discountPercentage);
-            console.log('Discount Amount:', discountAmount);
+            // console.log('Tax:', tax);
+            // console.log('Discount Percentage:', discountPercentage);
+            // console.log('Discount Amount:', discountAmount);
 
             // Apply tax to the grand total
             grandTotal = grandTotal + (grandTotal * tax) / 100;
@@ -243,13 +249,16 @@
             var discount = discountPercentage ? (grandTotal * discountPercentage) / 100 : discountAmount;
 
             // Subtract discount from the grand total
-            grandTotal = grandTotal - discount;
+            grandTotal = grandTotal - discount - paidAmount;
 
-            console.log('Grand Total:', grandTotal);
-
-            $('#grandTotal').val(grandTotal.toFixed(2));
+            // console.log('Grand Total:', grandTotal);
+            if (grandTotal > 0) {
+                $('#grandTotal').val(grandTotal.toFixed(2));
+            } else {
+                $('#paid_amount').val(0);
+                updateGrandTotal();
+            }
         }
-
         // Event handler for updating item dropdown based on the selected category
         $('#items').on('change', '.categorySelect', function() {
             var categoryId = $(this).val();
@@ -261,7 +270,7 @@
 
             // Fetch items based on the selected category using Ajax
             $.ajax({
-                url: 'quotation/fetch-items/' + categoryId,
+                url: 'request/for/quotation/fetch-items/' + categoryId,
                 type: 'GET',
                 success: function(data) {
                     // Clear existing options
@@ -282,7 +291,7 @@
 
                         var unit = selectedItem.data('unit');
                         var unitPrice = selectedItem.data('unit-price');
-                        console.log(unitPrice);
+                        // console.log(unitPrice);
                         unitInput.val(unit);
                         unitPriceInput.val(unitPrice);
                     } else {
@@ -292,7 +301,7 @@
                     }
                 },
                 error: function(error) {
-                    console.log(error);
+                    // console.log(error);
                 }
             });
         });
@@ -312,28 +321,18 @@
             unitPriceInput.val(unitPrice);
         });
 
-    });
-</script>
-<script src="{{ asset('backend/ckeditor/ckeditor.js') }}"></script>
-<script>
-    CKEDITOR.replace('terms_conditions', {
-        filebrowserBrowseUrl: '{{ asset('
-                                backend ') }}/ckeditor/filemanager/browser/default/browser.html?Connector={{ asset('
-                                backend ') }}/ckeditor/filemanager/connectors/php/connector.php',
-        filebrowserImageBrowseUrl: '{{ asset('
-                                backend ') }}/ext/ckeditor/filemanager/browser/default/browser.html?Type=Image&Connector=' +
-            '{{ asset('
-                                            backend ') }}/ext/ckeditor/filemanager/connectors/php/connector.php',
-        filebrowserFlashBrowseUrl: '/ext/ckeditor/filemanager/browser/default/browser.html?Type=Flash&Connector=' +
-            '{{ asset('
-                                            backend ') }}/ext/ckeditor/filemanager/connectors/php/connector.php',
-        filebrowserUploadUrl: '{{ asset('
-                                backend ') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=File',
-        filebrowserImageUploadUrl: '{{ asset('
-                                backend ') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Image',
-        filebrowserFlashUploadUrl: '{{ asset('
-                                backend ') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Flash',
-        height: 100,
-        width: 700
+        function calculateGrandTotal() {
+            var total_price_sum = 0;
+            $('.totalPrice').each(function() {
+                var totalPrice = parseFloat($(this).val());
+                if (!isNaN(totalPrice)) {
+                    total_price_sum += totalPrice;
+                    // console.log('tp=' + total_price_sum);
+                }
+            });
+            $('#grandTotal').val(total_price_sum.toFixed(2));
+        }
+        calculateGrandTotal();
+
     });
 </script>
