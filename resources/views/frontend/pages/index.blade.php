@@ -625,7 +625,7 @@
                             success: function(data) {
                                 if (data.type === 'success') {
                                     $('#myModal').modal('hide');
-                                    swal("Thanks!", "We received your request.",
+                                    swal("Thanks!", "We have received your request.",
                                         "success");
                                     $("#name").val('') && $("#email").val('') && $("#mobile").val('')
                                     && $("#location").val('') && $("#project_type").val('') && $("#evaluate_budget").val('')

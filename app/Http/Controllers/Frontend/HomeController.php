@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
+use App\Mail\RequestQuotationMail;
 use App\Models\Admin\About;
 use App\Models\Backend\Blog;
 use App\Models\Backend\Contact;
 use App\Models\Backend\Career;
+use App\Models\Backend\Client;
 use App\Models\Backend\Project;
 use App\Models\Backend\Slider;
 use App\Models\Backend\Team;
@@ -16,6 +18,7 @@ use App\Models\Frontend\Quotation;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
@@ -214,7 +217,15 @@ class HomeController extends Controller
                     $quotation->company_name = $request->input('company_name');
                     $quotation->is_read = 0;
                     $quotation->message = $request->input('message');
-                    $quotation->save(); //
+                    $quotation->save();
+
+                    $content = [
+                        'subject' => 'Quation Request Confirmation Mail',
+                        'body' => 'We have received your email . We will contact with you through email very soon . Thank You '
+                    ];
+
+                    Mail::to($request->input('email'))->send(new RequestQuotationMail($content));
+
                     DB::commit();
                     return response()->json(['type' => 'success', 'message' => "Thank you ! We received your message ."]);
                 } catch (\Exception $e) {
