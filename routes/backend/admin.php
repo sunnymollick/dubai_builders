@@ -29,7 +29,7 @@ Route::get('/profile', [DashboardController::class, 'profile'])->name('profile')
 //Project Routes
 Route::resource('projects', ProjectController::class);
 Route::get('allWebsiteProjects', [ProjectController::class, 'getAllWebsiteProjects']);
-Route::get('client_projects',[ProjectController::class,'clientProjectIndex'])->name('projects.client-projects');
+Route::get('client_projects', [ProjectController::class, 'clientProjectIndex'])->name('projects.client-projects');
 Route::get('allClientProjects', [ProjectController::class, 'getAllClientProjects']);
 
 //Client Routes
@@ -91,12 +91,12 @@ Route::resource('itemworks', ItemController::class);
 Route::get('allItemWorks', [ItemController::class, 'getAllItemWorks']);
 
 // Quotation Routes
-Route::get('quotation/create',[QuotationController::class, 'create']);
-Route::get('all-quotations',[QuotationController::class,'index'])->name('all.quotations');
-Route::delete('all-quotations/save/{id}',[QuotationController::class,'saveQuotation']);
-Route::get('all-quotations/view/{id}',[QuotationController::class,'viewQuotation']);
+Route::get('quotation/create', [QuotationController::class, 'create']);
+Route::get('all-quotations', [QuotationController::class, 'index'])->name('all.quotations');
+Route::delete('all-quotations/save/{id}', [QuotationController::class, 'saveQuotation']);
+Route::get('all-quotations/view/{id}', [QuotationController::class, 'viewQuotation']);
 Route::get('all-quotations/generate-pdf/{id}', [QuotationController::class, 'generatePDF']);
-Route::get('request/for/quotation/preview',[QuotationController::class, 'preview']);
+Route::get('request/for/quotation/preview', [QuotationController::class, 'preview']);
 Route::post('request/for/quotation/store', [QuotationController::class, 'store']);
 Route::get('request/for/quotation/fetch-items/{id}', [QuotationController::class, 'fetchItems']);
 
@@ -114,3 +114,5 @@ Route::post('job_application/reply/{id}', [CareerController::class, 'jobApplicat
 // invoice route
 Route::get('generate_invoice/{id}', [InvoiceController::class, 'generateInvoice']);
 Route::post('request/for/invoice/store', [InvoiceController::class, 'store']);
+Route::get('invoice/show_project_invoices/{id}', [InvoiceController::class, 'show_project_invoices']);
+Route::get('invoice/get_project_invoices/{id}', [InvoiceController::class, 'get_project_invoices']);

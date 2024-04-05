@@ -132,6 +132,8 @@ Projects
             ajax_submit_delete('projects', id)
         });
 
+        
+
     });
 </script>
 @endsection

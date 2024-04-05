@@ -20,6 +20,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
+use Yajra\DataTables\Facades\DataTables;
 
 use function PHPSTORM_META\type;
 
@@ -74,6 +75,8 @@ class InvoiceController extends Controller
                         $latest_id = Invoice::orderBy('id', 'desc')->first()->id;
                         $invoice_code = Helper::uniqueQuoId("I-", $created_time->year, $latest_id);
                     }
+                    $title = $request->input('title');
+                    $invoice_date = $request->input('invoice_date') == null ? now() : $request->input('invoice_date');
                     $cateogry = $request->input('work_category_id');
                     $items = $request->input('items');
                     $units = $request->input('unit');
@@ -86,6 +89,8 @@ class InvoiceController extends Controller
                     $quotation_id = $request->input('quotation_id');
                     $invoice = new Invoice();
                     $invoice->quotation_id = $quotation_id;
+                    $invoice->title = $title;
+                    $invoice->invoice_date = $invoice_date;
                     $invoice->invoice_code = $invoice_code;
                     $invoice->paid_amount = $paidAmount == null ? 0 : $paidAmount;
                     $subTotal = 0;
@@ -197,6 +202,31 @@ class InvoiceController extends Controller
             // dd($quotation_details);
             $view = View::make('backend.pages.invoice.invoice_form', compact('quote', 'quotation_details', 'all_items', 'all_work_categories', 'all_units'))->render();
             return response()->json(['html' => $view]);
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
+    }
+    public function show_project_invoices($id)
+    {
+        return view('backend.pages.invoice.project_invoices', compact('id'));
+    }
+    public function get_project_invoices($id, Request $request)
+    {
+        if ($request->ajax()) {
+
+            $invoice = Invoice::where('quotation_id', $id)->orderby('created_at', 'desc')->get();
+            // $client = $projects->client_id->name;
+            return Datatables::of($invoice)
+
+                ->addColumn('action', function ($section) {
+                    $html = '<div class="btn-group">';
+                    $html .= '<a data-toggle="tooltip"  id="' . $section->id . '" class="btn btn-success mr-1 view" title="View"><i class="lni lni-eye"></i> </a>';
+                    $html .= '<a data-toggle="tooltip"  id="' . $section->id . '" class="btn btn-danger delete" title="Delete"><i class="lni lni-trash"></i> </a>';
+                    return $html;
+                })
+                ->rawColumns(['action'])
+                ->addIndexColumn()
+                ->make(true);
         } else {
             return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
         }

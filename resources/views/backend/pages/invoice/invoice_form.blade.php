@@ -9,6 +9,22 @@
     <div id="status"></div>
     <input type="text" class="form-control" name="quotation_id" hidden value="{{ $quote->id }}">
     <div>
+        <div class="row">
+            <div class="form-group col-md-8">
+                <label for="">Invoice Title <span style="color: red;">*</span></label>
+                <p></p>
+                <input type="text" class="form-control" id="title" name="title" value=""
+                    placeholder="Enter a invoice title." required>
+                <span id="error_title" class="has-error"></span>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="">Invoice Date </label>
+                <p></p>
+                <input type="date" class="form-control" id="date" name="invoice_date" value=""
+                    placeholder="" required>
+                <span id="error_title" class="has-error"></span>
+            </div>
+        </div>
         <div id="items">
             @foreach ($quotation_details as $qd)
                 <div class="item col" style="margin-bottom: 10px;">
@@ -159,7 +175,7 @@
                 updateGrandTotal();
             });
         }
-        
+
         $('#preview').on('click', function() {
             var formData = $("#create").serialize();
             $.ajax({
@@ -252,12 +268,24 @@
             grandTotal = grandTotal - discount - paidAmount;
 
             // console.log('Grand Total:', grandTotal);
-            if (grandTotal > 0) {
+            if (grandTotal >= 0) {
                 $('#grandTotal').val(grandTotal.toFixed(2));
             } else {
-                $('#paid_amount').val(0);
-                updateGrandTotal();
+                swal({
+                    title: "Warning!",
+                    text: "Paid amount cannot be greater than grand total!",
+                    type: "warning",
+                    showCancelButton: false,
+                    closeOnConfirm: true,
+                    showLoaderOnConfirm: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "ok"
+                }, function() {
+                    $('#paid_amount').val(0);
+                    updateGrandTotal();
+                });
             }
+
         }
         // Event handler for updating item dropdown based on the selected category
         $('#items').on('change', '.categorySelect', function() {
@@ -282,7 +310,8 @@
 
                             itemSelect.append('<option value="' + item.id +
                                 '" data-unit="' + item.unit.title +
-                                '" data-unit-price="' + item.unit_price + '">' +
+                                '" data-unit-price="' + item.unit_price +
+                                '">' +
                                 item.item_work + '</option>');
                         });
 
