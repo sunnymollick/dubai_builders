@@ -9,9 +9,11 @@
                 <div class="card-header">
                     <h6><i class="lni lni-construction-hammer" aria-hidden="true"></i> &nbsp; Invoices
                         <span style="float: right;">
-                            <button class="btn btn-primary btn-sm" onclick="create()"><i
-                                    class="fadeIn animated bx bx-plus"></i>
+                            <button class="btn btn-primary btn-sm add_invoice"><i class="fadeIn animated bx bx-plus"></i>
                                 Add
+                            </button>
+                            <button class="btn btn-primary btn-sm add_invoice"><i class="fadeIn animated bx bx-archive"></i>
+                                Summary
                             </button>
                         </span>
                     </h6>
@@ -52,7 +54,7 @@
             table = $('#manage_all').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: '/admin/invoice/get_project_invoices/'+id,
+                ajax: '/admin/invoice/get_project_invoices/' + id,
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex'
@@ -95,28 +97,60 @@
         });
     </script>
     <script type="text/javascript">
-        function create() {
-            ajax_submit_create('services');
-        }
-
         $(document).ready(function() {
-            // View Form
-            $("#manage_all").on("click", ".view", function() {
-                var id = $(this).attr('id');
-                ajax_submit_view('services', id)
-            });
-
-            // Edit Form
-            $("#manage_all").on("click", ".edit", function() {
-                var id = $(this).attr('id');
-                ajax_submit_edit('services', id)
-            });
-
 
             // Delete
             $("#manage_all").on("click", ".delete", function() {
                 var id = $(this).attr('id');
-                ajax_submit_delete('services', id)
+                swal({
+                    title: "Are you sure?",
+                    text: "Deleted data cannot be recovered!!",
+                    type: "warning",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true,
+                    showCancelButton: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "Delete"
+                }, function() {
+                    $.ajax({
+                        url: 'admin/invoices/' + id,
+                        type: 'DELETE',
+                        headers: {
+                            "X-CSRF-TOKEN": CSRF_TOKEN,
+                        },
+                        "dataType": 'json',
+                        success: function(data) {
+                            if (data.type === 'success') {
+                                swal("Done!", "Successfully Deleted", "success");
+                                reload_table();
+                            } else if (data.type === 'danger') {
+                                swal("Error deleting!", "Try again", "error");
+                            }
+                        },
+                        error: function(xhr, ajaxOptions, thrownError) {
+                            swal("Error deleting!", "Try again", "error");
+                        }
+                    });
+                });
+            });
+
+            $(".add_invoice").on("click", function() {
+                var id = $('#quote_id').val();
+                // console.log(id);
+                $.ajax({
+                    url: '/admin/generate_invoice' + '/' + id,
+                    type: 'get',
+                    success: function(data) {
+                        // console.log(data);
+                        $("#modal_data").html(data.html);
+                        $('#myModal').modal('show'); // show bootstrap modal
+                        $('.modal-title').text('Generate Invoice');
+                    },
+                    error: function(result) {
+                        $("#modal_data").html("Sorry Cannot Load Data");
+                    }
+                });
             });
 
         });

@@ -336,7 +336,7 @@ class ProjectController extends Controller
                     $html .= '<a data-toggle="tooltip"  id="' . $section->id . '" class="btn btn-info mr-1 edit" title="Edit"><i class="lni lni-pencil-alt"></i> </a>';
                     $html .= '<a data-toggle="tooltip"  id="' . $section->quotation_id . '" class="btn btn-secondary mr-1 add_invoice" title="Invoice"><i class="bx bx-file"></i> </a>';
                     $html .= '<a data-toggle="tooltip"  id="' . $section->id . '" class="btn btn-danger delete" title="Delete"><i class="lni lni-trash"></i> </a>';
-                    $html .= '<a data-toggle="tooltip" href="invoice/show_project_invoices/' . $section->quotation_id . '" id="' . $section->quotation_id . '" class="btn btn-warning summary" title="Invoice Summary"><i class="lni lni-agenda"></i> </a>';
+                    $html .= '<a data-toggle="tooltip" href="invoice/show_project_invoices/' . $section->quotation_id . '" id="' . $section->quotation_id . '" class="btn btn-warning summary" title="Invoices"><i class="lni lni-agenda"></i> </a>';
                     $html .= '</div>';
                     return $html;
                 })

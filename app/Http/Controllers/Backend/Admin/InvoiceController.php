@@ -156,6 +156,8 @@ class InvoiceController extends Controller
     public function destroy(string $id)
     {
         //
+
+        dd($id);
     }
 
     public function generateInvoice($id, Request $request)
