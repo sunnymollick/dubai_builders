@@ -153,11 +153,20 @@ class InvoiceController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Invoice $invoice, Request $request)
     {
         //
 
-        dd($id);
+        if ($request->ajax()) {
+            $inv_id = $invoice->id;
+            // dd($inv_id);
+            InvoiceDetails::where('invoice_id', $inv_id)->delete();
+            $invoice->delete();
+
+            return response()->json(['type' => 'success', 'message' => 'Successfully Deleted']);
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
     }
 
     public function generateInvoice($id, Request $request)

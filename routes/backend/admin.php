@@ -112,7 +112,10 @@ Route::post('job_application/reply/{id}', [CareerController::class, 'jobApplicat
 
 
 // invoice route
+Route::resource('invoices', InvoiceController::class);
 Route::get('generate_invoice/{id}', [InvoiceController::class, 'generateInvoice']);
 Route::post('request/for/invoice/store', [InvoiceController::class, 'store']);
 Route::get('invoice/show_project_invoices/{id}', [InvoiceController::class, 'show_project_invoices']);
 Route::get('invoice/get_project_invoices/{id}', [InvoiceController::class, 'get_project_invoices']);
+// Route::delete('invoices/{id}', [InvoiceController::class, 'destroy']);
+

@@ -114,7 +114,7 @@
                     confirmButtonText: "Delete"
                 }, function() {
                     $.ajax({
-                        url: 'admin/invoices/' + id,
+                        url: '/admin/invoices/' + id,
                         type: 'DELETE',
                         headers: {
                             "X-CSRF-TOKEN": CSRF_TOKEN,
