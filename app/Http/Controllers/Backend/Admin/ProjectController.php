@@ -33,7 +33,7 @@ class ProjectController extends Controller
     {
         if ($request->ajax()) {
 
-            $projects = Project::where('is_frontend',1)->orderby('created_at', 'desc')->get();
+            $projects = Project::where('is_frontend', 1)->orderby('created_at', 'desc')->get();
             // $client = $projects->client_id->name;
             return Datatables::of($projects)
 
@@ -317,14 +317,16 @@ class ProjectController extends Controller
         }
     }
 
-    public function clientProjectIndex(){
+    public function clientProjectIndex()
+    {
         return view('backend.pages.projects.client_projects');
     }
 
-    public function getAllClientProjects(Request $request){
+    public function getAllClientProjects(Request $request)
+    {
         if ($request->ajax()) {
 
-            $projects = Project::where('is_frontend',0)->orderby('created_at', 'desc')->get();
+            $projects = Project::where('is_frontend', 0)->orderby('created_at', 'desc')->get();
             // $client = $projects->client_id->name;
             return Datatables::of($projects)
 
@@ -334,6 +336,7 @@ class ProjectController extends Controller
                     $html .= '<a data-toggle="tooltip"  id="' . $section->id . '" class="btn btn-info mr-1 edit" title="Edit"><i class="lni lni-pencil-alt"></i> </a>';
                     $html .= '<a data-toggle="tooltip"  id="' . $section->quotation_id . '" class="btn btn-secondary mr-1 add_invoice" title="Invoice"><i class="bx bx-file"></i> </a>';
                     $html .= '<a data-toggle="tooltip"  id="' . $section->id . '" class="btn btn-danger delete" title="Delete"><i class="lni lni-trash"></i> </a>';
+                    $html .= '<a data-toggle="tooltip" href="invoice/show_project_invoices/' . $section->quotation_id . '" id="' . $section->quotation_id . '" class="btn btn-warning summary" title="Invoices"><i class="lni lni-agenda"></i> </a>';
                     $html .= '</div>';
                     return $html;
                 })
