@@ -1,6 +1,6 @@
 @extends('backend.layouts.defaults')
 @section('title')
-    Services
+    Invoices
 @endsection
 @section('content')
     <div class="row">
@@ -12,7 +12,7 @@
                             <button class="btn btn-primary btn-sm add_invoice"><i class="fadeIn animated bx bx-plus"></i>
                                 Add
                             </button>
-                            <button class="btn btn-primary btn-sm add_invoice"><i class="fadeIn animated bx bx-archive"></i>
+                            <button class="btn btn-primary btn-sm invoice_summery"><i class="fadeIn animated bx bx-archive"></i>
                                 Summary
                             </button>
                         </span>
@@ -36,6 +36,7 @@
                                     <th>Invoice Date</th>
                                     <th>Total</th>
                                     <th>Paid</th>
+                                    <th>Due</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -49,7 +50,6 @@
 @section('scripts')
     <script>
         $(function() {
-            //alert("alert");
             var id = $('#quote_id').val();
             table = $('#manage_all').DataTable({
                 processing: true,
@@ -80,9 +80,20 @@
                         name: 'paid_amount'
                     },
                     {
+                        data: 'due',
+                        name: 'due'
+                    },
+                    {
                         data: 'action',
                         name: 'action'
                     },
+                ],
+                dom: 'Bfrtip',
+                buttons: [
+                    'print',
+                    'excel',
+                    'pdf',
+                    'csv'
                 ],
                 "columnDefs": [{
                     "className": "",
@@ -95,6 +106,7 @@
                 'height': '30px'
             });
         });
+
     </script>
     <script type="text/javascript">
         $(document).ready(function() {
@@ -140,6 +152,24 @@
                 // console.log(id);
                 $.ajax({
                     url: '/admin/generate_invoice' + '/' + id,
+                    type: 'get',
+                    success: function(data) {
+                        // console.log(data);
+                        $("#modal_data").html(data.html);
+                        $('#myModal').modal('show'); // show bootstrap modal
+                        $('.modal-title').text('Generate Invoice');
+                    },
+                    error: function(result) {
+                        $("#modal_data").html("Sorry Cannot Load Data");
+                    }
+                });
+            });
+
+            $(".invoice_summery").on("click", function() {
+                var id = $('#quote_id').val();
+                // console.log(id);
+                $.ajax({
+                    url: '/admin/invoice_summery' + '/' + id,
                     type: 'get',
                     success: function(data) {
                         // console.log(data);

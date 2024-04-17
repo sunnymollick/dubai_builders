@@ -159,10 +159,10 @@
                 cache: false,
                 success: function(data) {
                     console.log(data.data);
-                    $("#quotation_data").html(data.html);
-                    jQuery.noConflict();
-                    $('#previewModal').modal('show'); // show bootstrap modal
-                    $('.quotation-title').text('Quotation');
+                    // $("#quotation_data").html(data.html);
+                    // // jQuery.noConflict();
+                    // $('#previewModal').modal('show'); // show bootstrap modal
+                    // $('.quotation-title').text('Quotation');
                 },
                 error: function(result) {
                     $("#modal_data").html("Sorry Cannot Load Data");

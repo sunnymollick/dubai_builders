@@ -184,7 +184,7 @@ class HomeController extends Controller
             $rules = [
                 'name' => 'required',
                 'location' => 'required',
-                'email' => 'required|unique:App\Models\Backend\Client,email',
+                'email' => 'required',
                 'message' => 'required',
                 'mobile' => 'required',
             ];
@@ -204,7 +204,7 @@ class HomeController extends Controller
                 DB::beginTransaction();
                 try {
                     $quotation = new Quotation();
-                    $client = new Client();
+
                     if ($request->hasFile('file')) {
                         $dextension = $request->file('file')->getClientOriginalExtension();
                         if ($dextension == "pdf" || $dextension == "doc" || $dextension == "docx") {
@@ -228,25 +228,39 @@ class HomeController extends Controller
                         }
                     }
 
-                    // client store
-                    $created_time = Carbon::now();
-                    $last_client = Client::first();
-                    if (is_null($last_client)) {
-                        $latest_id = 0;
-                        $client_code = Helper::uniqueNumberConvertor("CUS-", $created_time->year, $latest_id);
-                    } else {
-                        $latest_id = Client::orderBy('id', 'desc')->first()->id;
-                        $client_code = Helper::uniqueNumberConvertor("CUS-", $created_time->year, $latest_id);
+                    $existing_client = Client::where('email',$request->input('email'))->first();
+
+                    if($existing_client){
+
+                    }else{
+                        // client store
+                        $client = new Client();
+                        $created_time = Carbon::now();
+                        $last_client = Client::first();
+                        if (is_null($last_client)) {
+                            $latest_id = 0;
+                            $client_code = Helper::uniqueNumberConvertor("CUS-", $created_time->year, $latest_id);
+                        } else {
+                            $latest_id = Client::orderBy('id', 'desc')->first()->id;
+                            $client_code = Helper::uniqueNumberConvertor("CUS-", $created_time->year, $latest_id);
+                        }
+                        $client->name = $request->input('name');
+                        $client->client_code = $client_code;
+                        $client->email = $request->input('email');
+                        $client->phone = $request->input('mobile');
+                        $client->address = "";
+                        $client->organization_name = $request->input('company_name');
+                        $client->save();
                     }
-                    $client->name = $request->input('name');
-                    $client->client_code = $client_code;
-                    $client->email = $request->input('email');
-                    $client->phone = $request->input('mobile');
-                    $client->address = "";
-                    $client->organization_name = $request->input('company_name');
-                    $client->save();
+
+
                     // quotation request store
-                    $quotation->client_id = $client->id;
+                    if($existing_client){
+                        $quotation->client_id = $existing_client->id;
+                    }else{
+                        $quotation->client_id = $client->id;
+                    }
+
                     $quotation->name = $request->input('name');
                     $quotation->location = $request->input('location');
                     $quotation->email = $request->input('email');

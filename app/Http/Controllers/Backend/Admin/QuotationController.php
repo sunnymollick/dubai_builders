@@ -177,7 +177,7 @@ class QuotationController extends Controller
                     } else {
                         $latest_id = QuotationApplication::orderBy('id', 'desc')->first()->id;
                         $quotation_code = Helper::uniqueQuoId("QT-", $created_time->year, $latest_id);
-                    }
+                    } 
                     $cateogry = $request->input('work_category_id');
                     $items = $request->input('items');
                     $units = $request->input('unit');

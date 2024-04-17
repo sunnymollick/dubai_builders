@@ -59,11 +59,11 @@
                                             </a>
                                             <a data-toggle="tooltip"
                                                 href="{{ URL('admin/all-quotations/generate-pdf/' . $row->id) }}"
-                                                id="{{ $row->id }}" class="btn btn-info mr-1" title="Invoice"><i
+                                                id="{{ $row->id }}" class="btn btn-info mr-1" title="Print"><i
                                                     class="lni lni-printer"></i> </a>
                                             @if ($row->is_confirmed == 0)
                                                 <a data-toggle="tooltip" id="{{ $row->id }}"
-                                                    class="btn btn-warning delete" title="Save"><i
+                                                    class="btn btn-warning delete" title="Confirm"><i
                                                         class="lni lni-checkmark-circle"></i> </a>
                                             @endif
                                         </td>
@@ -156,14 +156,14 @@
             $("#manage_all").on("click", ".delete", function() {
                 var id = $(this).attr('id');
                 swal({
-                    title: "Are you sure to submit?",
-                    text: "Submit Form",
+                    title: "Are you sure to Confirm ?",
+                    text: "Confirmation",
                     type: "warning",
                     showCancelButton: true,
                     closeOnConfirm: false,
                     showLoaderOnConfirm: true,
                     confirmButtonClass: "btn-danger",
-                    confirmButtonText: "Yes, Submit!"
+                    confirmButtonText: "Yes, Confirm !"
                 }, function() {
                     $.ajax({
                         url: 'all-quotations/save' + '/' + id,

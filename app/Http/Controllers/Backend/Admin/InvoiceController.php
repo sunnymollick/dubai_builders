@@ -217,6 +217,29 @@ class InvoiceController extends Controller
             return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
         }
     }
+    public function invoiceSummery($id, Request $request)
+    {
+        if ($request->ajax()) {
+            try {
+
+                $invoice = Invoice::join('invoice_details','invoices.id','invoice_details.invoice_id')
+                                ->where('invoices.quotation_id',$id)
+                                ->get();
+                dd($invoice);
+
+
+                // dd($invoice);
+            } catch (\Exception $e) {
+                dd($e->getMessage());
+            }
+
+            // dd($quotation_details);
+            $view = View::make('backend.pages.invoice.invoice_form', compact('quote', 'quotation_details', 'all_items', 'all_work_categories', 'all_units'))->render();
+            return response()->json(['html' => $view]);
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
+    }
     public function show_project_invoices($id)
     {
         return view('backend.pages.invoice.project_invoices', compact('id'));
@@ -229,13 +252,22 @@ class InvoiceController extends Controller
             // $client = $projects->client_id->name;
             return Datatables::of($invoice)
 
-                ->addColumn('action', function ($section) {
+                ->addColumn('action', function ($invoice) {
                     $html = '<div class="btn-group">';
-                    $html .= '<a data-toggle="tooltip"  id="' . $section->id . '" class="btn btn-success mr-1 view" title="View"><i class="lni lni-eye"></i> </a>';
-                    $html .= '<a data-toggle="tooltip"  id="' . $section->id . '" class="btn btn-danger delete" title="Delete"><i class="lni lni-trash"></i> </a>';
+                    $html .= '<a data-toggle="tooltip"  id="' . $invoice->id . '" class="btn btn-success mr-1 view" title="View"><i class="lni lni-eye"></i> </a>';
+                    $html .= '<a data-toggle="tooltip"  id="' . $invoice->id . '" class="btn btn-danger delete" title="Delete"><i class="lni lni-trash"></i> </a>';
                     return $html;
                 })
-                ->rawColumns(['action'])
+                ->addColumn('grand_total', function ($invoice) {
+                    return number_format((float) $invoice->grand_total);
+                })
+                ->addColumn('paid_amount', function ($invoice) {
+                    return number_format((float) $invoice->paid_amount);
+                })
+                ->addColumn('due', function ($invoice) {
+                    return number_format((float) ($invoice->grand_total - $invoice->paid_amount));
+                })
+                ->rawColumns(['action','paid_amount','due','grand_total'])
                 ->addIndexColumn()
                 ->make(true);
         } else {

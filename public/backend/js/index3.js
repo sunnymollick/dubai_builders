@@ -1,6 +1,6 @@
 $(function () {
 	"use strict";
-	
+
 	// chart1
 	var options = {
 		series: [{
@@ -344,7 +344,7 @@ $(function () {
 			radialBar: {
 				hollow: {
 					margin: 0,
-					//background: '#ffdbed',	
+					//background: '#ffdbed',
 					size: '70%',
 				},
 				track: {
@@ -389,7 +389,7 @@ $(function () {
 			radialBar: {
 				hollow: {
 					margin: 0,
-					//background: '#ffdbed',	
+					//background: '#ffdbed',
 					size: '70%',
 				},
 				track: {
