@@ -160,7 +160,6 @@
                 success: function(data) {
                     console.log(data.data);
                     $("#quotation_data").html(data.html);
-                    jQuery.noConflict();
                     $('#previewModal').modal('show'); // show bootstrap modal
                     $('.quotation-title').text('Quotation');
                 },
