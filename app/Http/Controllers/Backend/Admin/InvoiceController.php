@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Yajra\DataTables\Facades\DataTables;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 
 use function PHPSTORM_META\type;
 
@@ -112,6 +113,17 @@ class InvoiceController extends Controller
                         $invoiceDetails->total_price = $totalPrices[$key];
                         $invoiceDetails->save();
                     }
+
+                    $company_details = Setting::first();
+                    $inv_data = Invoice::with('invoiceDetails')
+                        ->where('quotation_id', $quotation_id)
+                        ->first();
+
+                    $groupedDetails = $inv_data->invoiceDetails->groupBy('category_id');
+                    $client_id = QuotationApplication::where('quotation_id', $quotation_id)->columns('client_id');
+                    $client_details = Client::where('id', $client_id)->first();
+
+                    $pdf = Pdf::loadView('backend.pages.invoice.invoice_pdf', compact('inv_data', 'groupedDetails', 'subTotal', 'company_details', 'client_details'))->setPaper('letter', 'portrait');
 
                     DB::commit();
                     return response()->json(['type' => 'success', 'message' => "Successfully Inserted"]);
@@ -222,9 +234,9 @@ class InvoiceController extends Controller
         if ($request->ajax()) {
             try {
 
-                $invoice = Invoice::join('invoice_details','invoices.id','invoice_details.invoice_id')
-                                ->where('invoices.quotation_id',$id)
-                                ->get();
+                $invoice = Invoice::join('invoice_details', 'invoices.id', 'invoice_details.invoice_id')
+                    ->where('invoices.quotation_id', $id)
+                    ->get();
                 dd($invoice);
 
 
@@ -267,9 +279,35 @@ class InvoiceController extends Controller
                 ->addColumn('due', function ($invoice) {
                     return number_format((float) ($invoice->grand_total - $invoice->paid_amount));
                 })
-                ->rawColumns(['action','paid_amount','due','grand_total'])
+                ->rawColumns(['action', 'paid_amount', 'due', 'grand_total'])
                 ->addIndexColumn()
                 ->make(true);
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
+    }
+
+    public function viewInvoice(Request $request, $id)
+    {
+        if ($request->ajax()) {
+            $company_details = Setting::first();
+            // $quotation_details = QuotationApplication::where('quotation_request_id', $id)->get();
+            $quotationApplication = QuotationApplication::with('quotationDetails')
+                ->where('quotation_request_id', $id)
+                ->first();
+            // dd($quotationApplication->quotationDetails);
+            $subTotal = 0;
+            foreach ($quotationApplication->quotationDetails as $detail) {
+                $subTotal += (float) $detail->total_price;
+            }
+            $subTotalFormatted = number_format($subTotal, 2);
+            $groupedDetails = $quotationApplication->quotationDetails->groupBy('category_id');
+            $client_details = Quotation::join('clients', 'quotations.email', '=', 'clients.email')
+                ->where('quotations.id', '=', $id)
+                ->select('clients.*', 'quotations.*')
+                ->first();
+            $view = View::make('backend.pages.all_quotations.quotation_view', compact('quotationApplication', 'subTotalFormatted', 'subTotal', 'groupedDetails', 'company_details', 'client_details'))->render();
+            return response()->json(['html' => $view]);
         } else {
             return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
         }

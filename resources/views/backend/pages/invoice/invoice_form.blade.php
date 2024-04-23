@@ -180,17 +180,16 @@
             var formData = $("#create").serialize();
             $.ajax({
                 type: 'GET',
-                url: 'quotation/preview',
+                url: 'request/for/quotation/preview',
                 data: formData,
                 dataType: 'json',
                 cache: false,
                 success: function(data) {
-                    // console.log(data.data);
-                    $("#quotation_data").html(data.html);
-                    jQuery.noConflict();
-                    $('#previewModal').modal('show'); // show bootstrap modal
-                    $('.quotation-title').text('Quotation');
-
+                    console.log(data.data);
+                    // $("#quotation_data").html(data.html);
+                    // // jQuery.noConflict();
+                    // $('#previewModal').modal('show'); // show bootstrap modal
+                    // $('.quotation-title').text('Quotation');
                 },
                 error: function(result) {
                     $("#modal_data").html("Sorry Cannot Load Data");

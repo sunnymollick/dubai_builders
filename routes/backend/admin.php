@@ -119,4 +119,5 @@ Route::post('request/for/invoice/store', [InvoiceController::class, 'store']);
 Route::get('invoice/show_project_invoices/{id}', [InvoiceController::class, 'show_project_invoices']);
 Route::get('invoice/get_project_invoices/{id}', [InvoiceController::class, 'get_project_invoices']);
 // Route::delete('invoices/{id}', [InvoiceController::class, 'destroy']);
+Route::get('invoice/view/{id}', [InvoiceController::class, 'viewInvoice']);
 
