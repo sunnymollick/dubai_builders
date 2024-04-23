@@ -147,6 +147,40 @@
                 });
             });
 
+            $("#manage_all").on("click", ".add_payment", function() {
+                var id = $(this).attr('id');
+                $.ajax({
+                    url: '/admin/create_invoice_payments' + '/' + id,
+                    type: 'get',
+                    success: function(data) {
+                        // console.log(data);
+                        $("#modal_data").html(data.html);
+                        $('#myModal').modal('show'); // show bootstrap modal
+                        $('.modal-title').text('Create Invoice Payments');
+                    },
+                    error: function(result) {
+                        $("#modal_data").html("Sorry Cannot Load Data");
+                    }
+                });
+            });
+
+            $("#manage_all").on("click", ".show_payments", function() {
+                var id = $(this).attr('id');
+                $.ajax({
+                    url: '/admin/show_invoice_payments' + '/' + id,
+                    type: 'get',
+                    success: function(data) {
+                        // console.log(data);
+                        $("#modal_data").html(data.html);
+                        $('#myModal').modal('show'); // show bootstrap modal
+                        $('.modal-title').text('All Payments');
+                    },
+                    error: function(result) {
+                        $("#modal_data").html("Sorry Cannot Load Data");
+                    }
+                });
+            });
+
             $(".add_invoice").on("click", function() {
                 var id = $('#quote_id').val();
                 // console.log(id);

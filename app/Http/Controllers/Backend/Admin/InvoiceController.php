@@ -13,6 +13,7 @@ use App\Models\Backend\InvoiceDetails;
 use App\Models\Backend\Unit;
 use App\Models\Backend\WorkCategory;
 use App\Models\Frontend\Quotation;
+use App\Models\InvoicePayment;
 use App\Models\Setting;
 use Exception;
 use Illuminate\Http\Request;
@@ -254,7 +255,11 @@ class InvoiceController extends Controller
 
                 ->addColumn('action', function ($invoice) {
                     $html = '<div class="btn-group">';
-                    $html .= '<a data-toggle="tooltip"  id="' . $invoice->id . '" class="btn btn-success mr-1 view" title="View"><i class="lni lni-eye"></i> </a>';
+                    if ($invoice->paid_amount <= $invoice->grand_total) {
+                        $html .= '<a data-toggle="tooltip"  id="' . $invoice->id . '" class="btn btn-primary mr-1 add_payment" title="Add Payment"><i class="lni lni-plus"></i> </a>';
+                    }
+                    // $html .= '<a data-toggle="tooltip"  id="' . $invoice->id . '" class="btn btn-success mr-1 view" title="View"><i class="lni lni-eye"></i> </a>';
+                    $html .= '<a data-toggle="tooltip"  id="' . $invoice->id . '" class="btn btn-secondary mr-1 show_payments" title="Show Payments"><i class="bx bx-file"></i> </a>';
                     $html .= '<a data-toggle="tooltip"  id="' . $invoice->id . '" class="btn btn-danger delete" title="Delete"><i class="lni lni-trash"></i> </a>';
                     return $html;
                 })
@@ -270,6 +275,70 @@ class InvoiceController extends Controller
                 ->rawColumns(['action','paid_amount','due','grand_total'])
                 ->addIndexColumn()
                 ->make(true);
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
+    }
+
+    public function createPayments($id,Request $request){
+        $invoice = Invoice::findOrFail($id);
+        if ($request->ajax()) {
+            $view = View::make('backend.pages.invoice.create_invoice_payment', compact('invoice'))->render();
+            return response()->json(['html' => $view]);
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
+    }
+
+    public function storeInvoicePayment(Request $request){
+        if ($request->ajax()) {
+            $rules = [
+                'payment_date' => 'required',
+                'amount' => 'required',
+                'payment_method' => 'required',
+            ];
+
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json([
+                    'type' => 'error',
+                    'errors' => $validator->getMessageBag()->toArray()
+                ]);
+            } else {
+                DB::beginTransaction();
+                try {
+
+                    $invoice_payment = new InvoicePayment();
+                    $invoice_payment->invoice_id = $request->invoice_id;
+                    $invoice_payment->payment_date = $request->payment_date;
+                    $invoice_payment->paid_amount = $request->amount;
+                    $invoice_payment->payment_method = $request->payment_method;
+                    $invoice_payment->cheque_date = $request->cheque_date;
+                    $invoice_payment->cheque_number = $request->cheque_number;
+                    $invoice_payment->save();
+
+                    $invoice = Invoice::findOrFail($request->invoice_id);
+                    $invoice->paid_amount += $request->amount;
+                    $invoice->save();
+
+                    DB::commit();
+                    return response()->json(['type' => 'success', 'message' => "Successfully Inserted"]);
+                } catch (Exception $e) {
+                    DB::rollback();
+                    dd($e->getMessage());
+                    return response()->json(['type' => 'error', 'message' => "Please Fill With Correct data"]);
+                }
+            }
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
+    }
+
+    public function showPayments($id,Request $request){
+        $invoice_payments = InvoicePayment::where('invoice_id',$id)->get();
+        if ($request->ajax()) {
+            $view = View::make('backend.pages.invoice.show_invoice_payments', compact('invoice_payments'))->render();
+            return response()->json(['html' => $view]);
         } else {
             return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
         }

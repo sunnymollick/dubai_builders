@@ -105,7 +105,7 @@ Dashboard
                         <td>Nike Sports NK</td>
                         <td>Mitchell Daniel</td>
                         <td>#9668521</td>
-                        <td>$99.85</td>
+                        <td>Commercial</td>
                         <td><a href="javaScript:;" class="btn btn-sm btn-success radius-30">Delivered</a>
                         </td>
                     </tr>
