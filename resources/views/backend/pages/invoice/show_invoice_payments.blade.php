@@ -10,8 +10,8 @@
                                 <th>Payment Date</th>
                                 <th>Paid Amount</th>
                                 <th>Payment Method</th>
-                                <th>Cheque Number</th>
                                 <th>Cheque Date</th>
+                                <th>Cheque Number</th>
                             </tr>
                         </thead>
                         <tbody>

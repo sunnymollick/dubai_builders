@@ -4,7 +4,11 @@ namespace App\Http\Controllers\Backend\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Backend\Contact;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Symfony\Component\Mailer\Messenger\SendEmailMessage;
 
 class ContactController extends Controller
 {
@@ -13,7 +17,7 @@ class ContactController extends Controller
      */
     public function index()
     {
-        Contact::where('is_read','0')->update(['is_read' => '1']);
+        Contact::where('is_read', '0')->update(['is_read' => '1']);
         $all_messages = Contact::orderby('created_at', 'desc')->get();
         return view('backend.pages.chatbox.index', compact('all_messages'));
     }
@@ -24,6 +28,34 @@ class ContactController extends Controller
     public function create()
     {
         //
+    }
+
+    public function sendMessage(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $msg = $request->input('message');
+            $chatId = $request->input('chatId');
+            $chatDetails = Contact::findOrFail($chatId);
+
+            $data["email"] = $chatDetails->email;
+            $data["title"] = "Hi $chatDetails->name";
+            $data["body"] = $msg;
+
+            Mail::send('backend.pages.all_quotations.quotation_mail', $data, function ($message) use ($data) {
+                $message->to($data["email"], $data["email"])
+                    ->subject($data["title"]);
+            });
+
+            // Optionally, return a response indicating success
+
+            DB::commit();
+            return response()->json(['type' => 'success', 'message' => "Successfully Sent"]);
+        } catch (Exception $e) {
+            DB::rollback();
+            dd($e->getMessage());
+            return response()->json(['type' => 'error', 'message' => "Please Fill With Correct data"]);
+        }
     }
 
     /**

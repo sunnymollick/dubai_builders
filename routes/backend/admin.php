@@ -62,6 +62,7 @@ Route::get('getAboutInfo', [AboutController::class, 'getAboutInfo']);
 Route::resource('messages', ContactController::class);
 Route::get('/fetch-messages', [ContactController::class, 'fetchMessages'])->name('fetch.messages');
 Route::get('/fetch-chat/{id}', [ContactController::class, 'fetchChat'])->name('fetch.chat');
+Route::post('/send-message', [ContactController::class, 'sendMessage']);
 
 //Auth Route
 Route::get('/logout', [LoginController::class, 'logout']);

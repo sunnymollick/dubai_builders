@@ -93,14 +93,53 @@ Chat
                     var formattedTime = formatTimestamp(data.created_at);
                     // Handle the retrieved chat data here and display it in the chat interface
                     console.log(data.name);
-                    $('.chat-details').append('<div class="chat-header d-flex align-items-center"><div class="chat-toggle-btn"><i class="bx bx-menu-alt-left"></i></div><div><h4 class="mb-1 font-weight-bold">' + data.name + '</h4><div class="list-inline d-sm-flex mb-0 d-none"><a href="javascript:;" class="list-inline-item d-flex align-items-center text-secondary"><i class="bx bx-envelope me-1"></i>' + data.email + '</a><a href="javascript:;" class="list-inline-item d-flex align-items-center text-secondary">|</a><a href="javascript:;" class="list-inline-item d-flex align-items-center text-secondary"><i class="bx bx-phone me-1"></i>' + data.phone + '</a></div></div></div><div class="chat-content"><div class="chat-content-leftside"><div class="d-flex"><img src="{{asset("backend/")}}/images/avatars/266033.png" width="30" height="30" class="rounded-circle" alt /><div class="flex-grow-1 ms-2"><p class="mb-0 chat-time">' + data.name + ', ' + formattedTime + '</p><p class="chat-left-msg">' + data.message + '</p></div></div></div></div><div class="chat-footer d-flex align-items-center"><div class="flex-grow-1 pe-2"><div class="input-group"><input type="text" class="form-control" placeholder="Type a message"><span class="input-group-text"><a type="submit" >Send</a></span></div></div><div class="chat-footer-menu"></div></div>')
+                    $('.chat-details').append('<div class="chat-header d-flex align-items-center"><div class="chat-toggle-btn"><i class="bx bx-menu-alt-left"></i></div><div><h4 class="mb-1 font-weight-bold">' + data.name + '</h4><div class="list-inline d-sm-flex mb-0 d-none"><a href="javascript:;" class="list-inline-item d-flex align-items-center text-secondary"><i class="bx bx-envelope me-1"></i>' + data.email + '</a><a href="javascript:;" class="list-inline-item d-flex align-items-center text-secondary">|</a><a href="javascript:;" class="list-inline-item d-flex align-items-center text-secondary"><i class="bx bx-phone me-1"></i>' + data.phone + '</a></div></div></div><div class="chat-content"><div class="chat-content-leftside"><div class="d-flex"><img src="{{asset("backend/")}}/images/avatars/266033.png" width="30" height="30" class="rounded-circle" alt /><div class="flex-grow-1 ms-2"><p class="mb-0 chat-time">' + data.name + ', ' + formattedTime + '</p><p class="chat-left-msg">' + data.message + '</p></div></div></div></div><div id="chatFooter" class="chat-footer d-flex align-items-center"><div class="flex-grow-1 pe-2"><div class="input-group"><input type="text" class="form-control button-submit" data-chat-id="' + chatId + '" placeholder="Type a message"><span class="input-group-text"><a id="sendButton" href="" type="submit" >Send</a><p style="color:green;text-align:center;padding:0px 240px" class="success-message d-none">Message sent via email</p></span></div></div><div class="chat-footer-menu"></div></div>')
                     // You can update the UI to display the chat messages and sender information
+                    // Bind click event to send button
+                    $('#sendButton').on('click', function(event) {
+                        event.preventDefault();
+                        sendMessage(chatId); // Pass chat ID to the sendMessage function
+                    });
                 },
                 error: function(error) {
                     console.error(error);
                 }
             });
         });
+
+
+        // Function to send message via AJAX
+        function sendMessage(chatId) {
+            var message = $('.button-submit').val();
+
+            // Make an AJAX request to send the message
+            $.ajax({
+                type: 'POST',
+                headers: {
+                    "X-CSRF-TOKEN": CSRF_TOKEN,
+                },
+                url: '/admin/send-message',
+                data: {
+                    message: message,
+                    chatId: chatId // Pass chat ID as part of the data
+                },
+                success: function(response) {
+                    // Handle success response
+                    console.log('Message sent successfully');
+                    $('.button-submit').hide();
+                    $('#sendButton').hide();
+                    // Show success message
+                    $('.success-message').removeClass('d-none');
+
+                    // Optionally, display a success message to the user
+                },
+                error: function(xhr, status, error) {
+                    // Handle error response
+                    console.error('Error sending message:', error);
+                    // Optionally, display an error message to the user
+                }
+            });
+        }
     });
 </script>
 

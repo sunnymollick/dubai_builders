@@ -82,31 +82,31 @@ Contact
                             <div class="row">
                                 <div class="col-md-6 col-lg-6">
                                     <div class="form-group">
-                                        <input type="text" name="name" class="form-control" placeholder="Your Name*" required>
+                                        <input type="text" id="name" name="name" class="form-control" placeholder="Your Name*" required>
                                         <span id="error_title" class="has-error"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-lg-6">
                                     <div class="form-group">
-                                        <input type="email" name="email" class="form-control" placeholder="Email Address*" required>
+                                        <input type="email" id="email" name="email" class="form-control" placeholder="Email Address*" required>
                                         <span id="error_title" class="has-error"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-lg-6">
                                     <div class="form-group">
-                                        <input type="text" name="phone" class="form-control" placeholder="Phone No" required>
+                                        <input type="text" id="phone" name="phone" class="form-control" placeholder="Phone No" required>
                                         <span id="error_title" class="has-error"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-lg-6">
                                     <div class="form-group">
-                                        <input type="text" name="subject" class="form-control" placeholder="Subject" required>
+                                        <input type="text" id="subject" name="subject" class="form-control" placeholder="Subject" required>
                                         <span id="error_title" class="has-error"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-lg-12">
                                     <div class="form-group">
-                                        <textarea name="message" class="form-control" placeholder="Message Here*" required></textarea>
+                                        <textarea id="message" name="message" class="form-control" placeholder="Message Here*" required></textarea>
                                         <span id="error_title" class="has-error"></span>
                                     </div>
                                 </div>
@@ -176,7 +176,8 @@ Contact
                                 $('#myModal').modal('hide');
                                 swal("Thanks!", "We've received your message",
                                     "success");
-                                reload_table();
+                                    $("#name").val('') && $("#email").val('') && $("#phone").val('')
+                                    && $("#subject").val('') && $("#message").val('');
                             } else if (data.type === 'error') {
                                 if (data.errors) {
                                     $.each(data.errors, function(key, val) {
