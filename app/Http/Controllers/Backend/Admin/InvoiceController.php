@@ -292,7 +292,7 @@ class InvoiceController extends Controller
         if ($request->ajax()) {
             $company_details = Setting::first();
             // $quotation_details = QuotationApplication::where('quotation_request_id', $id)->get();
-            $quotationApplication = QuotationApplication::with('quotationDetails')
+            $invoice = Invoice::with('quotationDetails')
                 ->where('quotation_request_id', $id)
                 ->first();
             // dd($quotationApplication->quotationDetails);
