@@ -62,6 +62,7 @@ Route::get('getAboutInfo', [AboutController::class, 'getAboutInfo']);
 Route::resource('messages', ContactController::class);
 Route::get('/fetch-messages', [ContactController::class, 'fetchMessages'])->name('fetch.messages');
 Route::get('/fetch-chat/{id}', [ContactController::class, 'fetchChat'])->name('fetch.chat');
+Route::post('/send-message', [ContactController::class, 'sendMessage']);
 
 //Auth Route
 Route::get('/logout', [LoginController::class, 'logout']);
@@ -121,3 +122,6 @@ Route::get('invoice/get_project_invoices/{id}', [InvoiceController::class, 'get_
 // Route::delete('invoices/{id}', [InvoiceController::class, 'destroy']);
 Route::get('invoice/view/{id}', [InvoiceController::class, 'viewInvoice']);
 
+Route::get('create_invoice_payments/{id}',[InvoiceController::class,'createPayments']);
+Route::get('show_invoice_payments/{id}',[InvoiceController::class,'showPayments']);
+Route::post('invoice_payment_store',[InvoiceController::class,'storeInvoicePayment']);

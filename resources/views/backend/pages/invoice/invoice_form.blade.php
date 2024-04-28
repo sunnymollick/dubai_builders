@@ -128,7 +128,7 @@
         }, function() {
             // console.log('hi');
             $.ajax({
-                url: 'request/for/invoice/store',
+                url: '/admin/request/for/invoice/store',
                 type: 'POST',
                 data: myData,
                 dataType: 'json',

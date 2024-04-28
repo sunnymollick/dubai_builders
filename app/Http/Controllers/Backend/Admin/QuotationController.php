@@ -103,13 +103,23 @@ class QuotationController extends Controller
 
                     // Group items by category
                     $groupedData = [];
-                    foreach ($categories as $category) {
-                        $groupedData[$category->id] = [
-                            'category' => $category,
-                            'items' => [],
+                    // foreach ($categories as $category) {
+                    //     foreach ($items as $item) {
+                    //         if ($category->id == $item->work_category_id) {
+                    //             $groupedData[$category->id] = [
+                    //                 'category' => $category,
+                    //                 'items' => $item,
+                    //             ];
+                    //         }
+                    //     }
+                    // };
+                    for ($i = 0; $i < count($itemIds); $i++) {
+                        $groupedData[$itemIds[$i]->work_category_id] = [
+                            'category' => WorkCategory::where('id', $itemIds[$i]->work_category_id)->first(),
+                            'items' => $itemIds[$i]
                         ];
                     }
-
+                    // foreach ($groupedData as $i => $cat)
                     foreach ($items as $index => $item) {
                         $categoryId = $categoryIds[$index];
 
@@ -133,9 +143,7 @@ class QuotationController extends Controller
                         $client_details = Client::where('id', $request->client_id)
                             ->first();
                     }
-
-                    // dd($client_details);
-                    // echo $groupedData;
+                    dd($groupedData);
                     $view = View::make('backend.pages.all_quotations.quotation_preview', compact('groupedData', 'grandTotal', 'subTotal', 'afterDiscount', 'discountAmount', 'tax', 'company_details', 'client_details'))->render();
                     return response()->json(['html' => $view]);
                 } catch (Exception $e) {
@@ -177,7 +185,7 @@ class QuotationController extends Controller
                     } else {
                         $latest_id = QuotationApplication::orderBy('id', 'desc')->first()->id;
                         $quotation_code = Helper::uniqueQuoId("QT-", $created_time->year, $latest_id);
-                    } 
+                    }
                     $cateogry = $request->input('work_category_id');
                     $items = $request->input('items');
                     $units = $request->input('unit');
@@ -341,6 +349,7 @@ class QuotationController extends Controller
                 ->where('quotations.id', '=', $id)
                 ->select('clients.*', 'quotations.*')
                 ->first();
+            // dd($client_details);
             $view = View::make('backend.pages.all_quotations.quotation_view', compact('quotationApplication', 'subTotalFormatted', 'subTotal', 'groupedDetails', 'company_details', 'client_details'))->render();
             return response()->json(['html' => $view]);
         } else {

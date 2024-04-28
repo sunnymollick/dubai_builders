@@ -113,7 +113,7 @@
                             <table cellspacing='0' cellpadding='5'>
                                 <tr>
                                     <td style='background-color:yellowgreen'>
-                                        <b>Quotation To</b>
+                                        <b>Invoice To</b>
                                     </td>
                                     <td style='background-color:blanchedalmond; color:red'>
                                         {{$client_details->organization_name}}
@@ -129,16 +129,16 @@
                                 </tr>
                                 <tr>
                                     <td valign='top' style='background-color:yellowgreen'>
-                                        <b>Quotation ID</b>
+                                        <b>Invoice ID</b>
                                     </td>
                                     <td valign='top' style='background-color:blanchedalmond; color:red'>
-                                        {{$quotationApplication->quotation_code}}
+                                        {{$inv_data->invoice_code}}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td valign='top' style='background-color:yellowgreen'><b>Quotation Date: </b>
                                     </td>
-                                    <td valign='top' style='background-color:blanchedalmond'>{{$quotationApplication->created_at->format('d/m/Y')}}
+                                    <td valign='top' style='background-color:blanchedalmond'>{{$inv_data->created_at->format('d/m/Y')}}
 
                                     </td>
                                 </tr>
@@ -189,7 +189,7 @@
         </tr>
         @endforeach
         @endforeach
-        @if($quotationApplication->discount_amount && $quotationApplication->tax)
+        @if($inv_data->discount_amount && $inv_data->tax)
         <tr>
             <td></td>
             <td></td>
@@ -205,11 +205,11 @@
             <td></td>
             <td style='font-size:14px;;'>DISCOUNT(amount)</td>
 
-            <td style='font-size:14px;; color:tomato; border: 1px solid #001a00; text-align:right; padding-right:5px '>{{$quotationApplication->discount_amount}}</td>
+            <td style='font-size:14px;; color:tomato; border: 1px solid #001a00; text-align:right; padding-right:5px '>{{$inv_data->discount_amount}}</td>
         </tr>
         @php
-        $afterDiscount = $subTotal - $quotationApplication->discount_amount;
-        $tax_amount = ($quotationApplication->tax*$afterDiscount)/100;
+        $afterDiscount = $subTotal - $inv_data->discount_amount;
+        $tax_amount = ($inv_data->tax*$afterDiscount)/100;
         @endphp
         <tr>
             <td></td>
@@ -224,7 +224,7 @@
             <td></td>
             <td></td>
             <td></td>
-            <td style='font-size:14px;;'>TAX({{$quotationApplication->tax}}%)</td>
+            <td style='font-size:14px;;'>TAX({{$inv_data->tax}}%)</td>
 
             <td style='font-size:14px;; color:tomato; border: 1px solid #001a00 ; text-align:right; padding-right:5px'>{{$tax_amount}}</td>
         </tr>
@@ -234,9 +234,9 @@
             <td></td>
             <td style='font-size:14px;;'><b>Grand Total</b></td>
 
-            <td style='font-size:14px;; color:tomato; border: 1px solid #001a00 ; text-align:right; padding-right:5px'><b>{{$quotationApplication->grand_total}}</b></td>
+            <td style='font-size:14px;; color:tomato; border: 1px solid #001a00 ; text-align:right; padding-right:5px'><b>{{$inv_data->grand_total}}</b></td>
         </tr>
-        @elseif($quotationApplication->discount_amount)
+        @elseif($inv_data->discount_amount)
         <tr>
             <td></td>
             <td></td>
@@ -252,10 +252,10 @@
             <td></td>
             <td style='font-size:14px;'>DISCOUNT(amount)</td>
 
-            <td style='font-size:14px; color:tomato; border: 1px solid #001a00 ; text-align:right; padding-right:5px'>{{$quotationApplication->discount_amount}}</td>
+            <td style='font-size:14px; color:tomato; border: 1px solid #001a00 ; text-align:right; padding-right:5px'>{{$inv_data->discount_amount}}</td>
         </tr>
         @php
-        $afterDiscount = $subTotal - $quotationApplication->discount_amount;
+        $afterDiscount = $subTotal - $inv_data->discount_amount;
         @endphp
         <tr>
             <td></td>
@@ -263,10 +263,10 @@
             <td></td>
             <td style='font-size:14px;'>Grand Total</td>
 
-            <td style='font-size:14px; color:tomato; border: 1px solid #001a00 ; text-align:right; padding-right:5px'>{{$quotationApplication->grand_total}}
+            <td style='font-size:14px; color:tomato; border: 1px solid #001a00 ; text-align:right; padding-right:5px'>{{$inv_data->grand_total}}
             </td>
         </tr>
-        @elseif($quotationApplication->tax)
+        @elseif($inv_data->tax)
         <tr>
             <td></td>
             <td></td>
@@ -277,13 +277,13 @@
             </td>
         </tr>
         @php
-        $tax_amount = ($quotationApplication->tax*$subTotal)/100;
+        $tax_amount = ($inv_data->tax*$subTotal)/100;
         @endphp
         <tr>
             <td></td>
             <td></td>
             <td></td>
-            <td style='font-size:14px;'>TAX({{$quotationApplication->tax}}%)</td>
+            <td style='font-size:14px;'>TAX({{$inv_data->tax}}%)</td>
 
             <td style='font-size:14px; color:tomato; border: 1px solid #001a00; text-align:right; padding-right:5px '>{{$tax_amount}}</td>
         </tr>
@@ -293,7 +293,7 @@
             <td></td>
             <td style='font-size:14px;'><b>Grand Total</b></td>
 
-            <td style='font-size:14px; color:tomato; border: 1px solid #001a00; text-align:right; padding-right:5px '><b>{{$quotationApplication->grand_total}}</b></td>
+            <td style='font-size:14px; color:tomato; border: 1px solid #001a00; text-align:right; padding-right:5px '><b>{{$inv_data->grand_total}}</b></td>
         </tr>
         else
         <tr>
@@ -302,14 +302,14 @@
             <td></td>
             <td style='font-size:14px;'>Grand Total</td>
 
-            <td style='font-size:14px; color:tomato; text-align:right; padding-right:5px'>{{$quotationApplication->grand_total}}
+            <td style='font-size:14px; color:tomato; text-align:right; padding-right:5px'>{{$inv_data->grand_total}}
             </td>
         </tr>
         @endif
 
     </table>
 
-    @if($quotationApplication->terms_conditions)
+    @if($inv_data->terms_conditions)
     <br>
     <br>
     <table width='100%' cellspacing='0' cellpadding='10' border='1' bordercolor='#CCCCCC'>
@@ -321,7 +321,7 @@
 
         </tr>
         <tr>
-            <td valign='top' style='font-size:12px; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $quotationApplication->terms_conditions }}</td>
+            <td valign='top' style='font-size:12px; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $inv_data->terms_conditions }}</td>
         </tr>
     </table>
     @endif

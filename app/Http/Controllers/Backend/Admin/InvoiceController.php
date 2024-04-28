@@ -13,6 +13,7 @@ use App\Models\Backend\InvoiceDetails;
 use App\Models\Backend\Unit;
 use App\Models\Backend\WorkCategory;
 use App\Models\Frontend\Quotation;
+use App\Models\InvoicePayment;
 use App\Models\Setting;
 use Exception;
 use Illuminate\Http\Request;
@@ -22,6 +23,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Yajra\DataTables\Facades\DataTables;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use Illuminate\Support\Facades\Mail;
 
 use function PHPSTORM_META\type;
 
@@ -66,7 +68,6 @@ class InvoiceController extends Controller
             } else {
                 DB::beginTransaction();
                 try {
-
                     $created_time = Carbon::now();
                     $last_quotation = Invoice::first();
                     if (is_null($last_quotation)) {
@@ -120,11 +121,21 @@ class InvoiceController extends Controller
                         ->first();
 
                     $groupedDetails = $inv_data->invoiceDetails->groupBy('category_id');
-                    $client_id = QuotationApplication::where('quotation_id', $quotation_id)->columns('client_id');
+                    $client_id = QuotationApplication::where('quotation_id', $quotation_id)->value('client_id');
                     $client_details = Client::where('id', $client_id)->first();
 
                     $pdf = Pdf::loadView('backend.pages.invoice.invoice_pdf', compact('inv_data', 'groupedDetails', 'subTotal', 'company_details', 'client_details'))->setPaper('letter', 'portrait');
 
+
+                    $data["email"] = $client_details->email;
+                    $data["title"] = "Here is Invoice for your " . $title . " work";
+                    $data["body"] = "This is the Invoice we made for following work list pdf attached in this mail.";
+
+                    Mail::send('backend.pages.invoice.invoice_mail', $data, function ($message) use ($data, $pdf) {
+                        $message->to($data["email"], $data["email"])
+                            ->subject($data["title"])
+                            ->attachData($pdf->output(), "Quotation.pdf");
+                    });
                     DB::commit();
                     return response()->json(['type' => 'success', 'message' => "Successfully Inserted"]);
                 } catch (Exception $e) {
@@ -266,7 +277,11 @@ class InvoiceController extends Controller
 
                 ->addColumn('action', function ($invoice) {
                     $html = '<div class="btn-group">';
+                    if ($invoice->paid_amount <= $invoice->grand_total) {
+                        $html .= '<a data-toggle="tooltip"  id="' . $invoice->id . '" class="btn btn-primary mr-1 add_payment" title="Add Payment"><i class="lni lni-plus"></i> </a>';
+                    }
                     $html .= '<a data-toggle="tooltip"  id="' . $invoice->id . '" class="btn btn-success mr-1 view" title="View"><i class="lni lni-eye"></i> </a>';
+                    $html .= '<a data-toggle="tooltip"  id="' . $invoice->id . '" class="btn btn-secondary mr-1 show_payments" title="Show Payments"><i class="bx bx-file"></i> </a>';
                     $html .= '<a data-toggle="tooltip"  id="' . $invoice->id . '" class="btn btn-danger delete" title="Delete"><i class="lni lni-trash"></i> </a>';
                     return $html;
                 })
@@ -292,21 +307,89 @@ class InvoiceController extends Controller
         if ($request->ajax()) {
             $company_details = Setting::first();
             // $quotation_details = QuotationApplication::where('quotation_request_id', $id)->get();
-            $invoice = Invoice::with('quotationDetails')
-                ->where('quotation_request_id', $id)
+            $invoice = Invoice::with('invoiceDetails')
+                ->where('id', $id)
                 ->first();
-            // dd($quotationApplication->quotationDetails);
+
             $subTotal = 0;
-            foreach ($quotationApplication->quotationDetails as $detail) {
+            foreach ($invoice->invoiceDetails as $detail) {
                 $subTotal += (float) $detail->total_price;
             }
             $subTotalFormatted = number_format($subTotal, 2);
-            $groupedDetails = $quotationApplication->quotationDetails->groupBy('category_id');
-            $client_details = Quotation::join('clients', 'quotations.email', '=', 'clients.email')
-                ->where('quotations.id', '=', $id)
-                ->select('clients.*', 'quotations.*')
-                ->first();
-            $view = View::make('backend.pages.all_quotations.quotation_view', compact('quotationApplication', 'subTotalFormatted', 'subTotal', 'groupedDetails', 'company_details', 'client_details'))->render();
+            $groupedDetails = $invoice->invoiceDetails->groupBy('category_id');
+            $client_id = QuotationApplication::where('id', $invoice->quotation_id)->value('client_id');
+            // dd($client_id);
+            $client_details = Client::where('id', $client_id)->first();
+            // dd($client_details);
+            $view = View::make('backend.pages.invoice.invoice_view', compact('invoice', 'subTotalFormatted', 'subTotal', 'groupedDetails', 'company_details', 'client_details'))->render();
+            return response()->json(['html' => $view]);
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
+    }
+
+    public function createPayments($id, Request $request)
+    {
+        $invoice = Invoice::findOrFail($id);
+        if ($request->ajax()) {
+            $view = View::make('backend.pages.invoice.create_invoice_payment', compact('invoice'))->render();
+            return response()->json(['html' => $view]);
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
+    }
+
+    public function storeInvoicePayment(Request $request)
+    {
+        if ($request->ajax()) {
+            $rules = [
+                'payment_date' => 'required',
+                'amount' => 'required',
+                'payment_method' => 'required',
+            ];
+
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json([
+                    'type' => 'error',
+                    'errors' => $validator->getMessageBag()->toArray()
+                ]);
+            } else {
+                DB::beginTransaction();
+                try {
+
+                    $invoice_payment = new InvoicePayment();
+                    $invoice_payment->invoice_id = $request->invoice_id;
+                    $invoice_payment->payment_date = $request->payment_date;
+                    $invoice_payment->paid_amount = $request->amount;
+                    $invoice_payment->payment_method = $request->payment_method;
+                    $invoice_payment->cheque_date = $request->cheque_date;
+                    $invoice_payment->cheque_number = $request->cheque_number;
+                    $invoice_payment->bank_name = $request->bank_name;
+                    $invoice_payment->save();
+
+                    $invoice = Invoice::findOrFail($request->invoice_id);
+                    $invoice->paid_amount += $request->amount;
+                    $invoice->save();
+
+                    DB::commit();
+                    return response()->json(['type' => 'success', 'message' => "Successfully Inserted"]);
+                } catch (Exception $e) {
+                    DB::rollback();
+                    dd($e->getMessage());
+                    return response()->json(['type' => 'error', 'message' => "Please Fill With Correct data"]);
+                }
+            }
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
+    }
+
+    public function showPayments($id, Request $request)
+    {
+        $invoice_payments = InvoicePayment::where('invoice_id', $id)->get();
+        if ($request->ajax()) {
+            $view = View::make('backend.pages.invoice.show_invoice_payments', compact('invoice_payments'))->render();
             return response()->json(['html' => $view]);
         } else {
             return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
