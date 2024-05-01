@@ -122,11 +122,11 @@
                         <td></td>
                         <td></td>
                         <td valign='top' style='font-size:12px; border-collapse:collapse;'>Discount</td>
-                        <td valign='top' style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray ; border-left: 1px solid gray; text-align: right'>{{number_format($quotationApplication->discount_amount,2)}}</td>
+                        <td valign='top' style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray ; border-left: 1px solid gray; text-align: right'>{{$quotationApplication->discount_amount}}</td>
                     </tr>
                     @php
                     $afterDiscount = $subTotal - $quotationApplication->discount_amount;
-                    $after_Discount = number_format($afterDiscount,2)
+                    $after_Discount = $afterDiscount
                     @endphp
                     <tr>
                         <td></td>
@@ -166,7 +166,7 @@
                         <td></td>
                         <td></td>
                         <td valign='top' style='font-size:12px; border-collapse:collapse;'>Discount</td>
-                        <td valign='top' style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray ; border-left: 1px solid gray; text-align: right'>{{number_format($quotationApplication->discount_amount,2)}}</td>
+                        <td valign='top' style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray ; border-left: 1px solid gray; text-align: right'>{{$quotationApplication->discount_amount}}</td>
                     </tr>
                     @php
                     $afterDiscount = $subTotalFormatted - $quotationApplication->discount_amount;
@@ -176,7 +176,7 @@
                         <td></td>
                         <td></td>
                         <td valign='top' style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse;'>Grand Total</td>
-                        <td valign='top' style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray ; border-left: 1px solid gray; text-align: right'>{{number_format($afterDiscount,2)}}</td>
+                        <td valign='top' style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray ; border-left: 1px solid gray; text-align: right'>{{$afterDiscount}}</td>
                     </tr>
                     @elseif($quotationApplication->tax)
                     <tr>
@@ -195,14 +195,14 @@
                         <td></td>
                         <td></td>
                         <td valign='top' style='font-size:12px; border-collapse:collapse;'>TAX({{$quotationApplication->tax}}%)</td>
-                        <td valign='top' style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray ; border-left: 1px solid gray; text-align: right'>{{number_format($tax_amount,2)}}</td>
+                        <td valign='top' style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray ; border-left: 1px solid gray; text-align: right'>{{$tax_amount}}</td>
                     </tr>
                     <tr>
                         <td></td>
                         <td></td>
                         <td></td>
                         <td valign='top' style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse;'>Grand Total</td>
-                        <td valign='top' style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray ; border-left: 1px solid gray; text-align: right'>{{number_format($grandTotal,2)}}</td>
+                        <td valign='top' style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray ; border-left: 1px solid gray; text-align: right'>{{$grandTotal}}</td>
                     </tr>
                     @else
                     <tr>

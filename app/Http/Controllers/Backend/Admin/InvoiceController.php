@@ -85,7 +85,7 @@ class InvoiceController extends Controller
                     $quantities = $request->input('quantity');
                     $unitPrices = $request->input('unit_price');
                     $totalPrices = $request->input('total_price');
-                    $paidAmount = $request->input('paid_amount');
+                    $paidAmount = $request->input('paid_amount') == null ? 0 : $request->input('paid_amount');
                     $grand_total = $request->input('grand_total');
 
                     $quotation_id = $request->input('quotation_id');
@@ -94,7 +94,8 @@ class InvoiceController extends Controller
                     $invoice->title = $title;
                     $invoice->invoice_date = $invoice_date;
                     $invoice->invoice_code = $invoice_code;
-                    $invoice->paid_amount = $paidAmount == null ? 0 : $paidAmount;
+                    $invoice->paid_amount = $paidAmount;
+
                     $subTotal = 0;
                     for ($i = 0; $i < count($totalPrices); $i++) {
                         $subTotal = $subTotal + $totalPrices[$i];
@@ -114,6 +115,24 @@ class InvoiceController extends Controller
                         $invoiceDetails->total_price = $totalPrices[$key];
                         $invoiceDetails->save();
                     }
+
+                    
+
+                    // invoice payment insertion
+                    if ($paidAmount != 0) {
+                        $invoice_payment = new InvoicePayment();
+                        $invoice_payment->invoice_id = $invoice_id;
+                        $invoice_payment->payment_date = $invoice_date;
+                        $invoice_payment->paid_amount = $paidAmount;
+                        $invoice_payment->payment_method = $request->payment_method;
+                        $invoice_payment->cheque_date = $request->cheque_date;
+                        $invoice_payment->cheque_number = $request->cheque_number;
+                        $invoice_payment->bank_name = $request->bank_name;
+                        $invoice_payment->save();
+                    }
+
+
+
 
                     $company_details = Setting::first();
                     $inv_data = Invoice::with('invoiceDetails')

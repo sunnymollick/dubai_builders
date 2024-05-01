@@ -86,11 +86,20 @@
             @endforeach
         </div>
         <div class="row col-md-12 d-flex flex-row">
-            <div class="form-group col-md-2 float-right">
+            <div class="form-group col-md-6 float-right">
                 <label for="">Paid Amount</label>
                 <input type="number" class="form-control" min="0" id="paid_amount" name="paid_amount"
                     placeholder="Paid Amount">
                 <span class="error_msg danger"></span>
+            </div>
+            <div class="form-group col-md-6 float-right">
+                <label for="">Payment Method</label>
+                <select name="payment_method" id="payment_method" class="form-control">
+                    <option value="" selected disabled>Select Payment Method</option>
+                    <option value="Cash">Cash</option>
+                    <option value="Cheque">Cheque</option>
+                    <option value="Card">Card</option>
+                </select>
             </div>
         </div>
         <div class="row col-md-12 d-flex flex-row">
@@ -98,6 +107,23 @@
                 <label for="">Grand Total</label>
                 <input type="number" class="form-control" min="0" id="grandTotal" name="grand_total"
                     placeholder="Grand Total" readonly>
+            </div>
+        </div>
+        <br>
+        <div class="row" id="cheque_portion">
+            <div class="form-group col-md-4">
+                <label for="">Bank Name</label>
+                <input type="text" name="bank_name" id="bank_name" class="form-control"
+                    placeholder="Enter Bank Name">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="">Cheque Date</label>
+                <input type="date" name="cheque_date" id="cheque_date" class="form-control">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="">Cheque Number</label>
+                <input type="text" name="cheque_number" id="cheque_number" class="form-control"
+                    placeholder="Enter Cheque Number">
             </div>
         </div>
         <br>
@@ -166,6 +192,17 @@
         //     updateGrandTotal();
         //     $(this).closest('.item').remove();
         // });
+
+        $("#cheque_portion").hide();
+
+        $("#payment_method").change(function() {
+            var value = $("#payment_method").val();
+            if (value == 'Cheque') {
+                $("#cheque_portion").show();
+            } else {
+                $("#cheque_portion").hide();
+            }
+        });
 
         function initializeItem(item) {
             item.find('.quantity, .unitPrice').on('change', updateTotalPrice);
