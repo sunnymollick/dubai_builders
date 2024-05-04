@@ -92,18 +92,14 @@ class QuotationController extends Controller
                     $discountAmount = $request->input('discount_amount');
                     $tax = $request->input('tax');
                     $grandTotal = $request->input('grand_total');
+                    $terms_condition = $request->input('terms_conditions');
 
                     $subTotal = 0;
                     for ($i = 0; $i < count($totalPrices); $i++) {
                         $subTotal += (float) $totalPrices[$i];
                     }
                     $afterDiscount = $subTotal - $discountAmount;
-                    
-                    $afterDiscount = number_format($afterDiscount,2,",",".");
 
-                    $discountAmount = number_format($discountAmount,2,",",".");
-                    
-                    $subTotal = number_format($subTotal,2,",",".");
                     // Fetch items from the database based on item_ids
                     $items = Item::whereIn('id', $itemIds)->get();
                     $categories = WorkCategory::whereIn('id', $categoryIds)->get();
@@ -187,6 +183,13 @@ class QuotationController extends Controller
                     //     ];
                     // }
 
+
+                    // $afterDiscount = number_format($afterDiscount, 2, ",", ".");
+
+                    // $discountAmount = number_format($discountAmount, 2, ",", ".");
+
+                    // $subTotal = number_format($subTotal, 2, ",", ".");
+
                     $company_details = Setting::first();
                     if ($request->request_id) {
                         $client_details = Quotation::join('clients', 'quotations.email', '=', 'clients.email')
@@ -198,7 +201,7 @@ class QuotationController extends Controller
                         $client_details = Client::where('id', $request->client_id)
                             ->first();
                     }
-                    $view = View::make('backend.pages.all_quotations.quotation_preview', compact('dataArray', 'grandTotal', 'subTotal', 'afterDiscount', 'discountAmount', 'tax', 'company_details', 'client_details'))->render();
+                    $view = View::make('backend.pages.all_quotations.quotation_preview', compact('dataArray', 'grandTotal', 'subTotal','terms_condition', 'afterDiscount', 'discountAmount', 'tax', 'company_details', 'client_details'))->render();
                     return response()->json(['html' => $view]);
                 } catch (Exception $e) {
                     dd($e->getMessage());
