@@ -121,6 +121,7 @@ Route::get('invoice/show_project_invoices/{id}', [InvoiceController::class, 'sho
 Route::get('invoice/get_project_invoices/{id}', [InvoiceController::class, 'get_project_invoices']);
 // Route::delete('invoices/{id}', [InvoiceController::class, 'destroy']);
 Route::get('invoice/view/{id}', [InvoiceController::class, 'viewInvoice']);
+Route::get('invoice/preview', [InvoiceController::class, 'preview']);
 
 Route::get('create_invoice_payments/{id}',[InvoiceController::class,'createPayments']);
 Route::get('show_invoice_payments/{id}',[InvoiceController::class,'showPayments']);

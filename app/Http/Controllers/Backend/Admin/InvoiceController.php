@@ -87,6 +87,9 @@ class InvoiceController extends Controller
                     $totalPrices = $request->input('total_price');
                     $paidAmount = $request->input('paid_amount') == null ? 0 : $request->input('paid_amount');
                     $grand_total = $request->input('grand_total');
+                    $bank_details = $request->input('bank_details');
+
+                    // TODO:  insert bank detaials:
 
                     $quotation_id = $request->input('quotation_id');
                     $invoice = new Invoice();
@@ -95,6 +98,7 @@ class InvoiceController extends Controller
                     $invoice->invoice_date = $invoice_date;
                     $invoice->invoice_code = $invoice_code;
                     $invoice->paid_amount = $paidAmount;
+                    $invoice->bank_details = $bank_details;
 
                     $subTotal = 0;
                     for ($i = 0; $i < count($totalPrices); $i++) {
@@ -116,7 +120,7 @@ class InvoiceController extends Controller
                         $invoiceDetails->save();
                     }
 
-                    
+
 
                     // invoice payment insertion
                     if ($paidAmount != 0) {
@@ -140,7 +144,7 @@ class InvoiceController extends Controller
                         ->first();
 
                     $groupedDetails = $inv_data->invoiceDetails->groupBy('category_id');
-                    $client_id = QuotationApplication::where('quotation_id', $quotation_id)->value('client_id');
+                    $client_id = QuotationApplication::where('quotation_request_id', $quotation_id)->value('client_id');
                     $client_details = Client::where('id', $client_id)->first();
 
                     $pdf = Pdf::loadView('backend.pages.invoice.invoice_pdf', compact('inv_data', 'groupedDetails', 'subTotal', 'company_details', 'client_details'))->setPaper('letter', 'portrait');
@@ -410,6 +414,123 @@ class InvoiceController extends Controller
         if ($request->ajax()) {
             $view = View::make('backend.pages.invoice.show_invoice_payments', compact('invoice_payments'))->render();
             return response()->json(['html' => $view]);
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
+    }
+
+    public function preview(Request $request)
+    {
+        if ($request->ajax()) {
+            $path = "quotations";
+            $rules = [
+                'items' => 'required',
+                'unit' => 'required',
+                'unit_price' => 'required',
+                'quantity' => 'required',
+            ];
+
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json([
+                    'type' => 'error',
+                    'errors' => $validator->getMessageBag()->toArray()
+                ]);
+            } else {
+
+                DB::beginTransaction();
+                try {
+                    // Get item_ids, quantities, and total_prices from the form data
+                    // dd($request);
+                    $title = $request->input('title');
+                    $categoryIds = $request->input('work_category_id');
+                    $itemIds = $request->input('items');
+                    $quantities = $request->input('quantity');
+                    $units = $request->input('unit');
+                    $unitPrices = $request->input('unit_price');
+                    $totalPrices = $request->input('total_price');
+                    $discountAmount = $request->input('discount_amount');
+                    $tax = $request->input('tax');
+                    $grandTotal = $request->input('grand_total');
+                    $bank_details = $request->input('bank_details');
+                    $quotation_id = $request->input('quotation_id');
+
+
+                    array_splice($categoryIds, 0, 1);
+                    array_splice($itemIds, 0, 1);
+                    array_splice($quantities, 0, 1);
+                    array_splice($units, 0, 1);
+                    array_splice($unitPrices, 0, 1);
+                    array_splice($totalPrices, 0, 1);
+                    // dd($categoryIds);
+
+                    $subTotal = 0;
+                    for ($i = 0; $i < count($totalPrices); $i++) {
+                        $subTotal += (float) $totalPrices[$i];
+                    }
+
+                    // Fetch items from the database based on item_ids
+                    $items = Item::whereIn('id', $itemIds)->get();
+                    $categories = WorkCategory::whereIn('id', $categoryIds)->get();
+
+                    // Group items by category
+                    $groupedData = [];
+
+                    $groupedData = array_map(function ($category_id, $item, $unit, $unitPrice, $quantity, $totalPrice) {
+                        return [
+                            "category_id" => $category_id,
+                            "item_id" => $item,
+                            "unit" => $unit,
+                            "unitPrice" => $unitPrice,
+                            "quantity" => $quantity,
+                            "totalPrice" => $totalPrice,
+                        ];
+                    }, array_values($categoryIds), array_values($itemIds), array_values($units), array_values($unitPrices), array_values($quantities), array_values($totalPrices));
+
+                    $newGroup = [];
+                    foreach ($groupedData as $gd) {
+                        foreach ($items as $itm) {
+                            if ($gd['item_id'] == $itm->id) {
+                                $gd['item_name'] = $itm->item_work;
+                                // dd($gd);
+                                array_push($newGroup, $gd);
+                            }
+                        }
+                    }
+
+
+                    $newArray = [];
+
+                    foreach ($newGroup as $item) {
+                        $categoryId = $item['category_id'];
+                        if (!isset($newArray[$categoryId])) {
+                            $newArray[$categoryId] = [];
+                        }
+                        $newArray[$categoryId][] = $item;
+                    }
+
+                    $dataArray = [];
+                    foreach ($newArray as $key => $value) {
+                        foreach ($categories as $ct) {
+                            if ($key == $ct->id) {
+                                $dataArray[$ct->title] = $value;
+                            }
+                        }
+                    }
+
+                    $company_details = Setting::first();
+
+                    $client_id = QuotationApplication::where('quotation_request_id', $quotation_id)->value('client_id');
+                    $client_details = Client::where('id', $client_id)->first();
+
+                    $view = View::make('backend.pages.invoice.invoice_preview', compact('dataArray', 'grandTotal', 'subTotal', 'bank_details', 'afterDiscount', 'discountAmount', 'tax', 'company_details', 'client_details','title'))->render();
+                    // dd($view);
+                    return response()->json(['html' => $view]);
+                } catch (Exception $e) {
+                    dd($e->getMessage());
+                    return response()->json(['type' => 'error', 'message' => "Please Fill With Correct data"]);
+                }
+            }
         } else {
             return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
         }

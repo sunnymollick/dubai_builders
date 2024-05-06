@@ -26,6 +26,53 @@
             </div>
         </div>
         <div id="items">
+            <div class="item col" style="margin-bottom: 10px;display:none;">
+                <div class="row">
+                    <div class="form-group col-md-2">
+                        <label for="">Category</label>
+                        <select class="form-control categorySelect" disabled name="work_category_id[]" id=""
+                            required>
+                            <option value="">Select Category</option>
+                            @foreach ($all_work_categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->title }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="">Item/Work</label>
+                        <select class="form-control itemSelect" name="items[]" id="" disabled>
+                            <option value="">Select Item</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="">Quantity</label>
+                        <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}"
+                            class="form-control quantity" name="quantity[]" placeholder="Quantity">
+                    </div>
+                    <div class="form-group col-md-1">
+                        <label for="">Unit</label>
+                        <input type="text" class="form-control unitSelect" id="" name="unit[]"
+                            placeholder="Unit" readonly>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="">Unit Price</label>
+                        <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}"
+                            class="form-control unitPrice" id="" name="unit_price[]" placeholder="Unit Price">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="">Total</label>
+                        <input type="number" class="form-control totalPrice" name="total_price[]"
+                            placeholder="Total Price" readonly>
+                    </div>
+
+                    <div class="col-md-1">
+                        <br>
+                        <button type="button" class="btn btn-danger form-control removeItem">X</button>
+                    </div>
+                </div>
+                <hr>
+
+            </div>
             @foreach ($quotation_details as $qd)
                 <div class="item col" style="margin-bottom: 10px;">
                     <div class="row">
@@ -54,9 +101,9 @@
                         </div>
                         <div class="form-group col-md-2">
                             <label for="">Quantity</label>
-                            <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}"
-                                class="form-control quantity" name="quantity[]" value="{{ $qd->quantity }}"
-                                placeholder="Quantity">
+                            <input type="number" min="0"
+                                onkeyup="if(this.value<0){this.value= this.value * -1}" class="form-control quantity"
+                                name="quantity[]" value="{{ $qd->quantity }}" placeholder="Quantity">
                         </div>
                         <div class="form-group col-md-1">
                             <label for="">Unit</label>
@@ -65,9 +112,10 @@
                         </div>
                         <div class="form-group col-md-2">
                             <label for="">Unit Price</label>
-                            <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}"
-                                class="form-control unitPrice" id="" name="unit_price[]"
-                                placeholder="Unit Price" value="{{ $qd->unit_price }}">
+                            <input type="number" min="0"
+                                onkeyup="if(this.value<0){this.value= this.value * -1}" class="form-control unitPrice"
+                                id="" name="unit_price[]" placeholder="Unit Price"
+                                value="{{ $qd->unit_price }}">
                         </div>
                         <div class="form-group col-md-2">
                             <label for="">Total</label>
@@ -124,6 +172,14 @@
                 <label for="">Cheque Number</label>
                 <input type="text" name="cheque_number" id="cheque_number" class="form-control"
                     placeholder="Enter Cheque Number">
+            </div>
+            <br>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label for="">Bank Details</label>
+                <textarea class="form-control" name="bank_details" id="bank_details"></textarea>
             </div>
         </div>
         <br>
@@ -214,19 +270,23 @@
         }
 
         $('#preview').on('click', function() {
+            // console.log(formData);return;
+            // var formData = new FormData($("#create")[0]);
+            $('.categorySelect').prop('disabled', false);
+            $('.itemSelect').prop('disabled', false);
             var formData = $("#create").serialize();
             $.ajax({
                 type: 'GET',
-                url: 'request/for/quotation/preview',
+                url: '/admin/invoice/preview',
                 data: formData,
                 dataType: 'json',
                 cache: false,
                 success: function(data) {
                     console.log(data.data);
-                    // $("#quotation_data").html(data.html);
-                    // // jQuery.noConflict();
-                    // $('#previewModal').modal('show'); // show bootstrap modal
-                    // $('.quotation-title').text('Quotation');
+                    $("#quotation_data").html(data.html);
+                    // jQuery.noConflict();
+                    $('#previewModal').modal('show'); // show bootstrap modal
+                    $('.quotation-title').text('Invoice');
                 },
                 error: function(result) {
                     $("#modal_data").html("Sorry Cannot Load Data");
@@ -238,6 +298,7 @@
         // Event handler for the "Add Item" button
         $('#addItem').on('click', function() {
             var newItem = $('#items .item:first').clone(); // Clone the first item
+            newItem.show();
             newItem.find('input').val(''); // Clear input values in the cloned item
             newItem.find('.removeItem').show(); // Show remove button for the cloned item
             $('#items').append(newItem); // Append the cloned item to the items container
