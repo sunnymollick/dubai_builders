@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('payment_method');
             $table->string('cheque_date')->nullable();
             $table->string('cheque_number')->nullable();
+            $table->string('bank_name')->nullable();
             $table->foreign('invoice_id')
                 ->references('id')->on('invoices')
                 ->onDelete('cascade');

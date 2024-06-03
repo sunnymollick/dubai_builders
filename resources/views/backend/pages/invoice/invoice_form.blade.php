@@ -26,6 +26,53 @@
             </div>
         </div>
         <div id="items">
+            <div class="item col" style="margin-bottom: 10px;display:none;">
+                <div class="row">
+                    <div class="form-group col-md-2">
+                        <label for="">Category</label>
+                        <select class="form-control categorySelect" disabled name="work_category_id[]" id=""
+                            required>
+                            <option value="">Select Category</option>
+                            @foreach ($all_work_categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->title }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="">Item/Work</label>
+                        <select class="form-control itemSelect" name="items[]" id="" disabled>
+                            <option value="">Select Item</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="">Quantity</label>
+                        <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}"
+                            class="form-control quantity" name="quantity[]" placeholder="Quantity">
+                    </div>
+                    <div class="form-group col-md-1">
+                        <label for="">Unit</label>
+                        <input type="text" class="form-control unitSelect" id="" name="unit[]"
+                            placeholder="Unit" readonly>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="">Unit Price</label>
+                        <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}"
+                            class="form-control unitPrice" id="" name="unit_price[]" placeholder="Unit Price">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="">Total</label>
+                        <input type="number" class="form-control totalPrice" name="total_price[]"
+                            placeholder="Total Price" readonly>
+                    </div>
+
+                    <div class="col-md-1">
+                        <br>
+                        <button type="button" class="btn btn-danger form-control removeItem">X</button>
+                    </div>
+                </div>
+                <hr>
+
+            </div>
             @foreach ($quotation_details as $qd)
                 <div class="item col" style="margin-bottom: 10px;">
                     <div class="row">
@@ -54,9 +101,9 @@
                         </div>
                         <div class="form-group col-md-2">
                             <label for="">Quantity</label>
-                            <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}"
-                                class="form-control quantity" name="quantity[]" value="{{ $qd->quantity }}"
-                                placeholder="Quantity">
+                            <input type="number" min="0"
+                                onkeyup="if(this.value<0){this.value= this.value * -1}" class="form-control quantity"
+                                name="quantity[]" value="{{ $qd->quantity }}" placeholder="Quantity">
                         </div>
                         <div class="form-group col-md-1">
                             <label for="">Unit</label>
@@ -65,9 +112,10 @@
                         </div>
                         <div class="form-group col-md-2">
                             <label for="">Unit Price</label>
-                            <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}"
-                                class="form-control unitPrice" id="" name="unit_price[]"
-                                placeholder="Unit Price" value="{{ $qd->unit_price }}">
+                            <input type="number" min="0"
+                                onkeyup="if(this.value<0){this.value= this.value * -1}" class="form-control unitPrice"
+                                id="" name="unit_price[]" placeholder="Unit Price"
+                                value="{{ $qd->unit_price }}">
                         </div>
                         <div class="form-group col-md-2">
                             <label for="">Total</label>
@@ -86,11 +134,20 @@
             @endforeach
         </div>
         <div class="row col-md-12 d-flex flex-row">
-            <div class="form-group col-md-2 float-right">
+            <div class="form-group col-md-6 float-right">
                 <label for="">Paid Amount</label>
                 <input type="number" class="form-control" min="0" id="paid_amount" name="paid_amount"
                     placeholder="Paid Amount">
                 <span class="error_msg danger"></span>
+            </div>
+            <div class="form-group col-md-6 float-right">
+                <label for="">Payment Method</label>
+                <select name="payment_method" id="payment_method" class="form-control">
+                    <option value="" selected disabled>Select Payment Method</option>
+                    <option value="Cash">Cash</option>
+                    <option value="Cheque">Cheque</option>
+                    <option value="Card">Card</option>
+                </select>
             </div>
         </div>
         <div class="row col-md-12 d-flex flex-row">
@@ -98,6 +155,40 @@
                 <label for="">Grand Total</label>
                 <input type="number" class="form-control" min="0" id="grandTotal" name="grand_total"
                     placeholder="Grand Total" readonly>
+            </div>
+        </div>
+        <br>
+        <div class="row" id="cheque_portion">
+            <div class="form-group col-md-4">
+                <label for="">Bank Name</label>
+                <input type="text" name="bank_name" id="bank_name" class="form-control"
+                    placeholder="Enter Bank Name">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="">Cheque Date</label>
+                <input type="date" name="cheque_date" id="cheque_date" class="form-control">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="">Cheque Number</label>
+                <input type="text" name="cheque_number" id="cheque_number" class="form-control"
+                    placeholder="Enter Cheque Number">
+            </div>
+            <br>
+        </div>
+
+        <div class="row col-md-12 d-flex flex-row">
+            <div class="form-group col-md-6 float-right">
+                <label for="">TRN</label>
+                <input type="text" class="form-control"  id="trn" name="trn"
+                    placeholder="Enter TRN">
+                <span class="error_msg danger"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label for="">Bank Details</label>
+                <textarea class="form-control" name="bank_details" id="bank_details"></textarea>
             </div>
         </div>
         <br>
@@ -128,7 +219,7 @@
         }, function() {
             // console.log('hi');
             $.ajax({
-                url: 'request/for/invoice/store',
+                url: '/admin/request/for/invoice/store',
                 type: 'POST',
                 data: myData,
                 dataType: 'json',
@@ -167,6 +258,17 @@
         //     $(this).closest('.item').remove();
         // });
 
+        $("#cheque_portion").hide();
+
+        $("#payment_method").change(function() {
+            var value = $("#payment_method").val();
+            if (value == 'Cheque') {
+                $("#cheque_portion").show();
+            } else {
+                $("#cheque_portion").hide();
+            }
+        });
+
         function initializeItem(item) {
             item.find('.quantity, .unitPrice').on('change', updateTotalPrice);
             item.find('.removeItem').on('click', function() {
@@ -177,20 +279,23 @@
         }
 
         $('#preview').on('click', function() {
+            // console.log(formData);return;
+            // var formData = new FormData($("#create")[0]);
+            $('.categorySelect').prop('disabled', false);
+            $('.itemSelect').prop('disabled', false);
             var formData = $("#create").serialize();
             $.ajax({
                 type: 'GET',
-                url: 'quotation/preview',
+                url: '/admin/invoice/preview',
                 data: formData,
                 dataType: 'json',
                 cache: false,
                 success: function(data) {
-                    // console.log(data.data);
+                    console.log(data.data);
                     $("#quotation_data").html(data.html);
-                    jQuery.noConflict();
+                    // jQuery.noConflict();
                     $('#previewModal').modal('show'); // show bootstrap modal
-                    $('.quotation-title').text('Quotation');
-
+                    $('.quotation-title').text('Invoice');
                 },
                 error: function(result) {
                     $("#modal_data").html("Sorry Cannot Load Data");
@@ -202,6 +307,7 @@
         // Event handler for the "Add Item" button
         $('#addItem').on('click', function() {
             var newItem = $('#items .item:first').clone(); // Clone the first item
+            newItem.show();
             newItem.find('input').val(''); // Clear input values in the cloned item
             newItem.find('.removeItem').show(); // Show remove button for the cloned item
             $('#items').append(newItem); // Append the cloned item to the items container
@@ -363,5 +469,21 @@
         }
         calculateGrandTotal();
 
+    });
+</script>
+
+
+
+<script src="{{ asset('backend/ckeditor/ckeditor.js') }}"></script>
+<script>
+    CKEDITOR.replace('bank_details', {
+        filebrowserBrowseUrl: '{{ asset('backend') }}/ckeditor/filemanager/browser/default/browser.html?Connector={{ asset('backend') }}/ckeditor/filemanager/connectors/php/connector.php',
+        filebrowserImageBrowseUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/browser/default/browser.html?Type=Image&Connector=' +
+            '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/connector.php',
+        filebrowserFlashBrowseUrl: '/ext/ckeditor/filemanager/browser/default/browser.html?Type=Flash&Connector=' +
+            '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/connector.php',
+        filebrowserUploadUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=File',
+        filebrowserImageUploadUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Image',
+        filebrowserFlashUploadUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Flash'
     });
 </script>

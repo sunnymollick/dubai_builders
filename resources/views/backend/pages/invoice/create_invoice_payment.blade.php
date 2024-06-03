@@ -43,11 +43,15 @@
             </div>
         </div>
         <div class="row" id="cheque_portion">
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-4">
+                <label for="">Bank Name</label>
+                <input type="text" name="bank_name" id="bank_name" class="form-control" placeholder="Enter Bank Name">
+            </div>
+            <div class="form-group col-md-4">
                 <label for="">Cheque Date</label>
                 <input type="date" name="cheque_date" id="cheque_date" class="form-control">
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-4">
                 <label for="">Cheque Number</label>
                 <input type="text" name="cheque_number" id="cheque_number" class="form-control" placeholder="Enter Cheque Number">
             </div>

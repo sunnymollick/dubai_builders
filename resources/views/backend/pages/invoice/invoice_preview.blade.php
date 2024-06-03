@@ -19,7 +19,7 @@
                     <tr>
                         <table width='35%' align="left" cellspacing='0' cellpadding='5'>
                             <tr style="background-color: yellowgreen;font-size:15px; font-weight:bold; ">
-                                <td>Quotation To:</td>
+                                <td>Invoice To:</td>
 
                             </tr>
                             <tr>
@@ -56,10 +56,37 @@
 
                     </tr>
                 </table>
+
+
+                <table width='100%' height='50'>
+                    <tr>
+                        <td style='font-size:12px;text-align:justify;'></td>
+                    </tr>
+                </table>
+
+                <table width='100%' cellspacing='0' cellpadding='0'>
+                    <tr>
+                        <table width='35%' align="left" cellspacing='0' cellpadding='5'>
+                            <tr style="background-color: yellowgreen;font-size:15px; font-weight:bold; ">
+                                <td>Invoice For</td>
+
+                            </tr>
+                            <tr>
+                                <td valign='top' style='font-size:14px; color:red; background-color:blanchedalmond'>
+                                    <strong>{{ $title }}</strong><br />
+                                    {{-- <p style="color:black; font-size:12px">{{ $client_details->address }} --}}
+
+
+                                </td>
+                            </tr>
+                        </table>
+                    </tr>
+                </table>
+
                 <table width='100%' height='100' cellspacing='0' cellpadding='0'>
                     <tr>
                         <td>
-                            <div align='center' style='font-size: 17px;font-weight: bold; color:red'>Quotation ID #
+                            <div align='center' style='font-size: 17px;font-weight: bold; color:red'>Invoice ID #
                             </div>
                         </td>
                     </tr>
@@ -266,27 +293,26 @@
             <td style='font-size:12px;text-align:justify;'></td>
         </tr>
     </table>
-    @if ($terms_condition!=null)
-    <br>
-    <br>
-    <table width='100%' cellspacing='0' cellpadding='10' border='1' bordercolor='#CCCCCC'>
-        <tr>
+    @if ($bank_details != null)
+        <br>
+        <br>
+        <table width='100%' cellspacing='0' cellpadding='10' border='1' bordercolor='#CCCCCC'>
+            <tr>
 
-            <td width='35%' bordercolor='#ccc' bgcolor='yellowgreen'
-                style='font-size:14px; border-collapse:collapse; border-right: 1px solid gray'><strong>TERMS &
-                    CONDITIONS
-                </strong>
-            </td>
+                <td width='35%' bordercolor='#ccc' bgcolor='yellowgreen'
+                    style='font-size:14px; border-collapse:collapse; border-right: 1px solid gray'><strong>BANK DETAILS
+                    </strong>
+                </td>
 
-        </tr>
-        <tr>
-            <td valign='top'
-                style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray ; border-left: 1px solid gray;'>
-                {{ $terms_condition }}</td>
-        </tr>
-    </table>
-@endif
-    
+            </tr>
+            <tr>
+                <td valign='top'
+                    style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray ; border-left: 1px solid gray;'>
+                    {{ $bank_details }}</td>
+            </tr>
+        </table>
+    @endif
+
     <table width='100%' height='50'>
         <tr>
             <td style='font-size:12px;text-align:justify;'></td>
@@ -313,6 +339,6 @@
     </table>
     </td>
     </tr>
-   
+
     </table>
 </div>

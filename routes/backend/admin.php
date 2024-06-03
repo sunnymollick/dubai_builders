@@ -109,7 +109,8 @@ Route::get('getAllSliders', [SliderController::class, 'getAllSliders']);
 // job application route
 Route::get('job_application_index', [CareerController::class, 'jobApplicationIndex'])->name('job_applications');
 Route::get('allJobApplications', [CareerController::class, 'getallJobApplications']);
-Route::post('job_application/reply/{id}', [CareerController::class, 'jobApplicationReply']);
+Route::get('job_application/reply/{id}', [CareerController::class, 'jobApplicationReply']);
+Route::post('job_application/reply/store', [CareerController::class, 'jobApplicationReplyStore']);
 
 
 // invoice route
@@ -120,6 +121,8 @@ Route::post('request/for/invoice/store', [InvoiceController::class, 'store']);
 Route::get('invoice/show_project_invoices/{id}', [InvoiceController::class, 'show_project_invoices']);
 Route::get('invoice/get_project_invoices/{id}', [InvoiceController::class, 'get_project_invoices']);
 // Route::delete('invoices/{id}', [InvoiceController::class, 'destroy']);
+Route::get('invoice/view/{id}', [InvoiceController::class, 'viewInvoice']);
+Route::get('invoice/preview', [InvoiceController::class, 'preview']);
 
 Route::get('create_invoice_payments/{id}',[InvoiceController::class,'createPayments']);
 Route::get('show_invoice_payments/{id}',[InvoiceController::class,'showPayments']);

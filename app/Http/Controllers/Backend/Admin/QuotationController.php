@@ -82,6 +82,7 @@ class QuotationController extends Controller
                 DB::beginTransaction();
                 try {
                     // Get item_ids, quantities, and total_prices from the form data
+                    // dd($request);
                     $itemIds = $request->input('items');
                     $categoryIds = $request->input('work_category_id');
                     $units = $request->input('unit');
@@ -91,15 +92,18 @@ class QuotationController extends Controller
                     $discountAmount = $request->input('discount_amount');
                     $tax = $request->input('tax');
                     $grandTotal = $request->input('grand_total');
+                    $terms_condition = $request->input('terms_conditions');
 
                     $subTotal = 0;
                     for ($i = 0; $i < count($totalPrices); $i++) {
-                        $subTotal = $subTotal + $totalPrices[$i];
+                        $subTotal += (float) $totalPrices[$i];
                     }
                     $afterDiscount = $subTotal - $discountAmount;
+
                     // Fetch items from the database based on item_ids
                     $items = Item::whereIn('id', $itemIds)->get();
                     $categories = WorkCategory::whereIn('id', $categoryIds)->get();
+                    // dd($ite);
 
                     // Group items by category
                     $groupedData = [];
@@ -113,24 +117,78 @@ class QuotationController extends Controller
                     //         }
                     //     }
                     // };
-                    for ($i = 0; $i < count($itemIds); $i++) {
-                        $groupedData[$itemIds[$i]->work_category_id] = [
-                            'category' => WorkCategory::where('id', $itemIds[$i]->work_category_id)->first(),
-                            'items' => $itemIds[$i]
+                    $groupedData = array_map(function ($category_id, $item, $unit, $unitPrice, $quantity, $totalPrice) {
+                        return [
+                            "category_id" => $category_id,
+                            "item_id" => $item,
+                            "unit" => $unit,
+                            "unitPrice" => $unitPrice,
+                            "quantity" => $quantity,
+                            "totalPrice" => $totalPrice,
                         ];
-                    }
-                    // foreach ($groupedData as $i => $cat)
-                    foreach ($items as $index => $item) {
-                        $categoryId = $categoryIds[$index];
+                    }, array_values($categoryIds), array_values($itemIds), array_values($units), array_values($unitPrices), array_values($quantities), array_values($totalPrices));
 
-                        $groupedData[$categoryId]['items'][] = [
-                            'item' => $item,
-                            'unit' => $units[$index],
-                            'unit_price' => $unitPrices[$index],
-                            'quantity' => $quantities[$index],
-                            'total_price' => $totalPrices[$index],
-                        ];
+                    $newGroup = [];
+                    foreach ($groupedData as $gd) {
+                        foreach ($items as $itm) {
+                            if ($gd['item_id'] == $itm->id) {
+                                $gd['item_name'] = $itm->item_work;
+                                // dd($gd);
+                                array_push($newGroup, $gd);
+                            }
+                        }
                     }
+
+                    // foreach($)
+
+                    $newArray = [];
+
+                    foreach ($newGroup as $item) {
+                        $categoryId = $item['category_id'];
+                        if (!isset($newArray[$categoryId])) {
+                            $newArray[$categoryId] = [];
+                        }
+                        $newArray[$categoryId][] = $item;
+                    }
+
+                    $dataArray = [];
+                    foreach ($newArray as $key => $value) {
+                        foreach ($categories as $ct) {
+                            if ($key == $ct->id) {
+                                $dataArray[$ct->title] = $value;
+                            }
+                        }
+                    }
+
+                    // dd($dataArray);
+
+
+
+                    // for ($i = 0; $i < count($itemIds); $i++) {
+                    //     $groupedData[$items[$i]->work_category_id] = [
+                    //         'category' => WorkCategory::where('id', $items[$i]->work_category_id)->first(),
+                    //         'items' => $itemIds[$i]
+                    //     ];
+                    // }
+                    // // foreach ($groupedData as $i => $cat)
+                    // foreach ($items as $index => $item) {
+                    //     $categoryId = $categoryIds[$index];
+
+                    //     $groupedData[$categoryId]['items'][] = [
+                    //         'item' => $item,
+                    //         'unit' => $units[$index],
+                    //         'unit_price' => $unitPrices[$index],
+                    //         'quantity' => $quantities[$index],
+                    //         'total_price' => $totalPrices[$index],
+                    //     ];
+                    // }
+
+
+                    // $afterDiscount = number_format($afterDiscount, 2, ",", ".");
+
+                    // $discountAmount = number_format($discountAmount, 2, ",", ".");
+
+                    // $subTotal = number_format($subTotal, 2, ",", ".");
 
                     $company_details = Setting::first();
                     if ($request->request_id) {
@@ -143,8 +201,7 @@ class QuotationController extends Controller
                         $client_details = Client::where('id', $request->client_id)
                             ->first();
                     }
-                    dd($groupedData);
-                    $view = View::make('backend.pages.all_quotations.quotation_preview', compact('groupedData', 'grandTotal', 'subTotal', 'afterDiscount', 'discountAmount', 'tax', 'company_details', 'client_details'))->render();
+                    $view = View::make('backend.pages.all_quotations.quotation_preview', compact('dataArray', 'grandTotal', 'subTotal','terms_condition', 'afterDiscount', 'discountAmount', 'tax', 'company_details', 'client_details'))->render();
                     return response()->json(['html' => $view]);
                 } catch (Exception $e) {
                     dd($e->getMessage());
@@ -185,7 +242,7 @@ class QuotationController extends Controller
                     } else {
                         $latest_id = QuotationApplication::orderBy('id', 'desc')->first()->id;
                         $quotation_code = Helper::uniqueQuoId("QT-", $created_time->year, $latest_id);
-                    } 
+                    }
                     $cateogry = $request->input('work_category_id');
                     $items = $request->input('items');
                     $units = $request->input('unit');
@@ -349,6 +406,7 @@ class QuotationController extends Controller
                 ->where('quotations.id', '=', $id)
                 ->select('clients.*', 'quotations.*')
                 ->first();
+            // dd($client_details);
             $view = View::make('backend.pages.all_quotations.quotation_view', compact('quotationApplication', 'subTotalFormatted', 'subTotal', 'groupedDetails', 'company_details', 'client_details'))->render();
             return response()->json(['html' => $view]);
         } else {

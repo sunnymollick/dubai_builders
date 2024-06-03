@@ -217,6 +217,23 @@
                 });
             });
 
+            $("#manage_all").on("click", ".view", function() {
+                var id = $(this).attr('id');
+                $.ajax({
+                    url: '/admin/invoice/view' + '/' + id,
+                    type: 'get',
+                    success: function(data) {
+                        $("#modal_data").html(data.html);
+                        $('.modal-title').text('Quotation');
+                        $('#myModal').modal('show'); // show bootstrap modal
+                    },
+                    error: function(result) {
+                        $("#modal_data").html("Sorry Cannot Load Data");
+                    }
+                });
+
+            });
+
         });
     </script>
 @endsection

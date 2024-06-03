@@ -20,6 +20,9 @@ return new class extends Migration
             $table->float('grand_total');
             $table->float('paid_amount')->default(0)->nullable();
             $table->date('invoice_date')->default(now());
+            //TODO: insert bank details column
+            $table->text('bank_details')->nullable();
+            $table->string('trn')->nullable();
             $table->foreign('quotation_id')
                 ->references('id')->on('quotation_applications')
                 ->onDelete('cascade');

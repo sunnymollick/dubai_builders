@@ -4,7 +4,8 @@
     }
 </style>
 
-<form id="create" action="" enctype="multipart/form-data" method="post" accept-charset="utf-8" class="needs-validation" novalidate>
+<form id="create" action="" enctype="multipart/form-data" method="post" accept-charset="utf-8"
+    class="needs-validation" novalidate>
     <div id="status"></div>
     <div>
         <div class="row">
@@ -13,7 +14,7 @@
                 <select class="form-control" name="client_id" id="" required>
                     <option value="">Select Client</option>
                     @foreach ($clients as $client)
-                    <option value="{{ $client->id }}">{{ $client->name }}</option>
+                        <option value="{{ $client->id }}">{{ $client->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -27,7 +28,7 @@
                         <select class="form-control categorySelect" name="work_category_id[]" id="" required>
                             <option value="">Select Category</option>
                             @foreach ($work_categories as $category)
-                            <option value="{{ $category->id }}">{{ $category->title }}</option>
+                                <option value="{{ $category->id }}">{{ $category->title }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -39,19 +40,23 @@
                     </div>
                     <div class="form-group col-md-2">
                         <label for="">Quantity</label>
-                        <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" class="form-control quantity" name="quantity[]" placeholder="Quantity">
+                        <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}"
+                            class="form-control quantity" name="quantity[]" placeholder="Quantity">
                     </div>
                     <div class="form-group col-md-1">
                         <label for="">Unit</label>
-                        <input type="text" class="form-control unitSelect" id="" name="unit[]" placeholder="Unit" readonly>
+                        <input type="text" class="form-control unitSelect" id="" name="unit[]"
+                            placeholder="Unit" readonly>
                     </div>
                     <div class="form-group col-md-2">
                         <label for="">Unit Price</label>
-                        <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" class="form-control unitPrice" id="" name="unit_price[]" placeholder="Unit Price">
+                        <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}"
+                            class="form-control unitPrice" id="" name="unit_price[]" placeholder="Unit Price">
                     </div>
                     <div class="form-group col-md-2">
                         <label for="">Total</label>
-                        <input type="number" class="form-control totalPrice" name="total_price[]" placeholder="Total Price" readonly>
+                        <input type="number" class="form-control totalPrice" name="total_price[]"
+                            placeholder="Total Price" readonly>
                     </div>
 
                     <div class="col-md-1">
@@ -64,23 +69,26 @@
             </div>
         </div>
         <div class="row">
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-12">
                 <label for="">Terms and Conditions</label>
-                <textarea class="form-control" name="terms_conditions" id="terms_conditions"></textarea>
+                <textarea class="form-control" name="terms_conditions" id="terms_conditions" ></textarea>
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-3">
                 <label for="">Discount in amount</label>
-                <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" class="form-control" id="discount_amount" name="discount_amount" placeholder="discount..">
+                <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}"
+                    class="form-control" id="discount_amount" name="discount_amount" placeholder="discount..">
             </div>
             <div class="form-group col-md-2">
                 <label for="">Tax(%)</label>
-                <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}" class="form-control" id="tax" name="tax" placeholder="Tax">
+                <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}"
+                    class="form-control" id="tax" name="tax" placeholder="Tax">
             </div>
             <div class="form-group col-md-2">
                 <label for="">Grand Total</label>
-                <input type="number" class="form-control" id="grandTotal" name="grand_total" placeholder="Grand Total" readonly>
+                <input type="number" class="form-control" id="grandTotal" name="grand_total" placeholder="Grand Total"
+                    readonly>
             </div>
         </div>
         <br>
@@ -265,7 +273,10 @@
                     // Add items based on the fetched data
                     if (data.items && data.items.length > 0) {
                         $.each(data.items, function(index, item) {
-                            itemSelect.append('<option value="' + item.id + '" data-unit="' + item.unit.title + '" data-unit-price="' + item.unit_price + '">' + item.item_work + '</option>');
+                            itemSelect.append('<option value="' + item.id +
+                                '" data-unit="' + item.unit.title +
+                                '" data-unit-price="' + item.unit_price + '">' +
+                                item.item_work + '</option>');
                         });
 
                         // Set the unit and unit price based on the selected item
@@ -313,23 +324,13 @@
 <script src="{{ asset('backend/ckeditor/ckeditor.js') }}"></script>
 <script>
     CKEDITOR.replace('terms_conditions', {
-        filebrowserBrowseUrl: '{{ asset('
-        backend ') }}/ckeditor/filemanager/browser/default/browser.html?Connector={{ asset('
-        backend ') }}/ckeditor/filemanager/connectors/php/connector.php',
-        filebrowserImageBrowseUrl: '{{ asset('
-        backend ') }}/ext/ckeditor/filemanager/browser/default/browser.html?Type=Image&Connector=' +
-        '{{ asset('
-        backend ') }}/ext/ckeditor/filemanager/connectors/php/connector.php',
+        filebrowserBrowseUrl: '{{ asset('backend') }}/ckeditor/filemanager/browser/default/browser.html?Connector={{ asset('backend') }}/ckeditor/filemanager/connectors/php/connector.php',
+        filebrowserImageBrowseUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/browser/default/browser.html?Type=Image&Connector=' +
+            '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/connector.php',
         filebrowserFlashBrowseUrl: '/ext/ckeditor/filemanager/browser/default/browser.html?Type=Flash&Connector=' +
-            '{{ asset('
-        backend ') }}/ext/ckeditor/filemanager/connectors/php/connector.php',
-        filebrowserUploadUrl: '{{ asset('
-        backend ') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=File',
-        filebrowserImageUploadUrl: '{{ asset('
-        backend ') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Image',
-        filebrowserFlashUploadUrl: '{{ asset('
-        backend ') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Flash',
-        height: 100,
-        width: 700
+            '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/connector.php',
+        filebrowserUploadUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=File',
+        filebrowserImageUploadUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Image',
+        filebrowserFlashUploadUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Flash'
     });
 </script>
