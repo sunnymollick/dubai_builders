@@ -10,6 +10,12 @@ Settings
                 <h6><i class="lni lni-cogs" aria-hidden="true"></i> &nbsp; Settings
                     <span style="float: right;">
                     </span>
+                    <span style="float: right;">
+                        <button class="btn btn-primary btn-sm" onclick="create()"><i
+                        class="fadeIn animated bx bx-user-plus"></i>
+                        Add
+                        </button>
+                    </span>
                 </h6>
             </div>
         </div>
@@ -40,6 +46,7 @@ Settings
 @endsection
 @section('scripts')
 <script>
+
     $(function () {
         //alert("alert");
         table = $('#manage_all').DataTable({
@@ -67,6 +74,11 @@ Settings
 </script>
 <script type="text/javascript">
 
+    function create() {
+        ajax_submit_create('settings');
+    }
+
+
     $(document).ready(function () {
         // View Form
         $("#manage_all").on("click", ".view", function () {
@@ -78,6 +90,12 @@ Settings
         $("#manage_all").on("click", ".edit", function () {
             var id = $(this).attr('id');
             ajax_submit_edit('settings', id)
+        });
+
+        // Delete
+        $("#manage_all").on("click", ".delete", function() {
+            var id = $(this).attr('id');
+            ajax_submit_delete('settings', id)
         });
 
 

@@ -153,7 +153,6 @@
         <div class="clearfix"></div>
 
         <div class="form-check">
-
             <input type="checkbox" class="form-check-input" id="is_active" name="is_active" value="1" {{ $project->is_active == '1' ? 'checked' : '' }}>
             <label class="form-check-label" for="">Is Active </label>
             <span id="error_title" class="has-error"></span>

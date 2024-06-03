@@ -35,7 +35,7 @@ class HomeController extends Controller
         $business = Project::where('is_popular', '1')->where('project_type', '3')->orderby('id', 'desc')->limit(5)->get();
         $completed = Project::where('project_status', '2')->count();
         $running = Project::where('project_status', '0')->count();
-        $app_settings = Setting::findOrFail(1);
+        $app_settings = Setting::where('is_active',1)->first();
         $services = Service::orderby('service_title', 'desc')->get();
         $about = About::findOrFail(1);
         $completed_project = Project::where('project_status', '=', '2')->count();
@@ -46,7 +46,7 @@ class HomeController extends Controller
     }
     public function contact()
     {
-        $app_settings = Setting::findOrFail(1);
+        $app_settings = Setting::where('is_active',1)->first();
         return view('frontend.pages.contact', compact('app_settings'), compact('app_settings'));
     }
     public function storeContact(Request $request)
@@ -118,7 +118,7 @@ class HomeController extends Controller
     public function about()
     {
         $about = About::findOrFail(1);
-        $app_settings = Setting::findOrFail(1);
+        $app_settings = Setting::where('is_active',1)->first();
         $team = Team::orderby('order', 'asc')->get();
         return view('frontend.pages.about', compact('about', 'app_settings', 'team'));
     }
