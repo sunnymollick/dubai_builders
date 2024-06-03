@@ -22,6 +22,8 @@ return new class extends Migration
             $table->foreign('job_id')
                 ->references('id')->on('careers')
                 ->onDelete('cascade');
+            $table->date('int_date')->nullable();
+            $table->text('reply_message')->nullable();
             $table->tinyInteger('is_replied')->default(0);
             $table->timestamps();
         });

@@ -109,7 +109,8 @@ Route::get('getAllSliders', [SliderController::class, 'getAllSliders']);
 // job application route
 Route::get('job_application_index', [CareerController::class, 'jobApplicationIndex'])->name('job_applications');
 Route::get('allJobApplications', [CareerController::class, 'getallJobApplications']);
-Route::post('job_application/reply/{id}', [CareerController::class, 'jobApplicationReply']);
+Route::get('job_application/reply/{id}', [CareerController::class, 'jobApplicationReply']);
+Route::post('job_application/reply/store', [CareerController::class, 'jobApplicationReplyStore']);
 
 
 // invoice route

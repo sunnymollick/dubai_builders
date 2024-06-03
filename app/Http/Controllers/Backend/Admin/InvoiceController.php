@@ -50,6 +50,7 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
         if ($request->ajax()) {
             $path = "invoice";
             $rules = [
@@ -88,6 +89,14 @@ class InvoiceController extends Controller
                     $paidAmount = $request->input('paid_amount') == null ? 0 : $request->input('paid_amount');
                     $grand_total = $request->input('grand_total');
                     $bank_details = $request->input('bank_details');
+                    $trn = $request->input('trn');
+
+                    array_splice($cateogry, 0, 1);
+                    array_splice($items, 0, 1);
+                    array_splice($quantities, 0, 1);
+                    array_splice($units, 0, 1);
+                    array_splice($unitPrices, 0, 1);
+                    array_splice($totalPrices, 0, 1);
 
                     // TODO:  insert bank detaials:
 
@@ -99,6 +108,7 @@ class InvoiceController extends Controller
                     $invoice->invoice_code = $invoice_code;
                     $invoice->paid_amount = $paidAmount;
                     $invoice->bank_details = $bank_details;
+                    $invoice->trn = $trn;
 
                     $subTotal = 0;
                     for ($i = 0; $i < count($totalPrices); $i++) {

@@ -12,6 +12,7 @@ use App\Helpers\Helper;
 use App\Models\Frontend\JobApplication;
 use Exception;
 use Illuminate\Queue\Jobs\JobName;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
@@ -239,25 +240,28 @@ class CareerController extends Controller
     {
         if ($request->ajax()) {
 
-            $jobApplications = JobApplication::where('is_replied',0)->orderby('created_at', 'asc')->get();
+            $jobApplications = JobApplication::orderby('created_at', 'asc')->orderBy('is_replied', 'desc')->get();
 
             return DataTables::of($jobApplications)
                 ->addColumn('applied_for', function ($section) {
-                    $job_name  = Career::where('id', $section->id)->value('job_title');
+                    $job_name  = Career::where('id', $section->job_id)->value('job_title');
                     return $job_name;
                 })->addColumn('cv', function ($section) {
-                    $html = "<a class='cv_file' href='" . $section->file . "'>" . $section->name . " CV</a>";
+                    $html = "<a href='#' class='cv-link' data-pdf='" .asset( $section->file)  . "'>" . $section->name . " CV</a>";
                     return $html;
+                })
+                ->addColumn('is_replied', function ($section) {
+                    $replied = $section->is_replied == 1 ? "<span class='text-success' >Replied</span>" : "<span class='text-danger' >Not Replied</span>";
+                    return $replied;
                 })
                 ->addColumn('action', function ($section) {
                     $html = '<div class="btn-group">';
-                    $html .= '<a data-toggle="tooltip"  id="' . $section->id . '" class="btn btn-success mr-1 view" title="View"><i class="lni lni-eye"></i> </a>';
                     $html .= '<a data-toggle="tooltip"  id="' . $section->id . '" class="btn btn-info mr-1 reply" title="Edit"><i class="lni lni-reply"></i> </a>';
                     $html .= '<a data-toggle="tooltip"  id="' . $section->id . '" class="btn btn-danger delete" title="Delete"><i class="lni lni-trash"></i> </a>';
                     $html .= '</div>';
                     return $html;
                 })
-                ->rawColumns(['action', 'applied_for', 'cv'])
+                ->rawColumns(['action', 'applied_for', 'cv', 'is_replied'])
                 ->addIndexColumn()
                 ->make(true);
         } else {
@@ -268,34 +272,71 @@ class CareerController extends Controller
 
     public function jobApplicationReply($id)
     {
-        DB::beginTransaction();
-        try {
-            // $job = DB::table('job_applications')->where('id',$id)->first();
-            $job = JobApplication::findOrFail($id);
-            // dd($job);
-            // return;
+        $job_app = JobApplication::findOrFail($id);
 
-            $data["email"] = $job->email;
-            $cnd_name = $job->name;
-            $j_title = DB::table('careers')->where('id', $job->job_id)->value('job_title');
-            $data["title"] = "Dubai Builders Career";
-            $data["body"] = "Dear " . $cnd_name . " you are invited for an interview for " . $j_title . " post at Dubai Builders";
+        if ($job_app) {
+            $view = View::make('backend.pages.careers.job_reply', compact('job_app'))->render();
+            return response()->json(['html' => $view]);
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
+    }
 
-            Mail::send('backend.pages.careers.send_career_reply_mail', $data, function ($message) use ($data) {
-                $message->to($data["email"], $data["email"])
-                    ->subject($data["title"]);
-            });
+    public function jobApplicationReplyStore(Request $request)
+    {
+        if ($request->ajax()) {
 
-            // dd('data reached');
-            // return;
-            $job->is_replied = 1;
-            $job->save();
-            DB::commit();
-            return response()->json(['type' => 'success', 'message' => "Successfully Sent"]);
-        } catch (Exception $e) {
-            DB::rollback();
-            dd($e->getMessage());
-            return response()->json(['type' => 'error', 'message' => "Please Fill With Correct data"]);
+
+            $rules = [
+                'message' => 'required',
+                'int_date' => 'required',
+            ];
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json([
+                    'type' => 'error',
+                    'errors' => $validator->getMessageBag()->toArray()
+                ]);
+            } else {
+
+                DB::beginTransaction();
+                try {
+                    // $client_name = Client::where('id', $request->client_id)->first();
+                    $job_app = JobApplication::findOrFail($request->input('job_id'));
+                    // dd($job_app);
+                    $message = $request->input('message');
+                    $int_date = $request->input('int_date');
+
+
+                    $job_app->reply_message = $message;
+                    $job_app->int_date = $int_date;
+                    $job_app->is_replied = 1;
+                    $job_app->save(); //
+                    DB::commit();
+                    $data["email"] = $job_app->email;
+                    $cnd_name = $job_app->name;
+
+                    $date = Carbon::parse($int_date, 'UTC');
+                    // dd();
+
+                    $j_title = DB::table('careers')->where('id', $job_app->job_id)->value('job_title');
+                    $data["title"] = "Dubai Builders Career";
+                    $data["body"] = "Dear " . $cnd_name . " " . $message . " you are invited for an interview for " . $j_title . " on " . $date->isoFormat('MMM Do YYYY') . " for the " . $j_title . " post at Dubai Builders";
+
+                    Mail::send('backend.pages.careers.send_career_reply_mail', $data, function ($message) use ($data) {
+                        $message->to($data["email"], $data["email"])
+                            ->subject($data["title"]);
+                    });
+                    return response()->json(['type' => 'success', 'message' => "Successfully Inserted"]);
+                } catch (Exception $e) {
+                    DB::rollback();
+                    dd($e->getMessage());
+                    return response()->json(['type' => 'error', 'message' => "Please Fill With Correct data"]);
+                }
+                // }
+            }
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
         }
     }
 }

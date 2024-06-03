@@ -176,6 +176,15 @@
             <br>
         </div>
 
+        <div class="row col-md-12 d-flex flex-row">
+            <div class="form-group col-md-6 float-right">
+                <label for="">TRN</label>
+                <input type="text" class="form-control"  id="trn" name="trn"
+                    placeholder="Enter TRN">
+                <span class="error_msg danger"></span>
+            </div>
+        </div>
+
         <div class="row">
             <div class="form-group col-md-12">
                 <label for="">Bank Details</label>
@@ -460,5 +469,21 @@
         }
         calculateGrandTotal();
 
+    });
+</script>
+
+
+
+<script src="{{ asset('backend/ckeditor/ckeditor.js') }}"></script>
+<script>
+    CKEDITOR.replace('bank_details', {
+        filebrowserBrowseUrl: '{{ asset('backend') }}/ckeditor/filemanager/browser/default/browser.html?Connector={{ asset('backend') }}/ckeditor/filemanager/connectors/php/connector.php',
+        filebrowserImageBrowseUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/browser/default/browser.html?Type=Image&Connector=' +
+            '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/connector.php',
+        filebrowserFlashBrowseUrl: '/ext/ckeditor/filemanager/browser/default/browser.html?Type=Flash&Connector=' +
+            '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/connector.php',
+        filebrowserUploadUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=File',
+        filebrowserImageUploadUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Image',
+        filebrowserFlashUploadUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Flash'
     });
 </script>
