@@ -29,9 +29,9 @@
             <li> <a class="has-arrow" href="javascript:;"><i class="bx bx-right-arrow-alt"></i>Project List</a>
                 <ul>
                     
-                    <li> <a href="{{ route('admin.projects.index') }}"><i class="bx bx-right-arrow-alt"></i>Frontend Projects</a>
+                    <li> <a href="{{ route('admin.projects.website_projects') }}"><i class="bx bx-right-arrow-alt"></i>Frontend Projects</a>
                     </li>
-                    <li> <a href="{{ route('admin.projects.index') }}"><i class="bx bx-right-arrow-alt"></i>Backend Projects</a>
+                    <li> <a href="{{ route('admin.projects.client_projects') }}"><i class="bx bx-right-arrow-alt"></i>Backend Projects</a>
                     </li>
                 </ul>
             </li>
