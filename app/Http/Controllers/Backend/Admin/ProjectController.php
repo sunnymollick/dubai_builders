@@ -160,6 +160,7 @@ class ProjectController extends Controller
                     $project->thumbnail_image = $thumbnail_img;
                     $project->image_1 = $img_1;
                     $project->image_2 = $img_2;
+                    $project->is_frontend = 1;
                     if ($request->input('is_active') != null) {
                         $project->is_active = $request->input('is_active');
                     }
