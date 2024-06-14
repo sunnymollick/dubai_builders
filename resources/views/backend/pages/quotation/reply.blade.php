@@ -126,7 +126,6 @@
         });
     });
 </script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
     $(document).ready(function() {
@@ -136,7 +135,8 @@
             item.find('.quantity, .unitPrice').on('change', updateTotalPrice);
             item.find('.removeItem').on('click', function() {
                 $(this).closest('.item').remove();
-                updateTotalPrice(); // Update total price when an item is removed
+                // updateTotalPrice(); // Update total price when an item is removed
+                updateGrandTotal();
             });
         }
         $('#preview').on('click', function() {
@@ -178,7 +178,7 @@
         });
 
         // Initialize event handlers for the initial item
-        initializeItem($('#items .item:first'));
+        // initializeItem($('#items .item:first'));
 
         // Event handler for updating total price when quantity changes
         $('#items').on('input', '.quantity', function() {

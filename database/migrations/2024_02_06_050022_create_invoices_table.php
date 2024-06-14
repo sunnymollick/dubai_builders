@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,12 +15,14 @@ return new class extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
             $table->string('invoice_code');
+            $table->string('title');
             $table->unsignedBigInteger('quotation_id');
-            $table->float('tax')->default('0')->nullable();
-            $table->float('discount_percentage')->default(0)->nullable();
-            $table->float('discount_amount')->default(0)->nullable();
             $table->float('grand_total');
             $table->float('paid_amount')->default(0)->nullable();
+            $table->date('invoice_date')->default(now());
+            //TODO: insert bank details column
+            $table->text('bank_details')->nullable();
+            $table->string('trn')->nullable();
             $table->foreign('quotation_id')
                 ->references('id')->on('quotation_applications')
                 ->onDelete('cascade');

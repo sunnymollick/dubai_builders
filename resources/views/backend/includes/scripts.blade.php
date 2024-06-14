@@ -6,11 +6,13 @@
 <script src="{{asset('backend')}}/plugins/metismenu/js/metisMenu.min.js"></script>
 <script src="{{asset('backend')}}/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
 
+
 <script src="{{asset('backend')}}/js/index5.js"></script>
+
 <!--app JS-->
 <script src="{{asset('backend')}}/js/app.js"></script>
 
-<script src="{{ asset('backend/assets/js/main.js') }}"></script> 
+<script src="{{ asset('backend/assets/js/main.js') }}"></script>
 <script src="{{ asset('backend/assets/js/ajax_submit.js') }}"></script>
 <script src="{{ asset('backend/assets/js/jquery.validate.min.js') }}"></script>
 <script src="{{ asset('backend/assets/js/jquery.plainoverlay.min.js') }}"></script>

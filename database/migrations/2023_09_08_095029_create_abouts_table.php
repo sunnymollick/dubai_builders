@@ -21,8 +21,8 @@ return new class extends Migration
             $table->text('our_vision')->nullable();
             $table->string('our_builders')->nullable();
             $table->string('experience_year')->nullable();
-            $table->text('hero_image')->nullable();
-            $table->text('about_image')->nullable();
+            $table->string('hero_image')->default('backend/uploads/images/about/default_images/default_hero_image.png');
+            $table->string('about_image')->default('backend/uploads/images/about/default_images/default_about_image.png');
             $table->timestamps();
         });
     }

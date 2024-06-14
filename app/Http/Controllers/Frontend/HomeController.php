@@ -26,11 +26,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $all = Project::where('is_popular', '1')->orderby('id', 'desc')->limit(5)->get();
-        $residential = Project::where('is_popular', '1')->where('project_type', '0')->orderby('id', 'desc')->limit(5)->get();
-        $commercial = Project::where('is_popular', '1')->where('project_type', '1')->orderby('id', 'desc')->limit(5)->get();
-        $highrise = Project::where('is_popular', '1')->where('project_type', '2')->orderby('id', 'desc')->limit(5)->get();
-        $business = Project::where('is_popular', '1')->where('project_type', '3')->orderby('id', 'desc')->limit(5)->get();
+        $all_project = Project::orderby('id', 'desc')->paginate(5);
         $completed = Project::where('project_status', '2')->count();
         $running = Project::where('project_status', '0')->count();
         $app_settings = Setting::findOrFail(1);
@@ -40,7 +36,7 @@ class HomeController extends Controller
         $ongoing_project = Project::where('project_status', '=', '0')->count();
         $blogs = Blog::orderby('id', 'desc')->limit(2)->get();
         $slider = Slider::where('is_active', '=', '1')->orderby('id', 'asc')->get();
-        return view('frontend.pages.index', compact('residential', 'commercial', 'highrise', 'business', 'all', 'app_settings', 'services', 'completed', 'running', 'about', 'completed_project', 'ongoing_project', 'blogs', 'slider'));
+        return view('frontend.pages.index', compact('all_project', 'app_settings', 'services', 'completed', 'running', 'about', 'completed_project', 'ongoing_project', 'blogs', 'slider'));
     }
     public function contact()
     {
@@ -91,21 +87,13 @@ class HomeController extends Controller
     }
     public function completedProjects()
     {
-        $all = Project::where('project_status', '2')->orderby('id', 'desc')->paginate(2);
-        $residential = Project::where('project_status', '2')->where('project_type', '0')->orderby('id', 'desc')->paginate(2);
-        $commercial = Project::where('project_status', '2')->where('project_type', '1')->orderby('id', 'desc')->paginate(2);
-        $highrise = Project::where('project_status', '2')->where('project_type', '2')->orderby('id', 'desc')->paginate(2);
-        $business = Project::where('project_status', '2')->where('project_type', '3')->orderby('id', 'desc')->paginate(2);
-        return view('frontend.pages.completed_projects', compact('residential', 'commercial', 'highrise', 'business', 'all'));
+        $all_project = Project::where('project_status', '2')->orderby('id', 'desc')->paginate(5);
+        return view('frontend.pages.completed_projects', compact('all_project'));
     }
     public function runningProjects()
     {
-        $all = Project::where('project_status', '0')->orderby('id', 'desc')->limit(5)->get();
-        $residential = Project::where('project_status', '0')->where('project_type', '0')->orderby('id', 'desc')->limit(5)->get();
-        $commercial = Project::where('project_status', '0')->where('project_type', '1')->orderby('id', 'desc')->limit(5)->get();
-        $highrise = Project::where('project_status', '0')->where('project_type', '2')->orderby('id', 'desc')->limit(5)->get();
-        $business = Project::where('project_status', '0')->where('project_type', '3')->orderby('id', 'desc')->limit(5)->get();
-        return view('frontend.pages.running_projects', compact('residential', 'commercial', 'highrise', 'business', 'all'));
+        $all_project = Project::where('project_status', '0')->orderby('id', 'desc')->paginate(5);
+        return view('frontend.pages.completed_projects', compact('all_project'));
     }
 
     public function detailsProjects($id)

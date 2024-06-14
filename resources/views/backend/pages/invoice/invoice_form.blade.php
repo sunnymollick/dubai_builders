@@ -7,56 +7,120 @@
 <form id="create" action="" enctype="multipart/form-data" method="post" accept-charset="utf-8"
     class="needs-validation" novalidate>
     <div id="status"></div>
-    <input type="text" class="form-control" name="request_id" hidden value="{{ $quote->id }}">
+    <input type="text" class="form-control" name="quotation_id" hidden value="{{ $quote->id }}">
     <div>
+        <div class="row">
+            <div class="form-group col-md-8">
+                <label for="">Invoice Title <span style="color: red;">*</span></label>
+                <p></p>
+                <input type="text" class="form-control" id="title" name="title" value=""
+                    placeholder="Enter a invoice title." required>
+                <span id="error_title" class="has-error"></span>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="">Invoice Date </label>
+                <p></p>
+                <input type="date" class="form-control" id="date" name="invoice_date" value=""
+                    placeholder="" required>
+                <span id="error_title" class="has-error"></span>
+            </div>
+        </div>
         <div id="items">
+            <div class="item col" style="margin-bottom: 10px;display:none;">
+                <div class="row">
+                    <div class="form-group col-md-2">
+                        <label for="">Category</label>
+                        <select class="form-control categorySelect" disabled name="work_category_id[]" id=""
+                            required>
+                            <option value="">Select Category</option>
+                            @foreach ($all_work_categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->title }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="">Item/Work</label>
+                        <select class="form-control itemSelect" name="items[]" id="" disabled>
+                            <option value="">Select Item</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="">Quantity</label>
+                        <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}"
+                            class="form-control quantity" name="quantity[]" placeholder="Quantity">
+                    </div>
+                    <div class="form-group col-md-1">
+                        <label for="">Unit</label>
+                        <input type="text" class="form-control unitSelect" id="" name="unit[]"
+                            placeholder="Unit" readonly>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="">Unit Price</label>
+                        <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}"
+                            class="form-control unitPrice" id="" name="unit_price[]" placeholder="Unit Price">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="">Total</label>
+                        <input type="number" class="form-control totalPrice" name="total_price[]"
+                            placeholder="Total Price" readonly>
+                    </div>
+
+                    <div class="col-md-1">
+                        <br>
+                        <button type="button" class="btn btn-danger form-control removeItem">X</button>
+                    </div>
+                </div>
+                <hr>
+
+            </div>
             @foreach ($quotation_details as $qd)
                 <div class="item col" style="margin-bottom: 10px;">
                     <div class="row">
                         <div class="form-group col-md-2">
                             <label for="">Category</label>
-                            <select disabled class="form-control categorySelect" name="work_category_id[]" id=""
-                                required>
+                            <select disabled class="form-control categorySelect" name="work_category_id[]"
+                                id="" required>
+                                <option value="">Select Category</option>
                                 @foreach ($all_work_categories as $awc)
-                                    $@if ($qd->category_id==$awc->id)
-                                        
-                                    <option selected value="{{$awc->id}}">{{$awc->title}}</option>
-                                    @endif
+                                    <option @if ($qd->category_id == $awc->id) selected @endif
+                                        value="{{ $awc->id }}">{{ $awc->title }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group col-md-2">
                             <label for="">Item/Work</label>
                             <select class="form-control itemSelect" name="items[]" id="" disabled>
+                                <option>Select Item</option>
                                 @foreach ($all_items as $ai)
-                                    $@if ($qd->item_id==$ai->id)
-                                        
-                                    <option selected value="{{$ai->id}}">{{$ai->item_work}}</option>
+                                    @if ($qd->category_id == $ai->work_category_id)
+                                        <option @if ($qd->item_id == $ai->id) selected @endif
+                                            value="{{ $ai->id }}">{{ $ai->item_work }}</option>
                                     @endif
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group col-md-2">
                             <label for="">Quantity</label>
-                            <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}"
-                                class="form-control quantity" name="quantity[]"
-                                value="{{$qd->quantity}}" placeholder="Quantity">
+                            <input type="number" min="0"
+                                onkeyup="if(this.value<0){this.value= this.value * -1}" class="form-control quantity"
+                                name="quantity[]" value="{{ $qd->quantity }}" placeholder="Quantity">
                         </div>
                         <div class="form-group col-md-1">
                             <label for="">Unit</label>
                             <input type="text" class="form-control unitSelect" id="" name="unit[]"
-                                placeholder="Unit" value="{{$qd->unit}}" readonly>
+                                placeholder="Unit" value="{{ $qd->unit }}" readonly>
                         </div>
                         <div class="form-group col-md-2">
                             <label for="">Unit Price</label>
-                            <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}"
-                                class="form-control unitPrice" id="" name="unit_price[]"
-                                placeholder="Unit Price" value="{{$qd->unit_price}}">
+                            <input type="number" min="0"
+                                onkeyup="if(this.value<0){this.value= this.value * -1}" class="form-control unitPrice"
+                                id="" name="unit_price[]" placeholder="Unit Price"
+                                value="{{ $qd->unit_price }}">
                         </div>
                         <div class="form-group col-md-2">
                             <label for="">Total</label>
                             <input type="number" class="form-control totalPrice" name="total_price[]"
-                                placeholder="Total Price" readonly value="{{$qd->total_price}}">
+                                placeholder="Total Price" readonly value="{{ $qd->total_price }}">
                         </div>
 
                         <div class="col-md-1">
@@ -69,32 +133,68 @@
                 </div>
             @endforeach
         </div>
-        <div class="row">
-            <div class="form-group col-md-2">
-                <label for="">Tax(%)</label>
-                <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}"
-                    class="form-control" id="tax" name="tax" placeholder="Tax">
+        <div class="row col-md-12 d-flex flex-row">
+            <div class="form-group col-md-6 float-right">
+                <label for="">Paid Amount</label>
+                <input type="number" class="form-control" min="0" id="paid_amount" name="paid_amount"
+                    placeholder="Paid Amount">
+                <span class="error_msg danger"></span>
             </div>
-            <div class="form-group col-md-3">
-                <label for="">Discount in %</label>
-                <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}"
-                    class="form-control" id="discount_percentage" name="discount_percentage" placeholder="%">
+            <div class="form-group col-md-6 float-right">
+                <label for="">Payment Method</label>
+                <select name="payment_method" id="payment_method" class="form-control">
+                    <option value="" selected disabled>Select Payment Method</option>
+                    <option value="Cash">Cash</option>
+                    <option value="Cheque">Cheque</option>
+                    <option value="Card">Card</option>
+                </select>
             </div>
-            <div class="form-group col-md-3">
-                <label for="">Discount in amount</label>
-                <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}"
-                    class="form-control" id="discount_amount" name="discount_amount" placeholder="amount..">
-            </div>
-            <div class="form-group col-md-2">
+        </div>
+        <div class="row col-md-12 d-flex flex-row">
+            <div class="form-group col-md-2 float-right">
                 <label for="">Grand Total</label>
-                <input type="number" class="form-control" id="grandTotal" name="grand_total"
+                <input type="number" class="form-control" min="0" id="grandTotal" name="grand_total"
                     placeholder="Grand Total" readonly>
+            </div>
+        </div>
+        <br>
+        <div class="row" id="cheque_portion">
+            <div class="form-group col-md-4">
+                <label for="">Bank Name</label>
+                <input type="text" name="bank_name" id="bank_name" class="form-control"
+                    placeholder="Enter Bank Name">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="">Cheque Date</label>
+                <input type="date" name="cheque_date" id="cheque_date" class="form-control">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="">Cheque Number</label>
+                <input type="text" name="cheque_number" id="cheque_number" class="form-control"
+                    placeholder="Enter Cheque Number">
+            </div>
+            <br>
+        </div>
+
+        <div class="row col-md-12 d-flex flex-row">
+            <div class="form-group col-md-6 float-right">
+                <label for="">TRN</label>
+                <input type="text" class="form-control"  id="trn" name="trn"
+                    placeholder="Enter TRN">
+                <span class="error_msg danger"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label for="">Bank Details</label>
+                <textarea class="form-control" name="bank_details" id="bank_details"></textarea>
             </div>
         </div>
         <br>
         <button class="btn btn-primary" type="button" id="addItem">Add Item</button>
         <button class="btn btn-primary button-submit" type="submit" data-loading-text="Loading...">
-            <i class="fadeIn animated bx bx-save"></i>Send Quotation</button>
+            <i class="fadeIn animated bx bx-save"></i>Generate Invoice</button>
         <button class="btn btn-primary" type="button" id="preview">
             <i class="fadeIn animated bx bx-save"></i>Preview</button>
     </div>
@@ -102,6 +202,8 @@
 <script>
     $('#create').on('submit', function(e) {
         e.preventDefault();
+        $('.categorySelect').prop('disabled', false);
+        $('.itemSelect').prop('disabled', false);
         var myData = new FormData($("#create")[0]);
         myData.append('_token', CSRF_TOKEN);
 
@@ -117,7 +219,7 @@
         }, function() {
             // console.log('hi');
             $.ajax({
-                url: 'quotation/store',
+                url: '/admin/request/for/invoice/store',
                 type: 'POST',
                 data: myData,
                 dataType: 'json',
@@ -149,27 +251,51 @@
     $(document).ready(function() {
         // $('.removeItem').hide();
         // Function to initialize event handlers for an item
+
+        // $('.removeItem').on('click', function() {
+        //     updateTotalPrice(); // Update total price when an item is removed
+        //     updateGrandTotal();
+        //     $(this).closest('.item').remove();
+        // });
+
+        $("#cheque_portion").hide();
+
+        $("#payment_method").change(function() {
+            var value = $("#payment_method").val();
+            if (value == 'Cheque') {
+                $("#cheque_portion").show();
+            } else {
+                $("#cheque_portion").hide();
+            }
+        });
+
         function initializeItem(item) {
             item.find('.quantity, .unitPrice').on('change', updateTotalPrice);
             item.find('.removeItem').on('click', function() {
                 $(this).closest('.item').remove();
-                updateTotalPrice(); // Update total price when an item is removed
+                // updateTotalPrice(); // Update total price when an item is removed
+                updateGrandTotal();
             });
         }
+
         $('#preview').on('click', function() {
+            // console.log(formData);return;
+            // var formData = new FormData($("#create")[0]);
+            $('.categorySelect').prop('disabled', false);
+            $('.itemSelect').prop('disabled', false);
             var formData = $("#create").serialize();
             $.ajax({
                 type: 'GET',
-                url: 'quotation/preview',
+                url: '/admin/invoice/preview',
                 data: formData,
                 dataType: 'json',
                 cache: false,
                 success: function(data) {
                     console.log(data.data);
                     $("#quotation_data").html(data.html);
-                    jQuery.noConflict();
+                    // jQuery.noConflict();
                     $('#previewModal').modal('show'); // show bootstrap modal
-                    $('.quotation-title').text('Quotation');
+                    $('.quotation-title').text('Invoice');
                 },
                 error: function(result) {
                     $("#modal_data").html("Sorry Cannot Load Data");
@@ -181,6 +307,7 @@
         // Event handler for the "Add Item" button
         $('#addItem').on('click', function() {
             var newItem = $('#items .item:first').clone(); // Clone the first item
+            newItem.show();
             newItem.find('input').val(''); // Clear input values in the cloned item
             newItem.find('.removeItem').show(); // Show remove button for the cloned item
             $('#items').append(newItem); // Append the cloned item to the items container
@@ -189,7 +316,7 @@
             // Enable the cloned item's category dropdown
             newItem.find('.categorySelect').prop('disabled', false);
             // Disable the cloned item's item dropdown initially
-            newItem.find('.itemSelect').prop('disabled', true);
+            newItem.find('.itemSelect').prop('disabled', false);
         });
 
         // Initialize event handlers for the initial item
@@ -215,14 +342,14 @@
         });
 
         // Event handler for updating grand total when tax or discount changes
-        $('#tax, #discount_percentage, #discount_amount').on('input', function() {
+        $('#tax, #discount_percentage, #discount_amount,#paid_amount').on('input', function() {
             updateGrandTotal();
         });
 
         // Function to update grand total based on the subtotal of each item, tax, and discount
         function updateGrandTotal() {
-            console.log('Updating grand total...');
-
+            // console.log('Updating grand total...');
+            // console.log('hi');
             var grandTotal = 0;
             $('.totalPrice').each(function() {
                 grandTotal += parseFloat($(this).val()) || 0;
@@ -231,10 +358,11 @@
             var tax = parseFloat($('#tax').val()) || 0;
             var discountPercentage = parseFloat($('#discount_percentage').val()) || 0;
             var discountAmount = parseFloat($('#discount_amount').val()) || 0;
+            var paidAmount = parseFloat($('#paid_amount').val()) || 0;
 
-            console.log('Tax:', tax);
-            console.log('Discount Percentage:', discountPercentage);
-            console.log('Discount Amount:', discountAmount);
+            // console.log('Tax:', tax);
+            // console.log('Discount Percentage:', discountPercentage);
+            // console.log('Discount Amount:', discountAmount);
 
             // Apply tax to the grand total
             grandTotal = grandTotal + (grandTotal * tax) / 100;
@@ -243,13 +371,28 @@
             var discount = discountPercentage ? (grandTotal * discountPercentage) / 100 : discountAmount;
 
             // Subtract discount from the grand total
-            grandTotal = grandTotal - discount;
+            grandTotal = grandTotal - discount - paidAmount;
 
-            console.log('Grand Total:', grandTotal);
+            // console.log('Grand Total:', grandTotal);
+            if (grandTotal >= 0) {
+                $('#grandTotal').val(grandTotal.toFixed(2));
+            } else {
+                swal({
+                    title: "Warning!",
+                    text: "Paid amount cannot be greater than grand total!",
+                    type: "warning",
+                    showCancelButton: false,
+                    closeOnConfirm: true,
+                    showLoaderOnConfirm: true,
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "ok"
+                }, function() {
+                    $('#paid_amount').val(0);
+                    updateGrandTotal();
+                });
+            }
 
-            $('#grandTotal').val(grandTotal.toFixed(2));
         }
-
         // Event handler for updating item dropdown based on the selected category
         $('#items').on('change', '.categorySelect', function() {
             var categoryId = $(this).val();
@@ -261,7 +404,7 @@
 
             // Fetch items based on the selected category using Ajax
             $.ajax({
-                url: 'quotation/fetch-items/' + categoryId,
+                url: 'request/for/quotation/fetch-items/' + categoryId,
                 type: 'GET',
                 success: function(data) {
                     // Clear existing options
@@ -273,7 +416,8 @@
 
                             itemSelect.append('<option value="' + item.id +
                                 '" data-unit="' + item.unit.title +
-                                '" data-unit-price="' + item.unit_price + '">' +
+                                '" data-unit-price="' + item.unit_price +
+                                '">' +
                                 item.item_work + '</option>');
                         });
 
@@ -282,7 +426,7 @@
 
                         var unit = selectedItem.data('unit');
                         var unitPrice = selectedItem.data('unit-price');
-                        console.log(unitPrice);
+                        // console.log(unitPrice);
                         unitInput.val(unit);
                         unitPriceInput.val(unitPrice);
                     } else {
@@ -292,7 +436,7 @@
                     }
                 },
                 error: function(error) {
-                    console.log(error);
+                    // console.log(error);
                 }
             });
         });
@@ -312,28 +456,34 @@
             unitPriceInput.val(unitPrice);
         });
 
+        function calculateGrandTotal() {
+            var total_price_sum = 0;
+            $('.totalPrice').each(function() {
+                var totalPrice = parseFloat($(this).val());
+                if (!isNaN(totalPrice)) {
+                    total_price_sum += totalPrice;
+                    // console.log('tp=' + total_price_sum);
+                }
+            });
+            $('#grandTotal').val(total_price_sum.toFixed(2));
+        }
+        calculateGrandTotal();
+
     });
 </script>
+
+
+
 <script src="{{ asset('backend/ckeditor/ckeditor.js') }}"></script>
 <script>
-    CKEDITOR.replace('terms_conditions', {
-        filebrowserBrowseUrl: '{{ asset('
-                                backend ') }}/ckeditor/filemanager/browser/default/browser.html?Connector={{ asset('
-                                backend ') }}/ckeditor/filemanager/connectors/php/connector.php',
-        filebrowserImageBrowseUrl: '{{ asset('
-                                backend ') }}/ext/ckeditor/filemanager/browser/default/browser.html?Type=Image&Connector=' +
-            '{{ asset('
-                                            backend ') }}/ext/ckeditor/filemanager/connectors/php/connector.php',
+    CKEDITOR.replace('bank_details', {
+        filebrowserBrowseUrl: '{{ asset('backend') }}/ckeditor/filemanager/browser/default/browser.html?Connector={{ asset('backend') }}/ckeditor/filemanager/connectors/php/connector.php',
+        filebrowserImageBrowseUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/browser/default/browser.html?Type=Image&Connector=' +
+            '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/connector.php',
         filebrowserFlashBrowseUrl: '/ext/ckeditor/filemanager/browser/default/browser.html?Type=Flash&Connector=' +
-            '{{ asset('
-                                            backend ') }}/ext/ckeditor/filemanager/connectors/php/connector.php',
-        filebrowserUploadUrl: '{{ asset('
-                                backend ') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=File',
-        filebrowserImageUploadUrl: '{{ asset('
-                                backend ') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Image',
-        filebrowserFlashUploadUrl: '{{ asset('
-                                backend ') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Flash',
-        height: 100,
-        width: 700
+            '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/connector.php',
+        filebrowserUploadUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=File',
+        filebrowserImageUploadUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Image',
+        filebrowserFlashUploadUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Flash'
     });
 </script>

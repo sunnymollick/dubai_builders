@@ -28,8 +28,9 @@ Route::get('/profile', [DashboardController::class, 'profile'])->name('profile')
 
 //Project Routes
 Route::resource('projects', ProjectController::class);
-Route::get('allProjects', [ProjectController::class, 'getAllProjects']);
-
+Route::get('allWebsiteProjects', [ProjectController::class, 'getAllWebsiteProjects']);
+Route::get('client_projects', [ProjectController::class, 'clientProjectIndex'])->name('projects.client-projects');
+Route::get('allClientProjects', [ProjectController::class, 'getAllClientProjects']);
 
 //Client Routes
 Route::resource('clients', ClientController::class);
@@ -91,12 +92,12 @@ Route::resource('itemworks', ItemController::class);
 Route::get('allItemWorks', [ItemController::class, 'getAllItemWorks']);
 
 // Quotation Routes
-Route::get('quotation/create',[QuotationController::class, 'create']);
-Route::get('all-quotations',[QuotationController::class,'index'])->name('all.quotations');
-Route::delete('all-quotations/save/{id}',[QuotationController::class,'saveQuotation']);
-Route::get('all-quotations/view/{id}',[QuotationController::class,'viewQuotation']);
+Route::get('quotation/create', [QuotationController::class, 'create']);
+Route::get('all-quotations', [QuotationController::class, 'index'])->name('all.quotations');
+Route::delete('all-quotations/save/{id}', [QuotationController::class, 'saveQuotation']);
+Route::get('all-quotations/view/{id}', [QuotationController::class, 'viewQuotation']);
 Route::get('all-quotations/generate-pdf/{id}', [QuotationController::class, 'generatePDF']);
-Route::get('request/for/quotation/preview',[QuotationController::class, 'preview']);
+Route::get('request/for/quotation/preview', [QuotationController::class, 'preview']);
 Route::post('request/for/quotation/store', [QuotationController::class, 'store']);
 Route::get('request/for/quotation/fetch-items/{id}', [QuotationController::class, 'fetchItems']);
 
@@ -108,8 +109,21 @@ Route::get('getAllSliders', [SliderController::class, 'getAllSliders']);
 // job application route
 Route::get('job_application_index', [CareerController::class, 'jobApplicationIndex'])->name('job_applications');
 Route::get('allJobApplications', [CareerController::class, 'getallJobApplications']);
-Route::post('job_application/reply/{id}', [CareerController::class, 'jobApplicationReply']);
+Route::get('job_application/reply/{id}', [CareerController::class, 'jobApplicationReply']);
+Route::post('job_application/reply/store', [CareerController::class, 'jobApplicationReplyStore']);
 
 
 // invoice route
+Route::resource('invoices', InvoiceController::class);
 Route::get('generate_invoice/{id}', [InvoiceController::class, 'generateInvoice']);
+Route::get('invoice_summery/{id}', [InvoiceController::class, 'invoiceSummery']);
+Route::post('request/for/invoice/store', [InvoiceController::class, 'store']);
+Route::get('invoice/show_project_invoices/{id}', [InvoiceController::class, 'show_project_invoices']);
+Route::get('invoice/get_project_invoices/{id}', [InvoiceController::class, 'get_project_invoices']);
+// Route::delete('invoices/{id}', [InvoiceController::class, 'destroy']);
+Route::get('invoice/view/{id}', [InvoiceController::class, 'viewInvoice']);
+Route::get('invoice/preview', [InvoiceController::class, 'preview']);
+
+Route::get('create_invoice_payments/{id}',[InvoiceController::class,'createPayments']);
+Route::get('show_invoice_payments/{id}',[InvoiceController::class,'showPayments']);
+Route::post('invoice_payment_store',[InvoiceController::class,'storeInvoicePayment']);

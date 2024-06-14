@@ -28,7 +28,6 @@ Projects
                             <tr>
                                 <th>#</th>
                                 <th>Project Name</th>
-                                <th>Client Name</th>
                                 <th>Type</th>
                                 <th>Location</th>
                                 <th>Status</th>
@@ -49,7 +48,7 @@ Projects
         table = $('#manage_all').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '/admin/allProjects',
+            ajax: '/admin/allWebsiteProjects',
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex'
@@ -57,10 +56,6 @@ Projects
                 {
                     data: 'project_title',
                     name: 'project_title'
-                },
-                {
-                    data: 'client_name',
-                    name: 'client_name'
                 },
                 {
                     data: 'project_type',

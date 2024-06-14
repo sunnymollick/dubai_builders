@@ -40,7 +40,17 @@ Quotation Requests
                                 <td><b> {{ $i++ }} </b></td>
                                 <td><b> {{ $row->company_name }} </b></td>
                                 <td><b> {{ $row->name }} </b></td>
-                                <td><b> {{ $row->project_type }} </b></td>
+                                <td><b>
+                                    @if ($row->project_type == 0)
+                                        Residential
+                                    @elseif ($row->project_type == 1)
+                                        Commercial
+                                    @elseif ($row->project_type == 2)
+                                        Highrise
+                                    @else
+                                        Business
+                                    @endif
+                                </b></td>
                                 <td><b> {{ $row->location }} </b></td>
                                 <td><b> {{ $row->message }} </b></td>
                                 <td>
@@ -52,7 +62,17 @@ Quotation Requests
                                 <td> {{ $i++ }}</td>
                                 <td> {{ $row->company_name }}</td>
                                 <td> {{ $row->name }}</td>
-                                <td> {{ $row->project_type }}</td>
+                                <td>
+                                    @if ($row->project_type == 0)
+                                        Residential
+                                    @elseif ($row->project_type == 1)
+                                        Commercial
+                                    @elseif ($row->project_type == 2)
+                                        Highrise
+                                    @else
+                                        Business
+                                    @endif
+                                </td>
                                 <td> {{ $row->location }}</td>
                                 <td> {{ $row->message }}</td>
                                 <td>
@@ -88,7 +108,7 @@ Quotation Requests
     $(document).ready(function() {
         // Edit Form
         $("#manage_all").on("click", ".edit", function() {
-            var id = $(this).attr('id'); 
+            var id = $(this).attr('id');
             console.log(id);
             $.ajax({
                 url: 'quotation/edit' + '/' + id,
@@ -124,9 +144,12 @@ Quotation Requests
                     $("#modal_data").html("Sorry Cannot Load Data");
                 }
             });
-
         });
 
+        // Reload page when modal is closed
+        $('#myModal').on('hidden.bs.modal', function () {
+            location.reload();
+        });
 
 
 
