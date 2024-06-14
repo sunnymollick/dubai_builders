@@ -45,9 +45,6 @@ class ProjectController extends Controller
                     $html .= '</div>';
                     return $html;
                 })
-                ->addColumn('client_name', function ($project) {
-                    return $project->client->name;
-                })
                 ->addColumn('project_type', function ($project) {
                     if ($project->project_type == 0) {
                         return 'Residential';
@@ -97,7 +94,6 @@ class ProjectController extends Controller
 
             $rules = [
                 'project_title' => 'required',
-                'client_id' => 'required',
             ];
             $path = "projects";
             if ($request->hasFile('hero_image')) {
@@ -148,12 +144,10 @@ class ProjectController extends Controller
                         $project_code = Helper::uniqueNumberConvertor("DB-", $created_time->year, $latest_id);
                     }
                     $project->project_title = $request->input('project_title');
-                    $project->client_id = $request->input('client_id');
                     $project->project_code = $project_code;
                     $project->project_description = $request->input('project_description');
                     $project->project_location = $request->input('project_location');
                     $project->handover_time = $request->input('handover_time');
-                    $project->project_permit = $request->input('project_permit');
                     $project->project_type = $request->input('project_type');
                     $project->project_status = $request->input('project_status');
                     $project->hero_image = $hero_img;
@@ -282,12 +276,9 @@ class ProjectController extends Controller
                     $project->handover_time = $request->input('handover_time');
                     $project->project_type = $request->input('project_type');
                     $project->project_status = $request->input('project_status');
-                    if ($request->input('is_active') != null) {
-                        $project->is_active = $request->input('is_active');
-                    }
-                    if ($request->input('is_popular') != null) {
-                        $project->is_popular = $request->input('is_popular');
-                    }
+                    $project->is_active = $request->input('is_active');
+
+                    $project->is_popular = $request->input('is_popular');
                     $project->hero_image = $hero_img;
                     $project->thumbnail_image = $thumbnail_img;
                     $project->image_1 = $img_1;

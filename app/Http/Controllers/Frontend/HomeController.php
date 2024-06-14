@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
-use App\Mail\RequestQuotationMail;
 use App\Models\Admin\About;
 use App\Models\Backend\Blog;
 use App\Models\Backend\Contact;
@@ -20,7 +19,6 @@ use App\Models\Setting;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
@@ -28,11 +26,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $all = Project::where('is_popular', '1')->orderby('id', 'desc')->limit(5)->get();
-        $residential = Project::where('is_popular', '1')->where('project_type', '0')->orderby('id', 'desc')->limit(5)->get();
-        $commercial = Project::where('is_popular', '1')->where('project_type', '1')->orderby('id', 'desc')->limit(5)->get();
-        $highrise = Project::where('is_popular', '1')->where('project_type', '2')->orderby('id', 'desc')->limit(5)->get();
-        $business = Project::where('is_popular', '1')->where('project_type', '3')->orderby('id', 'desc')->limit(5)->get();
+        $all_project = Project::orderby('id', 'desc')->paginate(5);
         $completed = Project::where('project_status', '2')->count();
         $running = Project::where('project_status', '0')->count();
         $app_settings = Setting::where('is_active',1)->first();
@@ -42,7 +36,7 @@ class HomeController extends Controller
         $ongoing_project = Project::where('project_status', '=', '0')->count();
         $blogs = Blog::orderby('id', 'desc')->limit(2)->get();
         $slider = Slider::where('is_active', '=', '1')->orderby('id', 'asc')->get();
-        return view('frontend.pages.index', compact('residential', 'commercial', 'highrise', 'business', 'all', 'app_settings', 'services', 'completed', 'running', 'about', 'completed_project', 'ongoing_project', 'blogs', 'slider'));
+        return view('frontend.pages.index', compact('all_project', 'app_settings', 'services', 'completed', 'running', 'about', 'completed_project', 'ongoing_project', 'blogs', 'slider'));
     }
     public function contact()
     {
@@ -93,21 +87,13 @@ class HomeController extends Controller
     }
     public function completedProjects()
     {
-        $all = Project::where('project_status', '2')->orderby('id', 'desc')->limit(5)->get();
-        $residential = Project::where('project_status', '2')->where('project_type', '0')->orderby('id', 'desc')->limit(5)->get();
-        $commercial = Project::where('project_status', '2')->where('project_type', '1')->orderby('id', 'desc')->limit(5)->get();
-        $highrise = Project::where('project_status', '2')->where('project_type', '2')->orderby('id', 'desc')->limit(5)->get();
-        $business = Project::where('project_status', '2')->where('project_type', '3')->orderby('id', 'desc')->limit(5)->get();
-        return view('frontend.pages.completed_projects', compact('residential', 'commercial', 'highrise', 'business', 'all'));
+        $all_project = Project::where('project_status', '2')->orderby('id', 'desc')->paginate(5);
+        return view('frontend.pages.completed_projects', compact('all_project'));
     }
     public function runningProjects()
     {
-        $all = Project::where('project_status', '0')->orderby('id', 'desc')->limit(5)->get();
-        $residential = Project::where('project_status', '0')->where('project_type', '0')->orderby('id', 'desc')->limit(5)->get();
-        $commercial = Project::where('project_status', '0')->where('project_type', '1')->orderby('id', 'desc')->limit(5)->get();
-        $highrise = Project::where('project_status', '0')->where('project_type', '2')->orderby('id', 'desc')->limit(5)->get();
-        $business = Project::where('project_status', '0')->where('project_type', '3')->orderby('id', 'desc')->limit(5)->get();
-        return view('frontend.pages.running_projects', compact('residential', 'commercial', 'highrise', 'business', 'all'));
+        $all_project = Project::where('project_status', '0')->orderby('id', 'desc')->paginate(5);
+        return view('frontend.pages.completed_projects', compact('all_project'));
     }
 
     public function detailsProjects($id)
@@ -184,7 +170,7 @@ class HomeController extends Controller
             $rules = [
                 'name' => 'required',
                 'location' => 'required',
-                'email' => 'required',
+                'email' => 'required|unique:App\Models\Backend\Client,email',
                 'message' => 'required',
                 'mobile' => 'required',
             ];
@@ -204,7 +190,7 @@ class HomeController extends Controller
                 DB::beginTransaction();
                 try {
                     $quotation = new Quotation();
-
+                    $client = new Client();
                     if ($request->hasFile('file')) {
                         $dextension = $request->file('file')->getClientOriginalExtension();
                         if ($dextension == "pdf" || $dextension == "doc" || $dextension == "docx") {
@@ -228,39 +214,25 @@ class HomeController extends Controller
                         }
                     }
 
-                    $existing_client = Client::where('email',$request->input('email'))->first();
-
-                    if($existing_client){
-
-                    }else{
-                        // client store
-                        $client = new Client();
-                        $created_time = Carbon::now();
-                        $last_client = Client::first();
-                        if (is_null($last_client)) {
-                            $latest_id = 0;
-                            $client_code = Helper::uniqueNumberConvertor("CUS-", $created_time->year, $latest_id);
-                        } else {
-                            $latest_id = Client::orderBy('id', 'desc')->first()->id;
-                            $client_code = Helper::uniqueNumberConvertor("CUS-", $created_time->year, $latest_id);
-                        }
-                        $client->name = $request->input('name');
-                        $client->client_code = $client_code;
-                        $client->email = $request->input('email');
-                        $client->phone = $request->input('mobile');
-                        $client->address = "";
-                        $client->organization_name = $request->input('company_name');
-                        $client->save();
+                    // client store
+                    $created_time = Carbon::now();
+                    $last_client = Client::first();
+                    if (is_null($last_client)) {
+                        $latest_id = 0;
+                        $client_code = Helper::uniqueNumberConvertor("CUS-", $created_time->year, $latest_id);
+                    } else {
+                        $latest_id = Client::orderBy('id', 'desc')->first()->id;
+                        $client_code = Helper::uniqueNumberConvertor("CUS-", $created_time->year, $latest_id);
                     }
-
-
+                    $client->name = $request->input('name');
+                    $client->client_code = $client_code;
+                    $client->email = $request->input('email');
+                    $client->phone = $request->input('mobile');
+                    $client->address = "";
+                    $client->organization_name = $request->input('company_name');
+                    $client->save();
                     // quotation request store
-                    if($existing_client){
-                        $quotation->client_id = $existing_client->id;
-                    }else{
-                        $quotation->client_id = $client->id;
-                    }
-
+                    $quotation->client_id = $client->id;
                     $quotation->name = $request->input('name');
                     $quotation->location = $request->input('location');
                     $quotation->email = $request->input('email');
@@ -272,15 +244,7 @@ class HomeController extends Controller
                     $quotation->is_read = 0;
                     $quotation->is_replied = 0;
                     $quotation->message = $request->input('message');
-                    $quotation->save();
-
-                    $content = [
-                        'subject' => 'Quation Request Confirmation Mail',
-                        'body' => 'We have received your email . We will contact with you through email very soon . Thank You '
-                    ];
-
-                    Mail::to($request->input('email'))->send(new RequestQuotationMail($content));
-
+                    $quotation->save(); //
                     DB::commit();
                     return response()->json(['type' => 'success', 'message' => "Thank you ! We received your message ."]);
                 } catch (\Exception $e) {
