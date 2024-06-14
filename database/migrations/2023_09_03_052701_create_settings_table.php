@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('linkedin_link')->nullable();
             $table->string('footer_text')->nullable();
             $table->text('maps')->nullable();
+            $table->tinyInteger('is_active')->default(0);
             $table->timestamps();
         });
     }

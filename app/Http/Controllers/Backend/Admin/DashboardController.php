@@ -20,7 +20,12 @@ class DashboardController extends Controller
         $running_project = Project::count();
         $total_customers = Client::count();
         $job_application = JobApplication::where('is_replied',1)->count();
-        return view('backend.pages.index',compact('running_project','pending_quotation_request','total_customers','job_application'));
+        $recent_projects = Project::join('clients','projects.client_id','clients.id')
+                                    ->where('projects.is_frontend',0)
+                                    ->limit(10)
+                                    ->get();
+        // dd($recent_projects);
+        return view('backend.pages.index',compact('running_project','pending_quotation_request','total_customers','job_application','recent_projects'));
     }
 
     public function profile()

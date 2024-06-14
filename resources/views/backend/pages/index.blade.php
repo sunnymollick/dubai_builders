@@ -97,18 +97,27 @@ Dashboard
                         <th>Customer</th>
                         <th>Project Code</th>
                         <th>Project Type</th>
-                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Nike Sports NK</td>
-                        <td>Mitchell Daniel</td>
-                        <td>#9668521</td>
-                        <td>Commercial</td>
-                        <td><a href="javaScript:;" class="btn btn-sm btn-success radius-30">Delivered</a>
-                        </td>
-                    </tr>
+                    @foreach ($recent_projects as $row)
+                        <tr>
+                            <td>{{ $row->project_title }}</td>
+                            <td>{{ $row->name }}</td>
+                            <td>{{ $row->project_code }}</td>
+                            <td>
+                                @if ($row->project_type == 0)
+                                    Residential
+                                @elseif ($row->project_type == 1)
+                                    Commercial
+                                @elseif ($row->project_type == 2)
+                                    Highrise
+                                @else
+                                    Business
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

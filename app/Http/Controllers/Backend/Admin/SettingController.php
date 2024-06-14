@@ -35,6 +35,7 @@ class SettingController extends Controller
                     $html = '<div class="btn-group">';
                     $html .= '<a data-toggle="tooltip"  id="' . $settings->id . '" class="btn btn-success mr-1 view" title="View"><i class="lni lni-eye"></i> </a>';
                     $html .= '<a data-toggle="tooltip"  id="' . $settings->id . '" class="btn btn-info mr-1 edit" title="Edit"><i class="lni lni-pencil-alt"></i> </a>';
+                    $html .= '<a data-toggle="tooltip"  id="' . $settings->id . '" class="btn btn-danger delete" title="Delete"><i class="lni lni-trash"></i> </a>';
                     $html .= '</div>';
                     return $html;
                 })
@@ -53,9 +54,14 @@ class SettingController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        if ($request->ajax()) {
+            $view = View::make('backend.pages.settings.create')->render();
+            return response()->json(['html' => $view]);
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
     }
 
     /**
@@ -63,7 +69,54 @@ class SettingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if ($request->ajax()) {
+
+            $rules = [
+                'app_name' => 'required',
+                'email' => 'required',
+                'address' => 'required',
+                'phone_1' => 'required',
+                'app_logo' => 'image|mimes:jpeg,png,jpg',
+                'footer_text' => 'required',
+            ];
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) {
+                return response()->json(['type' => 'error', 'errors' => $validator->getMessageBag()->toArray()]);
+            } else {
+
+                $settings = new Setting();
+
+                if ($request->hasFile('SelectedFileName')) {
+                    $app_logo = $request->file('SelectedFileName');
+                    $settings->app_logo =  Helper::saveImage($app_logo, 147, 48, 'logo');
+                }
+
+                $settings->app_name = $request->input('app_name');
+                $settings->email = $request->input('email');
+                $settings->email_secondary = $request->input('email_secondary');
+                $settings->address = $request->input('address');
+                $settings->address_secondary = $request->input('address_secondary');
+                $settings->phone_1 = $request->input('phone_1');
+                $settings->phone_2 = $request->input('phone_2');
+                $settings->opening_time = $request->input('opening_time');
+                $settings->fb_link = $request->input('fb_link');
+                $settings->twitter_link = $request->input('twitter_link');
+                $settings->dribble_link = $request->input('dribble_link');
+                $settings->instragram_link = $request->input('instragram_link');
+                $settings->linkedin_link = $request->input('linkedin_link');
+                $settings->maps = $request->input('maps');
+                $settings->footer_text = $request->input('footer_text');
+                $settings->is_active = $request->input('is_active');
+                $settings->created_at = Carbon::now();
+                $settings->updated_at = Carbon::now();
+                $settings->save();
+
+                return response()->json(['type' => 'success', 'message' => "Successfully Created"]);
+            }
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
     }
 
     /**
@@ -139,6 +192,7 @@ class SettingController extends Controller
                 $settings->linkedin_link = $request->input('linkedin_link');
                 $settings->maps = $request->input('maps');
                 $settings->footer_text = $request->input('footer_text');
+                $settings->is_active = $request->input('is_active');
                 $settings->created_at = Carbon::now();
                 $settings->updated_at = Carbon::now();
                 $settings->save();
@@ -153,8 +207,13 @@ class SettingController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request,Setting $setting)
     {
-        //
+        if ($request->ajax()) {
+            $setting->delete();
+            return response()->json(['type' => 'success', 'message' => 'Successfully Deleted']);
+        } else {
+            return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+        }
     }
 }

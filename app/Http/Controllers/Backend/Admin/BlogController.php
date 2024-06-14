@@ -155,9 +155,8 @@ class BlogController extends Controller
                     DB::commit();
                     return response()->json(['type' => 'success', 'message' => "Successfully Inserted"]);
                 } catch (\Exception $e) {
-                    dd($e->getMessage());
                     DB::rollback();
-
+                    dd($e->getMessage());
                     return response()->json(['type' => 'error', 'message' => "Please Fill With Correct data"]);
                 }
                 // }
