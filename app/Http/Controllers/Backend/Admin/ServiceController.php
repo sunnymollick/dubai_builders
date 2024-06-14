@@ -82,7 +82,7 @@ class ServiceController extends Controller
             }
             if ($request->hasFile('hero_image')) {
                 $hero_image = $request->file('hero_image');
-                $hero_img = Helper::saveImage($hero_image, 772, 480, $path);
+                $hero_img = Helper::saveImage($hero_image,   770, 480, $path);
             }
             if ($request->hasFile('image_1')) {
                 $image_1 = $request->file('image_1');
@@ -205,7 +205,7 @@ class ServiceController extends Controller
                                 unlink($file_old);
                             }
                             $hero_image = $request->file('hero_image');
-                            $hero_img = Helper::saveImage($hero_image, 772, 840, $path);
+                            $hero_img = Helper::saveImage($hero_image,  770, 480, $path);
                         }
                     } else {
                         $hero_img = $service->hero_image;
