@@ -279,10 +279,32 @@
                             <td></td>
                             <td valign='top'
                                 style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-left: 1px solid gray; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>
+                                Paid Amount</td>
+                            <td valign='top'
+                                style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray;text-align:right;'>
+                                {{ number_format($paid_amount, 2) }}</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td valign='top'
+                                style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-left: 1px solid gray; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>
                                 Grand Total</td>
                             <td valign='top'
                                 style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray;text-align:right;'>
                                 {{ number_format($grandTotal, 2) }}</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td valign='top'
+                                style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-left: 1px solid gray; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>
+                                Payment Method</td>
+                            <td valign='top'
+                                style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray;text-align:right;'>
+                                {{ $payment_method }}</td>
                         </tr>
                     @endif
             </td>

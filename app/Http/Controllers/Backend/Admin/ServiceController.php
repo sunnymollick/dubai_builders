@@ -74,6 +74,7 @@ class ServiceController extends Controller
 
             $rules = [
                 'service_title' => 'required',
+                'service_title' => 'required',
             ];
             if ($request->hasFile('logo')) {
                 $thumb_path = $path . "/thumbnail";

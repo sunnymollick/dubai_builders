@@ -58,6 +58,8 @@ class InvoiceController extends Controller
                 'unit' => 'required',
                 'unit_price' => 'required',
                 'quantity' => 'required',
+                // 'payment_method' => 'required',
+                // 'trn' => 'required',
             ];
 
             $validator = Validator::make($request->all(), $rules);
@@ -464,6 +466,8 @@ class InvoiceController extends Controller
                     $grandTotal = $request->input('grand_total');
                     $bank_details = $request->input('bank_details');
                     $quotation_id = $request->input('quotation_id');
+                    $paid_amount = $request->input('paid_amount');
+                    $payment_method = $request->input('payment_method');
 
 
                     array_splice($categoryIds, 0, 1);
@@ -533,7 +537,7 @@ class InvoiceController extends Controller
                     $client_id = QuotationApplication::where('quotation_request_id', $quotation_id)->value('client_id');
                     $client_details = Client::where('id', $client_id)->first();
 
-                    $view = View::make('backend.pages.invoice.invoice_preview', compact('dataArray', 'grandTotal', 'subTotal', 'bank_details', 'afterDiscount', 'discountAmount', 'tax', 'company_details', 'client_details','title'))->render();
+                    $view = View::make('backend.pages.invoice.invoice_preview', compact('dataArray', 'grandTotal', 'subTotal', 'bank_details', 'paid_amount',  'discountAmount', 'tax', 'company_details', 'client_details', 'title', 'payment_method'))->render();
                     // dd($view);
                     return response()->json(['html' => $view]);
                 } catch (Exception $e) {

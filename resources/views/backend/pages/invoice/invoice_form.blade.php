@@ -18,7 +18,7 @@
                 <span id="error_title" class="has-error"></span>
             </div>
             <div class="form-group col-md-4">
-                <label for="">Invoice Date </label>
+                <label for="">Invoice Date <span style="color: red;">*</span></label>
                 <p></p>
                 <input type="date" class="form-control" id="date" name="invoice_date" value=""
                     placeholder="" required>
@@ -134,13 +134,25 @@
             @endforeach
         </div>
         <div class="row col-md-12 d-flex flex-row">
-            <div class="form-group col-md-6 float-right">
+            <div class="form-group col-md-4 ">
                 <label for="">Paid Amount</label>
                 <input type="number" class="form-control" min="0" id="paid_amount" name="paid_amount"
                     placeholder="Paid Amount">
                 <span class="error_msg danger"></span>
             </div>
-            <div class="form-group col-md-6 float-right">
+            <div class="form-group col-md-4 ">
+                <label for="">Due</label>
+                <input type="number" class="form-control" min="0" id="due" name="due"
+                    placeholder="Due" readonly>
+            </div>
+            <div class="form-group col-md-4 ">
+                <label for="">Grand Total</label>
+                <input type="number" class="form-control" min="0" id="grandTotal" name="grand_total"
+                    placeholder="Grand Total" readonly>
+            </div>
+        </div>
+        <div class="row col-md-12 d-flex flex-row">
+            <div class="form-group col-md-6">
                 <label for="">Payment Method</label>
                 <select name="payment_method" id="payment_method" class="form-control">
                     <option value="" selected disabled>Select Payment Method</option>
@@ -149,13 +161,12 @@
                     <option value="Card">Card</option>
                 </select>
             </div>
-        </div>
-        <div class="row col-md-12 d-flex flex-row">
-            <div class="form-group col-md-2 float-right">
-                <label for="">Grand Total</label>
-                <input type="number" class="form-control" min="0" id="grandTotal" name="grand_total"
-                    placeholder="Grand Total" readonly>
+            <div class="form-group col-md-6">
+                <label for="">TRN <span style="color: red;">*</span></label>
+                <input type="text" class="form-control" id="trn" name="trn" placeholder="Enter TRN">
+                <span class="error_msg danger"></span>
             </div>
+
         </div>
         <br>
         <div class="row" id="cheque_portion">
@@ -176,14 +187,6 @@
             <br>
         </div>
 
-        <div class="row col-md-12 d-flex flex-row">
-            <div class="form-group col-md-6 float-right">
-                <label for="">TRN</label>
-                <input type="text" class="form-control"  id="trn" name="trn"
-                    placeholder="Enter TRN">
-                <span class="error_msg danger"></span>
-            </div>
-        </div>
 
         <div class="row">
             <div class="form-group col-md-12">
@@ -252,11 +255,14 @@
         // $('.removeItem').hide();
         // Function to initialize event handlers for an item
 
-        // $('.removeItem').on('click', function() {
-        //     updateTotalPrice(); // Update total price when an item is removed
-        //     updateGrandTotal();
-        //     $(this).closest('.item').remove();
-        // });
+        $('.removeItem').on('click', function() {
+            // console.log('hi');
+            // return;
+
+            $(this).closest('.item').remove();
+            // updateTotalPrice(); // Update total price when an item is removed
+            updateGrandTotal();
+        });
 
         $("#cheque_portion").hide();
 
@@ -272,6 +278,8 @@
         function initializeItem(item) {
             item.find('.quantity, .unitPrice').on('change', updateTotalPrice);
             item.find('.removeItem').on('click', function() {
+                // console.log('hi');
+
                 $(this).closest('.item').remove();
                 // updateTotalPrice(); // Update total price when an item is removed
                 updateGrandTotal();
@@ -344,6 +352,7 @@
         // Event handler for updating grand total when tax or discount changes
         $('#tax, #discount_percentage, #discount_amount,#paid_amount').on('input', function() {
             updateGrandTotal();
+            calculateDue();
         });
 
         // Function to update grand total based on the subtotal of each item, tax, and discount
@@ -355,9 +364,9 @@
                 grandTotal += parseFloat($(this).val()) || 0;
             });
 
-            var tax = parseFloat($('#tax').val()) || 0;
-            var discountPercentage = parseFloat($('#discount_percentage').val()) || 0;
-            var discountAmount = parseFloat($('#discount_amount').val()) || 0;
+            // var tax = parseFloat($('#tax').val()) || 0;
+            // var discountPercentage = parseFloat($('#discount_percentage').val()) || 0;
+            // var discountAmount = parseFloat($('#discount_amount').val()) || 0;
             var paidAmount = parseFloat($('#paid_amount').val()) || 0;
 
             // console.log('Tax:', tax);
@@ -365,16 +374,15 @@
             // console.log('Discount Amount:', discountAmount);
 
             // Apply tax to the grand total
-            grandTotal = grandTotal + (grandTotal * tax) / 100;
+            // grandTotal = grandTotal + (grandTotal * tax) / 100;
 
             // Calculate discount based on either discountPercentage or discountAmount
-            var discount = discountPercentage ? (grandTotal * discountPercentage) / 100 : discountAmount;
+            // var discount = discountPercentage ? (grandTotal * discountPercentage) / 100 : discountAmount;
 
             // Subtract discount from the grand total
-            grandTotal = grandTotal - discount - paidAmount;
+            // grandTotal = grandTotal - discount - paidAmount;
 
-            // console.log('Grand Total:', grandTotal);
-            if (grandTotal >= 0) {
+            if (grandTotal > paidAmount) {
                 $('#grandTotal').val(grandTotal.toFixed(2));
             } else {
                 swal({
@@ -391,8 +399,18 @@
                     updateGrandTotal();
                 });
             }
+            calculateDue();
 
         }
+
+        function calculateDue() {
+            var paidAmount = $('#paid_amount').val() || 0;
+            var grandTotal = $('#grandTotal').val() || 0;
+            var due = grandTotal - paidAmount;
+            $('#due').val(due.toFixed(2));
+        }
+        calculateDue();
+
         // Event handler for updating item dropdown based on the selected category
         $('#items').on('change', '.categorySelect', function() {
             var categoryId = $(this).val();

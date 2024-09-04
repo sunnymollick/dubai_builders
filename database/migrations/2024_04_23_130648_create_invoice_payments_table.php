@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('invoice_payments', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('invoice_id');
-            $table->string('payment_date');
-            $table->float('paid_amount');
-            $table->string('payment_method');
+            $table->string('payment_date')->nullable();
+            $table->float('paid_amount')->nullable();
+            $table->string('payment_method')->nullable();
             $table->string('cheque_date')->nullable();
             $table->string('cheque_number')->nullable();
             $table->string('bank_name')->nullable();
