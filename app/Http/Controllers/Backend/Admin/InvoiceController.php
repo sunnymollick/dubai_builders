@@ -229,6 +229,7 @@ class InvoiceController extends Controller
 
     public function generateInvoice($id, Request $request)
     {
+
         if ($request->ajax()) {
             $all_work_categories = WorkCategory::all();
             $all_units = Unit::all();
@@ -534,9 +535,9 @@ class InvoiceController extends Controller
 
                     $company_details = Setting::first();
 
-                    $client_id = QuotationApplication::where('quotation_request_id', $quotation_id)->value('client_id');
+                    $client_id = QuotationApplication::where('id', $quotation_id)->value('client_id');
+                    // dd($client_id);
                     $client_details = Client::where('id', $client_id)->first();
-
                     $view = View::make('backend.pages.invoice.invoice_preview', compact('dataArray', 'grandTotal', 'subTotal', 'bank_details', 'paid_amount',  'discountAmount', 'tax', 'company_details', 'client_details', 'title', 'payment_method'))->render();
                     // dd($view);
                     return response()->json(['html' => $view]);

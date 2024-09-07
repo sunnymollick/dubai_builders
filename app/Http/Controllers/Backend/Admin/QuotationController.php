@@ -29,9 +29,11 @@ class QuotationController extends Controller
     {
         $quotation_requests = Quotation::orderBy('is_confirmed', 'asc')->orderBy('id', 'desc')
             ->join('quotation_applications', 'quotations.id', '=', 'quotation_applications.quotation_request_id')
-            ->select('quotations.*', 'quotation_applications.quotation_code')
+            ->select('quotations.*', 'quotation_applications.quotation_code','quotations.id as q_id')
             ->where('quotations.is_replied', 1)
             ->get();
+    
+            // dd($quotation_requests);
         return view('backend.pages.all_quotations.index', ['quotation_requests' => $quotation_requests]);
     }
     public function fetchItems($id)

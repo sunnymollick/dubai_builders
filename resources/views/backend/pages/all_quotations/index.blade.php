@@ -54,15 +54,15 @@
                                             <td style="color:green"><b> Confirmed </b></td>
                                         @endif
                                         <td>
-                                            <a data-toggle="tooltip" id="{{ $row->id }}"
+                                            <a data-toggle="tooltip" id="{{ $row->q_id }}"
                                                 class="btn btn-success mr-1 view" title="View"><i class="lni lni-eye"></i>
                                             </a>
                                             <a data-toggle="tooltip"
-                                                href="{{ URL('admin/all-quotations/generate-pdf/' . $row->id) }}"
-                                                id="{{ $row->id }}" class="btn btn-info mr-1" title="Print"><i
+                                                href="{{ URL('admin/all-quotations/generate-pdf/' . $row->q_id) }}"
+                                                id="{{ $row->q_id }}" class="btn btn-info mr-1" title="Print"><i
                                                     class="lni lni-printer"></i> </a>
                                             @if ($row->is_confirmed == 0)
-                                                <a data-toggle="tooltip" id="{{ $row->id }}"
+                                                <a data-toggle="tooltip" id="{{ $row->q_id }}"
                                                     class="btn btn-warning delete" title="Confirm"><i
                                                         class="lni lni-checkmark-circle"></i> </a>
                                             @endif
