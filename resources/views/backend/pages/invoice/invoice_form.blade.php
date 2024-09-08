@@ -6,6 +6,9 @@
 
 <form id="create" action="" enctype="multipart/form-data" method="post" accept-charset="utf-8"
     class="needs-validation" novalidate>
+    <div class="text-danger mb-3">** <span class="fw-bold">Note: </span>There is a
+        <span class="fw-bold">{{ $quote->discount_amount }}</span> discount on this
+        quotation. Please adjust the discount amount accordingly. **</div>
     <div id="status"></div>
     <input type="text" class="form-control" name="quotation_id" hidden value="{{ $quote->id }}">
     <div>
