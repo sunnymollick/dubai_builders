@@ -454,18 +454,20 @@ class InvoiceController extends Controller
                 DB::beginTransaction();
                 try {
                     // Get item_ids, quantities, and total_prices from the form data
-                    // dd($request);
+                    dd($request);
                     $title = $request->input('title');
+                    $trn = $request->input('trn');
+                    $due = $request->input('due');
+                    $invoiceDate = $request->input('invoice_date');
                     $categoryIds = $request->input('work_category_id');
                     $itemIds = $request->input('items');
                     $quantities = $request->input('quantity');
                     $units = $request->input('unit');
                     $unitPrices = $request->input('unit_price');
                     $totalPrices = $request->input('total_price');
-                    $discountAmount = $request->input('discount_amount');
-                    $tax = $request->input('tax');
                     $grandTotal = $request->input('grand_total');
                     $bank_details = $request->input('bank_details');
+                    dd($bank_details);
                     $quotation_id = $request->input('quotation_id');
                     $paid_amount = $request->input('paid_amount');
                     $payment_method = $request->input('payment_method');
@@ -538,7 +540,7 @@ class InvoiceController extends Controller
                     $client_id = QuotationApplication::where('id', $quotation_id)->value('client_id');
                     // dd($client_id);
                     $client_details = Client::where('id', $client_id)->first();
-                    $view = View::make('backend.pages.invoice.invoice_preview', compact('dataArray', 'grandTotal', 'subTotal', 'bank_details', 'paid_amount',  'discountAmount', 'tax', 'company_details', 'client_details', 'title', 'payment_method'))->render();
+                    $view = View::make('backend.pages.invoice.invoice_preview', compact('dataArray', 'grandTotal', 'subTotal', 'bank_details', 'paid_amount',  'company_details', 'client_details', 'title', 'payment_method', 'invoiceDate', 'trn', 'due'))->render();
                     // dd($view);
                     return response()->json(['html' => $view]);
                 } catch (Exception $e) {
