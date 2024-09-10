@@ -495,7 +495,8 @@
 
 
 
-<script src="{{ asset('backend/ckeditor/ckeditor.js') }}"></script>
+
+{{-- <script src="{{ asset('backend/ckeditor/ckeditor.js') }}"></script>
 <script>
     CKEDITOR.replace('bank_details', {
         filebrowserBrowseUrl: '{{ asset('backend') }}/ckeditor/filemanager/browser/default/browser.html?Connector={{ asset('backend') }}/ckeditor/filemanager/connectors/php/connector.php',
@@ -507,4 +508,4 @@
         filebrowserImageUploadUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Image',
         filebrowserFlashUploadUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Flash'
     });
-</script>
+</script> --}}

@@ -50,7 +50,7 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
+      
         if ($request->ajax()) {
             $path = "invoice";
             $rules = [
@@ -217,7 +217,7 @@ class InvoiceController extends Controller
 
         if ($request->ajax()) {
             $inv_id = $invoice->id;
-            // dd($inv_id);
+            
             InvoiceDetails::where('invoice_id', $inv_id)->delete();
             $invoice->delete();
 
@@ -265,11 +265,10 @@ class InvoiceController extends Controller
                         }
                     }
                 }
-                // dd($invoice);
+   
             } catch (Exception $exception) {
             }
 
-            // dd($quotation_details);
             $view = View::make('backend.pages.invoice.invoice_form', compact('quote', 'quotation_details', 'all_items', 'all_work_categories', 'all_units'))->render();
             return response()->json(['html' => $view]);
         } else {
@@ -284,15 +283,14 @@ class InvoiceController extends Controller
                 $invoice = Invoice::join('invoice_details', 'invoices.id', 'invoice_details.invoice_id')
                     ->where('invoices.quotation_id', $id)
                     ->get();
-                dd($invoice);
-
-
                 // dd($invoice);
+
+ 
             } catch (\Exception $e) {
                 dd($e->getMessage());
             }
 
-            // dd($quotation_details);
+           
             $view = View::make('backend.pages.invoice.invoice_form', compact('quote', 'quotation_details', 'all_items', 'all_work_categories', 'all_units'))->render();
             return response()->json(['html' => $view]);
         } else {
@@ -354,9 +352,9 @@ class InvoiceController extends Controller
             $subTotalFormatted = number_format($subTotal, 2);
             $groupedDetails = $invoice->invoiceDetails->groupBy('category_id');
             $client_id = QuotationApplication::where('id', $invoice->quotation_id)->value('client_id');
-            // dd($client_id);
+     
             $client_details = Client::where('id', $client_id)->first();
-            // dd($client_details);
+         
             $view = View::make('backend.pages.invoice.invoice_view', compact('invoice', 'subTotalFormatted', 'subTotal', 'groupedDetails', 'company_details', 'client_details'))->render();
             return response()->json(['html' => $view]);
         } else {
@@ -454,7 +452,7 @@ class InvoiceController extends Controller
                 DB::beginTransaction();
                 try {
                     // Get item_ids, quantities, and total_prices from the form data
-                    dd($request);
+                  
                     $title = $request->input('title');
                     $trn = $request->input('trn');
                     $due = $request->input('due');
@@ -467,7 +465,6 @@ class InvoiceController extends Controller
                     $totalPrices = $request->input('total_price');
                     $grandTotal = $request->input('grand_total');
                     $bank_details = $request->input('bank_details');
-                    dd($bank_details);
                     $quotation_id = $request->input('quotation_id');
                     $paid_amount = $request->input('paid_amount');
                     $payment_method = $request->input('payment_method');
@@ -479,8 +476,7 @@ class InvoiceController extends Controller
                     array_splice($units, 0, 1);
                     array_splice($unitPrices, 0, 1);
                     array_splice($totalPrices, 0, 1);
-                    // dd($categoryIds);
-
+                     
                     $subTotal = 0;
                     for ($i = 0; $i < count($totalPrices); $i++) {
                         $subTotal += (float) $totalPrices[$i];

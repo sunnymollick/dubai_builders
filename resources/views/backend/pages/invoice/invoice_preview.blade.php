@@ -197,7 +197,7 @@
     @if ($bank_details != null)
         <br>
         <br>
-        <table width='100%' cellspacing='0' cellpadding='10' style="border: 2px solid rgb(199, 75, 75)" bordercolor='#CCCCCC'>
+        <table width='100%' cellspacing='0' cellpadding='10'  bordercolor='#CCCCCC'>
             <tr>
 
                 <td width='35%' bordercolor='#ccc' bgcolor='yellowgreen'
