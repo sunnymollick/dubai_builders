@@ -55,7 +55,7 @@
                                                 @endif
                                                 {{-- <p style="color:black; font-size:12px">{{ $client_details->address }} --}}
                                                 @if ($invoiceDate != null)
-                                                    <p style="color:black; font-size:12px">
+                                                    <p style="color:black; font-size:12px;padding-bottom: 0">
                                                         {{ date('d-m-Y', strtotime($invoiceDate)) }}
                                                 @endif
                                                 @if ($trn != null)

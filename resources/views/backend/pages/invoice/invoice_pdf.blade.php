@@ -1,358 +1,245 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <style type="text/css">
-        body {
-            width: 100%;
-            height: max-content;
-            font-family: Tahoma;
-            font-size: 18px;
-            color: #333333;
-            background-color: #FFFFFF;
-        }
-
-        table {
-            font-size: 15px;
-            border-collapse: collapse;
-            margin: auto;
-        }
-
-        .details {
-            width: 100%;
-            font-size: 17px;
-            margin: auto;
-        }
-
-        .top-table {
-            height: 80px;
-            padding-right: 70px;
-        }
-
-        .bill-info {
-            width: 300px;
-            margin-top: 80px;
-            height: 50px;
-            font-size: 13px;
-        }
-
-        .company-info {
-            width: 300px;
-            font-size: 15px;
-        }
-
-        .details {
-            border: 1px solid #ccc;
-        }
-
-        img {
-            margin-bottom: 10px;
-        }
-
-
-        td.credit-note {
-            color: red;
-            padding: 30px 0px;
-            text-align: center;
-            font-size: 20px;
-            font-weight: bold;
-        }
-
-        td.description {
-            width: 35%;
-            font-size: 15px;
-            border: 1px solid #ccc;
-            background-color: #f2f2f2;
-        }
-
-        td.amount {
-            text-align: right;
-        }
-
-        td.footer {
-            font-size: 15px;
-            border-top: double medium #CCCCCC;
-        }
-    </style>
-</head>
-
-<body>
-    <table class="top-table">
+<div style='font-family:Tahoma;font-size:12px;color: #333333;background-color:#FFFFFF;'>
+    <table align='center' border='0' cellpadding='0' cellspacing='0' style='height:50px; width:100%;font-size:12px;'>
         <tr>
-            <td align="left">
-                <table class="company-info" cellspacing="0" cellpadding="2">
+            <td valign='top'>
+                <table width='100%' cellspacing='0' cellpadding='0'>
                     <tr>
-                        <td width="33%"><img height="100px" width="140" src="{{ public_path($company_details->app_logo) }}" /></td>
-                    </tr>
-                    <tr>
-                        <td width='33%' style='font-size:18px; color:red' valign='top'><b>{{$company_details->app_name}}</b><br />
-
-
+                        <td valign='bottom' width='50%' height='50'>
+                            <div align='left'><img height="80px" width="120"
+                                    src='{{ asset($company_details->app_logo) }}' />
+                            </div><br />
                         </td>
-                    </tr>
-                    <tr>
-                        <td width='100%' style='font-size:15px;' valign='top'>
-                            {{$company_details->address}}
 
-                        </td>
-                    </tr>
-                    <tr>
-                        <td width='100%' style='font-size:15px;' valign='top'>
-                            {{$company_details->email}}, {{$company_details->phone_1}}
-
-                        </td>
+                        <td width='50%'>&nbsp;</td>
                     </tr>
                 </table>
-            </td>
-            <td width="150px"></td>
-            <td align="right">
-                <table class="bill-info">
+                <!-- <div style="background-color: yellowgreen; width: 50%"><b>Bill To:</b></div><br /> -->
+
+                <table width='100%' cellspacing='0' cellpadding='0'>
                     <tr>
-                        <td>
-                            <table cellspacing='0' cellpadding='5'>
-                                <tr>
-                                    <td style='background-color:yellowgreen'>
-                                        <b>Invoice To</b>
-                                    </td>
-                                    <td style='background-color:blanchedalmond; color:red'>
-                                        {{$client_details->organization_name}}
-                                    </td>
+                        <td style="text-align: left">
+                            <table width='75%' align="left" cellspacing='0' cellpadding='5'>
+                                <tr style="background-color: yellowgreen;font-size:15px; font-weight:bold; ">
+                                    <td>Invoice To:</td>
+
                                 </tr>
                                 <tr>
-                                    <td valign='top' style=' background-color:yellowgreen'>
-                                        <b>Customer ID</b>
-                                    </td>
-                                    <td valign='top' style='background-color:blanchedalmond; color:red'>
-                                        {{$client_details->client_code}}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td valign='top' style='background-color:yellowgreen'>
-                                        <b>Invoice ID</b>
-                                    </td>
-                                    <td valign='top' style='background-color:blanchedalmond; color:red'>
-                                        {{$inv_data->invoice_code}}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td valign='top' style='background-color:yellowgreen'><b>Quotation Date: </b>
-                                    </td>
-                                    <td valign='top' style='background-color:blanchedalmond'>{{$inv_data->created_at->format('d/m/Y')}}
+                                    <td valign='top'
+                                        style='font-size:14px; color:red; background-color:blanchedalmond'>
+                                        @if ($client_details->organization_name != null)
+                                            <strong>{{ $client_details->organization_name }}</strong><br />
+                                        @endif
+                                        @if ($client_details->address != null)
+                                            <p style="color:black; font-size:12px">{{ $client_details->address }}
+                                        @endif
+
 
                                     </td>
                                 </tr>
-
                             </table>
                         </td>
+                        <td style="text-align: right">
 
+                            <table width='100%' cellspacing='0' cellpadding='0'>
+                                <tr>
+                                    <table width='75%' align="right" cellspacing='0' cellpadding='5'>
+                                        <tr style="background-color: yellowgreen;font-size:15px; font-weight:bold; ">
+                                            <td style="text-align: left">Invoice For</td>
+
+                                        </tr>
+                                        <tr>
+                                            <td valign='top'
+                                                style='text-align:left;font-size:14px; color:red; background-color:blanchedalmond'>
+                                                @if ($inv_data->title != null)
+                                                    <strong>{{ $inv_data->title }}</strong><br />
+                                                @endif
+                                                {{-- <p style="color:black; font-size:12px">{{ $client_details->address }} --}}
+                                                @if ($inv_data->invoice_date != null)
+                                                    <p style="color:black; font-size:12px">
+                                                        {{ date('d-m-Y', strtotime($inv_data->invoiceDate)) }}
+                                                @endif
+                                                @if ($inv_data->trn != null)
+                                                    <p style="color:black; padding-top:0;bank_detailsfont-size:12px">
+                                                        {{ $inv_data->trn }}
+                                                @endif
+
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </tr>
+                            </table>
+
+                        </td>
 
                     </tr>
                 </table>
+
+                {{-- 
+                <table width='100%' height='50'>
+                    <tr>
+                        <td style='font-size:12px;text-align:justify;'></td>
+                    </tr>
+                </table> --}}
+
+
+                <table width='100%' height='100' cellspacing='0' cellpadding='0'>
+                    <tr>
+                        <td>
+                            <div align='center' style='font-size: 17px;font-weight: bold; color:red'>Invoice ID # {{$inv_data->invoice_code}}
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <table width='100%' cellspacing='0' cellpadding='10' border='1' bordercolor='#CCCCCC'>
+                    <tr>
+
+                        <td width='35%' bordercolor='#ccc' bgcolor='yellowgreen'
+                            style='font-size:14px; border-collapse:collapse; border-right: 1px solid gray'>
+                            <strong>Description
+                            </strong>
+                        </td>
+                        <td bordercolor='#ccc' bgcolor='yellowgreen'
+                            style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray'>
+                            <strong>Qty</strong>
+                        </td>
+                        <td bordercolor='#ccc' bgcolor='yellowgreen'
+                            style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray'>
+                            <strong>Unit</strong>
+                        </td>
+                        <td bordercolor='#ccc' bgcolor='yellowgreen'
+                            style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray'><strong>Unit
+                                Price</strong>
+                        </td>
+                        <td bordercolor='#ccc' bgcolor='yellowgreen' style='font-size:12px;'><strong>Subtotal</strong>
+                        </td>
+
+                    </tr>
+                    @foreach ($dataArray as $category => $items)
+                        <tr>
+                            <td colspan="5"
+                                style="background-color:blanchedalmond; font-size:14px; border-bottom: 1px solid gray;">
+                                <strong>{{ $category }}</strong>
+                            </td>
+                        </tr>
+                        @foreach ($items as $index => $info)
+                            <tr>
+                                <td valign='top'
+                                    style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>
+                                    {{ $info['item_name'] }}</td>
+                                <td valign='top'
+                                    style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>
+                                    {{ $info['quantity'] }}</td>
+                                <td valign='top'
+                                    style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>
+                                    {{ $info['unit'] }}</td>
+                                <td valign='top'
+                                    style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray;text-align:center;'>
+                                    {{ number_format($info['unitPrice'], 2) }}</td>
+                                <td valign='top'
+                                    style='font-size:12px; border-collapse:collapse;  border-bottom: 1px solid gray; border-top: 1px solid gray;text-align:right;'>
+                                    {{ number_format($info['totalPrice'], 2) }}</td>
+                            </tr>
+                        @endforeach
+                    @endforeach
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td valign='top'
+                            style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-left: 1px solid gray; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>
+                            Paid Amount</td>
+                        <td valign='top'
+                            style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray;text-align:right;'>
+                            {{ number_format($paid_amount, 2) }}</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td valign='top'
+                            style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-left: 1px solid gray; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>
+                            Due</td>
+                        <td valign='top'
+                            style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray;text-align:right;'>
+                            {{ number_format($due, 2) }}</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td valign='top'
+                            style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-left: 1px solid gray; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>
+                            Grand Total</td>
+                        <td valign='top'
+                            style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray;text-align:right;'>
+                            {{ number_format($grandTotal, 2) }}</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td valign='top'
+                            style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-left: 1px solid gray; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>
+                            Payment Method</td>
+                        <td valign='top'
+                            style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray;text-align:right;'>
+                            {{ $payment_method }}</td>
+                    </tr>
+
             </td>
         </tr>
     </table>
-
-    <br>
-    <br>
-    <table class="details" cellpadding='5'>
+    <table width='100%' height='50'>
         <tr>
-            <td width='35%' bordercolor='#ccc' bgcolor='yellowgreen' style='font-size:15px; border:1px solid #001a00;'><strong>Description
-                </strong></td>
-            <td bgcolor='yellowgreen' style='font-size:15px; border:1px solid #001a00;'><strong>Qty</strong></td>
-            <td bgcolor='yellowgreen' style='font-size:15px; border:1px solid #001a00;'><strong>Unit</strong>
-            </td>
-            <td bgcolor='yellowgreen' style='font-size:15px; border:1px solid #001a00;'><strong>Unit Price</strong>
-            </td>
-            <td bgcolor='yellowgreen' style='font-size:15px;border:1px solid #001a00; text-align:right'><strong>Subtotal</strong></td>
-
-        </tr>
-
-        <tr style="display:none;">
-            <td colspan="*">
-                @foreach ($groupedDetails as $category => $categoryDetails)
-                @php
-                $categoryTitle = $categoryDetails->first()->category->title;
-                @endphp
-        <tr>
-            <td colspan="5" style="background-color:blanchedalmond;font-size:14px; border: 1px solid #001a00">
-                {{ $categoryTitle }}
-            </td>
-        </tr>
-        @foreach($categoryDetails as $info)
-        <tr>
-            <td valign='top' style='font-size:14px; border: 1px solid #001a00'>{{ $info->item->item_work }}</td>
-            <td valign='top' style='font-size:14px; border: 1px solid #001a00'>{{ $info->quantity }}</td>
-            <td valign='top' style='font-size:14px;border: 1px solid #001a00'>{{ $info->unit }}</td>
-            <td valign='top' style='font-size:14px; border: 1px solid #001a00'>{{ $info->unit_price }}</td>
-            <td valign='top' style='font-size:14px; border: 1px solid #001a00; text-align:right; padding-right:5px'>{{ $info->total_price }}</td>
-        </tr>
-        @endforeach
-        @endforeach
-        @if($inv_data->discount_amount && $inv_data->tax)
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td style='font-size:14px;;'>Sub Total</td>
-
-            <td style='font-size:14px;; color:tomato; text-align:right; padding-right:5px'>{{$subTotal}}
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td style='font-size:14px;;'>DISCOUNT(amount)</td>
-
-            <td style='font-size:14px;; color:tomato; border: 1px solid #001a00; text-align:right; padding-right:5px '>{{$inv_data->discount_amount}}</td>
-        </tr>
-        @php
-        $afterDiscount = $subTotal - $inv_data->discount_amount;
-        $tax_amount = ($inv_data->tax*$afterDiscount)/100;
-        @endphp
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td style='font-size:14px;;'>Total</td>
-
-            <td style='font-size:14px;; color:tomato; border: 1px solid #001a00 ; text-align:right; padding-right:5px'>{{$afterDiscount}}
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td style='font-size:14px;;'>TAX({{$inv_data->tax}}%)</td>
-
-            <td style='font-size:14px;; color:tomato; border: 1px solid #001a00 ; text-align:right; padding-right:5px'>{{$tax_amount}}</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td style='font-size:14px;;'><b>Grand Total</b></td>
-
-            <td style='font-size:14px;; color:tomato; border: 1px solid #001a00 ; text-align:right; padding-right:5px'><b>{{$inv_data->grand_total}}</b></td>
-        </tr>
-        @elseif($inv_data->discount_amount)
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td style='font-size:14px;'>Sub Total</td>
-
-            <td style='font-size:14px; color:tomato; text-align:right; padding-right:5px'>{{$subTotal}}
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td style='font-size:14px;'>DISCOUNT(amount)</td>
-
-            <td style='font-size:14px; color:tomato; border: 1px solid #001a00 ; text-align:right; padding-right:5px'>{{$inv_data->discount_amount}}</td>
-        </tr>
-        @php
-        $afterDiscount = $subTotal - $inv_data->discount_amount;
-        @endphp
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td style='font-size:14px;'>Grand Total</td>
-
-            <td style='font-size:14px; color:tomato; border: 1px solid #001a00 ; text-align:right; padding-right:5px'>{{$inv_data->grand_total}}
-            </td>
-        </tr>
-        @elseif($inv_data->tax)
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td style='font-size:14px;'>Subtotal</td>
-
-            <td style='font-size:14px; color:tomato; text-align:right; padding-right:5px'>{{$subTotal}}
-            </td>
-        </tr>
-        @php
-        $tax_amount = ($inv_data->tax*$subTotal)/100;
-        @endphp
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td style='font-size:14px;'>TAX({{$inv_data->tax}}%)</td>
-
-            <td style='font-size:14px; color:tomato; border: 1px solid #001a00; text-align:right; padding-right:5px '>{{$tax_amount}}</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td style='font-size:14px;'><b>Grand Total</b></td>
-
-            <td style='font-size:14px; color:tomato; border: 1px solid #001a00; text-align:right; padding-right:5px '><b>{{$inv_data->grand_total}}</b></td>
-        </tr>
-        else
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td style='font-size:14px;'>Grand Total</td>
-
-            <td style='font-size:14px; color:tomato; text-align:right; padding-right:5px'>{{$inv_data->grand_total}}
-            </td>
-        </tr>
-        @endif
-
-    </table>
-
-    @if($inv_data->terms_conditions)
-    <br>
-    <br>
-    <table width='100%' cellspacing='0' cellpadding='10' border='1' bordercolor='#CCCCCC'>
-        <tr>
-
-            <td width='35%' bordercolor='#ccc' bgcolor='yellowgreen' style='font-size:14px; border-right: 1px solid gray'><strong>TERMS & CONDITIONS
-                </strong>
-            </td>
-
-        </tr>
-        <tr>
-            <td valign='top' style='font-size:12px; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>{{ $inv_data->terms_conditions }}</td>
+            <td style='font-size:12px;text-align:justify;'></td>
         </tr>
     </table>
+    @if ($bank_details != null)
+        <br>
+        <br>
+        <table width='100%' cellspacing='0' cellpadding='10'  bordercolor='#CCCCCC'>
+            <tr>
+
+                <td width='35%' bordercolor='#ccc' bgcolor='yellowgreen'
+                    style='font-size:14px; border-collapse:collapse; border-right: 1px solid gray'><strong>BANK DETAILS
+                    </strong>
+                </td>
+
+            </tr>
+            <tr>
+                <td valign='top'
+                    style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray ; border-left: 1px solid gray;'>
+                    {{ $bank_details }}</td>
+            </tr>
+        </table>
     @endif
 
-    <!-- <table width='100%'>
+    <table width='100%' height='50'>
         <tr>
-            <td style='font-size:12px;text-align:justify; height:50px;'></td>
+            <td style='font-size:12px;text-align:justify;'></td>
         </tr>
     </table>
     <table width='100%' cellspacing='0' cellpadding='2'>
         <tr>
-            <td width='33%' style='border-top:double medium #CCCCCC;font-size:18px; color:red' valign='top'><b>{{$company_details->app_name}}</b><br />
+            <td width='33%' style='border-top:double medium #CCCCCC;font-size:15px; color:red' valign='top'>
+                <b>{{ $company_details->app_name }}</b><br />
 
 
             </td>
-            <td width='33%' style='border-top:double medium #CCCCCC; font-size:15px;' align='center' valign='top'>
-                <strong>{{$company_details->address}}<br />
-                    @if($company_details->address_secondary)
-                    Second Address: {{$company_details->address_secondary}} <br />
-                    @endif
-                    Phone: {{$company_details->phone_1}}<br /></strong>
+            <td width='33%' style='border-top:double medium #CCCCCC; font-size:12px;' align='center'
+                valign='top'>
+                <strong>{{ $company_details->address }}<br />
+                    Phone: {{ $company_details->phone_1 }}<br /></strong>
 
             </td>
 
-            <td valign='top' width='34%' style='border-top:double medium #CCCCCC;font-size:14px;' align='right'><br />
+            <td valign='top' width='34%' style='border-top:double medium #CCCCCC;font-size:12px;'
+                align='right'><br />
             </td>
         </tr>
-    </table> -->
+    </table>
     </td>
     </tr>
-    </table>
-</body>
 
-</html>
+    </table>
+</div>
