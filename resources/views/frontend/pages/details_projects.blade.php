@@ -85,7 +85,7 @@ Project Details
                                         <div class="project_info_details_bg">
                                             <div class="project_info_details">
                                                 <h5>Client Name</h5>
-                                                <p>{{$details->client->name}}</p>
+                                                <p>{{$details->client->name??''}}</p>
                                             </div>
                                             <div class="project_info_details">
                                                 <h5>Location</h5>
