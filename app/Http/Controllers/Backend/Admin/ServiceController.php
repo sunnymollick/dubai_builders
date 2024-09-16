@@ -75,7 +75,7 @@ class ServiceController extends Controller
             $rules = [
                 'service_title' => 'required',
             ];
-            if ($request->hasFile('logo')) {
+            if ($request->hasFile('thumb_image')) {
                 $thumb_path = $path . "/thumbnail";
                 $thumb_image = $request->file('thumb_image');
                 $thumb_img = Helper::saveImage($thumb_image, 370, 340, $thumb_path);
@@ -241,7 +241,7 @@ class ServiceController extends Controller
                                 unlink($file_old);
                             }
                             $logo = $request->file('logo');
-                            $logo = Helper::saveImage($logo, 370, 260, $path);
+                            $logo = Helper::saveImage($logo, 73, 73, $path);
                         }
                     } else {
                         $logo = $service->logo;

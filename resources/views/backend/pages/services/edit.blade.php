@@ -109,9 +109,9 @@
 
         <div class="row">
             <div class="form-group col-md-12 col-sm-12 mt-2">
-                <label for="">Video Link <span style="color: red;">*</span></label>
+                <label for="">Video Link </label>
                 <input type="text" class="form-control" id="video_link" name="video_link"
-                    value="{{ $service->video_link }}" placeholder="" required>
+                    value="{{ $service->video_link }}" placeholder="" >
                 <span id="error_title" class="has-error"></span>
             </div>
             {{-- <div class="clearfix"></div>
