@@ -241,7 +241,7 @@ class ServiceController extends Controller
                                 unlink($file_old);
                             }
                             $logo = $request->file('logo');
-                            $logo = Helper::saveImage($logo, 73, 73, $path);
+                            $logo = Helper::saveLogo($logo, 73, 73, $path);
                         }
                     } else {
                         $logo = $service->logo;
@@ -253,7 +253,7 @@ class ServiceController extends Controller
                                 unlink($file_old);
                             }
                             $home_image = $request->file('home_image');
-                            $home_image = Helper::saveImage($home_image, 215, 220, $path);
+                            $home_image = Helper::saveLogo($home_image, 215, 220, $path);
                         }
                     } else {
                         $home_image = $service->home_image;

@@ -304,7 +304,7 @@ class HomeController extends Controller
                     }
 
                     $job_app->name = $request->input('name');
-                    $job_app->address = $request->input('location');
+                    $job_app->address = $request->input('address');
                     $job_app->email = $request->input('email');
                     $job_app->mobile = $request->input('mobile');
                     $job_app->is_replied = 0;

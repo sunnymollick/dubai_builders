@@ -78,10 +78,11 @@ class CareerController extends Controller
             $rules = [
                 'job_title' => 'required',
             ];
+            $poster_img = '';
 
             if ($request->hasFile('poster')) {
                 $poster = $request->file('poster');
-                $poster_img = Helper::saveImage($poster, 150, 220, $path);
+                $poster_img = Helper::saveImage($poster, 800, 800, $path);
             }
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
@@ -109,7 +110,9 @@ class CareerController extends Controller
                     $career->job_type = $request->input('job_type');
                     $career->compensations = $request->input('compensations');
                     $career->is_active = $request->input('is_active');
-                    $career->poster = $poster_img;
+                    if ($poster_img !== '') {
+                        $career->poster = $poster_img;
+                    }
                     $career->save(); //
                     DB::commit();
                     return response()->json(['type' => 'success', 'message' => "Successfully Inserted"]);
@@ -166,7 +169,7 @@ class CareerController extends Controller
             if ($request->hasFile('poster')) {
                 if (!empty($request->file('poster'))) {
                     $poster = $request->file('poster');
-                    $poster_img = Helper::saveImage($poster, 150, 220, $path);
+                    $poster_img = Helper::saveImage($poster, 800, 800, $path);
                     if (File::exists($career->poster)) {
                         $file_old = $career->poster;
                         unlink($file_old);
@@ -247,7 +250,7 @@ class CareerController extends Controller
                     $job_name  = Career::where('id', $section->job_id)->value('job_title');
                     return $job_name;
                 })->addColumn('cv', function ($section) {
-                    $html = "<a href='#' class='cv-link' data-pdf='" .asset( $section->file)  . "'>" . $section->name . " CV</a>";
+                    $html = "<a href='#' class='cv-link' data-pdf='" . asset($section->file)  . "'>" . $section->name . " CV</a>";
                     return $html;
                 })
                 ->addColumn('is_replied', function ($section) {
