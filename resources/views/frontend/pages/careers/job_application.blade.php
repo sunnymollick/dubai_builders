@@ -17,14 +17,29 @@
     </div>
 @endsection
 @section('content')
+    <style>
+        .post_img {
+            
+            margin: 0 auto;
+            object-fit: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .post_img img {
+            margin: 0 auto;
+            width: 100%;
+        }
+    </style>
     <div class="container">
         <div class="project_details section">
             <div class="row">
                 <div class="col-lg-12 col-md-12">
                     <div class="project_details_inner">
-                        {{-- <div class="post_img">
+                        <div class="post_img">
                             <img src="{{ asset($job_app->poster) }}" alt="blog">
-                        </div> --}}
+                        </div>
                         <div class="post_content">
                             <div class="post_header">
                                 <h3 class="post_title">Post: {{ $job_app->job_title ?? 'Job Title' }}</h3>
@@ -201,10 +216,11 @@
                                                                 <div class="row justify-content-center">
                                                                     <div class="col-md-12 col-lg-10 col-12">
                                                                         <div class="form-group files">
-                                                                            <label class="my-auto">Upload Your CV
+                                                                            <label class="my-auto">Upload Your CV<span
+                                                                                class="text-danger">*</span>
                                                                             </label>
-                                                                            <input id="file" type="file" name="file"
-                                                                                class="form-control" />
+                                                                            <input id="file" type="file"
+                                                                                name="file" class="form-control" required/>
                                                                             @error('file')
                                                                                 <span
                                                                                     class="text-danger">{{ $message }}</span>
@@ -263,56 +279,56 @@
 
 
 @section('scripts')
-<script>
-    $('.button-submit').click(function() {
-        $('#create').validate({
-            submitHandler: function(form) {
-                var myData = new FormData($("#create")[0]);
-                var job_id = {{ $job_app->id }}
-                myData.append('_token', CSRF_TOKEN);
-                myData.append('job_id', job_id)
-                swal({
-                    title: "Are you sure to submit?",
-                    text: "Submit Form",
-                    type: "warning",
-                    showCancelButton: true,
-                    closeOnConfirm: false,
-                    showLoaderOnConfirm: true,
-                    confirmButtonClass: "btn-danger",
-                    confirmButtonText: "Yes, Submit!"
-                }, function() {
-                    $.ajax({
-                        url: '/storeJobApplication',
-                        type: 'POST',
-                        data: myData,
-                        dataType: 'json',
-                        cache: false,
-                        processData: false,
-                        contentType: false,
-                        success: function(data) {
-                            if (data.type === 'success') {
-                                $('#myModal').modal('hide');
-                                swal("Thanks!", "We received your request.",
-                                    "success");
-                                $("#name").val('') && $("#email").val('') && $(
-                                        "#mobile").val('') &&
-                                    $("#address").val('') && $("#file")
-                                    .val('');
-                            } else if (data.type === 'error') {
-                                if (data.errors) {
-                                    $.each(data.errors, function(key, val) {
-                                        $('#error_' + key).html(val);
-                                    });
+    <script>
+        $('.button-submit').click(function() {
+            $('#create').validate({
+                submitHandler: function(form) {
+                    var myData = new FormData($("#create")[0]);
+                    var job_id = {{ $job_app->id }}
+                    myData.append('_token', CSRF_TOKEN);
+                    myData.append('job_id', job_id)
+                    swal({
+                        title: "Are you sure to submit?",
+                        text: "Submit Form",
+                        type: "warning",
+                        showCancelButton: true,
+                        closeOnConfirm: false,
+                        showLoaderOnConfirm: true,
+                        confirmButtonClass: "btn-danger",
+                        confirmButtonText: "Yes, Submit!"
+                    }, function() {
+                        $.ajax({
+                            url: '/storeJobApplication',
+                            type: 'POST',
+                            data: myData,
+                            dataType: 'json',
+                            cache: false,
+                            processData: false,
+                            contentType: false,
+                            success: function(data) {
+                                if (data.type === 'success') {
+                                    $('#myModal').modal('hide');
+                                    swal("Thanks!", "We received your request.",
+                                        "success");
+                                    $("#name").val('') && $("#email").val('') && $(
+                                            "#mobile").val('') &&
+                                        $("#address").val('') && $("#file")
+                                        .val('');
+                                } else if (data.type === 'error') {
+                                    if (data.errors) {
+                                        $.each(data.errors, function(key, val) {
+                                            $('#error_' + key).html(val);
+                                        });
+                                    }
+                                    $("#status").html(data.message);
+                                    swal("Error sending!", "Please fix the errors",
+                                        "error");
                                 }
-                                $("#status").html(data.message);
-                                swal("Error sending!", "Please fix the errors",
-                                    "error");
                             }
-                        }
+                        });
                     });
-                });
-            }
+                }
+            });
         });
-    });
-</script>
+    </script>
 @endsection

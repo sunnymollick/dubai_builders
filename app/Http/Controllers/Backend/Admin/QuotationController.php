@@ -29,9 +29,11 @@ class QuotationController extends Controller
     {
         $quotation_requests = Quotation::orderBy('is_confirmed', 'asc')->orderBy('id', 'desc')
             ->join('quotation_applications', 'quotations.id', '=', 'quotation_applications.quotation_request_id')
-            ->select('quotations.*', 'quotation_applications.quotation_code')
+            ->select('quotations.*', 'quotation_applications.quotation_code','quotations.id as q_id','quotation_applications.id as quotation_id','quotation_applications.is_confirmed as q_is_confirmed')
             ->where('quotations.is_replied', 1)
             ->get();
+
+            // dd($quotation_requests);
         return view('backend.pages.all_quotations.index', ['quotation_requests' => $quotation_requests]);
     }
     public function fetchItems($id)
@@ -433,12 +435,11 @@ class QuotationController extends Controller
     public function saveQuotation(Request $request, $id)
     {
         if ($request->ajax()) {
-            Quotation::where('id', $id)->update(['is_confirmed' => 1]);
-            $quotation_id = QuotationApplication::where('quotation_request_id', $id)->first();
-            $quotation_request_details = Quotation::where('id', $id)->first();
+            // Quotation::where('id', $id)->update(['is_confirmed' => 1]);
+            QuotationApplication::where('id', $id)->update(['is_confirmed' => 1]);
+            $quotation_id = QuotationApplication::where('id', $id)->first();
+            $quotation_request_details = Quotation::where('id', $quotation_id->quotation_request_id)->first();
 
-
-            // $client_name = Client::where('id', $request->client_id)->first();
             $project = new Project();
             $created_time = Carbon::now();
             $last_project = Project::first();

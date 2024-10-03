@@ -75,14 +75,14 @@ class ServiceController extends Controller
             $rules = [
                 'service_title' => 'required',
             ];
-            if ($request->hasFile('logo')) {
+            if ($request->hasFile('thumb_image')) {
                 $thumb_path = $path . "/thumbnail";
                 $thumb_image = $request->file('thumb_image');
                 $thumb_img = Helper::saveImage($thumb_image, 370, 340, $thumb_path);
             }
             if ($request->hasFile('hero_image')) {
                 $hero_image = $request->file('hero_image');
-                $hero_img = Helper::saveImage($hero_image, 772, 480, $path);
+                $hero_img = Helper::saveImage($hero_image,   770, 480, $path);
             }
             if ($request->hasFile('image_1')) {
                 $image_1 = $request->file('image_1');
@@ -205,7 +205,7 @@ class ServiceController extends Controller
                                 unlink($file_old);
                             }
                             $hero_image = $request->file('hero_image');
-                            $hero_img = Helper::saveImage($hero_image, 772, 840, $path);
+                            $hero_img = Helper::saveImage($hero_image,  770, 480, $path);
                         }
                     } else {
                         $hero_img = $service->hero_image;
@@ -241,7 +241,7 @@ class ServiceController extends Controller
                                 unlink($file_old);
                             }
                             $logo = $request->file('logo');
-                            $logo = Helper::saveImage($logo, 370, 260, $path);
+                            $logo = Helper::saveLogo($logo, 73, 73, $path);
                         }
                     } else {
                         $logo = $service->logo;
@@ -253,7 +253,7 @@ class ServiceController extends Controller
                                 unlink($file_old);
                             }
                             $home_image = $request->file('home_image');
-                            $home_image = Helper::saveImage($home_image, 215, 220, $path);
+                            $home_image = Helper::saveLogo($home_image, 215, 220, $path);
                         }
                     } else {
                         $home_image = $service->home_image;

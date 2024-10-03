@@ -153,10 +153,10 @@
         <br> --}}
 
             <div class="form-group col-md-6 col-sm-12 mt-2">
-                <label for="">Video Link <span style="color: red;">*</span></label>
+                <label for="">Video Link </label>
                 <p></p>
                 <input type="text" class="form-control" id="video_link" name="video_link" value=""
-                    placeholder="" required>
+                    placeholder="" >
                 <span id="error_title" class="has-error"></span>
             </div>
             {{-- <div class="clearfix"></div>

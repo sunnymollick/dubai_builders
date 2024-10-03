@@ -63,15 +63,33 @@
                         </div>
                     </div>
                 @endforeach
+
                 <div class="pagination-div">
                     <ul class="pagination">
-                        <li><a href="#"><i class="ion-chevron-left"></i></a></li>
-                        <li><a class="page-number current" href="#">1</a></li>
-                        <li><a class="page-number" href="#">2</a></li>
-                        <li><a class="page-number" href="#">3</a></li>
-                        <li><a href="#"><i class="ion-chevron-right"></i></a></li>
+
+                        @if ($teams->onFirstPage())
+                            <li class="disabled"><span>&laquo;</span></li>
+                        @else
+                            <li><a href="{{ $teams->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+                        @endif
+
+                        @for ($i = 1; $i <= $teams->lastPage(); $i++)
+                            @if ($i == $teams->currentPage())
+                                <li><span class="page-number current">{{ $i }}</span></li>
+                            @else
+                                <li><a href="{{ $teams->url($i) }}" class="page-number">{{ $i }}</a></li>
+                            @endif
+                        @endfor
+
+                        @if ($teams->hasMorePages())
+                            <li><a href="{{ $teams->nextPageUrl() }}" rel="next">&raquo;</a></li>
+                        @else
+                            <li class="disabled"><span>&raquo;</span></li>
+                        @endif
+
                     </ul>
                 </div>
+
             </div>
         </div>
     </div>

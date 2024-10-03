@@ -3,7 +3,10 @@
 Chat
 @endsection
 @section('content')
-
+<!-- Loader element -->
+<div class="loader-container">
+    <div class="loader"></div>
+</div>
 <div class="chat-wrapper" style="height: 520px;">
     <div class="chat-sidebar">
         <div class="chat-sidebar-content">
@@ -40,6 +43,7 @@ Chat
     <div class="chat-details">
 
     </div>
+
 
     <!--start chat overlay-->
     <!--end chat overlay-->
@@ -111,7 +115,7 @@ Chat
         // Function to send message via AJAX
         function sendMessage(chatId) {
             var message = $('.button-submit').val();
-
+            $('.loader-container').show();
             // Make an AJAX request to send the message
             $.ajax({
                 type: 'POST',
@@ -126,6 +130,7 @@ Chat
                 success: function(response) {
                     // Handle success response
                     console.log('Message sent successfully');
+                    $('.loader-container').hide();
                     $('.button-submit').hide();
                     $('#sendButton').hide();
                     // Show success message
@@ -137,6 +142,7 @@ Chat
                     // Handle error response
                     console.error('Error sending message:', error);
                     // Optionally, display an error message to the user
+                    $('.loader-container').hide();
                 }
             });
         }

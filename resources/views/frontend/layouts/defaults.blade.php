@@ -9,17 +9,13 @@
 <body class="dark-theme">
 
 		<!--PreLoader-->
-		@include('frontend.includes.pre_loader')
+		{{-- @include('frontend.includes.pre_loader') --}}
 		<!--PreLoader Ends-->
-
-
 
 		<!-- Header 1 -->
 		<header class="header">
-
 			@include('frontend.includes.topbar')
             @include('frontend.includes.menu')
-
 		</header>
 
         @yield('page_header')

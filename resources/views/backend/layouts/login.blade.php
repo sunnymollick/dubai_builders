@@ -40,6 +40,18 @@
                                     <div class="text-center">
                                         <h3 class="">Sign in</h3>
                                     </div>
+                                    @if (session('error'))
+                                        <div class="alert alert-danger">
+                                            {{ session('error') }}
+                                        </div>
+                                    @endif
+
+                                    @if (session('success'))
+                                        <div class="alert alert-success">
+                                            {{ session('success') }}
+                                        </div>
+                                    @endif
+
                                     <div class="form-body">
                                         <form action="{{ route('admin.auth.login_store') }}" method="POST"
                                             class="row g-3">

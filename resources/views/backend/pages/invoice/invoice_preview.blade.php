@@ -15,73 +15,72 @@
                 </table>
                 <!-- <div style="background-color: yellowgreen; width: 50%"><b>Bill To:</b></div><br /> -->
 
-                <table width='80%' cellspacing='0' cellpadding='0'>
+                <table width='100%' cellspacing='0' cellpadding='0'>
                     <tr>
-                        <table width='35%' align="left" cellspacing='0' cellpadding='5'>
-                            <tr style="background-color: yellowgreen;font-size:15px; font-weight:bold; ">
-                                <td>Invoice To:</td>
+                        <td style="text-align: left">
+                            <table width='75%' align="left" cellspacing='0' cellpadding='5'>
+                                <tr style="background-color: yellowgreen;font-size:15px; font-weight:bold; ">
+                                    <td>Invoice To:</td>
 
-                            </tr>
-                            <tr>
-                                <td valign='top' style='font-size:14px; color:red; background-color:blanchedalmond'>
-                                    <strong>{{ $client_details->organization_name }}</strong><br />
-                                    <p style="color:black; font-size:12px">{{ $client_details->address }}
-
-
-                                </td>
-                            </tr>
-                        </table>
-                        <!-- <table width='40%' align="right" cellspacing='0' cellpadding='3'>
-                            <tr>
-                                <td valign='top' width='30%' style='font-size:12px; background-color:yellowgreen'><b>Invoice Date: </b>
+                                </tr>
+                                <tr>
+                                    <td valign='top'
+                                        style='font-size:14px; color:red; background-color:blanchedalmond'>
+                                        @if ($client_details->organization_name != null)
+                                            <strong>{{ $client_details->organization_name }}</strong><br />
+                                        @endif
+                                        @if ($client_details->address != null)
+                                            <p style="color:black; font-size:12px">{{ $client_details->address }}
+                                        @endif
 
 
-                                </td>
-                                <td valign='top' width='30%' style='font-size:12px;background-color:blanchedalmond'>03/03/2021
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td style="text-align: right">
 
-                                </td>
-                            </tr>
-                            <tr>
-                                <td valign='top' width='30%' style='font-size:12px; background-color:yellowgreen'>
-                                    <b>Due Date:</b>
+                            <table width='100%' cellspacing='0' cellpadding='0'>
+                                <tr>
+                                    <table width='75%' align="right" cellspacing='0' cellpadding='5'>
+                                        <tr style="background-color: yellowgreen;font-size:15px; font-weight:bold; ">
+                                            <td style="text-align: left">Invoice For</td>
 
+                                        </tr>
+                                        <tr>
+                                            <td valign='top'
+                                                style='text-align:left;font-size:14px; color:red; background-color:blanchedalmond'>
+                                                @if ($title != null)
+                                                    <strong>{{ $title }}</strong><br />
+                                                @endif
+                                                {{-- <p style="color:black; font-size:12px">{{ $client_details->address }} --}}
+                                                @if ($invoiceDate != null)
+                                                    <p style="color:black; font-size:12px;padding-bottom: 0">
+                                                        {{ date('d-m-Y', strtotime($invoiceDate)) }}
+                                                @endif
+                                                @if ($trn != null)
+                                                    <p style="color:black; padding-top:0;bank_detailsfont-size:12px">
+                                                        {{ $trn }}
+                                                @endif
 
-                                </td>
-                                <td valign='top' width='30%' style='font-size:12px;background-color:blanchedalmond'>
-                                    03/18/2021
-                                </td>
-                            </tr>
-                        </table> -->
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </tr>
+                            </table>
 
+                        </td>
 
                     </tr>
                 </table>
 
-
+                {{-- 
                 <table width='100%' height='50'>
                     <tr>
                         <td style='font-size:12px;text-align:justify;'></td>
                     </tr>
-                </table>
+                </table> --}}
 
-                <table width='100%' cellspacing='0' cellpadding='0'>
-                    <tr>
-                        <table width='35%' align="left" cellspacing='0' cellpadding='5'>
-                            <tr style="background-color: yellowgreen;font-size:15px; font-weight:bold; ">
-                                <td>Invoice For</td>
-
-                            </tr>
-                            <tr>
-                                <td valign='top' style='font-size:14px; color:red; background-color:blanchedalmond'>
-                                    <strong>{{ $title }}</strong><br />
-                                    {{-- <p style="color:black; font-size:12px">{{ $client_details->address }} --}}
-
-
-                                </td>
-                            </tr>
-                        </table>
-                    </tr>
-                </table>
 
                 <table width='100%' height='100' cellspacing='0' cellpadding='0'>
                     <tr>
@@ -142,149 +141,51 @@
                             </tr>
                         @endforeach
                     @endforeach
-                    @if ($discountAmount && $tax)
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td valign='top'
-                                style='color:red; font-weight:bold; font-size:12px; border-collapse:collapse;border-left: 1px solid gray; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>
-                                Sub Total</td>
-                            <td valign='top'
-                                style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray;text-align:right;'>
-                                {{ number_format($subTotal, 2) }}</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td valign='top'
-                                style='font-size:12px; border-collapse:collapse;border-left: 1px solid gray; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>
-                                Discount</td>
-                            <td valign='top'
-                                style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray;text-align:right;'>
-                                {{ number_format($discountAmount, 2) }}</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td valign='top'
-                                style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse;border-left: 1px solid gray; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>
-                                Total</td>
-                            <td valign='top'
-                                style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray;text-align:right;'>
-                                {{ number_format($afterDiscount, 2) }}</td>
-                        </tr>
-                        @php
-                            $tax_amount = ($tax * $afterDiscount) / 100;
-                        @endphp
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td valign='top'
-                                style='font-size:12px; border-collapse:collapse;border-left: 1px solid gray; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>
-                                TAX({{ $tax }}%)</td>
-                            <td valign='top'
-                                style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray;text-align:right;'>
-                                {{ number_format($tax_amount, 2) }}</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td valign='top'
-                                style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse;border-left: 1px solid gray; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>
-                                Grand Total</td>
-                            <td valign='top'
-                                style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray;text-align:right;'>
-                                {{ number_format($grandTotal, 2) }}</td>
-                        </tr>
-                    @elseif($discountAmount)
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td valign='top'
-                                style='color:red; font-weight:bold;color:red; font-weight:bold;font-size:12px; border-collapse:collapse;border-left: 1px solid gray; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>
-                                Sub Total</td>
-                            <td valign='top'
-                                style='color:red; font-weight:bold;color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray;text-align:right;'>
-                                {{ number_format($subTotal, 2) }}</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td valign='top'
-                                style='font-size:12px; border-collapse:collapse;border-left: 1px solid gray; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>
-                                Discount</td>
-                            <td valign='top'
-                                style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray;text-align:right;'>
-                                {{ number_format($discountAmount, 2) }}</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td valign='top'
-                                style='color:red; font-weight:bold;color:red; font-weight:bold;font-size:12px; border-collapse:collapse;border-left: 1px solid gray; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>
-                                Grand Total</td>
-                            <td valign='top'
-                                style='color:red; font-weight:bold;color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray;text-align:right;'>
-                                {{ number_format($afterDiscount, 2) }}</td>
-                        </tr>
-                    @elseif($tax)
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td valign='top'
-                                style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse;border-left: 1px solid gray; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>
-                                Sub Total</td>
-                            <td valign='top'
-                                style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray;text-align:right;'>
-                                {{ number_format($subTotal, 2) }}</td>
-                        </tr>
-                        @php
-                            $tax_amount = ($tax * $afterDiscount) / 100;
-                        @endphp
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td valign='top'
-                                style='font-size:12px; border-collapse:collapse;border-left: 1px solid gray; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>
-                                TAX({{ $tax }}%)</td>
-                            <td valign='top'
-                                style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray;text-align:right;'>
-                                {{ number_format($tax_amount, 2) }}</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td valign='top'
-                                style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse;border-left: 1px solid gray; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>
-                                Grand Total</td>
-                            <td valign='top'
-                                style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray;text-align:right;'>
-                                {{ number_format($grandTotal, 2) }}</td>
-                        </tr>
-                    @else
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td valign='top'
-                                style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-left: 1px solid gray; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>
-                                Grand Total</td>
-                            <td valign='top'
-                                style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray;text-align:right;'>
-                                {{ number_format($grandTotal, 2) }}</td>
-                        </tr>
-                    @endif
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td valign='top'
+                            style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-left: 1px solid gray; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>
+                            Paid Amount</td>
+                        <td valign='top'
+                            style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray;text-align:right;'>
+                            {{ number_format($paid_amount, 2) }}</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td valign='top'
+                            style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-left: 1px solid gray; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>
+                            Due</td>
+                        <td valign='top'
+                            style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray;text-align:right;'>
+                            {{ number_format($due, 2) }}</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td valign='top'
+                            style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-left: 1px solid gray; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>
+                            Grand Total</td>
+                        <td valign='top'
+                            style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray;text-align:right;'>
+                            {{ number_format($grandTotal, 2) }}</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td valign='top'
+                            style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-left: 1px solid gray; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>
+                            Payment Method</td>
+                        <td valign='top'
+                            style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray;text-align:right;'>
+                            {{ $payment_method }}</td>
+                    </tr>
+
             </td>
         </tr>
     </table>
@@ -296,7 +197,7 @@
     @if ($bank_details != null)
         <br>
         <br>
-        <table width='100%' cellspacing='0' cellpadding='10' border='1' bordercolor='#CCCCCC'>
+        <table width='100%' cellspacing='0' cellpadding='10'  bordercolor='#CCCCCC'>
             <tr>
 
                 <td width='35%' bordercolor='#ccc' bgcolor='yellowgreen'

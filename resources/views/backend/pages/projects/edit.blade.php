@@ -159,12 +159,12 @@
         </div>
         <div class="clearfix"></div>
 
-        <div class="form-check">
+        {{-- <div class="form-check">
             <input type="checkbox" class="form-check-input" id="is_popular" name="is_popular" value="1" {{ $project->is_popular == '1' ? 'checked' : '' }}>
             <label class="form-check-label" for="">Is Popular </label>
             <span id="error_title" class="has-error"></span>
         </div>
-        <div class="clearfix"></div>
+        <div class="clearfix"></div> --}}
         <br>
 
         <div class="d-grid gap-2 col-sm-2">

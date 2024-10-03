@@ -50,7 +50,7 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
+
         if ($request->ajax()) {
             $path = "invoice";
             $rules = [
@@ -58,6 +58,8 @@ class InvoiceController extends Controller
                 'unit' => 'required',
                 'unit_price' => 'required',
                 'quantity' => 'required',
+                // 'payment_method' => 'required',
+                // 'trn' => 'required',
             ];
 
             $validator = Validator::make($request->all(), $rules);
@@ -89,7 +91,9 @@ class InvoiceController extends Controller
                     $paidAmount = $request->input('paid_amount') == null ? 0 : $request->input('paid_amount');
                     $grand_total = $request->input('grand_total');
                     $bank_details = $request->input('bank_details');
+                    $due = $request->input('due');
                     $trn = $request->input('trn');
+                    $payment_method = $request->input('payment_method');
 
                     array_splice($cateogry, 0, 1);
                     array_splice($items, 0, 1);
@@ -157,7 +161,7 @@ class InvoiceController extends Controller
                     $client_id = QuotationApplication::where('quotation_request_id', $quotation_id)->value('client_id');
                     $client_details = Client::where('id', $client_id)->first();
 
-                    $pdf = Pdf::loadView('backend.pages.invoice.invoice_pdf', compact('inv_data', 'groupedDetails', 'subTotal', 'company_details', 'client_details'))->setPaper('letter', 'portrait');
+                    $pdf = Pdf::loadView('backend.pages.invoice.invoice_pdf', compact('inv_data', 'groupedDetails', 'subTotal', 'company_details', 'client_details', 'payment_method','due'))->setPaper('letter', 'portrait');
 
 
                     $data["email"] = $client_details->email;
@@ -167,7 +171,7 @@ class InvoiceController extends Controller
                     Mail::send('backend.pages.invoice.invoice_mail', $data, function ($message) use ($data, $pdf) {
                         $message->to($data["email"], $data["email"])
                             ->subject($data["title"])
-                            ->attachData($pdf->output(), "Quotation.pdf");
+                            ->attachData($pdf->output(), "Invoice.pdf");
                     });
                     DB::commit();
                     return response()->json(['type' => 'success', 'message' => "Successfully Inserted"]);
@@ -215,7 +219,7 @@ class InvoiceController extends Controller
 
         if ($request->ajax()) {
             $inv_id = $invoice->id;
-            // dd($inv_id);
+
             InvoiceDetails::where('invoice_id', $inv_id)->delete();
             $invoice->delete();
 
@@ -227,6 +231,7 @@ class InvoiceController extends Controller
 
     public function generateInvoice($id, Request $request)
     {
+
         if ($request->ajax()) {
             $all_work_categories = WorkCategory::all();
             $all_units = Unit::all();
@@ -262,11 +267,9 @@ class InvoiceController extends Controller
                         }
                     }
                 }
-                // dd($invoice);
             } catch (Exception $exception) {
             }
 
-            // dd($quotation_details);
             $view = View::make('backend.pages.invoice.invoice_form', compact('quote', 'quotation_details', 'all_items', 'all_work_categories', 'all_units'))->render();
             return response()->json(['html' => $view]);
         } else {
@@ -281,15 +284,14 @@ class InvoiceController extends Controller
                 $invoice = Invoice::join('invoice_details', 'invoices.id', 'invoice_details.invoice_id')
                     ->where('invoices.quotation_id', $id)
                     ->get();
-                dd($invoice);
-
-
                 // dd($invoice);
+
+
             } catch (\Exception $e) {
                 dd($e->getMessage());
             }
 
-            // dd($quotation_details);
+
             $view = View::make('backend.pages.invoice.invoice_form', compact('quote', 'quotation_details', 'all_items', 'all_work_categories', 'all_units'))->render();
             return response()->json(['html' => $view]);
         } else {
@@ -351,9 +353,9 @@ class InvoiceController extends Controller
             $subTotalFormatted = number_format($subTotal, 2);
             $groupedDetails = $invoice->invoiceDetails->groupBy('category_id');
             $client_id = QuotationApplication::where('id', $invoice->quotation_id)->value('client_id');
-            // dd($client_id);
+
             $client_details = Client::where('id', $client_id)->first();
-            // dd($client_details);
+
             $view = View::make('backend.pages.invoice.invoice_view', compact('invoice', 'subTotalFormatted', 'subTotal', 'groupedDetails', 'company_details', 'client_details'))->render();
             return response()->json(['html' => $view]);
         } else {
@@ -451,19 +453,22 @@ class InvoiceController extends Controller
                 DB::beginTransaction();
                 try {
                     // Get item_ids, quantities, and total_prices from the form data
-                    // dd($request);
+
                     $title = $request->input('title');
+                    $trn = $request->input('trn');
+                    $due = $request->input('due');
+                    $invoiceDate = $request->input('invoice_date');
                     $categoryIds = $request->input('work_category_id');
                     $itemIds = $request->input('items');
                     $quantities = $request->input('quantity');
                     $units = $request->input('unit');
                     $unitPrices = $request->input('unit_price');
                     $totalPrices = $request->input('total_price');
-                    $discountAmount = $request->input('discount_amount');
-                    $tax = $request->input('tax');
                     $grandTotal = $request->input('grand_total');
                     $bank_details = $request->input('bank_details');
                     $quotation_id = $request->input('quotation_id');
+                    $paid_amount = $request->input('paid_amount');
+                    $payment_method = $request->input('payment_method');
 
 
                     array_splice($categoryIds, 0, 1);
@@ -472,7 +477,6 @@ class InvoiceController extends Controller
                     array_splice($units, 0, 1);
                     array_splice($unitPrices, 0, 1);
                     array_splice($totalPrices, 0, 1);
-                    // dd($categoryIds);
 
                     $subTotal = 0;
                     for ($i = 0; $i < count($totalPrices); $i++) {
@@ -530,10 +534,10 @@ class InvoiceController extends Controller
 
                     $company_details = Setting::first();
 
-                    $client_id = QuotationApplication::where('quotation_request_id', $quotation_id)->value('client_id');
+                    $client_id = QuotationApplication::where('id', $quotation_id)->value('client_id');
+                    // dd($client_id);
                     $client_details = Client::where('id', $client_id)->first();
-
-                    $view = View::make('backend.pages.invoice.invoice_preview', compact('dataArray', 'grandTotal', 'subTotal', 'bank_details', 'afterDiscount', 'discountAmount', 'tax', 'company_details', 'client_details','title'))->render();
+                    $view = View::make('backend.pages.invoice.invoice_preview', compact('dataArray', 'grandTotal', 'subTotal', 'bank_details', 'paid_amount',  'company_details', 'client_details', 'title', 'payment_method', 'invoiceDate', 'trn', 'due'))->render();
                     // dd($view);
                     return response()->json(['html' => $view]);
                 } catch (Exception $e) {

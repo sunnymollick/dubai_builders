@@ -2,34 +2,10 @@
     <div id="status"></div>
     <div class="col">
         <div class="row">
-            <div class="col-sm">
+            <div class="col-sm-4">
                 <div class="form-group">
                     <label for="">Project Name <span style="color: red;">*</span></label>
                     <input type="text" class="form-control" id="project_title" name="project_title" value="" placeholder="" required>
-                    <span id="error_title" class="has-error"></span>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-
-            <div class="col-sm">
-                <div class="form-group ">
-                    <label for="">Project Permit <span style="color: red;">*</span></label>
-                    <input type="text" class="form-control" id="project_permit" name="project_permit" value="" placeholder="" required>
-                    <span id="error_title" class="has-error"></span>
-                </div>
-                <div class="clearfix"></div>
-
-            </div>
-
-            <div class="col-sm">
-                <div class="form-group">
-                    <label for="">Client Name <span style="color: red;">*</span></label>
-                    <select class="form-control" name="client_id" id="client_id" required>
-                        <option value="">Select Client</option>
-                        @foreach ($clients as $client)
-                        <option value="{{ $client->id }}">{{ $client->name }}</option>
-                        @endforeach
-                    </select>
                     <span id="error_title" class="has-error"></span>
                 </div>
                 <div class="clearfix"></div>
