@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('email_secondary')->nullable();
             $table->string('phone_1')->nullable();
             $table->string('phone_2')->nullable();
+            $table->string('trn_number')->nullable();
             $table->string('opening_time')->nullable();
             $table->string('fb_link')->nullable();
             $table->string('twitter_link')->nullable();

@@ -76,6 +76,7 @@ class SettingController extends Controller
                 'email' => 'required',
                 'address' => 'required',
                 'phone_1' => 'required',
+                'trn_number' => 'required',
                 'app_logo' => 'image|mimes:jpeg,png,jpg',
                 'footer_text' => 'required',
             ];
@@ -99,6 +100,7 @@ class SettingController extends Controller
                 $settings->address_secondary = $request->input('address_secondary');
                 $settings->phone_1 = $request->input('phone_1');
                 $settings->phone_2 = $request->input('phone_2');
+                $settings->trn_number = $request->input('trn_number');
                 $settings->opening_time = $request->input('opening_time');
                 $settings->fb_link = $request->input('fb_link');
                 $settings->twitter_link = $request->input('twitter_link');
@@ -185,7 +187,8 @@ class SettingController extends Controller
                     $settings->address_secondary = $request->input('address_secondary');
                     $settings->phone_1 = $request->input('phone_1');
                     $settings->phone_2 = $request->input('phone_2');
-                    $settings->opening_time = $request->input('opening_time');
+                    $settings->phone_2 = $request->input('phone_2');
+                    $settings->trn_number = $request->input('trn_number');
                     $settings->fb_link = $request->input('fb_link');
                     $settings->twitter_link = $request->input('twitter_link');
                     $settings->dribble_link = $request->input('dribble_link');

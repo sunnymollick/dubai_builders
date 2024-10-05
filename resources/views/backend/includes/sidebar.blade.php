@@ -44,12 +44,12 @@
         <a class="has-arrow" href="javascript:;">
             <div class="parent-icon"><i class='bx bx-command'></i>
             </div>
-            <div class="menu-title">Items</div>
+            <div class="menu-title">Sub-Category</div>
         </a>
         <ul>
             <li> <a href="{{route('admin.workcategories.index')}}"><i class="bx bx-right-arrow-alt"></i>All Categories & Units</a>
             </li>
-            <li> <a href="{{route('admin.itemworks.index')}}"><i class="bx bx-right-arrow-alt"></i>All Items</a>
+            <li> <a href="{{route('admin.itemworks.index')}}"><i class="bx bx-right-arrow-alt"></i>All Sub-Category</a>
             </li>
         </ul>
     </li>
@@ -85,6 +85,14 @@
             <div class="parent-icon"><i class="bx bx-carousel"></i>
             </div>
             <div class="menu-title">Slider</div>
+        </a>
+    </li>
+
+    <li>
+        <a href="https://premium261.web-hosting.com:2096/webmaillogout.cgi">
+            <div class="parent-icon"><i class="fadeIn animated bx bx-mail-send"></i>
+            </div>
+            <div class="menu-title">Web Mail</div>
         </a>
     </li>
 

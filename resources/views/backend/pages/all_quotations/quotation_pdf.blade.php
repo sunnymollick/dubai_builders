@@ -162,9 +162,9 @@
             <td bgcolor='yellowgreen' style='font-size:15px; border:1px solid #001a00;'><strong>Qty</strong></td>
             <td bgcolor='yellowgreen' style='font-size:15px; border:1px solid #001a00;'><strong>Unit</strong>
             </td>
-            <td bgcolor='yellowgreen' style='font-size:15px; border:1px solid #001a00;'><strong>Unit Price</strong>
+            <td bgcolor='yellowgreen' style='font-size:15px; border:1px solid #001a00;'><strong>Unit Price ({{ $quotationApplication->currency }})</strong>
             </td>
-            <td bgcolor='yellowgreen' style='font-size:15px;border:1px solid #001a00; text-align:right'><strong>Subtotal</strong></td>
+            <td bgcolor='yellowgreen' style='font-size:15px;border:1px solid #001a00; text-align:right'><strong>Subtotal ({{ $quotationApplication->currency }})</strong></td>
 
         </tr>
 
@@ -234,7 +234,8 @@
             <td></td>
             <td style='font-size:14px;;'><b>Grand Total</b></td>
 
-            <td style='font-size:14px;; color:tomato; border: 1px solid #001a00 ; text-align:right; padding-right:5px'><b>{{$quotationApplication->grand_total}}</b></td>
+            <td style='font-size:14px;; color:tomato; border: 1px solid #001a00 ; text-align:right; padding-right:5px'><b>
+                ({{ $quotationApplication->currency }}) {{$quotationApplication->grand_total}}</b></td>
         </tr>
         @elseif($quotationApplication->discount_amount)
         <tr>
@@ -263,7 +264,7 @@
             <td></td>
             <td style='font-size:14px;'>Grand Total</td>
 
-            <td style='font-size:14px; color:tomato; border: 1px solid #001a00 ; text-align:right; padding-right:5px'>{{$quotationApplication->grand_total}}
+            <td style='font-size:14px; color:tomato; border: 1px solid #001a00 ; text-align:right; padding-right:5px'>({{ $quotationApplication->currency }}) {{$quotationApplication->grand_total}}
             </td>
         </tr>
         @elseif($quotationApplication->tax)
@@ -293,7 +294,7 @@
             <td></td>
             <td style='font-size:14px;'><b>Grand Total</b></td>
 
-            <td style='font-size:14px; color:tomato; border: 1px solid #001a00; text-align:right; padding-right:5px '><b>{{$quotationApplication->grand_total}}</b></td>
+            <td style='font-size:14px; color:tomato; border: 1px solid #001a00; text-align:right; padding-right:5px '><b>({{ $quotationApplication->currency }}) {{$quotationApplication->grand_total}}</b></td>
         </tr>
         else
         <tr>
@@ -302,7 +303,7 @@
             <td></td>
             <td style='font-size:14px;'>Grand Total</td>
 
-            <td style='font-size:14px; color:tomato; text-align:right; padding-right:5px'>{{$quotationApplication->grand_total}}
+            <td style='font-size:14px; color:tomato; text-align:right; padding-right:5px'>({{ $quotationApplication->currency }}) {{$quotationApplication->grand_total}}
             </td>
         </tr>
         @endif

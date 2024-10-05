@@ -108,10 +108,10 @@
                         </td>
                         <td bordercolor='#ccc' bgcolor='yellowgreen'
                             style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray'><strong>Unit
-                                Price</strong>
+                                Price ({{ $quotationApplication->currency }})</strong>
                         </td>
                         <td bordercolor='#ccc' bgcolor='yellowgreen' style='font-size:12px;; text-align: right'>
-                            <strong>Subtotal</strong>
+                            <strong>Subtotal ({{ $quotationApplication->currency }})</strong>
                         </td>
 
                     </tr>
@@ -206,7 +206,7 @@
                                 Total</td>
                             <td valign='top'
                                 style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray ; border-left: 1px solid gray; text-align: right'>
-                                {{ $grandTotal }}</td>
+                                {{ $quotationApplication->currency }} {{ $grandTotal }}</td>
                         </tr>
                     @elseif($quotationApplication->discount_amount)
                         <tr>
@@ -278,7 +278,7 @@
                                 Total</td>
                             <td valign='top'
                                 style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray ; border-left: 1px solid gray; text-align: right'>
-                                {{ $grandTotal }}</td>
+                                {{ $quotationApplication->currency }} {{ $grandTotal }}</td>
                         </tr>
                     @else
                         <tr>
@@ -290,7 +290,7 @@
                                 Total</td>
                             <td valign='top'
                                 style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray ; border-left: 1px solid gray; text-align: right'>
-                                {{ $subTotalFormatted }}</td>
+                                {{ $quotationApplication->currency }} {{ $subTotalFormatted }}</td>
                         </tr>
                     @endif
             </td>

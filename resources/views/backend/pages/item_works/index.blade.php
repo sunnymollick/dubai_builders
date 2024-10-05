@@ -7,7 +7,7 @@ Items & Works
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <h6><i class="lni lni-user" aria-hidden="true"></i> &nbsp; All Projects
+                <h6><i class="lni lni-user" aria-hidden="true"></i> &nbsp; All Sub Category
                     <span style="float: right;">
                         <button class="btn btn-primary btn-sm" onclick="create()"><i class="fadeIn animated bx bx-user-plus"></i>
                             Add
@@ -27,7 +27,7 @@ Items & Works
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Item/Work</th>
+                                <th>Sub-Category/Item</th>
                                 <th>Work Category</th>
                                 <th>Unit</th>
                                 <th>Unit Price</th>

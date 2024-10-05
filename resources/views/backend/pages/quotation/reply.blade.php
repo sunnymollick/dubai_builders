@@ -54,9 +54,9 @@
             </div>
         </div>
         <div class="row">
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-12">
                 <label for="">Terms and Conditions</label>
-                <textarea class="form-control" name="terms_conditions" id="terms_conditions"></textarea>
+                <textarea class="form-control" name="terms_conditions" id="terms_conditions" cols="15" rows="5"></textarea>
             </div>
         </div>
         <div class="row">
@@ -71,6 +71,16 @@
             <div class="form-group col-md-2">
                 <label for="">Grand Total</label>
                 <input type="number" class="form-control" id="grandTotal" name="grand_total" placeholder="Grand Total" readonly>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="">Currency</label>
+                <select name="currency" id="currency" class="form-control">
+                    <option value="" selected disabled>Select Currency</option>
+                    <option value="TK">BDT (TK)</option>
+                    <option value="$" label="US dollar">USD</option>
+                    <option value="€" label="Euro">EURO</option>
+                    <option value="£" label="Pound">Pound</option>
+                </select>
             </div>
         </div>
         <br>

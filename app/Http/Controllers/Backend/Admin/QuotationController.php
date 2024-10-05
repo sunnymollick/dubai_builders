@@ -93,6 +93,7 @@ class QuotationController extends Controller
                     $totalPrices = $request->input('total_price');
                     $discountAmount = $request->input('discount_amount');
                     $tax = $request->input('tax');
+                    $currency = $request->input('currency');
                     $grandTotal = $request->input('grand_total');
                     $terms_condition = $request->input('terms_conditions');
 
@@ -203,7 +204,7 @@ class QuotationController extends Controller
                         $client_details = Client::where('id', $request->client_id)
                             ->first();
                     }
-                    $view = View::make('backend.pages.all_quotations.quotation_preview', compact('dataArray', 'grandTotal', 'subTotal','terms_condition', 'afterDiscount', 'discountAmount', 'tax', 'company_details', 'client_details'))->render();
+                    $view = View::make('backend.pages.all_quotations.quotation_preview', compact('dataArray', 'grandTotal', 'subTotal','terms_condition', 'afterDiscount', 'discountAmount', 'tax', 'company_details', 'client_details','currency'))->render();
                     return response()->json(['html' => $view]);
                 } catch (Exception $e) {
                     dd($e->getMessage());
@@ -223,6 +224,7 @@ class QuotationController extends Controller
                 'unit' => 'required',
                 'unit_price' => 'required',
                 'quantity' => 'required',
+                'currency' => 'required',
             ];
 
             $validator = Validator::make($request->all(), $rules);
@@ -252,6 +254,7 @@ class QuotationController extends Controller
                     $unitPrices = $request->input('unit_price');
                     $totalPrices = $request->input('total_price');
                     $tax = $request->input('tax');
+                    $currency = $request->input('currency');
                     $discountAmount = $request->input('discount_amount');
                     $terms_conditions = $request->input('terms_conditions');
                     $grand_total = $request->input('grand_total');
@@ -264,6 +267,7 @@ class QuotationController extends Controller
                         $quotationApplication->client_id = $quotation_client->client_id;
                         $quotationApplication->quotation_code = $quotation_code;
                         $quotationApplication->terms_conditions = $terms_conditions;
+                        $quotationApplication->currency = $currency;
                         $quotationApplication->tax = $tax;
                         $quotationApplication->discount_amount = $discountAmount;
                         $subTotal = 0;
@@ -333,6 +337,7 @@ class QuotationController extends Controller
                         $quotationApplication->quotation_request_id = $quotation->id;
                         $quotationApplication->client_id = $request->client_id;
                         $quotationApplication->quotation_code = $quotation_code;
+                        $quotationApplication->currency = $currency;
                         $quotationApplication->terms_conditions = $terms_conditions;
                         $quotationApplication->tax = $tax;
                         $quotationApplication->discount_amount = $discountAmount;

@@ -82,9 +82,9 @@
                         </td>
                         <td bordercolor='#ccc' bgcolor='yellowgreen'
                             style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray'><strong>Unit
-                                Price</strong>
+                                Price  ({{ $currency }}) </strong>
                         </td>
-                        <td bordercolor='#ccc' bgcolor='yellowgreen' style='font-size:12px;'><strong>Subtotal</strong>
+                        <td bordercolor='#ccc' bgcolor='yellowgreen' style='font-size:12px;'><strong>Subtotal  ({{ $currency }})</strong>
                         </td>
 
                     </tr>
@@ -172,7 +172,7 @@
                                 Grand Total</td>
                             <td valign='top'
                                 style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray;text-align:right;'>
-                                {{ number_format($grandTotal, 2) }}</td>
+                                {{ $currency }} {{ number_format($grandTotal, 2) }}</td>
                         </tr>
                     @elseif($discountAmount)
                         <tr>
@@ -206,7 +206,7 @@
                                 Grand Total</td>
                             <td valign='top'
                                 style='color:red; font-weight:bold;color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray;text-align:right;'>
-                                {{ number_format($afterDiscount, 2) }}</td>
+                                {{ $currency }} {{ number_format($afterDiscount, 2) }}</td>
                         </tr>
                     @elseif($tax)
                         <tr>
@@ -243,7 +243,7 @@
                                 Grand Total</td>
                             <td valign='top'
                                 style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray;text-align:right;'>
-                                {{ number_format($grandTotal, 2) }}</td>
+                                {{ $currency }} {{ number_format($grandTotal, 2) }}</td>
                         </tr>
                     @else
                         <tr>
@@ -252,10 +252,10 @@
                             <td></td>
                             <td valign='top'
                                 style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-left: 1px solid gray; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray'>
-                                Grand Total</td>
+                                Grand Total </td>
                             <td valign='top'
                                 style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray;text-align:right;'>
-                                {{ number_format($grandTotal, 2) }}</td>
+                                {{ $currency }} {{ number_format($grandTotal, 2) }}</td>
                         </tr>
                     @endif
             </td>
@@ -286,7 +286,7 @@
         </tr>
     </table>
 @endif
-    
+
     <table width='100%' height='50'>
         <tr>
             <td style='font-size:12px;text-align:justify;'></td>
@@ -313,6 +313,6 @@
     </table>
     </td>
     </tr>
-   
+
     </table>
 </div>
