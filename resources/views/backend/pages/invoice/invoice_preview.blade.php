@@ -12,6 +12,11 @@
 
                         <td width='50%'>&nbsp;</td>
                     </tr>
+                    <tr>
+                        <td width="80%"></td>
+                        <td width="20%"><b>TRN NO. {{ $company_details->trn_number }}</b></td>
+                    </tr>
+                    <tr></tr>
                 </table>
                 <!-- <div style="background-color: yellowgreen; width: 50%"><b>Bill To:</b></div><br /> -->
 
@@ -74,7 +79,7 @@
                     </tr>
                 </table>
 
-                {{-- 
+                {{--
                 <table width='100%' height='50'>
                     <tr>
                         <td style='font-size:12px;text-align:justify;'></td>
@@ -91,6 +96,7 @@
                     </tr>
                 </table>
                 <table width='100%' cellspacing='0' cellpadding='10' border='1' bordercolor='#CCCCCC'>
+                    <h3></h3>
                     <tr>
 
                         <td width='35%' bordercolor='#ccc' bgcolor='yellowgreen'
@@ -108,9 +114,9 @@
                         </td>
                         <td bordercolor='#ccc' bgcolor='yellowgreen'
                             style='font-size:12px; border-collapse:collapse; border-right: 1px solid gray'><strong>Unit
-                                Price</strong>
+                                Price ({{ $currency }})</strong>
                         </td>
-                        <td bordercolor='#ccc' bgcolor='yellowgreen' style='font-size:12px;'><strong>Subtotal</strong>
+                        <td bordercolor='#ccc' bgcolor='yellowgreen' style='font-size:12px;'><strong>Subtotal ({{ $currency }})</strong>
                         </td>
 
                     </tr>
@@ -172,7 +178,7 @@
                             Grand Total</td>
                         <td valign='top'
                             style='color:red; font-weight:bold;font-size:12px; border-collapse:collapse; border-right: 1px solid gray; border-bottom: 1px solid gray; border-top: 1px solid gray;text-align:right;'>
-                            {{ number_format($grandTotal, 2) }}</td>
+                            {{ $currency }}     {{ number_format($grandTotal, 2) }}</td>
                     </tr>
                     <tr>
                         <td></td>

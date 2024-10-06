@@ -152,7 +152,7 @@ class InvoiceController extends Controller
 
 
 
-                    $company_details = Setting::first();
+                    $company_details = Setting::where('is_active',1)->first();
                     $inv_data = Invoice::with('invoiceDetails')
                         ->where('quotation_id', $quotation_id)
                         ->first();
@@ -161,8 +161,11 @@ class InvoiceController extends Controller
                     $client_id = QuotationApplication::where('quotation_request_id', $quotation_id)->value('client_id');
                     $client_details = Client::where('id', $client_id)->first();
 
-                    $pdf = Pdf::loadView('backend.pages.invoice.invoice_pdf', compact('inv_data', 'groupedDetails', 'subTotal', 'company_details', 'client_details', 'payment_method','due'))->setPaper('letter', 'portrait');
+                    $currency = QuotationApplication::where('quotation_request_id', $quotation_id)->value('currency');
 
+                    $pdf = Pdf::loadView('backend.pages.invoice.invoice_pdf', compact('inv_data', 'groupedDetails', 'subTotal', 'company_details', 'client_details', 'payment_method','due','currency'))->setPaper('letter', 'portrait');
+
+                    $pdf->download($inv_data->invoice_code.'.pdf');
 
                     $data["email"] = $client_details->email;
                     $data["title"] = "Here is Invoice for your " . $title . " work";
@@ -532,12 +535,14 @@ class InvoiceController extends Controller
                         }
                     }
 
-                    $company_details = Setting::first();
+                    $company_details = Setting::where('is_active',1)->first();
+                    // dd($company_details);
 
                     $client_id = QuotationApplication::where('id', $quotation_id)->value('client_id');
+                    $currency = QuotationApplication::where('id', $quotation_id)->value('currency');
                     // dd($client_id);
                     $client_details = Client::where('id', $client_id)->first();
-                    $view = View::make('backend.pages.invoice.invoice_preview', compact('dataArray', 'grandTotal', 'subTotal', 'bank_details', 'paid_amount',  'company_details', 'client_details', 'title', 'payment_method', 'invoiceDate', 'trn', 'due'))->render();
+                    $view = View::make('backend.pages.invoice.invoice_preview', compact('dataArray', 'grandTotal', 'subTotal', 'bank_details', 'paid_amount',  'company_details', 'client_details', 'title', 'payment_method', 'invoiceDate', 'trn', 'due','currency'))->render();
                     // dd($view);
                     return response()->json(['html' => $view]);
                 } catch (Exception $e) {

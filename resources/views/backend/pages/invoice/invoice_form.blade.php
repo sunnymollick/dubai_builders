@@ -58,12 +58,12 @@
                             placeholder="Unit" readonly>
                     </div>
                     <div class="form-group col-md-2">
-                        <label for="">Unit Price</label>
+                        <label for="">Unit Price ({{ $quote->currency }})</label>
                         <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}"
                             class="form-control unitPrice" id="" name="unit_price[]" placeholder="Unit Price">
                     </div>
                     <div class="form-group col-md-2">
-                        <label for="">Total</label>
+                        <label for="">Total ({{ $quote->currency }})</label>
                         <input type="number" class="form-control totalPrice" name="total_price[]"
                             placeholder="Total Price" readonly>
                     </div>
@@ -114,14 +114,14 @@
                                 placeholder="Unit" value="{{ $qd->unit }}" readonly>
                         </div>
                         <div class="form-group col-md-2">
-                            <label for="">Unit Price</label>
+                            <label for="">Unit Price ({{ $quote->currency }})</label>
                             <input type="number" min="0"
                                 onkeyup="if(this.value<0){this.value= this.value * -1}" class="form-control unitPrice"
                                 id="" name="unit_price[]" placeholder="Unit Price"
                                 value="{{ $qd->unit_price }}">
                         </div>
                         <div class="form-group col-md-2">
-                            <label for="">Total</label>
+                            <label for="">Total ({{ $quote->currency }})</label>
                             <input type="number" class="form-control totalPrice" name="total_price[]"
                                 placeholder="Total Price" readonly value="{{ $qd->total_price }}">
                         </div>
@@ -138,18 +138,18 @@
         </div>
         <div class="row col-md-12 d-flex flex-row">
             <div class="form-group col-md-4 ">
-                <label for="">Paid Amount</label>
+                <label for="">Paid Amount ({{ $quote->currency }})</label>
                 <input type="number" class="form-control" min="0" id="paid_amount" name="paid_amount"
                     placeholder="Paid Amount">
                 <span class="error_msg danger"></span>
             </div>
             <div class="form-group col-md-4 ">
-                <label for="">Due</label>
+                <label for="">Due ({{ $quote->currency }})</label>
                 <input type="number" class="form-control" min="0" id="due" name="due"
                     placeholder="Due" readonly>
             </div>
             <div class="form-group col-md-4 ">
-                <label for="">Grand Total</label>
+                <label for="">Grand Total ({{ $quote->currency }})</label>
                 <input type="number" class="form-control" min="0" id="grandTotal" name="grand_total"
                     placeholder="Grand Total" >
             </div>
