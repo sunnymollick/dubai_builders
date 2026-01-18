@@ -52,6 +52,11 @@
                                 <td width="100%">{{ $setting->phone_2 }}</td>
                             </tr>
                             <tr>
+                                <td width="40%">TRN Number</td>
+                                <td width="10%">:</td>
+                                <td width="100%">{{ $setting->trn_number }}</td>
+                            </tr>
+                            <tr>
                                 <td width="40%">Opening Time</td>
                                 <td width="10%">:</td>
                                 <td width="100%">{{ $setting->opening_time }}</td>

@@ -6,12 +6,12 @@
 
 <form id="create" action="" enctype="multipart/form-data" method="post" accept-charset="utf-8"
     class="needs-validation" novalidate>
-    <div class="text-danger mb-3">** <span class="fw-bold">Note: </span>There is a
-        <span class="fw-bold">{{ $quote->discount_amount }}</span> discount on this
-        quotation. Please adjust the discount amount accordingly. **</div>
+    <div class="text-danger mb-3">** <span class="fw-bold">Note: </span>There are
+        <span class="fw-bold">{{ $quote->discount_amount }} {{ $quote->currency }}</span> discount and {{ $quote->tax }}% tax = <b>{{ $quote->grand_total*($quote->tax/100) }} {{ $quote->currency }} </b> on this
+        quotation. Please adjust the amount accordingly. **</div>
     <div id="status"></div>
     <input type="text" class="form-control" name="quotation_id" hidden value="{{ $quote->id }}">
-    <div>
+    <div class="col-md-12">
         <div class="row">
             <div class="form-group col-md-8">
                 <label for="">Invoice Title <span style="color: red;">*</span></label>
@@ -58,12 +58,12 @@
                             placeholder="Unit" readonly>
                     </div>
                     <div class="form-group col-md-2">
-                        <label for="">Unit Price</label>
+                        <label for="">Unit Price ({{ $quote->currency }})</label>
                         <input type="number" min="0" onkeyup="if(this.value<0){this.value= this.value * -1}"
                             class="form-control unitPrice" id="" name="unit_price[]" placeholder="Unit Price">
                     </div>
                     <div class="form-group col-md-2">
-                        <label for="">Total</label>
+                        <label for="">Total ({{ $quote->currency }})</label>
                         <input type="number" class="form-control totalPrice" name="total_price[]"
                             placeholder="Total Price" readonly>
                     </div>
@@ -114,14 +114,14 @@
                                 placeholder="Unit" value="{{ $qd->unit }}" readonly>
                         </div>
                         <div class="form-group col-md-2">
-                            <label for="">Unit Price</label>
+                            <label for="">Unit Price ({{ $quote->currency }})</label>
                             <input type="number" min="0"
                                 onkeyup="if(this.value<0){this.value= this.value * -1}" class="form-control unitPrice"
                                 id="" name="unit_price[]" placeholder="Unit Price"
                                 value="{{ $qd->unit_price }}">
                         </div>
                         <div class="form-group col-md-2">
-                            <label for="">Total</label>
+                            <label for="">Total ({{ $quote->currency }})</label>
                             <input type="number" class="form-control totalPrice" name="total_price[]"
                                 placeholder="Total Price" readonly value="{{ $qd->total_price }}">
                         </div>
@@ -138,20 +138,37 @@
         </div>
         <div class="row col-md-12 d-flex flex-row">
             <div class="form-group col-md-4 ">
-                <label for="">Paid Amount</label>
+                <label for="">Sub Total ({{ $quote->currency }})</label>
+                <input type="number" class="form-control" min="0" id="subTotal" name="sub_total" readonly
+                    placeholder="Sub Total" >
+            </div>
+            <div class="form-group col-md-4 ">
+                <label for="">Discount ({{ $quote->currency }})</label>
+                <input type="number" class="form-control" min="0" id="discount_amount" name="discount_amount" value="{{ $discount }}"
+                    placeholder="discount Amount">
+                <span class="error_msg danger"></span>
+            </div>
+            <div class="form-group col-md-4 ">
+                <label for="">Tax ({{ $quote->currency }})</label>
+                <input type="number" class="form-control" min="0" id="tax" name="tax"
+                    placeholder="Tax" value="{{ $tax }}" >
+            </div>
+        </div>
+        <div class="row col-md-12 d-flex flex-row">
+            <div class="form-group col-md-4 ">
+                <label for="">Paid Amount ({{ $quote->currency }})</label>
                 <input type="number" class="form-control" min="0" id="paid_amount" name="paid_amount"
                     placeholder="Paid Amount">
                 <span class="error_msg danger"></span>
             </div>
             <div class="form-group col-md-4 ">
-                <label for="">Due</label>
+                <label for="">Due ({{ $quote->currency }})</label>
                 <input type="number" class="form-control" min="0" id="due" name="due"
                     placeholder="Due" readonly>
             </div>
             <div class="form-group col-md-4 ">
-                <label for="">Grand Total</label>
-                <input type="number" class="form-control" min="0" id="grandTotal" name="grand_total"
-                    placeholder="Grand Total" readonly>
+                <label for="">Grand Total ({{ $quote->currency }})</label>
+                <input type="number" class="form-control" min="0" id="grandTotal" name="grand_total" readonly>
             </div>
         </div>
         <div class="row col-md-12 d-flex flex-row">
@@ -253,18 +270,15 @@
     });
 </script>
 
-<script>
+{{-- <script>
     $(document).ready(function() {
-        // $('.removeItem').hide();
-        // Function to initialize event handlers for an item
+        updateSubTotal();
+        calculateDue();
 
         $('.removeItem').on('click', function() {
-            // console.log('hi');
-            // return;
 
             $(this).closest('.item').remove();
-            // updateTotalPrice(); // Update total price when an item is removed
-            updateGrandTotal();
+            updateSubTotal();
         });
 
         $("#cheque_portion").hide();
@@ -281,17 +295,13 @@
         function initializeItem(item) {
             item.find('.quantity, .unitPrice').on('change', updateTotalPrice);
             item.find('.removeItem').on('click', function() {
-                // console.log('hi');
 
                 $(this).closest('.item').remove();
-                // updateTotalPrice(); // Update total price when an item is removed
-                updateGrandTotal();
+                updateSubTotal();
             });
         }
 
         $('#preview').on('click', function() {
-            // console.log(formData);return;
-            // var formData = new FormData($("#create")[0]);
             $('.categorySelect').prop('disabled', false);
             $('.itemSelect').prop('disabled', false);
             var formData = $("#create").serialize();
@@ -349,44 +359,26 @@
         // Event handler for updating total price when quantity or unit price changes
         $('#items').on('input', '.quantity, .unitPrice', function() {
             updateTotalPrice($(this).closest('.item'));
-            updateGrandTotal(); // Update grand total when quantity or unit price changes
+            updateSubTotal(); // Update grand total when quantity or unit price changes
         });
 
         // Event handler for updating grand total when tax or discount changes
         $('#tax, #discount_percentage, #discount_amount,#paid_amount').on('input', function() {
-            updateGrandTotal();
+            updateSubTotal();
             calculateDue();
         });
 
         // Function to update grand total based on the subtotal of each item, tax, and discount
-        function updateGrandTotal() {
-            // console.log('Updating grand total...');
-            // console.log('hi');
-            var grandTotal = 0;
+        function updateSubTotal() {
+            var subTotal = 0;
             $('.totalPrice').each(function() {
-                grandTotal += parseFloat($(this).val()) || 0;
+                subTotal += parseFloat($(this).val()) || 0;
             });
 
-            // var tax = parseFloat($('#tax').val()) || 0;
-            // var discountPercentage = parseFloat($('#discount_percentage').val()) || 0;
-            // var discountAmount = parseFloat($('#discount_amount').val()) || 0;
             var paidAmount = parseFloat($('#paid_amount').val()) || 0;
 
-            // console.log('Tax:', tax);
-            // console.log('Discount Percentage:', discountPercentage);
-            // console.log('Discount Amount:', discountAmount);
-
-            // Apply tax to the grand total
-            // grandTotal = grandTotal + (grandTotal * tax) / 100;
-
-            // Calculate discount based on either discountPercentage or discountAmount
-            // var discount = discountPercentage ? (grandTotal * discountPercentage) / 100 : discountAmount;
-
-            // Subtract discount from the grand total
-            // grandTotal = grandTotal - discount - paidAmount;
-
-            if (grandTotal > paidAmount) {
-                $('#grandTotal').val(grandTotal.toFixed(2));
+            if (subTotal >= paidAmount) {
+                $('#subTotal').val(subTotal.toFixed(2));
             } else {
                 swal({
                     title: "Warning!",
@@ -399,7 +391,7 @@
                     confirmButtonText: "ok"
                 }, function() {
                     $('#paid_amount').val(0);
-                    updateGrandTotal();
+                    updateSubTotal();
                 });
             }
             calculateDue();
@@ -408,10 +400,11 @@
 
         function calculateDue() {
             var paidAmount = $('#paid_amount').val() || 0;
-            var grandTotal = $('#grandTotal').val() || 0;
-            var due = grandTotal - paidAmount;
+            var subTotal = $('#subTotal').val() || 0;
+            var due = subTotal - paidAmount;
             $('#due').val(due.toFixed(2));
         }
+
         calculateDue();
 
         // Event handler for updating item dropdown based on the selected category
@@ -477,7 +470,7 @@
             unitPriceInput.val(unitPrice);
         });
 
-        function calculateGrandTotal() {
+        function calculateSubTotal() {
             var total_price_sum = 0;
             $('.totalPrice').each(function() {
                 var totalPrice = parseFloat($(this).val());
@@ -486,26 +479,208 @@
                     // console.log('tp=' + total_price_sum);
                 }
             });
-            $('#grandTotal').val(total_price_sum.toFixed(2));
+            $('#subTotal').val(total_price_sum.toFixed(2));
         }
-        calculateGrandTotal();
+        calculateSubTotal();
 
+    });
+</script> --}}
+<script>
+    $(document).ready(function() {
+        // Initial calculations
+        updateSubTotal();
+        calculateDue();
+
+        // Remove item event handler
+        $('.removeItem').on('click', function() {
+            $(this).closest('.item').remove();
+            updateSubTotal();
+            calculateDue();
+        });
+
+        // Payment method selection handling
+        $("#cheque_portion").hide();
+        $("#payment_method").change(function() {
+            var value = $("#payment_method").val();
+            if (value == 'Cheque') {
+                $("#cheque_portion").show();
+            } else {
+                $("#cheque_portion").hide();
+            }
+        });
+
+        $('#preview').on('click', function() {
+            $('.categorySelect').prop('disabled', false);
+            $('.itemSelect').prop('disabled', false);
+            var formData = $("#create").serialize();
+            $.ajax({
+                type: 'GET',
+                url: '/admin/invoice/preview',
+                data: formData,
+                dataType: 'json',
+                cache: false,
+                success: function(data) {
+                    console.log(data.data);
+                    $("#quotation_data").html(data.html);
+                    // jQuery.noConflict();
+                    $('#previewModal').modal('show'); // show bootstrap modal
+                    $('.quotation-title').text('Invoice');
+                },
+                error: function(result) {
+                    $("#modal_data").html("Sorry Cannot Load Data");
+                }
+            });
+        });
+
+       // Event handler for the "Add Item" button
+       $('#addItem').on('click', function() {
+            var newItem = $('#items .item:first').clone(); // Clone the first item
+            newItem.show();
+            newItem.find('input').val(''); // Clear input values in the cloned item
+            newItem.find('.removeItem').show(); // Show remove button for the cloned item
+            $('#items').append(newItem); // Append the cloned item to the items container
+            initializeItem(newItem); // Initialize event handlers for the new item
+
+            // Enable the cloned item's category dropdown
+            newItem.find('.categorySelect').prop('disabled', false);
+            // Disable the cloned item's item dropdown initially
+            newItem.find('.itemSelect').prop('disabled', false);
+        });
+
+        // Initialize event handlers for existing items
+        initializeItem($('#items .item:first'));
+
+        // Update total price when quantity or unit price changes
+        $('#items').on('input', '.quantity, .unitPrice', function() {
+            updateTotalPrice($(this).closest('.item'));
+            updateSubTotal(); // Update subtotal whenever an item changes
+            calculateDue();
+        });
+
+
+        // Event handler for tax, discount, and paid amount
+        $('#tax, #discount_amount, #paid_amount').on('input', function() {
+            updateSubTotal();
+            calculateDue();
+        });
+
+        // Function to update the total price of individual items
+        function updateTotalPrice(item) {
+            var quantity = parseFloat(item.find('.quantity').val()) || 0;
+            var unitPrice = parseFloat(item.find('.unitPrice').val()) || 0;
+            var totalPrice = quantity * unitPrice;
+            item.find('.totalPrice').val(totalPrice.toFixed(2));
+        }
+
+        // Function to update the subtotal, grand total, and handle warnings
+        function updateSubTotal() {
+            var subTotal = 0;
+            $('.totalPrice').each(function() {
+                subTotal += parseFloat($(this).val()) || 0;
+            });
+
+            $('#subTotal').val(subTotal.toFixed(2)); // Update subtotal
+
+            // Get tax, discount, and calculate grand total
+            var tax = parseFloat($('#tax').val()) || 0;
+            var discount = parseFloat($('#discount_amount').val()) || 0;
+            var grandTotal = (subTotal + tax) - discount;
+
+            // Ensure grand total is not negative
+            if (grandTotal >= 0) {
+                $('#grandTotal').val(grandTotal.toFixed(2));
+            } else {
+                swal({
+                    title: "Warning!",
+                    text: "Discount cannot be greater than (subtotal + tax)!",
+                    type: "warning",
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "ok"
+                }, function() {
+                    $('#discount_amount').val(0); // Reset discount if invalid
+                    updateSubTotal();
+                });
+            }
+        }
+
+        // Function to calculate the due amount based on grand total and paid amount
+        function calculateDue() {
+            var grandTotal = parseFloat($('#grandTotal').val()) || 0;
+            var paidAmount = parseFloat($('#paid_amount').val()) || 0;
+            var due = grandTotal - paidAmount;
+
+            // Ensure paid amount is not greater than grand total
+            if (paidAmount > grandTotal) {
+                swal({
+                    title: "Warning!",
+                    text: "Paid amount cannot be greater than grand total!",
+                    type: "warning",
+                    confirmButtonClass: "btn-danger",
+                    confirmButtonText: "ok"
+                }, function() {
+                    $('#paid_amount').val(0); // Reset paid amount if invalid
+                    calculateDue();
+                });
+            } else {
+                $('#due').val(due.toFixed(2)); // Update due field
+            }
+        }
+
+        // Function to initialize event handlers for items (used for adding new items)
+        function initializeItem(item) {
+            item.find('.quantity, .unitPrice').on('change', updateTotalPrice);
+            item.find('.removeItem').on('click', function() {
+                $(this).closest('.item').remove();
+                updateSubTotal();
+            });
+        }
+
+        // Handle category and item dropdown changes
+        $('#items').on('change', '.categorySelect', function() {
+            var categoryId = $(this).val();
+            var itemSelect = $(this).closest('.item').find('.itemSelect');
+            var unitInput = $(this).closest('.item').find('.unitSelect');
+            var unitPriceInput = $(this).closest('.item').find('.unitPrice');
+            itemSelect.prop('disabled', false);
+
+            // Fetch items via AJAX based on selected category
+            $.ajax({
+                url: 'request/for/quotation/fetch-items/' + categoryId,
+                type: 'GET',
+                success: function(data) {
+                    itemSelect.empty();
+                    itemSelect.append('<option>Select Item</option>')
+                    if (data.items && data.items.length > 0) {
+                        $.each(data.items, function(index, item) {
+                            itemSelect.append('<option value="' + item.id +
+                                '" data-unit="' + item.unit.title +
+                                '" data-unit-price="' + item.unit_price + '">' +
+                                item.item_work + '</option>');
+                        });
+                        var selectedItem = itemSelect.find(':selected');
+                        unitInput.val(selectedItem.data('unit'));
+                        unitPriceInput.val(selectedItem.data('unit-price'));
+                    } else {
+                        itemSelect.append('<option value="">No items found</option>');
+                        unitInput.val('');
+                        unitPriceInput.val('');
+                    }
+                },
+                error: function(error) {
+                    console.error(error);
+                }
+            });
+        });
+
+        // Handle item dropdown changes
+        $('#items').on('change', '.itemSelect', function() {
+            var selectedItem = $(this).find(':selected');
+            var unit = selectedItem.data('unit');
+            var unitPrice = selectedItem.data('unit-price');
+            $(this).closest('.item').find('.unitSelect').val(unit);
+            $(this).closest('.item').find('.unitPrice').val(unitPrice);
+        });
     });
 </script>
 
 
-
-
-{{-- <script src="{{ asset('backend/ckeditor/ckeditor.js') }}"></script>
-<script>
-    CKEDITOR.replace('bank_details', {
-        filebrowserBrowseUrl: '{{ asset('backend') }}/ckeditor/filemanager/browser/default/browser.html?Connector={{ asset('backend') }}/ckeditor/filemanager/connectors/php/connector.php',
-        filebrowserImageBrowseUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/browser/default/browser.html?Type=Image&Connector=' +
-            '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/connector.php',
-        filebrowserFlashBrowseUrl: '/ext/ckeditor/filemanager/browser/default/browser.html?Type=Flash&Connector=' +
-            '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/connector.php',
-        filebrowserUploadUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=File',
-        filebrowserImageUploadUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Image',
-        filebrowserFlashUploadUrl: '{{ asset('backend') }}/ext/ckeditor/filemanager/connectors/php/upload.php?Type=Flash'
-    });
-</script> --}}

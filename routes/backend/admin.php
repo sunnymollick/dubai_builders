@@ -25,6 +25,7 @@ use App\Http\Controllers\Backend\Admin\WorkCategoryController;
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('index');
 Route::get('/profile', [DashboardController::class, 'profile'])->name('profile');
+Route::post('/edit-profile', [DashboardController::class, 'editProfile'])->name('editProfile');
 
 //Project Routes
 Route::resource('projects', ProjectController::class);

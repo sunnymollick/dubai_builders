@@ -102,7 +102,11 @@
                     <tr>
                         <td width='100%' style='font-size:15px;' valign='top'>
                             {{ $company_details->email }}, {{ $company_details->phone_1 }}
-
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width='100%' style='font-size:15px;' valign='top'>
+                            {{ $company_details->trn_number }}
                         </td>
                     </tr>
                 </table>
@@ -166,6 +170,7 @@
 
     <br>
     <br>
+    <h3 style="text-align:center;text-weight:bold;">Invoice Title : {{ $inv_data->title }}</h3>
     <table class="details" cellpadding='5'>
         <tr>
             <td width='35%' bordercolor='#ccc' bgcolor='yellowgreen'
@@ -174,10 +179,10 @@
             <td bgcolor='yellowgreen' style='font-size:15px; border:1px solid #001a00;'><strong>Qty</strong></td>
             <td bgcolor='yellowgreen' style='font-size:15px; border:1px solid #001a00;'><strong>Unit</strong>
             </td>
-            <td bgcolor='yellowgreen' style='font-size:15px; border:1px solid #001a00;'><strong>Unit Price</strong>
+            <td bgcolor='yellowgreen' style='font-size:15px; border:1px solid #001a00;'><strong>Unit Price ({{ $currency }})</strong>
             </td>
             <td bgcolor='yellowgreen' style='font-size:15px;border:1px solid #001a00; text-align:right'>
-                <strong>Subtotal</strong></td>
+                <strong>Subtotal ({{ $currency }})</strong></td>
 
         </tr>
 
@@ -211,7 +216,7 @@
                 <td></td>
                 <td style='font-size:14px;;'>Grand Total</td>
 
-                <td style='font-size:14px;; color:tomato; text-align:right; padding-right:5px'>{{ $subTotal }}
+                <td style='font-size:14px;; color:tomato; text-align:right; padding-right:5px'>{{ $currency }} {{ $subTotal }}
                 </td>
             </tr>
             <tr>
@@ -222,7 +227,7 @@
 
                 <td
                     style='font-size:14px;; color:tomato; border: 1px solid #001a00; text-align:right; padding-right:5px '>
-                    {{ $inv_data->paid_amount }}</td>
+                    {{ $currency }} {{ $inv_data->paid_amount }}</td>
             </tr>
             <tr>
                 <td></td>
@@ -232,7 +237,7 @@
 
                 <td
                     style='font-size:14px;; color:tomato; border: 1px solid #001a00 ; text-align:right; padding-right:5px'>
-                    {{ $due}}
+                    {{ $currency }} {{ $due}}
                 </td>
             </tr>
             <tr>

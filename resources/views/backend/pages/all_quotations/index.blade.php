@@ -61,8 +61,8 @@
                                                 href="{{ URL('admin/all-quotations/generate-pdf/' . $row->q_id) }}"
                                                 id="{{ $row->q_id }}" class="btn btn-info mr-1" title="Print"><i
                                                     class="lni lni-printer"></i> </a>
-                                            @if ($row->is_confirmed == 0)
-                                                <a data-toggle="tooltip" id="{{ $row->q_id }}"
+                                            @if ($row->q_is_confirmed == 0)
+                                                <a data-toggle="tooltip" id="{{ $row->quotation_id }}"
                                                     class="btn btn-warning delete" title="Confirm"><i
                                                         class="lni lni-checkmark-circle"></i> </a>
                                             @endif

@@ -11,30 +11,6 @@ Home
 </div>
 @endsection
 @section('content')
-{{-- <div class="service">
-        <div class="container-fluid g-0">
-            <div class="row g-0">
-                @foreach ($services as $s)
-                    <div class="col-lg-4 col-md-4">
-                        <div class="service_inner service_inner2 bg_3">
-                            <div class="service_content d-flex align-self-center">
-                                <div class="icon_img">
-                                    <img src="{{ asset($s->logo) }}" alt="">
-</div>
-<div class="services_content_flex_cenrer">
-    <h4><a href="services.html">{{ $s->service_title }}</a></h4>
-    <a href="service-details.html">Get Service <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
-</div>
-</div>
-<div class="main_img" data-aos="fade-up" data-aos-duration="3000">
-    <img src="{{ asset('frontend') }}/images/services/sbg3.png" alt="">
-</div>
-</div>
-</div>
-@endforeach
-</div>
-</div>
-</div> --}}
 
 <div class="team service">
     <div class="container">
@@ -314,7 +290,7 @@ Home
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="time">Maximum time for the project</label>
-                                                        <input type="text" class="form-control" id="project_time" name="project_time" placeholder="Enter Project Time">
+                                                        <input type="text" class="form-control" id="project_time" name="project_time" placeholder="E.g. 7days/2month/1year">
                                                         @error('project_time')
                                                         <span class="text-danger">{{ $message }}</span>
                                                         @enderror

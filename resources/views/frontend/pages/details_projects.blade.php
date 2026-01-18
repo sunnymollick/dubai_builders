@@ -43,6 +43,17 @@ Project Details
                                                         alt="img">
                                                 </div>
                                             </div>
+
+                                            <div class="video_post">
+                                    <div class="ytube_video">
+                                        <iframe id="ytvideo" src="{{ $details->video_link }}" allow="autoplay;"
+                                            allowfullscreen></iframe>
+                                        <div class="post_content">
+                                            <div class="ytplay_btn"><i class="ion-ios-play"></i></div>
+                                            <img src="{{ asset('frontend/') }}/images/services/video_bg.png" alt="blog">
+                                        </div>
+                                    </div>
+                                </div>
                                         </div>
                                         <div class="share_tag">
                                             <div class="post_footer">

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->float('discount_amount')->default('0')->nullable();
             $table->float('grand_total');
             $table->text('terms_conditions')->nullable();
+            $table->tinyInteger('is_confirmed')->default('0');
             $table->foreign('quotation_request_id')
                 ->references('id')->on('quotations')
                 ->onDelete('cascade');

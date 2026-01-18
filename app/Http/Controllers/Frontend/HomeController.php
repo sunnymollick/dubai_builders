@@ -26,11 +26,14 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $all_project = Project::orderby('id', 'desc')->paginate(5);
+        $all_project = Project::orderby('id', 'desc')
+                                ->where('is_active',1)
+                                ->where('is_popular',1)
+                                ->limit(5)->get();
         $completed = Project::where('project_status', '2')->count();
         $running = Project::where('project_status', '0')->count();
         $app_settings = Setting::where('is_active',1)->first();
-        $services = Service::orderby('service_title', 'desc')->get();
+        $services = Service::orderby('service_title', 'desc')->limit(4)->get();
         $about = About::findOrFail(1);
         $completed_project = Project::where('project_status', '=', '2')->count();
         $ongoing_project = Project::where('project_status', '=', '0')->count();
@@ -105,7 +108,7 @@ class HomeController extends Controller
     {
         $about = About::findOrFail(1);
         $app_settings = Setting::where('is_active',1)->first();
-        $team = Team::orderby('order', 'asc')->get();
+        $team = Team::orderby('order', 'asc')->limit(3)->get();
         return view('frontend.pages.about', compact('about', 'app_settings', 'team'));
     }
     public function services()
@@ -121,7 +124,7 @@ class HomeController extends Controller
     }
     public function team()
     {
-        $teams = Team::orderby('order', 'asc')->get();
+        $teams = Team::orderby('order', 'asc')->paginate(9);
         return view('frontend.pages.team', compact('teams'));
     }
     public function teamShow($id)
@@ -170,16 +173,13 @@ class HomeController extends Controller
             $rules = [
                 'name' => 'required',
                 'location' => 'required',
-                'email' => 'required|unique:App\Models\Backend\Client,email',
+                'email' => 'required',
                 'message' => 'required',
                 'mobile' => 'required',
             ];
             $validator = Validator::make(
                 $request->all(),
-                $rules,
-                [
-                    'unique' => 'This :attribute is already in records'
-                ]
+                $rules
             );
             if ($validator->fails()) {
                 return response()->json([

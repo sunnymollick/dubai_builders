@@ -24,7 +24,6 @@ class LoginController extends Controller
         $password = $request->password;
         $user = User::where('email', '=', $email)->first();
 
-
         if ($user) {
             if (Hash::check($password, $user->password)) { // password matched
                 Session::put('adminId', $user->id);

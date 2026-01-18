@@ -29,10 +29,10 @@ class QuotationController extends Controller
     {
         $quotation_requests = Quotation::orderBy('is_confirmed', 'asc')->orderBy('id', 'desc')
             ->join('quotation_applications', 'quotations.id', '=', 'quotation_applications.quotation_request_id')
-            ->select('quotations.*', 'quotation_applications.quotation_code','quotations.id as q_id')
+            ->select('quotations.*', 'quotation_applications.quotation_code','quotations.id as q_id','quotation_applications.id as quotation_id','quotation_applications.is_confirmed as q_is_confirmed')
             ->where('quotations.is_replied', 1)
             ->get();
-    
+
             // dd($quotation_requests);
         return view('backend.pages.all_quotations.index', ['quotation_requests' => $quotation_requests]);
     }
@@ -93,6 +93,7 @@ class QuotationController extends Controller
                     $totalPrices = $request->input('total_price');
                     $discountAmount = $request->input('discount_amount');
                     $tax = $request->input('tax');
+                    $currency = $request->input('currency');
                     $grandTotal = $request->input('grand_total');
                     $terms_condition = $request->input('terms_conditions');
 
@@ -203,7 +204,7 @@ class QuotationController extends Controller
                         $client_details = Client::where('id', $request->client_id)
                             ->first();
                     }
-                    $view = View::make('backend.pages.all_quotations.quotation_preview', compact('dataArray', 'grandTotal', 'subTotal','terms_condition', 'afterDiscount', 'discountAmount', 'tax', 'company_details', 'client_details'))->render();
+                    $view = View::make('backend.pages.all_quotations.quotation_preview', compact('dataArray', 'grandTotal', 'subTotal','terms_condition', 'afterDiscount', 'discountAmount', 'tax', 'company_details', 'client_details','currency'))->render();
                     return response()->json(['html' => $view]);
                 } catch (Exception $e) {
                     dd($e->getMessage());
@@ -223,6 +224,7 @@ class QuotationController extends Controller
                 'unit' => 'required',
                 'unit_price' => 'required',
                 'quantity' => 'required',
+                'currency' => 'required',
             ];
 
             $validator = Validator::make($request->all(), $rules);
@@ -252,6 +254,7 @@ class QuotationController extends Controller
                     $unitPrices = $request->input('unit_price');
                     $totalPrices = $request->input('total_price');
                     $tax = $request->input('tax');
+                    $currency = $request->input('currency');
                     $discountAmount = $request->input('discount_amount');
                     $terms_conditions = $request->input('terms_conditions');
                     $grand_total = $request->input('grand_total');
@@ -264,6 +267,7 @@ class QuotationController extends Controller
                         $quotationApplication->client_id = $quotation_client->client_id;
                         $quotationApplication->quotation_code = $quotation_code;
                         $quotationApplication->terms_conditions = $terms_conditions;
+                        $quotationApplication->currency = $currency;
                         $quotationApplication->tax = $tax;
                         $quotationApplication->discount_amount = $discountAmount;
                         $subTotal = 0;
@@ -333,6 +337,7 @@ class QuotationController extends Controller
                         $quotationApplication->quotation_request_id = $quotation->id;
                         $quotationApplication->client_id = $request->client_id;
                         $quotationApplication->quotation_code = $quotation_code;
+                        $quotationApplication->currency = $currency;
                         $quotationApplication->terms_conditions = $terms_conditions;
                         $quotationApplication->tax = $tax;
                         $quotationApplication->discount_amount = $discountAmount;
@@ -435,12 +440,11 @@ class QuotationController extends Controller
     public function saveQuotation(Request $request, $id)
     {
         if ($request->ajax()) {
-            Quotation::where('id', $id)->update(['is_confirmed' => 1]);
-            $quotation_id = QuotationApplication::where('quotation_request_id', $id)->first();
-            $quotation_request_details = Quotation::where('id', $id)->first();
+            // Quotation::where('id', $id)->update(['is_confirmed' => 1]);
+            QuotationApplication::where('id', $id)->update(['is_confirmed' => 1]);
+            $quotation_id = QuotationApplication::where('id', $id)->first();
+            $quotation_request_details = Quotation::where('id', $quotation_id->quotation_request_id)->first();
 
-
-            // $client_name = Client::where('id', $request->client_id)->first();
             $project = new Project();
             $created_time = Carbon::now();
             $last_project = Project::first();

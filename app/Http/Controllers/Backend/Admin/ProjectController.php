@@ -276,9 +276,7 @@ class ProjectController extends Controller
                     $project->handover_time = $request->input('handover_time');
                     $project->project_type = $request->input('project_type');
                     $project->project_status = $request->input('project_status');
-                    $project->is_active = $request->input('is_active');
-
-                    $project->is_popular = $request->input('is_popular');
+                    $project->is_active = 1;
                     $project->hero_image = $hero_img;
                     $project->thumbnail_image = $thumbnail_img;
                     $project->image_1 = $img_1;

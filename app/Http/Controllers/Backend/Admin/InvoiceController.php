@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\View;
 use Yajra\DataTables\Facades\DataTables;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 use function PHPSTORM_META\type;
 
@@ -50,7 +51,6 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-
         if ($request->ajax()) {
             $path = "invoice";
             $rules = [
@@ -89,7 +89,10 @@ class InvoiceController extends Controller
                     $unitPrices = $request->input('unit_price');
                     $totalPrices = $request->input('total_price');
                     $paidAmount = $request->input('paid_amount') == null ? 0 : $request->input('paid_amount');
+                    $grand_sub_total = $request->input('sub_total');
                     $grand_total = $request->input('grand_total');
+                    $discount_amount = $request->input('discount_amount');
+                    $tax = $request->input('tax');
                     $bank_details = $request->input('bank_details');
                     $due = $request->input('due');
                     $trn = $request->input('trn');
@@ -118,7 +121,10 @@ class InvoiceController extends Controller
                     for ($i = 0; $i < count($totalPrices); $i++) {
                         $subTotal = $subTotal + $totalPrices[$i];
                     }
+                    $invoice->sub_total = $grand_sub_total;
+                    $invoice->discount_amount = $discount_amount;
                     $invoice->grand_total = $grand_total;
+                    $invoice->tax = $tax;
                     $invoice->save();
 
                     foreach ($items as $key => $value) {
@@ -152,16 +158,19 @@ class InvoiceController extends Controller
 
 
 
-                    $company_details = Setting::first();
+                    $company_details = Setting::where('is_active',1)->first();
                     $inv_data = Invoice::with('invoiceDetails')
                         ->where('quotation_id', $quotation_id)
                         ->first();
 
                     $groupedDetails = $inv_data->invoiceDetails->groupBy('category_id');
-                    $client_id = QuotationApplication::where('quotation_request_id', $quotation_id)->value('client_id');
+                    $client_id = QuotationApplication::where('id', $quotation_id)->value('client_id');
                     $client_details = Client::where('id', $client_id)->first();
 
-                    $pdf = Pdf::loadView('backend.pages.invoice.invoice_pdf', compact('inv_data', 'groupedDetails', 'subTotal', 'company_details', 'client_details', 'payment_method','due'))->setPaper('letter', 'portrait');
+                    $currency = QuotationApplication::where('id', $quotation_id)->value('currency');
+
+
+                    $pdf = Pdf::loadView('backend.pages.invoice.invoice_pdf', compact('inv_data', 'groupedDetails', 'subTotal', 'company_details', 'client_details', 'payment_method','due','currency'))->setPaper('letter', 'portrait');
 
 
                     $data["email"] = $client_details->email;
@@ -238,6 +247,12 @@ class InvoiceController extends Controller
             $all_items = Item::all();
             $quote = QuotationApplication::where('id', $id)->first();
             $quotation_details = QuotationDetails::where('quotation_id', $quote->id)->get();
+            $invoice_discount = Invoice::where('quotation_id',$id)->sum('discount_amount');
+            $invoice_tax = Invoice::where('quotation_id',$id)->sum('tax');
+
+            $discount = $quote->discount_amount - $invoice_discount;
+            $tax = ($quote->grand_total * ($quote->tax / 100)) - $invoice_tax;
+
             try {
                 $invoice =  DB::table('invoice_details')
                     ->select('invoice_details.item_id', DB::raw('SUM(invoice_details.quantity) AS tq'))
@@ -270,7 +285,7 @@ class InvoiceController extends Controller
             } catch (Exception $exception) {
             }
 
-            $view = View::make('backend.pages.invoice.invoice_form', compact('quote', 'quotation_details', 'all_items', 'all_work_categories', 'all_units'))->render();
+            $view = View::make('backend.pages.invoice.invoice_form', compact('quote', 'quotation_details', 'all_items', 'all_work_categories', 'all_units','discount','tax'))->render();
             return response()->json(['html' => $view]);
         } else {
             return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
@@ -284,7 +299,7 @@ class InvoiceController extends Controller
                 $invoice = Invoice::join('invoice_details', 'invoices.id', 'invoice_details.invoice_id')
                     ->where('invoices.quotation_id', $id)
                     ->get();
-                // dd($invoice);
+                dd($invoice);
 
 
             } catch (\Exception $e) {
@@ -341,10 +356,10 @@ class InvoiceController extends Controller
     {
         if ($request->ajax()) {
             $company_details = Setting::first();
-            // $quotation_details = QuotationApplication::where('quotation_request_id', $id)->get();
             $invoice = Invoice::with('invoiceDetails')
                 ->where('id', $id)
                 ->first();
+
 
             $subTotal = 0;
             foreach ($invoice->invoiceDetails as $detail) {
@@ -353,10 +368,11 @@ class InvoiceController extends Controller
             $subTotalFormatted = number_format($subTotal, 2);
             $groupedDetails = $invoice->invoiceDetails->groupBy('category_id');
             $client_id = QuotationApplication::where('id', $invoice->quotation_id)->value('client_id');
+            $currency = QuotationApplication::where('id', $invoice->quotation_id)->value('currency');
 
             $client_details = Client::where('id', $client_id)->first();
 
-            $view = View::make('backend.pages.invoice.invoice_view', compact('invoice', 'subTotalFormatted', 'subTotal', 'groupedDetails', 'company_details', 'client_details'))->render();
+            $view = View::make('backend.pages.invoice.invoice_view', compact('invoice', 'subTotalFormatted', 'subTotal', 'groupedDetails', 'company_details', 'client_details','currency'))->render();
             return response()->json(['html' => $view]);
         } else {
             return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
@@ -464,11 +480,14 @@ class InvoiceController extends Controller
                     $units = $request->input('unit');
                     $unitPrices = $request->input('unit_price');
                     $totalPrices = $request->input('total_price');
+                    $sub_total = $request->input('sub_total');
                     $grandTotal = $request->input('grand_total');
                     $bank_details = $request->input('bank_details');
                     $quotation_id = $request->input('quotation_id');
                     $paid_amount = $request->input('paid_amount');
                     $payment_method = $request->input('payment_method');
+                    $discount_amount = $request->input('discount_amount');
+                    $tax = $request->input('tax');
 
 
                     array_splice($categoryIds, 0, 1);
@@ -532,12 +551,14 @@ class InvoiceController extends Controller
                         }
                     }
 
-                    $company_details = Setting::first();
+                    $company_details = Setting::where('is_active',1)->first();
+                    // dd($company_details);
 
                     $client_id = QuotationApplication::where('id', $quotation_id)->value('client_id');
+                    $currency = QuotationApplication::where('id', $quotation_id)->value('currency');
                     // dd($client_id);
                     $client_details = Client::where('id', $client_id)->first();
-                    $view = View::make('backend.pages.invoice.invoice_preview', compact('dataArray', 'grandTotal', 'subTotal', 'bank_details', 'paid_amount',  'company_details', 'client_details', 'title', 'payment_method', 'invoiceDate', 'trn', 'due'))->render();
+                    $view = View::make('backend.pages.invoice.invoice_preview', compact('dataArray', 'grandTotal','sub_total', 'subTotal', 'bank_details', 'paid_amount',  'company_details', 'client_details', 'title', 'payment_method', 'invoiceDate', 'trn', 'due','currency','discount_amount','tax'))->render();
                     // dd($view);
                     return response()->json(['html' => $view]);
                 } catch (Exception $e) {

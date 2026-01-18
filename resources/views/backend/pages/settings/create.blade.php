@@ -50,11 +50,19 @@
             </div>
         </div>
         <div class="clearfix"></div>
-        <div class="col-md-12">
-            <strong>Opening Time</strong>
-            <input type="text" class="form-control" id="opening_time" name="opening_time" value="{{ old('opening_time') }}"
-                placeholder="">
-            <span id="error_opening_time" class="text-danger"></span>
+        <div class="from-group row">
+            <div class="col-md-6">
+                <strong>Opening Time</strong>
+                <input type="text" class="form-control" id="opening_time" name="opening_time" value="{{ old('opening_time') }}"
+                    placeholder="">
+                <span id="error_opening_time" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <strong>TRN Number</strong>
+                <input type="text" class="form-control" id="trn_number" name="trn_number" value="{{ old('trn_number') }}"
+                    placeholder="">
+                <span id="error_trn_number" class="text-danger"></span>
+            </div>
         </div>
         <div class="clearfix"></div>
         <p></p>

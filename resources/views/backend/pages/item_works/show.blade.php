@@ -3,7 +3,7 @@
     <div class="form-row">
 
         <div class="form-group col-md-8">
-            <label for="">Item/Work </label>
+            <label for="">Sub Category/Item</label>
             <input type="text" class="form-control" id="item_work" name="item_work" value="{{$item_work->item_work}}"
                 placeholder="" readonly>
             <span id="error_title" class="has-error"></span>

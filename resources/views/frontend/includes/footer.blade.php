@@ -1,9 +1,9 @@
 @php
-    $app_settings = DB::table('settings')->where('id',1)->first();
+    $app_settings = DB::table('settings')->where('is_active',1)->first();
     $about = DB::table('abouts')->where('id',1)->first();
 @endphp
 <footer class="footer">
-    <div class="footer_above">
+    {{-- <div class="footer_above">
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 col-md-6 col-sm-12">
@@ -12,14 +12,6 @@
                             About {{ $app_settings->app_name ?? '' }}
                         </h4>
                         <p>{{ $about->short_description ?? '' }}</p>
-                        {{-- <div class="subscribe">
-                            <form class="form-inline">
-                                <div class="input-group mb-2 mr-sm-2">
-                                    <input type="email" class="form-control" placeholder="Email Address">
-                                </div>
-                                <button type="submit" class="btn">Subscribe</button>
-                            </form>
-                        </div> --}}
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-6 col-sm-12">
@@ -78,7 +70,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <div class="footer_bottom">
         <div class="container">
             <div class="footer_bottom_inner">
